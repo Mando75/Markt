@@ -1,0 +1,13 @@
+.idea/
+.vscode/
+node_modules/
+dist/
+tmp/
+temp/
+ormconfig.json
+graphql.config.json
+graphql.schema.json
+coverage/
+yarn-error.log
+dump.rdb
+.env
