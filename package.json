@@ -5,11 +5,14 @@
     "build": "rm -rf dist && yarn run tsc -p ./",
     "start": "node dist/index.js",
     "run": "NODE_ENV=development nodemon --watch ./dist ./dist/index.js",
-    "test": "NODE_ENV=test yarn run test-migration && jest --coverage --forceExit",
+    "migrate": "node_modules/.bin/typeorm migration:run -c production",
+    "test": "NODE_ENV=test yarn run test-migrate && jest --coverage --forceExit",
     "test-with-coverage": "yarn test && cat ./coverage/lcov.info | codacy-coverage",
     "gen-types": "yarn run ts-node --project ./tsconfig.json --files ./scripts/genSchema.ts",
     "gen-migration": "yarn run ts-node node_modules/.bin/typeorm migration:generate -c development -n ",
-    "test-migration": "yarn build && yarn run ts-node node_modules/.bin/typeorm migration:run -c test"
+    "dev-migrate": "node_modules/.bin/typeorm migration:run -c development",
+    "test-migrate": "yarn build && yarn run ts-node node_modules/.bin/typeorm migration:run -c test",
+    "setup-dev": "yarn install && yarn build && yarn dev-migrate && yarn gen-types && yarn run run"
   },
   "description": "Boilerplate for setting up a GraphQL Server with Typescript, TypeORM, Postgresql and Jest",
   "main": "index.js",

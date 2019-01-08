@@ -1,19 +1,9 @@
-# GraphQL Server boilerplate
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5f37e282e69c47dd859b1c35fc00afea)](https://www.codacy.com/app/Mando75/graphql-server-boilerplate?utm_source=github.com&utm_medium=referral&utm_content=Mando75/graphql-server-boilerplate&utm_campaign=Badge_Grade)
-
-Boilerplate code for an Apollo Server with Typescript, TypeORM, Jest, Postgresql, Redis, and SendGrid.
+# Markt
 
 ## Description
 
-This project provides a boilerplate codebase for building scalable and modular GraphQL APIs with Apollo Server. The boilerplate includes these features (which can be removed if desired)
-
-- Basic user registration
-- User registration through 3rd party OAuth providers
-- Account email verification
-- Login and session handling
-
-GraphQL is self documenting, so for a full reference of the provided API, clone the project and run it locally with GraphQLPlayground (provided with the repo).
+Markt seeks to develop a simple but powerful educational tool for students studying economics. MARKT allows instructors to craft and run mini-market experiments with their students. With real-time transaction tracking and analysis, instructors are well equipped to provide students with an interactive demonstration of how economic theory can predict outcomes of market performance.
+This project is currently being developed by University students at BYU-Idaho. While still in the planning phases, we plan to begin working on the base structure within the coming months.
 
 ## Install Instructions
 
@@ -21,7 +11,7 @@ GraphQL is self documenting, so for a full reference of the provided API, clone 
 
 2.  Fork or clone the repository
 
-3.  Run `yarn install`
+3.  Create an ormconfig.json file configured with your database connections
 
 4.  Make sure you have the following keys present in an `.env` file or as environmental variables
 
@@ -33,7 +23,7 @@ GraphQL is self documenting, so for a full reference of the provided API, clone 
     - `GOOGLE_CLIENT_SECRET` your Google OAuth Client Secret
     - `GOOGLE_AUTH_CALLBACK_URL` your application's OAuth callback url for Google to use
 
-5.  Run `yarn build && yarn start` (see `package.json` for additional scripts)
+5.  Run `yarn setup-dev`
 
 ## Modules
 
@@ -51,6 +41,7 @@ The GraphQL type definitions for the new module. Any additions to the top level 
 
 the GraphQL Shield permissions set for the new module. This should be an object matching the exported resolver map. A core set of rules can be found in `src/rules` which can be imported by any modules permission set, or custom rules can be created. For more information on permission syntax, see the GraphQLShield documentation.
 
-## Contributing
+## Authors
 
-This project is not open to direct contributions at the moment, as it is still under heavy development. If you do find an issue or would like to raise a concern, please open an issue and I will address as soon as I can.
+* **Bryan Muller** - *Backend Developer*
+* **Adam Gehring** - *Frontend Developer*
