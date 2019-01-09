@@ -21,18 +21,18 @@ declare namespace GQL {
   }
 
   interface IQuery {
-    __typename: "Query";
+    __typename: 'Query';
     me: IMe | null;
   }
 
   interface IMe {
-    __typename: "Me";
+    __typename: 'Me';
     id: string;
     email: string;
   }
 
   interface IMutation {
-    __typename: "Mutation";
+    __typename: 'Mutation';
     _empty: boolean | null;
     registerUser: Array<IGraphQLError> | null;
     login: Array<IGraphQLError> | null;
@@ -66,7 +66,7 @@ declare namespace GQL {
   }
 
   interface IGraphQLError {
-    __typename: "GraphQLError";
+    __typename: 'GraphQLError';
     path: string;
     message: string;
   }

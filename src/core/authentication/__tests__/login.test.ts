@@ -3,15 +3,17 @@ import { ErrorMessages } from "../errorMessages";
 import { CreateTypeORMConnection, TestClient } from "../../../utils";
 
 const host = process.env.TEST_GRAPHQL_ENDPOINT as string;
-const tc = new TestClient(host);
 const redis = new Redis();
 
 beforeAll(async () => {
   await CreateTypeORMConnection();
-  await tc.createUser(false);
 });
 
 describe("Logging in a user", () => {
+  const tc = new TestClient(host);
+  beforeAll(async () => {
+    await tc.createUser(false);
+  });
   it("catches no email confirmation", async () => {
     const response = await tc.login();
     expect(response.data).toEqual({
