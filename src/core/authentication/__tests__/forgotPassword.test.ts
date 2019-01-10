@@ -1,19 +1,28 @@
 import "reflect-metadata";
-import { CreateTypeORMConnection, TestClient } from "../../../utils";
+import { TestClient } from "../../../utils";
 import { User } from "../../../entity/User";
 import * as Redis from "ioredis";
 import { createForgotPasswordLink } from "../connectors/lib";
 import { ErrorMessages } from "../errorMessages";
 import { lockAccount } from "../connectors/sendForgotPasswordEmail";
-
+import { startTestServer } from "../../../../jest";
+import { teardownTestServer } from "../../../../jest";
+import { Server } from "http";
+import { Connection } from "typeorm";
+let app: Server, db: Connection, host: string, tc: TestClient, user: User;
 const redis = new Redis();
-const host = process.env.TEST_GRAPHQL_ENDPOINT as string;
-const tc = new TestClient(host);
-let user: User;
 
 beforeAll(async () => {
-  await CreateTypeORMConnection();
-  user = await tc.createUser(true);
+  const setup = await startTestServer();
+  if (setup) {
+    app = setup.app;
+    db = setup.db;
+    host = setup.host;
+    tc = new TestClient(host);
+    user = await tc.createUser(true);
+  } else {
+    process.exit(1);
+  }
 });
 
 describe("forgotPassword", () => {
@@ -81,4 +90,8 @@ describe("forgotPassword", () => {
     const response = await tc.login("", newPassword);
     expect(response.data).toEqual({ login: null });
   });
+});
+
+afterAll(async () => {
+  await teardownTestServer(app, db);
 });

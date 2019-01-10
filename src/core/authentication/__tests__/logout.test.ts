@@ -1,12 +1,18 @@
 import "reflect-metadata";
-import { CreateTypeORMConnection, TestClient } from "../../../utils";
-
-const host = process.env.TEST_GRAPHQL_ENDPOINT as string;
-let userId: string;
-const tc = new TestClient(host);
+import { TestClient } from "../../../utils";
+import { startTestServer, teardownTestServer } from "../../../../jest";
+import { Server } from "http";
+import { Connection } from "typeorm";
+let app: Server, db: Connection, host: string, tc: TestClient, userId: string;
 
 beforeAll(async () => {
-  await CreateTypeORMConnection();
+  const setup = await startTestServer();
+  if (setup) {
+    app = setup.app;
+    db = setup.db;
+    host = setup.host;
+    tc = new TestClient(host);
+  }
   userId = (await tc.createUser(true)).id;
 });
 
@@ -39,4 +45,8 @@ describe("logout", () => {
     // Logout should destroy both sessions
     expect(await sess1.me()).toEqual(await sess2.me());
   });
+});
+
+afterAll(async () => {
+  await teardownTestServer(app, db);
 });

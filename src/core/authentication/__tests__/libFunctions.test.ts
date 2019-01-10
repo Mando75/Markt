@@ -7,16 +7,25 @@ import { AccountType } from "../../../enums/accountType.enum";
 import { User } from "../../../entity/User";
 import * as Redis from "ioredis";
 import * as rp from "request-promise";
-import { CreateTypeORMConnection, TestClient } from "../../../utils";
+import { TestClient } from "../../../utils";
+import { startTestServer } from "../../../../jest";
+import { teardownTestServer } from "../../../../jest";
+import { Server } from "http";
+import { Connection } from "typeorm";
+let app: Server, db: Connection, host: string, userId: string;
 const redis = new Redis();
-let userId: string;
 
 beforeAll(async () => {
-  await CreateTypeORMConnection();
+  const setup = await startTestServer();
+  if (setup) {
+    app = setup.app;
+    db = setup.db;
+    host = setup.host;
+  }
 });
 
-const client = new TestClient(process.env.TEST_GRAPHQL_ENDPOINT as string);
 describe("The register function", async () => {
+  const client = new TestClient(host);
   const user = client.fakeUser;
 
   it("Registers a user correctly", async () => {
@@ -39,7 +48,10 @@ describe("The register function", async () => {
 });
 
 describe("User exists", async () => {
+  const client = new TestClient(host);
+
   it("returns true when a user exists", async () => {
+    await client.createUser(true);
     const email = client.fakeUser.email;
     expect(await userExists(email)).toBe(true);
   });
@@ -87,4 +99,5 @@ describe("createEmailConfirmationLink", () => {
 
 afterAll(async () => {
   await redis.disconnect();
+  await teardownTestServer(app, db);
 });

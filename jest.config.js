@@ -1,4 +1,11 @@
 module.exports = {
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/*.{ts,tsx}",
+    "!**/node_modules/**",
+    "!**/migration/**",
+    "!**/dist/**"
+  ],
   verbose: true,
   transform: {
     "^^.+\\.tsx?$": "ts-jest"
@@ -9,5 +16,5 @@ module.exports = {
   globalSetup: "./jest/globalSetup.js",
   globalTeardown: "./jest/globalTeardown.js",
   coverageReporters: ["lcov", "html"],
-  testEnvironment: "node",
+  testEnvironment: "node"
 };

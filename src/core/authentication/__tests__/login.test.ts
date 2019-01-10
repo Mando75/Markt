@@ -1,16 +1,23 @@
 import * as Redis from "ioredis";
 import { ErrorMessages } from "../errorMessages";
-import { CreateTypeORMConnection, TestClient } from "../../../utils";
-
-const host = process.env.TEST_GRAPHQL_ENDPOINT as string;
+import { TestClient } from "../../../utils";
+import { startTestServer, teardownTestServer } from "../../../../jest";
+import { Server } from "http";
+import { Connection } from "typeorm";
+let app: Server, db: Connection, host: string, tc: TestClient;
 const redis = new Redis();
 
 beforeAll(async () => {
-  await CreateTypeORMConnection();
+  const setup = await startTestServer();
+  if (setup) {
+    app = setup.app;
+    db = setup.db;
+    host = setup.host;
+    tc = new TestClient(host);
+  }
 });
 
 describe("Logging in a user", () => {
-  const tc = new TestClient(host);
   beforeAll(async () => {
     await tc.createUser(false);
   });
@@ -61,5 +68,5 @@ describe("Logging in a user", () => {
 });
 
 afterAll(async () => {
-  await redis.disconnect();
+  await Promise.all([redis.disconnect(), teardownTestServer(app, db)]);
 });

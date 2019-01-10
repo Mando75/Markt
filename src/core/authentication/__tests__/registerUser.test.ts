@@ -1,9 +1,11 @@
 import "reflect-metadata";
-import { CreateTypeORMConnection, TestClient } from "../../../utils";
+import { TestClient } from "../../../utils";
 import { ErrorMessages } from "../errorMessages";
 import * as faker from "faker";
-
-const host = process.env.TEST_GRAPHQL_ENDPOINT as string;
+import { startTestServer, teardownTestServer } from "../../../../jest";
+import { Server } from "http";
+import { Connection } from "typeorm";
+let app: Server, db: Connection, host: string, tc: TestClient;
 
 const user = ({
   email = faker.internet.email().toLowerCase(),
@@ -17,10 +19,14 @@ const user = ({
   lastName: last
 });
 
-const tc = new TestClient(host);
-
 beforeAll(async () => {
-  await CreateTypeORMConnection();
+  const setup = await startTestServer();
+  if (setup) {
+    app = setup.app;
+    db = setup.db;
+    host = setup.host;
+    tc = new TestClient(host);
+  }
 });
 
 describe("Registering a new user", async () => {
@@ -81,4 +87,8 @@ describe("Registering a new user", async () => {
     expect(registerUser[1].path).toEqual("password");
     expect(registerUser[1].message).toEqual(ErrorMessages.PASSWORD_TOO_SIMPLE);
   });
+});
+
+afterAll(async () => {
+  await teardownTestServer(app, db);
 });
