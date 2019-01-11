@@ -4,9 +4,9 @@
   "scripts": {
     "build": "rm -rf dist && yarn run tsc -p ./",
     "start": "node dist/index.js",
-    "run": "NODE_ENV=development nodemon --watch ./dist ./dist/index.js",
+    "run": "nodemon --watch ./dist ./dist/index.js",
     "migrate": "node_modules/.bin/typeorm migration:run -c production",
-    "test": "NODE_ENV=test yarn run test-migrate && jest --coverage --forceExit",
+    "test": "yarn run test-migrate && jest --coverage --forceExit",
     "test-with-coverage": "yarn test && cat ./coverage/lcov.info | codacy-coverage",
     "gen-types": "yarn run ts-node --project ./tsconfig.json --files ./scripts/genSchema.ts",
     "gen-migration": "yarn run ts-node node_modules/.bin/typeorm migration:generate -c development -n ",

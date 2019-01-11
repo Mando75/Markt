@@ -17,7 +17,7 @@ router.get(
   "/auth/google/redirect",
   passport.authenticate("google", { session: false }),
   async (req: Request, res: Response) => {
-    const redis = new Redis();
+    const redis = new Redis(process.env.REDIS_URL as string);
     await setSession(
       req.user.userId,
       req.session as Express.Session,

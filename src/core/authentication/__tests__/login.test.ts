@@ -5,7 +5,7 @@ import { startTestServer, teardownTestServer } from "../../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 let app: Server, db: Connection, host: string, tc: TestClient;
-const redis = new Redis();
+const redis = new Redis(process.env.REDIS_URL as string);
 
 beforeAll(async () => {
   const setup = await startTestServer();
