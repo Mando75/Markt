@@ -5,6 +5,12 @@ import { createConnection, getConnectionOptions } from "typeorm";
  * @constructor
  */
 export const CreateTypeORMConnection = async () => {
-  const connectionOptions = await getConnectionOptions(process.env.NODE_ENV);
-  return createConnection({ ...connectionOptions, name: "default" });
+  // Pulls configuration locally
+  const configOptions: any = await getConnectionOptions(process.env.NODE_ENV);
+
+  if (process.env.POSTGRES_URL) {
+    // Check if we can pull the postgres url from Heroku
+    configOptions.url = process.env.POSTGRES_URL as string;
+  }
+  return createConnection({ ...configOptions, name: "default" });
 };
