@@ -23,6 +23,7 @@ const getDefaultOptions = () => ({
   synchronize: false,
   logging: true,
   entities: ["dist/entity/**/*.js"],
+  migrationsRun: true,
   migrations: ["dist/migration/**/*.js"],
   subscribers: ["dist/subscriber/**/*.js"],
   cli: {
@@ -35,7 +36,6 @@ const getDefaultOptions = () => ({
 const getTestOptions = () => ({
   ...getDefaultOptions(),
   url: process.env.DATABASE_URL as string,
-  synchronize: true,
   logging: false,
   entities: ["src/entity/**/*.ts"],
   migrations: ["src/migration/**/*.ts"],
