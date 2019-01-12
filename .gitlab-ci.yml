@@ -8,25 +8,16 @@ before_script:
 - apt-get update -qq && apt-get install
 
 stages:
-- test
-- build
+- test-build
 - deployment
 
 test:
-  stage: test
+  stage: test-build
   before_script:
   - rm -rf .yarn
   - yarn install
   script:
   - yarn test
-
-build:
-  stage: build
-  before_script:
-  - rm -rf .yarn
-  - yarn install
-  script:
-  - yarn run gen-types
   - yarn build
 
 deployment:
