@@ -1,6 +1,10 @@
 import { TestClient } from "../src/utils";
 import { AddressInfo } from "ws";
-import { bootstrapConnections, normalizePort } from "../src/utils";
+import {
+  bootstrapConnections,
+  normalizePort,
+  CreateTypeORMConnection
+} from "../src/utils";
 const nock = require("nock");
 
 const mockApis = () => {
@@ -22,4 +26,10 @@ export const startTestServer = async () => {
     const host = process.env.TEST_GRAPHQL_ENDPOINT as string;
     return { app, db, host };
   }
+};
+
+export const dropSchema = async () => {
+  const queryRunner = (await CreateTypeORMConnection()).createQueryRunner();
+  await queryRunner.dropSchema("public");
+  await queryRunner.executeMemoryDownSql();
 };

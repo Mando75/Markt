@@ -10,6 +10,7 @@ before_script:
 stages:
 - test
 - build
+- deployment
 
 test:
   stage: test
@@ -20,7 +21,7 @@ test:
   - yarn lint --fix
   - yarn test-with-coverage
   only:
-  - test-deploy
+  - deploy-dev
 
 build:
   stage: build
@@ -30,3 +31,12 @@ build:
   script:
   - yarn run gen-types
   - yarn build
+
+deployment:
+  stage: deployment
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=markt-dev --api-key=$HEROKU_API_KEY

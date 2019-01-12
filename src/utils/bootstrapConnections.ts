@@ -10,7 +10,7 @@ import * as express from "express";
 import * as session from "express-session";
 import * as connectRedis from "connect-redis";
 import { routes } from "../routes";
-import * as Redis from "ioredis";
+import { redis } from "./redis";
 import { applyMiddleware } from "graphql-middleware";
 import { createShield } from "./createShield";
 import * as RateLimit from "express-rate-limit";
@@ -18,7 +18,6 @@ import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
 
-export const redis = new Redis(process.env.REDIS_URL as string);
 redis.on("error", () => {
   console.log("Error connecting");
   if (process.env.NODE_ENV != "production") redis.disconnect();
