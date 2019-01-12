@@ -12,7 +12,8 @@
     "gen-migration": "yarn run ts-node node_modules/.bin/typeorm migration:generate -c development -n ",
     "migrate:dev": "node_modules/.bin/typeorm migration:run -c development",
     "migrate:test": "yarn build && yarn run ts-node node_modules/.bin/typeorm migration:run -c test",
-    "setup-dev": "yarn install && yarn build && yarn migrate:dev && yarn gen-types && yarn run run"
+    "setup-dev": "yarn install && yarn build && yarn migrate:dev && yarn gen-types && yarn run run",
+    "heroku-postbuild": "yarn migrate && yarn build"
   },
   "description": "Boilerplate for setting up a GraphQL Server with Typescript, TypeORM, Postgresql and Jest",
   "main": "index.js",
