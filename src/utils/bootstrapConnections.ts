@@ -60,7 +60,8 @@ export const bootstrapConnections = async (port: number) => {
       schema,
       formatError,
       formatResponse,
-      context: setContext
+      context: setContext,
+      introspection: true
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
