@@ -18,6 +18,14 @@ test:
   - yarn install
   script:
   - yarn test
+
+build:
+  stage: test-build
+  before_script:
+  - rm -rf .yarn
+  - yarn install
+  script:
+  - yarn run gen-types
   - yarn build
 
 deployment:
