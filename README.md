@@ -1,4 +1,7 @@
 # Markt
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/24be41df158a499b92719f2f316ef671)](https://www.codacy.com/app/Mando75/Markt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Mando75/Markt&amp;utm_campaign=Badge_Grade)
+
+[![build status](https://gitlab.com/Mando75/markt/badges/master/pipeline.svg)](https://gitlab.com/Mando75/markt/commits/master)
 
 ## Description
 
