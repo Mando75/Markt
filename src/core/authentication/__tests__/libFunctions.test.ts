@@ -7,9 +7,11 @@ import { AccountType } from "../../../enums/accountType.enum";
 import { User } from "../../../entity/User";
 import * as Redis from "ioredis";
 import * as rp from "request-promise";
-import { TestClient } from "../../../utils";
-import { startTestServer } from "../../../../jest";
-import { teardownTestServer } from "../../../../jest";
+import {
+  startTestServer,
+  TestClient,
+  teardownTestServer
+} from "../../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 let app: Server, db: Connection, host: string, userId: string;

@@ -1,6 +1,6 @@
 import * as rp from "request-promise";
-import { User } from "../entity/User";
-import { AccountType } from "../enums/accountType.enum";
+import { User } from "../src/entity/User";
+import { AccountType } from "../src/enums/accountType.enum";
 import * as faker from "faker";
 
 export class TestClient {
