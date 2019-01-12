@@ -5,6 +5,7 @@ import { formatYupError } from "./formatYupError";
 import { filePath, makeSchema } from "./makeSchema";
 import { sendConfirmEmail } from "./sendEmail";
 import { TestClient } from "./testClient";
+import { redis } from "./redis";
 
 export {
   bootstrapConnections,
@@ -15,5 +16,6 @@ export {
   makeSchema,
   normalizePort,
   sendConfirmEmail,
+  redis,
   TestClient
 };
