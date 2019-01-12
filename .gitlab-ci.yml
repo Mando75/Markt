@@ -18,8 +18,7 @@ test:
   - rm -rf .yarn
   - yarn install
   script:
-  - yarn lint --fix
-  - yarn test-with-coverage
+  - yarn test
   only:
   - deploy-dev
 
