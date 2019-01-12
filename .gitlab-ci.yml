@@ -19,8 +19,6 @@ test:
   - yarn install
   script:
   - yarn test
-  only:
-  - deploy-dev
 
 build:
   stage: build
@@ -39,3 +37,5 @@ deployment:
     - apt-get install -y ruby-dev
     - gem install dpl
     - dpl --provider=heroku --app=markt-dev --api-key=$HEROKU_API_KEY
+  only:
+    - master
