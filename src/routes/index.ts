@@ -8,4 +8,8 @@ const routes = Router();
 routes.use(oauth);
 routes.use(confirmEmail);
 
+routes.get("/", (_, res) => {
+  res.redirect("/graphql");
+});
+
 export { routes };
