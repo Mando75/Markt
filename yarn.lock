@@ -7523,6 +7523,11 @@ type-is@^1.6.16, type-is@~1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
+typeorm-naming-strategies@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/typeorm-naming-strategies/-/typeorm-naming-strategies-1.0.2.tgz#ab3ffc0507307e138beed843fa8e3fe9bec9d805"
+  integrity sha512-IDeaazSYtVCwnvVGzJ8zdw1Ccrgya+XFCBbs0e7kfkslZW5EOAu4t3vbPDDH4hEsrMrOVJbpEHfdMJrB0HAu4w==
+
 typeorm@^0.2.8:
   version "0.2.12"
   resolved "https://registry.yarnpkg.com/typeorm/-/typeorm-0.2.12.tgz#faa1bef1af185b682ad28d09aebeef3a7bbcf756"
