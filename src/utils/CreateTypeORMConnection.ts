@@ -37,6 +37,7 @@ const getTestOptions = () => ({
   ...getDefaultOptions(),
   url: process.env.DATABASE_URL as string,
   logging: false,
+  migrationsRun: true,
   entities: ["src/entity/**/*.ts"],
   migrations: ["src/migration/**/*.ts"],
   subscribers: ["src/subscriber/**/*.ts"],
