@@ -44,7 +44,7 @@ export class User extends BaseEntity {
   accountLocked: boolean;
 
   @Column("boolean", { default: false })
-  acceptedToS: boolean;
+  acceptedTos: boolean;
 
   @CreateDateColumn()
   createdDate: Date;

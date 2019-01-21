@@ -4,7 +4,7 @@
   "scripts": {
     "build": "rm -rf dist && yarn run tsc -p ./",
     "start": "node dist/index.js",
-    "start:dev": "nodemon --watch ./dist ./dist/index.js",
+    "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node --project ./tsconfig.json --files' src/index.ts",
     "test": "jest --forceExit --runInBand",
     "test:coverage": "yarn test && cat ./coverage/lcov.info | codacy-coverage",
     "gen:graphql-types": "yarn run ts-node --project ./tsconfig.json --files ./scripts/genSchema.ts",
@@ -38,6 +38,7 @@
     "rate-limit-redis": "^1.6.0",
     "reflect-metadata": "^0.1.10",
     "typeorm": "^0.2.8",
+    "typeorm-naming-strategies": "^1.0.2",
     "uuid": "^3.3.2",
     "yup": "^0.26.6"
   },
