@@ -2,7 +2,9 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 
 export class usersTable1548104194049 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    await queryRunner.query("DROP TABLE users");
+    if ((process.env.NODE_ENV = "production"))
+      await queryRunner.query("DROP TABLE users");
+
     await queryRunner.query(
       `CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "external_guid" character varying(255), "first_name" character varying(255) NOT NULL, "last_name" character varying(255) NOT NULL, "email" character varying(255) NOT NULL, "password" text, "account_type" "users_account_type_enum" NOT NULL, "active" boolean NOT NULL DEFAULT true, "account_locked" boolean NOT NULL DEFAULT false, "accepted_tos" boolean NOT NULL DEFAULT false, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "email_confirmed" boolean NOT NULL DEFAULT false, CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`
     );
