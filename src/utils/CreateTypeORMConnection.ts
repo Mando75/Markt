@@ -15,7 +15,11 @@ export const CreateTypeORMConnection = async () => {
     configOptions = await getConnectionOptions(process.env.NODE_ENV as string);
   }
 
-  return createConnection({ ...configOptions, name: "default" });
+  return createConnection({
+    ...configOptions,
+    name: "default",
+    namingStrategy: new SnakeNamingStrategy()
+  });
 };
 
 const getDefaultOptions = () => ({
@@ -23,7 +27,6 @@ const getDefaultOptions = () => ({
   url: process.env.DATABASE_URL as string,
   synchronize: false,
   logging: true,
-  namingStrategy: new SnakeNamingStrategy(),
   entities: ["dist/entity/**/*.js"],
   migrationsRun: true,
   migrations: ["dist/migration/**/*.js"],
