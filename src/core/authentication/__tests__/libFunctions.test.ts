@@ -42,7 +42,7 @@ describe("The register function", async () => {
       password: "",
       active: true,
       accountLocked: false,
-      acceptedToS: false,
+      acceptedTos: false,
       emailConfirmed: false,
       externalGuid: null
     });

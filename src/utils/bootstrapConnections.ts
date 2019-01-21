@@ -75,7 +75,6 @@ export const bootstrapConnections = async (port: number) => {
     return { app, db };
   } catch (e) {
     console.error("Could not bootstrap server connections. Exiting", e);
-    process.exit(1);
     return null;
   }
 };

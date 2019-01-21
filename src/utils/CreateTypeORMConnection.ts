@@ -1,4 +1,5 @@
 import { createConnection, getConnectionOptions } from "typeorm";
+import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 /**
  * Create a custom Connection type to TypeORM
@@ -22,6 +23,7 @@ const getDefaultOptions = () => ({
   url: process.env.DATABASE_URL as string,
   synchronize: false,
   logging: true,
+  namingStrategy: new SnakeNamingStrategy(),
   entities: ["dist/entity/**/*.js"],
   migrationsRun: true,
   migrations: ["dist/migration/**/*.js"],

@@ -4,7 +4,7 @@ node_modules/
 dist/
 tmp/
 temp/
-ormconfig.json
+ormconfig.js
 graphql.config.json
 graphql.schema.json
 coverage/
