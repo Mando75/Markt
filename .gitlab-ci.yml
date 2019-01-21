@@ -17,15 +17,12 @@ test:
   - rm -rf .yarn
   - yarn install
   script:
-  - yarn test-with-coverage
+  - yarn test:coverage
 
 build:
   stage: test-build
-  before_script:
-  - rm -rf .yarn
-  - yarn install
   script:
-  - yarn run gen-types
+  - yarn run gen:graphql-types
   - yarn build
 
 deployment:
