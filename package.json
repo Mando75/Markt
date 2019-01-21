@@ -16,7 +16,7 @@
   "main": "index.js",
   "repository": "git@gitlab.com:Mando75/Markt.git",
   "author": "Bryan Müller <bmuller0975@gmail.com>",
-  "license": "agpl-3.0",
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
     "apollo-server-express": "2.0.7",
