@@ -1,4 +1,5 @@
 import { Context } from "./context";
+import { GraphQLScalarType } from "graphql";
 
 export type Resolver = (
   parent: any,
@@ -8,7 +9,9 @@ export type Resolver = (
 ) => any;
 
 export interface ResolverMap {
-  [key: string]: {
-    [key: string]: Resolver;
-  };
+  [key: string]:
+    | {
+        [key: string]: Resolver;
+      }
+    | GraphQLScalarType;
 }
