@@ -6,7 +6,7 @@ module.exports = {
     "!**/migration/**",
     "!**/dist/**"
   ],
-  verbose: false,
+  verbose: true,
   transform: {
     "^^.+\\.tsx?$": "ts-jest"
   },

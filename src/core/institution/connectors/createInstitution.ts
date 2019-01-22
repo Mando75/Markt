@@ -7,6 +7,7 @@ export const createInstitution = async (
   __: Context
 ) => {
   return await Institution.create({
-    name
-  });
+    name,
+    active: true
+  }).save();
 };

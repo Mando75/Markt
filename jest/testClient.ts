@@ -129,8 +129,12 @@ export class TestClient {
     return rp.post(this.url, { ...this.options, body: { query } });
   }
 
-  async createUser(emailConfirmed: boolean) {
+  async createUser(
+    emailConfirmed: boolean,
+    accountType: AccountType = AccountType.USER
+  ) {
     this.fakeUser.emailConfirmed = emailConfirmed;
+    this.fakeUser.accountType = accountType;
     this.testUser = await User.create(this.fakeUser).save();
     return this.testUser;
   }
