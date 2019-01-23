@@ -56,7 +56,12 @@ describe("createInstitution", () => {
     await tc.createUser(true);
     await tc.login();
     const { data } = await tc.query(
-      `{ institution(id: "${newInst.id}") { id } }`
+      `{ 
+                institution(id: "${newInst.id}") { 
+                  id
+                  createdDate
+                }
+              }`
     );
     expect(data.institution).toBeTruthy();
     expect(data.institution.id).toEqual(newInst.id);
