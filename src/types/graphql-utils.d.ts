@@ -1,9 +1,9 @@
-import { Context } from "./context";
+import { GQLContext } from "./context";
 
 export type Resolver = (
   parent: any,
   args: any,
-  context: Context,
+  context: GQLContext,
   info: any
 ) => any;
 

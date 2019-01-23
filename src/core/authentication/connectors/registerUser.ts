@@ -3,7 +3,7 @@ import { createConfirmEmailLink, registerUser, userExists } from "./lib";
 import { formatYupError, sendConfirmEmail } from "../../../utils";
 import { yupUserRegistrationSchema } from "../yup.schema";
 import { AccountType } from "../../../enums/accountType.enum";
-import { Context } from "../../../types/context";
+import { GQLContext } from "../../../types/context";
 
 /**
  * Registers a new user of type 'user' in the database
@@ -16,7 +16,7 @@ import { Context } from "../../../types/context";
 export const register = async (
   _: any,
   { user }: { user: GQL.IUserRegistrationType },
-  { redis, url }: Context
+  { redis, url }: GQLContext
 ) => {
   try {
     await yupUserRegistrationSchema.validate(user, { abortEarly: false });

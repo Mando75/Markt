@@ -2,7 +2,7 @@ import { setSession } from "./lib";
 import { User } from "../../../entity/User";
 import { formatYupError } from "../../../utils";
 import { yupUserLoginSchema } from "../yup.schema";
-import { Context } from "../../../types/context";
+import { GQLContext } from "../../../types/context";
 import { ErrorMessages } from "../errorMessages";
 import { compare } from "bcrypt";
 
@@ -19,7 +19,7 @@ import { compare } from "bcrypt";
 export const login = async (
   _: any,
   { user }: { user: GQL.IUserLoginType },
-  { session, redis, req }: Context
+  { session, redis, req }: GQLContext
 ) => {
   try {
     await yupUserLoginSchema.validate(user, { abortEarly: false });

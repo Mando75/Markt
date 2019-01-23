@@ -1,5 +1,5 @@
 import { deleteSessions, getSessionIds } from "./lib";
-import { Context } from "../../../types/context";
+import { GQLContext } from "../../../types/context";
 
 /**
  * Logic for logout mutation
@@ -9,7 +9,11 @@ import { Context } from "../../../types/context";
  * @param session
  * @param redis
  */
-export const logout = async (_: any, __: any, { session, redis }: Context) => {
+export const logout = async (
+  _: any,
+  __: any,
+  { session, redis }: GQLContext
+) => {
   const { userId } = session;
   if (userId) {
     const sessionIds = await getSessionIds(redis, userId);
