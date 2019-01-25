@@ -1,19 +1,24 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
-  type Guide {
+  type Institution {
     id: String!
-    user: User!
+    name: String!
     active: Boolean!
     createdDate: Date!
     updatedDate: Date!
+    users: [User!]
+  }
+
+  extend type User {
+    institution: Institution
   }
 
   extend type Query {
-    guide(id: ID!): Guide
+    institution(id: String!): Institution
   }
 
   extend type Mutation {
-    createGuideFromUser(userId: ID!): Guide
+    createInstitution(name: String!): Institution
   }
 `;

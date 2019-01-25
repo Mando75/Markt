@@ -23,12 +23,63 @@ declare namespace GQL {
   interface IQuery {
     __typename: "Query";
     me: IMe | null;
+    guide: IGuide | null;
+    institution: IInstitution | null;
+  }
+
+  interface IGuideOnQueryArguments {
+    id: string;
+  }
+
+  interface IInstitutionOnQueryArguments {
+    id: string;
   }
 
   interface IMe {
     __typename: "Me";
     id: string;
     email: string;
+  }
+
+  interface IGuide {
+    __typename: "Guide";
+    id: string;
+    user: IUser;
+    active: boolean;
+    createdDate: any;
+    updatedDate: any;
+  }
+
+  interface IUser {
+    __typename: "User";
+    id: string;
+    externalGuid: string;
+    firstName: string | null;
+    lastName: string | null;
+    email: string;
+    accountType: AccountType;
+    active: boolean;
+    accountLocked: boolean;
+    acceptedTos: boolean;
+    createDate: any;
+    updatedDate: any;
+    emailConfirmed: boolean;
+    institution: IInstitution | null;
+  }
+
+  const enum AccountType {
+    USER = "USER",
+    ADMIN = "ADMIN"
+  }
+
+  interface IInstitution {
+    __typename: "Institution";
+    id: string;
+    name: string;
+    active: boolean;
+    createdDate: any;
+    updatedDate: any;
+    users: Array<IUser> | null;
   }
 
   interface IMutation {
@@ -39,6 +90,8 @@ declare namespace GQL {
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    createGuideFromUser: IGuide | null;
+    createInstitution: IInstitution | null;
   }
 
   interface IRegisterUserOnMutationArguments {
@@ -56,6 +109,14 @@ declare namespace GQL {
   interface IForgotPasswordChangeOnMutationArguments {
     newPassword: string;
     key: string;
+  }
+
+  interface ICreateGuideFromUserOnMutationArguments {
+    userId: string;
+  }
+
+  interface ICreateInstitutionOnMutationArguments {
+    name: string;
   }
 
   interface IUserRegistrationType {

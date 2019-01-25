@@ -1,11 +1,11 @@
 import { ResolverMap } from "../../types/graphql-utils";
-import { GQLContext } from "../../types/context";
+import { GraphQLContext } from "../../types/graphql-context";
 import { Guide } from "../../entity/Guide";
 import { User } from "../../entity/User";
 
 export const resolvers: ResolverMap = {
   Query: {
-    async guide(_: any, { id }: { id: string }, __: GQLContext) {
+    async guide(_: any, { id }: { id: string }, __: GraphQLContext) {
       return await Guide.findOne(id);
     }
   },
@@ -13,7 +13,7 @@ export const resolvers: ResolverMap = {
     async createGuideFromUser(
       _: any,
       { userId }: { userId: string },
-      __: GQLContext
+      __: GraphQLContext
     ) {
       const user = await User.findOne(userId);
       if (user) {

@@ -1,5 +1,5 @@
 import { deleteSessions, getSessionIds } from "./lib";
-import { GQLContext } from "../../../types/context";
+import { GraphQLContext } from "../../../types/graphql-context";
 
 /**
  * Logic for logout mutation
@@ -12,7 +12,7 @@ import { GQLContext } from "../../../types/context";
 export const logout = async (
   _: any,
   __: any,
-  { session, redis }: GQLContext
+  { session, redis }: GraphQLContext
 ) => {
   const { userId } = session;
   if (userId) {

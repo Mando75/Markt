@@ -1,6 +1,6 @@
 import { Redis } from "ioredis";
 
-export interface GQLContext {
+export interface GraphQLContext {
   redis: Redis;
   url: string;
   session: Session;

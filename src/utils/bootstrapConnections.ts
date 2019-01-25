@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "dotenv/config";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, defaultPlaygroundOptions } from "apollo-server-express";
 import { makeSchema } from "./makeSchema";
 import { CreateTypeORMConnection } from "./CreateTypeORMConnection";
 import { Connection } from "typeorm";
@@ -61,7 +61,8 @@ export const bootstrapConnections = async (port: number) => {
       formatError,
       formatResponse,
       context: setContext,
-      introspection: true
+      introspection: true,
+      playground
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
@@ -149,4 +150,15 @@ const createSession = () => {
 const cors = {
   credentials: true,
   origin: (process.env.HOST || process.env.TEST_HOST) as string
+};
+
+/**
+ * Playground configuration
+ */
+const playground = {
+  ...defaultPlaygroundOptions,
+  settings: {
+    ...defaultPlaygroundOptions.settings,
+    "request.credentials": "same-origin"
+  }
 };

@@ -1,4 +1,4 @@
-import { GQLContext } from "../../../types/context";
+import { GraphQLContext } from "../../../types/graphql-context";
 import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 import { ErrorMessages } from "../errorMessages";
 import { yupPasswordSchema } from "../yup.schema";
@@ -10,7 +10,7 @@ import * as yup from "yup";
 export const forgotPasswordChange = async (
   _: any,
   { newPassword, key }: GQL.IForgotPasswordChangeOnMutationArguments,
-  { redis }: GQLContext
+  { redis }: GraphQLContext
 ) => {
   const userId = await redis.get(RedisPrefix.FORGOT_PASSWORD + key);
   if (!userId) {
