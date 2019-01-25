@@ -23,12 +23,26 @@ declare namespace GQL {
   interface IQuery {
     __typename: 'Query';
     me: IMe | null;
+    institution: IInstitution | null;
+  }
+
+  interface IInstitutionOnQueryArguments {
+    id: string;
   }
 
   interface IMe {
     __typename: 'Me';
     id: string;
     email: string;
+  }
+
+  interface IInstitution {
+    __typename: 'Institution';
+    id: string;
+    name: string;
+    active: boolean;
+    createdDate: any;
+    updatedDate: any;
   }
 
   interface IMutation {
@@ -39,6 +53,7 @@ declare namespace GQL {
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    createInstitution: IInstitution | null;
   }
 
   interface IRegisterUserOnMutationArguments {
@@ -56,6 +71,10 @@ declare namespace GQL {
   interface IForgotPasswordChangeOnMutationArguments {
     newPassword: string;
     key: string;
+  }
+
+  interface ICreateInstitutionOnMutationArguments {
+    name: string;
   }
 
   interface IUserRegistrationType {
