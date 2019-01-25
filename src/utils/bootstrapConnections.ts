@@ -156,9 +156,9 @@ const cors = {
  * Playground configuration
  */
 const playground = {
-        ...defaultPlaygroundOptions,
-        settings: {
-          ...defaultPlaygroundOptions.settings,
-          "request.credentials": "same-origin",
-        }
-      };
+  ...defaultPlaygroundOptions,
+  settings: {
+    ...defaultPlaygroundOptions.settings,
+    "request.credentials": "same-origin"
+  }
+};

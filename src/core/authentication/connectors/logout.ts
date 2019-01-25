@@ -9,7 +9,11 @@ import { GraphQLContext } from "../../../types/graphql-context";
  * @param session
  * @param redis
  */
-export const logout = async (_: any, __: any, { session, redis }: GraphQLContext) => {
+export const logout = async (
+  _: any,
+  __: any,
+  { session, redis }: GraphQLContext
+) => {
   const { userId } = session;
   if (userId) {
     const sessionIds = await getSessionIds(redis, userId);
