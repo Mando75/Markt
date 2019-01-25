@@ -1,10 +1,10 @@
-import { Context } from "./context";
+import { GraphQLContext } from "./graphql-context";
 import { GraphQLScalarType } from "graphql";
 
 export type Resolver = (
   parent: any,
   args: any,
-  context: Context,
+  context: GraphQLContext,
   info: any
 ) => any;
 
