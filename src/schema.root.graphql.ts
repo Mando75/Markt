@@ -1,6 +1,8 @@
 import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
+  scalar Date
+
   type Me {
     id: ID!
     email: String!

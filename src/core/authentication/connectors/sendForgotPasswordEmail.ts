@@ -1,4 +1,4 @@
-import { Context } from "../../../types/context";
+import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
 import { ErrorMessages } from "../errorMessages";
 import { createForgotPasswordLink, deleteSessions, getSessionIds } from "./lib";
@@ -7,7 +7,7 @@ import { sendGridForgotPasswordEmail } from "../../../utils/sendEmail";
 export const sendForgotPasswordEmail = async (
   _: any,
   { email }: GQL.ISendForgotPasswordEmailOnMutationArguments,
-  { redis }: Context
+  { redis }: GraphQLContext
 ) => {
   const user = (await User.findOne({ email })) as User;
   if (!user) {
