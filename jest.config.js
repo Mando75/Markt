@@ -6,11 +6,11 @@ module.exports = {
     "!**/migration/**",
     "!**/dist/**"
   ],
-  verbose: false,
+  verbose: true,
   transform: {
     "^^.+\\.tsx?$": "ts-jest"
   },
-  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
+  testPathIgnorePatterns: ["/node_modules/", "/dist/", "/jest/"],
   testRegex: "/__tests__/.*.test.(js|ts|tsx)?$",
   moduleFileExtensions: ["ts", "tsx", "js", "json", "node"],
   globalSetup: "./jest/globalSetup.js",

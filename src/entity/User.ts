@@ -6,10 +6,12 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BaseEntity,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  ManyToOne
 } from "typeorm";
 import { hash } from "bcrypt";
 import { AccountType } from "../enums/accountType.enum";
+import { Institution } from "./Institution";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -54,6 +56,9 @@ export class User extends BaseEntity {
 
   @Column({ type: "boolean", default: false })
   emailConfirmed: boolean;
+
+  @ManyToOne(() => Institution, institution => institution.users)
+  institution: Institution;
 
   @BeforeInsert()
   async hashPassword() {
