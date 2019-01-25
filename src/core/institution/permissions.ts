@@ -1,4 +1,3 @@
-import { and } from "graphql-shield";
 import { isAdmin, isAuthenticated } from "../../rules";
 
 export const permissions = {
@@ -6,6 +5,6 @@ export const permissions = {
     institution: isAuthenticated
   },
   Mutation: {
-    createInstitution: and(isAuthenticated, isAdmin)
+    createInstitution: isAdmin
   }
 };
