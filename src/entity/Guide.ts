@@ -6,7 +6,8 @@ import {
   JoinColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  AfterLoad
 } from "typeorm";
 import { User } from "./User";
 
@@ -29,4 +30,16 @@ export class Guide extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+
+  @AfterLoad()
+  setUserAttributes() {
+    this.firstName = this.user.firstName;
+    this.lastName = this.user.lastName;
+    this.fullName = this.user.lastName;
+  }
 }

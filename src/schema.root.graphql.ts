@@ -18,6 +18,7 @@ export const typeDefs = gql`
     externalGuid: ID
     firstName: String
     lastName: String
+    fullName: String
     email: String!
     accountType: AccountType!
     active: Boolean!

@@ -7,11 +7,14 @@ import {
   BeforeInsert,
   BaseEntity,
   PrimaryGeneratedColumn,
-  ManyToOne
+  ManyToOne,
+  OneToOne,
+  AfterLoad
 } from "typeorm";
 import { hash } from "bcrypt";
 import { AccountType } from "../enums/accountType.enum";
 import { Institution } from "./Institution";
+import { Guide } from "./Guide";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -28,6 +31,13 @@ export class User extends BaseEntity {
   @Index()
   @Column({ type: "varchar", length: 255 })
   lastName: string;
+
+  fullName: string;
+
+  @AfterLoad()
+  setFullName() {
+    this.fullName = this.firstName + " " + this.lastName;
+  }
 
   @Index({ unique: true })
   @Column("varchar", { length: 255 })
@@ -59,6 +69,9 @@ export class User extends BaseEntity {
 
   @ManyToOne(() => Institution, institution => institution.users)
   institution: Institution;
+
+  @OneToOne(() => Guide, guide => guide.user)
+  guide: Guide;
 
   @BeforeInsert()
   async hashPassword() {

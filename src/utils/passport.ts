@@ -2,6 +2,7 @@ import * as passport from "passport";
 import { Strategy } from "passport-google-oauth2";
 import { User } from "../entity/User";
 import { AccountType } from "../enums/accountType.enum";
+import { Guide } from "../entity/Guide";
 
 const {
   GOOGLE_CLIENT_ID,
@@ -28,6 +29,11 @@ passport.use(
           externalGuid: id,
           accountType: AccountType.USER
         }).save();
+        /**
+         * TODO
+         * Currently create guide by default. Change this in the future
+         */
+        await Guide.create({ user }).save();
       } else if (!user.externalGuid) {
         // Merge user
         user.externalGuid = id;

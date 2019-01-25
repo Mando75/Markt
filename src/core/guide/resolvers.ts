@@ -2,12 +2,11 @@ import { ResolverMap } from "../../types/graphql-utils";
 import { GraphQLContext } from "../../types/graphql-context";
 import { Guide } from "../../entity/Guide";
 import { User } from "../../entity/User";
+import { getGuide } from "./connectors";
 
 export const resolvers: ResolverMap = {
   Query: {
-    async guide(_: any, { id }: { id: string }, __: GraphQLContext) {
-      return await Guide.findOne(id);
-    }
+    guide: getGuide
   },
   Mutation: {
     async createGuideFromUser(

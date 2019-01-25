@@ -4,6 +4,10 @@ export const typeDefs = gql`
   type Guide {
     id: ID!
     user: User!
+    firstName: String
+    lastName: String
+    fullname: String
+    email: String
     active: Boolean!
     createdDate: Date!
     updatedDate: Date!
@@ -11,6 +15,10 @@ export const typeDefs = gql`
 
   extend type Query {
     guide(id: ID!): Guide
+  }
+
+  extend type User {
+    guide: Guide
   }
 
   extend type Mutation {
