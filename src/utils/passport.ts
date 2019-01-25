@@ -46,7 +46,7 @@ passport.use(
  */
 const checkForUser = async ({ id, email }: { id: string; email: string }) => {
   const query = User.createQueryBuilder("user").where(
-    `"user"."externalGuid" = :id`,
+    `"user"."external_guid" = :id`,
     { id }
   );
 

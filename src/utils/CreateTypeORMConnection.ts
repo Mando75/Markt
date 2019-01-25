@@ -1,4 +1,5 @@
 import { createConnection, getConnectionOptions } from "typeorm";
+import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 /**
  * Create a custom Connection type to TypeORM
@@ -14,7 +15,11 @@ export const CreateTypeORMConnection = async () => {
     configOptions = await getConnectionOptions(process.env.NODE_ENV as string);
   }
 
-  return createConnection({ ...configOptions, name: "default" });
+  return createConnection({
+    ...configOptions,
+    name: "default",
+    namingStrategy: new SnakeNamingStrategy()
+  });
 };
 
 const getDefaultOptions = () => ({
