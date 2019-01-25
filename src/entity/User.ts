@@ -15,11 +15,6 @@ import { Institution } from "./Institution";
 
 @Entity("users")
 export class User extends BaseEntity {
-  constructor() {
-    super();
-    this.fullName = this.firstName + " " + this.lastName;
-  }
-
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -64,8 +59,6 @@ export class User extends BaseEntity {
 
   @ManyToOne(() => Institution, institution => institution.users)
   institution: Institution;
-
-  fullName: string;
 
   @BeforeInsert()
   async hashPassword() {

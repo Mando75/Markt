@@ -29,17 +29,4 @@ export class Guide extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
-
-  /** From User record **/
-  firstName: string;
-  lastName: string;
-  email: string;
-
-  constructor() {
-    super();
-    // initialize local values from user record
-    this.firstName = this.user.firstName;
-    this.lastName = this.user.lastName;
-    this.email = this.user.email;
-  }
 }

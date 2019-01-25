@@ -2,12 +2,12 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   type Institution {
-    id: String!
+    id: ID!
     name: String!
     active: Boolean!
     createdDate: Date!
     updatedDate: Date!
-    users: [User!]
+    users(id: ID): [User!]
   }
 
   extend type User {

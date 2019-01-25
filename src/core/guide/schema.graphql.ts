@@ -2,7 +2,7 @@ import { gql } from "apollo-server-express";
 
 export const typeDefs = gql`
   type Guide {
-    id: String!
+    id: ID!
     user: User!
     active: Boolean!
     createdDate: Date!

@@ -15,7 +15,7 @@ export const typeDefs = gql`
 
   type User {
     id: ID!
-    externalGuid: ID!
+    externalGuid: ID
     firstName: String
     lastName: String
     email: String!

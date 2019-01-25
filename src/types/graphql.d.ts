@@ -82,6 +82,10 @@ declare namespace GQL {
     users: Array<IUser> | null;
   }
 
+  interface IUsersOnInstitutionArguments {
+    id?: string | null;
+  }
+
   interface IMutation {
     __typename: "Mutation";
     _empty: boolean | null;
