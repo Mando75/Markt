@@ -1,3 +1,4 @@
 import { getGuide } from "./getGuide";
+import { createGuideFromUser } from "./createGuideFromUser";
 
-export { getGuide };
+export { createGuideFromUser, getGuide };
