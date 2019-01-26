@@ -1,29 +1,28 @@
 import {
   Entity,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
   BaseEntity,
   PrimaryGeneratedColumn,
-  OneToMany
+  OneToOne,
+  JoinColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { User } from "./User";
 
-@Entity("institutions")
-export class Institution extends BaseEntity {
+@Entity("guides")
+export class Guide extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
-  name: string;
+  @JoinColumn()
+  @OneToOne(() => User, user => user.guide, {
+    nullable: false
+  })
+  user: Promise<User>;
 
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
-
-  @OneToMany(() => User, user => user.institution, {
-    nullable: true
-  })
-  users: Promise<User[]>;
 
   @CreateDateColumn({ nullable: false })
   createdDate: Date;

@@ -1,5 +1,9 @@
 import { ResolverMap } from "../../types/graphql-utils";
-import { createInstitution, getInstitution } from "./connectors";
+import {
+  getInstitutionUsers,
+  createInstitution,
+  getInstitution
+} from "./connectors";
 
 export const resolvers: ResolverMap = {
   Query: {
@@ -7,5 +11,8 @@ export const resolvers: ResolverMap = {
   },
   Mutation: {
     createInstitution
+  },
+  Institution: {
+    users: getInstitutionUsers
   }
 };
