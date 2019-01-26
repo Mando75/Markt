@@ -33,7 +33,9 @@ passport.use(
          * TODO
          * Currently create guide by default. Change this in the future
          */
-        await Guide.create({ user }).save();
+        const guide = new Guide();
+        guide.user = Promise.resolve(user);
+        await guide.save();
       } else if (!user.externalGuid) {
         // Merge user
         user.externalGuid = id;

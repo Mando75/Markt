@@ -1,7 +1,7 @@
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
-    "**/*.{ts,tsx}",
+    "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!**/migration/**",
     "!**/dist/**"
