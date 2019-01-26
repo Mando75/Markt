@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -9,6 +10,7 @@ import {
 } from "typeorm";
 import { Guide } from "./Guide";
 import { Group } from "./Group";
+import { generate } from "randomstring";
 
 @Entity("players")
 export class Player extends BaseEntity {
@@ -44,4 +46,27 @@ export class Player extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  /**
+   * We need to create a player code that is unique
+   * to the guide's active players
+   */
+  @BeforeInsert()
+  async createPlayerCode() {
+    let goodOption = false;
+    let option = "";
+    while (!goodOption) {
+      option = generate({
+        length: 6,
+        charset: "alphanumeric",
+        readable: true
+      });
+      const existingCode = await Player.findOne({
+        where: { playerCode: option, active: true, guide: this.guide },
+        select: ["id"]
+      });
+      if (!existingCode) goodOption = true;
+    }
+    this.playerCode = option;
+  }
 }

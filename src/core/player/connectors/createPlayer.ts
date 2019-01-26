@@ -40,7 +40,7 @@ export const createPlayer = async (
       );
     }
   } catch (e) {
-    if (e.extensions.code === "BAD_USER_INPUT") {
+    if (e.extensions && e.extensions.code === "BAD_USER_INPUT") {
       throw e;
     }
     throw new UserInputError("Invalid parameter");
