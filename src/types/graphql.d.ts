@@ -45,6 +45,10 @@ declare namespace GQL {
     __typename: "Guide";
     id: string;
     user: IUser;
+    firstName: string | null;
+    lastName: string | null;
+    fullname: string | null;
+    email: string | null;
     active: boolean;
     createdDate: any;
     updatedDate: any;
@@ -53,9 +57,10 @@ declare namespace GQL {
   interface IUser {
     __typename: "User";
     id: string;
-    externalGuid: string;
+    externalGuid: string | null;
     firstName: string | null;
     lastName: string | null;
+    fullName: string | null;
     email: string;
     accountType: AccountType;
     active: boolean;
@@ -64,6 +69,7 @@ declare namespace GQL {
     createDate: any;
     updatedDate: any;
     emailConfirmed: boolean;
+    guide: IGuide | null;
     institution: IInstitution | null;
   }
 
