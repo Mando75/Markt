@@ -4,6 +4,7 @@ node_modules/
 dist/
 tmp/
 temp/
+ormconfig.*
 ormconfig.js
 graphql.config.json
 graphql.schema.json

@@ -8,6 +8,27 @@ export const typeDefs = gql`
     email: String!
   }
 
+  enum AccountType {
+    USER
+    ADMIN
+  }
+
+  type User {
+    id: ID!
+    externalGuid: ID
+    firstName: String
+    lastName: String
+    fullName: String
+    email: String!
+    accountType: AccountType!
+    active: Boolean!
+    accountLocked: Boolean!
+    acceptedTos: Boolean!
+    createDate: Date!
+    updatedDate: Date!
+    emailConfirmed: Boolean!
+  }
+
   type Query {
     me: Me
   }
