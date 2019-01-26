@@ -60,6 +60,9 @@ describe("createInstitution", () => {
                 institution(id: "${newInst.id}") { 
                   id
                   createdDate
+                  users(id: "123") {
+                    id
+                  }
                 }
               }`
     );

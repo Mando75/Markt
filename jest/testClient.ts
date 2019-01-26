@@ -138,4 +138,20 @@ export class TestClient {
     this.testUser = await User.create(this.fakeUser).save();
     return this.testUser;
   }
+
+  static async createMockUsers(count: number) {
+    let users: User[] = [];
+    for (let i = 0; i < count; i++) {
+      const fakeUser = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        accountType: AccountType.USER,
+        email: faker.internet.exampleEmail().toLowerCase(),
+        password: faker.internet.password(8, false) + "@Aa1",
+        emailConfirmed: true
+      };
+      users.push(await User.create(fakeUser).save());
+    }
+    return users;
+  }
 }
