@@ -1,5 +1,5 @@
 import { typeDefs } from "./schema.group.graphql";
+import { permissions } from "./permissions";
+import { resolvers } from "./resolvers";
 
-const resolvers = {};
-const permissions = {};
 export { typeDefs, resolvers, permissions };
