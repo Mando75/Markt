@@ -21,9 +21,14 @@ declare namespace GQL {
   }
 
   interface IQuery {
-    __typename: 'Query';
+    __typename: "Query";
     me: IMe | null;
+    guide: IGuide | null;
     institution: IInstitution | null;
+  }
+
+  interface IGuideOnQueryArguments {
+    id: string;
   }
 
   interface IInstitutionOnQueryArguments {
@@ -31,28 +36,65 @@ declare namespace GQL {
   }
 
   interface IMe {
-    __typename: 'Me';
+    __typename: "Me";
     id: string;
     email: string;
   }
 
-  interface IInstitution {
-    __typename: 'Institution';
+  interface IGuide {
+    __typename: "Guide";
     id: string;
-    name: string;
+    user: IUser;
     active: boolean;
     createdDate: any;
     updatedDate: any;
   }
 
+  interface IUser {
+    __typename: "User";
+    id: string;
+    externalGuid: string;
+    firstName: string | null;
+    lastName: string | null;
+    email: string;
+    accountType: AccountType;
+    active: boolean;
+    accountLocked: boolean;
+    acceptedTos: boolean;
+    createDate: any;
+    updatedDate: any;
+    emailConfirmed: boolean;
+    institution: IInstitution | null;
+  }
+
+  const enum AccountType {
+    USER = "USER",
+    ADMIN = "ADMIN"
+  }
+
+  interface IInstitution {
+    __typename: "Institution";
+    id: string;
+    name: string;
+    active: boolean;
+    createdDate: any;
+    updatedDate: any;
+    users: Array<IUser> | null;
+  }
+
+  interface IUsersOnInstitutionArguments {
+    id?: string | null;
+  }
+
   interface IMutation {
-    __typename: 'Mutation';
+    __typename: "Mutation";
     _empty: boolean | null;
     registerUser: Array<IGraphQLError> | null;
     login: Array<IGraphQLError> | null;
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
   }
 
@@ -73,6 +115,10 @@ declare namespace GQL {
     key: string;
   }
 
+  interface ICreateGuideFromUserOnMutationArguments {
+    userId: string;
+  }
+
   interface ICreateInstitutionOnMutationArguments {
     name: string;
   }
@@ -85,7 +131,7 @@ declare namespace GQL {
   }
 
   interface IGraphQLError {
-    __typename: 'GraphQLError';
+    __typename: "GraphQLError";
     path: string;
     message: string;
   }

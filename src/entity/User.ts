@@ -7,11 +7,14 @@ import {
   BeforeInsert,
   BaseEntity,
   PrimaryGeneratedColumn,
-  ManyToOne
+  ManyToOne,
+  OneToOne,
+  AfterLoad
 } from "typeorm";
 import { hash } from "bcrypt";
 import { AccountType } from "../enums/accountType.enum";
 import { Institution } from "./Institution";
+import { Guide } from "./Guide";
 
 @Entity("users")
 export class User extends BaseEntity {
@@ -22,43 +25,55 @@ export class User extends BaseEntity {
   externalGuid: string;
 
   @Index()
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: "varchar", length: 255, nullable: true })
   firstName: string;
 
   @Index()
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: "varchar", length: 255, nullable: true })
   lastName: string;
 
+  fullName: string;
+
+  @AfterLoad()
+  setFullName() {
+    this.fullName = this.firstName + " " + this.lastName;
+  }
+
   @Index({ unique: true })
-  @Column("varchar", { length: 255 })
+  @Column("varchar", { length: 255, nullable: false })
   email: string;
 
   @Column("text", { nullable: true })
   password: string | null;
 
-  @Column("enum", { enum: AccountType })
+  @Column("enum", { enum: AccountType, nullable: false })
   accountType: AccountType;
 
-  @Column("boolean", { default: true })
+  @Column("boolean", { default: true, nullable: false })
   active: boolean;
 
-  @Column("boolean", { default: false })
+  @Column("boolean", { default: false, nullable: false })
   accountLocked: boolean;
 
-  @Column("boolean", { default: false })
+  @Column("boolean", { default: false, nullable: false })
   acceptedTos: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ nullable: false })
   createdDate: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: false })
   updatedDate: Date;
 
-  @Column({ type: "boolean", default: false })
+  @Column({ type: "boolean", default: false, nullable: false })
   emailConfirmed: boolean;
 
-  @ManyToOne(() => Institution, institution => institution.users)
+  @ManyToOne(() => Institution, institution => institution.users, {
+    nullable: true
+  })
   institution: Institution;
+
+  @OneToOne(() => Guide, guide => guide.user, { nullable: true })
+  guide: Promise<Guide>;
 
   @BeforeInsert()
   async hashPassword() {
