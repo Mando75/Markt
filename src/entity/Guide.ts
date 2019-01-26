@@ -6,8 +6,7 @@ import {
   JoinColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
-  AfterLoad
+  UpdateDateColumn
 } from "typeorm";
 import { User } from "./User";
 
@@ -16,7 +15,7 @@ export class Guide extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToOne(() => User, {
+  @OneToOne(() => User, user => user.guide, {
     eager: true
   })
   @JoinColumn()
@@ -30,16 +29,4 @@ export class Guide extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
-
-  firstName: string;
-  lastName: string;
-  fullName: string;
-  email: string;
-
-  @AfterLoad()
-  setUserAttributes() {
-    this.firstName = this.user.firstName;
-    this.lastName = this.user.lastName;
-    this.fullName = this.user.lastName;
-  }
 }

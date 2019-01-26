@@ -2,9 +2,12 @@ import { ResolverMap } from "../../types/graphql-utils";
 import { GraphQLContext } from "../../types/graphql-context";
 import { Guide } from "../../entity/Guide";
 import { User } from "../../entity/User";
-import { getGuide } from "./connectors";
+import { getGuide, getUserGuide } from "./connectors";
 
 export const resolvers: ResolverMap = {
+  User: {
+    guide: getUserGuide
+  },
   Query: {
     guide: getGuide
   },

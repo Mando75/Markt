@@ -71,7 +71,7 @@ export class User extends BaseEntity {
   institution: Institution;
 
   @OneToOne(() => Guide, guide => guide.user)
-  guide: Guide;
+  guide: Promise<Guide>;
 
   @BeforeInsert()
   async hashPassword() {

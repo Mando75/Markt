@@ -15,10 +15,10 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    institution(id: String!): Institution
+    institution(id: ID!): Institution
   }
 
   extend type Mutation {
-    createInstitution(name: String!): Institution
+    createInstitution(name: ID!): Institution
   }
 `;
