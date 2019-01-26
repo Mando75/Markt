@@ -159,6 +159,7 @@ const playground = {
   ...defaultPlaygroundOptions,
   settings: {
     ...defaultPlaygroundOptions.settings,
+    "editor.cursorShape": 'line',
     "request.credentials": "same-origin"
   }
 };
