@@ -25,10 +25,14 @@ export const isAdmin = rule()(
 export const isGuide = rule()(
   async (_: any, __: any, context: GraphQLContext) => {
     const userId = context.session.userId;
-    const guide = await Guide.findOne({
-      where: { user_id: userId },
-      select: ["id"]
-    });
-    return !!guide;
+    const user = await User.findOne({ where: { id: userId }, select: ["id"] });
+    if (user) {
+      const guide = await Guide.findOne({
+        where: { user },
+        select: ["id"]
+      });
+      return !!guide;
+    }
+    return false;
   }
 );
