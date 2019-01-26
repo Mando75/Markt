@@ -26,6 +26,7 @@ declare namespace GQL {
     group: IGroup | null;
     guide: IGuide | null;
     institution: IInstitution | null;
+    player: IPlayer | null;
   }
 
   interface IGroupOnQueryArguments {
@@ -37,6 +38,10 @@ declare namespace GQL {
   }
 
   interface IInstitutionOnQueryArguments {
+    id: string;
+  }
+
+  interface IPlayerOnQueryArguments {
     id: string;
   }
 
@@ -107,6 +112,21 @@ declare namespace GQL {
     id?: string | null;
   }
 
+  interface IPlayer {
+    __typename: "Player";
+    id: string;
+    guide: IGuide;
+    group: IGroup | null;
+    playerCode: string;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    active: boolean;
+    createdDate: any | null;
+    updatedDate: any | null;
+    acceptedTos: boolean;
+  }
+
   interface IMutation {
     __typename: "Mutation";
     _empty: boolean | null;
@@ -118,6 +138,7 @@ declare namespace GQL {
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
+    createPlayer: IPlayer | null;
   }
 
   interface IRegisterUserOnMutationArguments {
@@ -149,6 +170,10 @@ declare namespace GQL {
     name: string;
   }
 
+  interface ICreatePlayerOnMutationArguments {
+    playerParams: ICreatePlayerType;
+  }
+
   interface IUserRegistrationType {
     email: string;
     password: string;
@@ -172,19 +197,12 @@ declare namespace GQL {
     guideId: string;
   }
 
-  interface IPlayer {
-    __typename: "Player";
-    id: string;
-    guide: IGuide;
-    group: IGroup | null;
-    playerCode: string;
+  interface ICreatePlayerType {
+    guideId: string;
+    groupId?: string | null;
     email: string;
-    firstName: string | null;
-    lastName: string | null;
-    active: boolean;
-    createdDate: any | null;
-    updatedDate: any | null;
-    acceptedTos: boolean;
+    firstName?: string | null;
+    lastName?: string | null;
   }
 }
 

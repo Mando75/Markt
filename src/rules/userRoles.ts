@@ -3,11 +3,15 @@ import { User } from "../entity/User";
 import { GraphQLContext } from "../types/graphql-context";
 import { AccountType } from "../enums/accountType.enum";
 import { Guide } from "../entity/Guide";
+import { AuthenticationError } from "apollo-server-express";
+import { ApolloErrors } from "../enums/ApolloErrors";
 
 export const isAuthenticated = rule()(
   async (_: any, __: any, context: GraphQLContext) => {
     const userId = context.session.userId;
-    return !!(await User.findOne({ where: { id: userId }, select: ["id"] }));
+    return !!(await User.findOne({ where: { id: userId }, select: ["id"] }))
+      ? true
+      : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
   }
 );
 
@@ -18,7 +22,11 @@ export const isAdmin = rule()(
       where: { id: userId },
       select: ["id", "accountType"]
     });
-    return user ? user.accountType === AccountType.ADMIN : false;
+    return user
+      ? user.accountType === AccountType.ADMIN
+        ? true
+        : new AuthenticationError(ApolloErrors.FORBIDDEN)
+      : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
   }
 );
 
@@ -30,6 +38,10 @@ export const isGuide = rule()(
       where: { user },
       select: ["id"]
     });
-    return user ? !!guide : false;
+    return user
+      ? !!guide
+        ? true
+        : new AuthenticationError(ApolloErrors.FORBIDDEN)
+      : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
   }
 );

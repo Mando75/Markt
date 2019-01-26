@@ -14,4 +14,20 @@ export const typeDefs = gql`
     updatedDate: Date
     acceptedTos: Boolean!
   }
+
+  input createPlayerType {
+    guideId: ID!
+    groupId: ID
+    email: String!
+    firstName: String
+    lastName: String
+  }
+
+  extend type Query {
+    player(id: ID!): Player
+  }
+
+  extend type Mutation {
+    createPlayer(playerParams: createPlayerType!): Player
+  }
 `;

@@ -10,6 +10,7 @@ import { AccountType } from "../../../enums/accountType.enum";
 import * as faker from "faker";
 import { Guide } from "../../../entity/Guide";
 import { User } from "../../../entity/User";
+import { ApolloErrors } from "../../../enums/ApolloErrors";
 
 let app: Server, db: Connection, host: string;
 
@@ -43,7 +44,7 @@ describe("createGroup", () => {
     );
     expect(data.createGroup).toBeNull();
     expect(errors).toHaveLength(1);
-    expect(errors[0].message).toEqual("Not Authorised!");
+    expect(errors[0].message).toEqual(ApolloErrors.FORBIDDEN);
   });
 
   it("Allows admins to create a group", async () => {

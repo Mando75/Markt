@@ -8,6 +8,7 @@ import { Server } from "http";
 import { Connection } from "typeorm";
 import { AccountType } from "../../../enums/accountType.enum";
 import { Institution } from "../../../entity/Institution";
+import { ApolloErrors } from "../../../enums/ApolloErrors";
 
 let app: Server, db: Connection, host: string;
 
@@ -37,7 +38,7 @@ describe("createInstitution", () => {
     const resp = await nonAdminClient.query(query("testInstitution"));
     expect(resp.data.createInstitution).toBeNull();
     expect(resp.errors).toHaveLength(1);
-    expect(resp.errors[0].message).toEqual("Not Authorised!");
+    expect(resp.errors[0].message).toEqual(ApolloErrors.FORBIDDEN);
   });
 
   it("Allows admins to create a new institution", async () => {

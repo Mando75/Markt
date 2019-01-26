@@ -19,7 +19,7 @@ export class Player extends BaseEntity {
   guide: Guide;
 
   @ManyToOne(() => Group, group => group.players, { nullable: true })
-  group: Group;
+  group: Group | undefined;
 
   @Column({ type: "varchar", length: 6, nullable: false })
   playerCode: string;
@@ -28,10 +28,10 @@ export class Player extends BaseEntity {
   email: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  firstName: string;
+  firstName: string | null | undefined;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  lastName: string;
+  lastName: string | null | undefined;
 
   @Column({ type: "boolean", default: true, nullable: false })
   active: boolean;
