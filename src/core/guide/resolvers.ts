@@ -2,12 +2,9 @@ import { ResolverMap } from "../../types/graphql-utils";
 import { GraphQLContext } from "../../types/graphql-context";
 import { Guide } from "../../entity/Guide";
 import { User } from "../../entity/User";
-import { getGuide, getUserGuide } from "./connectors";
+import { getGuide } from "./connectors";
 
 export const resolvers: ResolverMap = {
-  User: {
-    guide: getUserGuide
-  },
   Query: {
     guide: getGuide
   },
@@ -19,7 +16,9 @@ export const resolvers: ResolverMap = {
     ) {
       const user = await User.findOne(userId);
       if (user) {
-        return await Guide.create({ user });
+        const guide = new Guide();
+        guide.user = Promise.resolve(user);
+        return await guide.save();
       }
     }
   }

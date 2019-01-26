@@ -1,13 +1,12 @@
-import { GraphQLContext } from "../../../types/graphql-context";
 import { Institution } from "../../../entity/Institution";
 import { User } from "../../../entity/User";
 
 export const getInstitutionUsers = async (
   parent: Institution,
-  { id }: { id: string },
-  __: GraphQLContext
+  { id }: { id: string | undefined },
+  __: any
 ) => {
-  let scope = await User.find({ where: { institution: parent } });
+  let scope = await parent.users;
   scope = id ? filterById(scope, id) : scope;
 
   return scope;

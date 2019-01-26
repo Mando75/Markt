@@ -15,18 +15,18 @@ export class Guide extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToOne(() => User, user => user.guide, {
-    eager: true
-  })
   @JoinColumn()
-  user: User;
+  @OneToOne(() => User, user => user.guide, {
+    nullable: false
+  })
+  user: Promise<User>;
 
-  @Column({ type: "boolean", default: true })
+  @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ nullable: false })
   createdDate: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: false })
   updatedDate: Date;
 }

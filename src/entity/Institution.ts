@@ -17,15 +17,17 @@ export class Institution extends BaseEntity {
   @Column({ type: "varchar", length: 255, nullable: false })
   name: string;
 
-  @Column({ type: "boolean", nullable: false })
+  @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
 
-  @OneToMany(() => User, user => user.institution)
-  users: User[];
+  @OneToMany(() => User, user => user.institution, {
+    nullable: true
+  })
+  users: Promise<User[]>;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ nullable: false })
   createdDate: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: false })
   updatedDate: Date;
 }
