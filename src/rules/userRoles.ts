@@ -14,11 +14,11 @@ export const isAuthenticated = rule()(
 export const isAdmin = rule()(
   async (_: any, __: any, context: GraphQLContext) => {
     const userId = context.session.userId;
-    const user = await User.findOne({ where: { id: userId }, select: ["id"] });
-    if (user) {
-      return user.accountType === AccountType.ADMIN;
-    }
-    return false;
+    const user = await User.findOne({
+      where: { id: userId },
+      select: ["id", "accountType"]
+    });
+    return user ? user.accountType === AccountType.ADMIN : false;
   }
 );
 
@@ -26,13 +26,10 @@ export const isGuide = rule()(
   async (_: any, __: any, context: GraphQLContext) => {
     const userId = context.session.userId;
     const user = await User.findOne({ where: { id: userId }, select: ["id"] });
-    if (user) {
-      const guide = await Guide.findOne({
-        where: { user },
-        select: ["id"]
-      });
-      return !!guide;
-    }
-    return false;
+    const guide = await Guide.findOne({
+      where: { user },
+      select: ["id"]
+    });
+    return user ? !!guide : false;
   }
 );
