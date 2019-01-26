@@ -23,8 +23,13 @@ declare namespace GQL {
   interface IQuery {
     __typename: "Query";
     me: IMe | null;
+    group: IGroup | null;
     guide: IGuide | null;
     institution: IInstitution | null;
+  }
+
+  interface IGroupOnQueryArguments {
+    id: string;
   }
 
   interface IGuideOnQueryArguments {
@@ -39,6 +44,16 @@ declare namespace GQL {
     __typename: "Me";
     id: string;
     email: string;
+  }
+
+  interface IGroup {
+    __typename: "Group";
+    id: string;
+    name: string;
+    active: boolean;
+    guide: IGuide;
+    createdDate: any;
+    updatedDate: any;
   }
 
   interface IGuide {
@@ -100,6 +115,7 @@ declare namespace GQL {
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
   }
@@ -119,6 +135,10 @@ declare namespace GQL {
   interface IForgotPasswordChangeOnMutationArguments {
     newPassword: string;
     key: string;
+  }
+
+  interface ICreateGroupOnMutationArguments {
+    groupParams: IGroupCreationType;
   }
 
   interface ICreateGuideFromUserOnMutationArguments {
@@ -145,6 +165,26 @@ declare namespace GQL {
   interface IUserLoginType {
     email: string;
     password: string;
+  }
+
+  interface IGroupCreationType {
+    name: string;
+    guideId: string;
+  }
+
+  interface IPlayer {
+    __typename: "Player";
+    id: string;
+    guide: IGuide;
+    group: IGroup | null;
+    playerCode: string;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    active: boolean;
+    createdDate: any | null;
+    updatedDate: any | null;
+    acceptedTos: boolean;
   }
 }
 

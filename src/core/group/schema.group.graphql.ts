@@ -9,4 +9,17 @@ export const typeDefs = gql`
     createdDate: Date!
     updatedDate: Date!
   }
+
+  input groupCreationType {
+    name: String!
+    guideId: ID!
+  }
+
+  extend type Query {
+    group(id: ID!): Group
+  }
+
+  extend type Mutation {
+    createGroup(groupParams: groupCreationType!): Group
+  }
 `;
