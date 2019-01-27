@@ -2,6 +2,7 @@ import * as rp from "request-promise";
 import { User } from "../src/entity/User";
 import { AccountType } from "../src/enums/accountType.enum";
 import * as faker from "faker";
+import { Guide } from "../src/entity/Guide";
 
 export class TestClient {
   url: string;
@@ -137,6 +138,14 @@ export class TestClient {
     this.fakeUser.accountType = accountType;
     this.testUser = await User.create(this.fakeUser).save();
     return this.testUser;
+  }
+
+  async createUserWithGuide() {
+    const user = await this.createUser(true);
+    const guide = new Guide();
+    guide.user = Promise.resolve(user);
+    await guide.save();
+    return { user, guide };
   }
 
   static async createMockUsers(count: number) {
