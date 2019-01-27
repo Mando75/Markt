@@ -7,6 +7,7 @@ import {
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { AccountType } from "../../../enums/accountType.enum";
+import { ApolloErrors } from "../../../enums/ApolloErrors";
 
 let app: Server, db: Connection, host: string;
 
@@ -51,7 +52,7 @@ describe("createGuideFromUser", () => {
     const resp = await nonAdminClient.query(query(mockUser.id));
     expect(resp.data.createGuideFromUser).toBeNull();
     expect(resp.errors).toHaveLength(1);
-    expect(resp.errors[0].message).toEqual("Not Authorised!");
+    expect(resp.errors[0].message).toEqual(ApolloErrors.FORBIDDEN);
   });
 
   it("Allows me to query the new guide", async () => {

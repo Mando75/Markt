@@ -1,4 +1,3 @@
-import { isAuthenticated } from "./isAuthenticated";
-import { isAdmin } from "./isAdmin";
+import { isAuthenticated, isAdmin, isGuide } from "./userRoles";
 
-export { isAdmin, isAuthenticated };
+export { isAuthenticated, isAdmin, isGuide };

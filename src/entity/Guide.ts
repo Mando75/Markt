@@ -6,9 +6,12 @@ import {
   JoinColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToMany
 } from "typeorm";
 import { User } from "./User";
+import { Group } from "./Group";
+import { Player } from "./Player";
 
 @Entity("guides")
 export class Guide extends BaseEntity {
@@ -20,6 +23,12 @@ export class Guide extends BaseEntity {
     nullable: false
   })
   user: Promise<User>;
+
+  @OneToMany(() => Group, group => group.guide, { nullable: true })
+  groups: Promise<Group[]>;
+
+  @OneToMany(() => Player, player => player.guide, { nullable: true })
+  players: Promise<Player>;
 
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;

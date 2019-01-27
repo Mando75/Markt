@@ -15,7 +15,10 @@ export const createShield = () => {
       Mutation: {}
     }
   );
-  return shield(merged);
+  return shield(merged, {
+    allowExternalErrors: true,
+    debug: false
+  });
 };
 
 const rootPermission = {

@@ -23,8 +23,14 @@ declare namespace GQL {
   interface IQuery {
     __typename: "Query";
     me: IMe | null;
+    group: IGroup | null;
     guide: IGuide | null;
     institution: IInstitution | null;
+    player: IPlayer | null;
+  }
+
+  interface IGroupOnQueryArguments {
+    id: string;
   }
 
   interface IGuideOnQueryArguments {
@@ -35,10 +41,24 @@ declare namespace GQL {
     id: string;
   }
 
+  interface IPlayerOnQueryArguments {
+    id: string;
+  }
+
   interface IMe {
     __typename: "Me";
     id: string;
     email: string;
+  }
+
+  interface IGroup {
+    __typename: "Group";
+    id: string;
+    name: string;
+    active: boolean;
+    guide: IGuide;
+    createdDate: any;
+    updatedDate: any;
   }
 
   interface IGuide {
@@ -92,6 +112,21 @@ declare namespace GQL {
     id?: string | null;
   }
 
+  interface IPlayer {
+    __typename: "Player";
+    id: string;
+    guide: IGuide;
+    group: IGroup | null;
+    playerCode: string;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    active: boolean;
+    createdDate: any | null;
+    updatedDate: any | null;
+    acceptedTos: boolean;
+  }
+
   interface IMutation {
     __typename: "Mutation";
     _empty: boolean | null;
@@ -100,8 +135,10 @@ declare namespace GQL {
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
+    createPlayer: IPlayer | null;
   }
 
   interface IRegisterUserOnMutationArguments {
@@ -121,12 +158,20 @@ declare namespace GQL {
     key: string;
   }
 
+  interface ICreateGroupOnMutationArguments {
+    groupParams: IGroupCreationType;
+  }
+
   interface ICreateGuideFromUserOnMutationArguments {
     userId: string;
   }
 
   interface ICreateInstitutionOnMutationArguments {
     name: string;
+  }
+
+  interface ICreatePlayerOnMutationArguments {
+    playerParams: ICreatePlayerType;
   }
 
   interface IUserRegistrationType {
@@ -145,6 +190,19 @@ declare namespace GQL {
   interface IUserLoginType {
     email: string;
     password: string;
+  }
+
+  interface IGroupCreationType {
+    name: string;
+    guideId: string;
+  }
+
+  interface ICreatePlayerType {
+    guideId: string;
+    groupId?: string | null;
+    email: string;
+    firstName?: string | null;
+    lastName?: string | null;
   }
 }
 
