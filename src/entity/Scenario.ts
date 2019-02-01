@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  AfterLoad,
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from "typeorm";
 
 @Entity("scenarios")
 export class Scenario extends BaseEntity {
@@ -6,14 +14,42 @@ export class Scenario extends BaseEntity {
   id: string;
 
   @Column({ type: "varchar", length: 10, unique: true, nullable: false })
-  scenario_code: string;
+  scenarioCode: string;
 
   @Column({ type: "integer", nullable: false })
-  max_player_size: number;
+  maxPlayerSize: number;
 
   @Column({ type: "integer", nullable: false })
-  session_count: number;
+  sessionCount: number;
 
   @Column({ type: "text", nullable: true, default: "No Description Provided" })
   description: string;
+
+  @Column({ type: "jsonb", nullable: false, default: [{}] })
+  overviewJson: string;
+
+  overview: any;
+
+  @Column({ type: "jsonb", nullable: false, default: [{}] })
+  instructionsJson: string;
+
+  instructions: any;
+
+  @Column({ type: "jsonb", nullable: false, default: [{}] })
+  roleDistributionJson: string;
+
+  roleDistribution: any;
+
+  @CreateDateColumn()
+  createdDate: Date;
+
+  @UpdateDateColumn()
+  updatedDate: Date;
+
+  @AfterLoad()
+  hydrateJson() {
+    this.overview = JSON.parse(this.overviewJson);
+    this.instructions = JSON.parse(this.instructionsJson);
+    this.roleDistribution = JSON.parse(this.roleDistributionJson);
+  }
 }

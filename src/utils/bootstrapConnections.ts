@@ -160,7 +160,7 @@ const playground = {
   ...defaultPlaygroundOptions,
   settings: {
     ...defaultPlaygroundOptions.settings,
-    "editor.cursorShape": 'line',
+    "editor.cursorShape": "line",
     "request.credentials": "same-origin"
   }
 };
