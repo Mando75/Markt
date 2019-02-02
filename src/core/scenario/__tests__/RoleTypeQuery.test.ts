@@ -6,6 +6,8 @@ import {
 } from "../../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
+import { RoleType } from "../../../entity/RoleType";
+import * as faker from "faker";
 
 let app: Server, db: Connection, host: string;
 
@@ -18,20 +20,28 @@ beforeAll(async () => {
   }
 });
 
-describe("scenarioQuery", () => {
-  it("Queries a scenario with all the right fields", async () => {
+describe("RoleTypeQuery", () => {
+  it("Queries a RoleType correctly", async () => {
     const tc = new TestClient(host);
     const [{ scenario, scenarioDef }] = await Promise.all([
       TestClient.createMockScenario(),
       tc.createUserWithGuide()
     ]);
     await tc.login();
-    expect(scenario).toMatchObject(scenarioDef);
+    const name = faker.name.firstName();
+    const rtDef = {
+      name,
+      roleTypeId: scenarioDef.scenarioCode + "-" + name
+    };
+    const rt = RoleType.create(rtDef);
+    rt.scenario = Promise.resolve(scenario);
+    await rt.save();
     const { data } = await tc.query(
-      `{ scenario (id: "${scenario.id}") { id scenarioCode } }`
+      `{ roleType(id: "${
+        rt.id
+      }") { id name roleTypeId createdDate updatedDate } }`
     );
-    expect(data.scenario.id).toEqual(scenario.id);
-    expect(data.scenario.scenarioCode).toEqual(scenario.scenarioCode);
+    expect(data.roleType).toMatchObject(rtDef);
   });
 });
 

@@ -1,8 +1,9 @@
 import { ResolverMap } from "../../types/graphql-utils";
-import { getScenario } from "./connectors/basicGets";
+import { getScenario, getRoleType } from "./connectors/basicGets";
 
 export const resolvers: ResolverMap = {
   Query: {
-    scenario: getScenario
+    scenario: getScenario,
+    roleType: getRoleType
   }
 };
