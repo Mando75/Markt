@@ -27,6 +27,7 @@ declare namespace GQL {
     guide: IGuide | null;
     institution: IInstitution | null;
     player: IPlayer | null;
+    scenario: IScenario | null;
   }
 
   interface IGroupOnQueryArguments {
@@ -42,6 +43,10 @@ declare namespace GQL {
   }
 
   interface IPlayerOnQueryArguments {
+    id: string;
+  }
+
+  interface IScenarioOnQueryArguments {
     id: string;
   }
 
@@ -127,6 +132,54 @@ declare namespace GQL {
     acceptedTos: boolean;
   }
 
+  interface IScenario {
+    __typename: "Scenario";
+    id: string;
+    scenarioCode: string;
+    maxPlayerSize: number;
+    sessionCount: number;
+    overview: Array<IScenarioSessionOverview | null> | null;
+    description: string | null;
+    instructions: IScenarioInstructions | null;
+    roleDistribution: Array<string | null> | null;
+    createdDate: any;
+    updatedDate: any;
+  }
+
+  interface IScenarioSessionOverview {
+    __typename: "ScenarioSessionOverview";
+    sessionNumber: number | null;
+    roleDescription: Array<IScenarioOverviewRoleDescription | null> | null;
+    chartPoints: Array<number | null> | null;
+    expectations: string | null;
+  }
+
+  interface IScenarioOverviewRoleDescription {
+    __typename: "ScenarioOverviewRoleDescription";
+    description: string | null;
+    count: number | null;
+  }
+
+  interface IScenarioInstructions {
+    __typename: "ScenarioInstructions";
+    step: number | null;
+    header: string | null;
+    bullets: Array<IScenarioInstructionBullet | null> | null;
+  }
+
+  interface IScenarioInstructionBullet {
+    __typename: "ScenarioInstructionBullet";
+    format: ScenarioInstructionBulletFormat | null;
+    text: string | null;
+  }
+
+  const enum ScenarioInstructionBulletFormat {
+    BOLD = "BOLD",
+    ITALIC = "ITALIC",
+    NORMAL = "NORMAL",
+    UNDERLINE = "UNDERLINE"
+  }
+
   interface IMutation {
     __typename: "Mutation";
     _empty: boolean | null;
@@ -203,53 +256,6 @@ declare namespace GQL {
     email: string;
     firstName?: string | null;
     lastName?: string | null;
-  }
-
-  interface IScenarioInstructions {
-    __typename: "ScenarioInstructions";
-    step: number | null;
-    header: string | null;
-    bullets: Array<IScenarioInstructionBullet | null> | null;
-  }
-
-  interface IScenarioInstructionBullet {
-    __typename: "ScenarioInstructionBullet";
-    format: ScenarioInstructionBulletFormat | null;
-    text: string | null;
-  }
-
-  const enum ScenarioInstructionBulletFormat {
-    BOLD = "BOLD",
-    ITALIC = "ITALIC",
-    NORMAL = "NORMAL",
-    UNDERLINE = "UNDERLINE"
-  }
-
-  interface IScenarioSessionOverview {
-    __typename: "ScenarioSessionOverview";
-    sessionNumber: number | null;
-    roleDescription: Array<IScenarioOverviewRoleDescription | null> | null;
-    chartPoints: Array<number | null> | null;
-    expectations: string | null;
-  }
-
-  interface IScenarioOverviewRoleDescription {
-    __typename: "ScenarioOverviewRoleDescription";
-    description: string | null;
-    count: number | null;
-  }
-
-  interface IScenario {
-    __typename: "Scenario";
-    id: string;
-    scenarioCode: string;
-    maxPlayerSize: number;
-    sessionCount: number;
-    overview: Array<IScenarioSessionOverview | null> | null;
-    description: string | null;
-    instructions: IScenarioInstructions | null;
-    createdDate: any;
-    updatedDate: any;
   }
 }
 
