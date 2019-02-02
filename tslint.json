@@ -1,7 +1,7 @@
 {
   "defaultSeverity": "error",
   "extends": ["tslint-config-prettier"],
-  "exclude": ["dist", "tests"],
+  "exclude": ["dist"],
   "rules": {
     "object-literal-sort-keys": false,
     "no-console": false

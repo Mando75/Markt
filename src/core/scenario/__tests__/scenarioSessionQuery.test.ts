@@ -37,6 +37,7 @@ describe("scenarioSessionQuery", () => {
           step: faker.random.number(),
           bullets: [
             {
+              // @ts-ignore
               format: ScenarioSchema.BulletFormat.ITALIC,
               text: faker.lorem.words()
             }
@@ -49,6 +50,7 @@ describe("scenarioSessionQuery", () => {
           step: faker.random.number(),
           bullets: [
             {
+              // @ts-ignore
               format: ScenarioSchema.BulletFormat.NORMAL,
               text: faker.lorem.words()
             }
