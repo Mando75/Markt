@@ -6,6 +6,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn
 } from "typeorm";
 import { Guide } from "./Guide";
@@ -13,6 +14,7 @@ import { Group } from "./Group";
 import { generate } from "randomstring";
 
 @Entity("players")
+@Unique("UNIQ_PLAYER_CODE", ["playerCode", "active", "guide"])
 export class Player extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
