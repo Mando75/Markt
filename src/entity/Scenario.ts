@@ -1,6 +1,7 @@
 import {
   AfterLoad,
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -28,17 +29,17 @@ export class Scenario extends BaseEntity {
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   overviewJson: string;
 
-  overview: Array<Scenarios.SessionOverview>;
+  overview: Array<ScenarioSchema.SessionOverview>;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   instructionsJson: string;
 
-  instructions: Array<Scenarios.Instructions>;
+  instructions: Array<ScenarioSchema.Instructions>;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   roleDistributionJson: string;
 
-  roleDistribution: any;
+  roleDistribution: Array<string>;
 
   @CreateDateColumn()
   createdDate: Date;
@@ -51,5 +52,25 @@ export class Scenario extends BaseEntity {
     this.overview = JSON.parse(this.overviewJson);
     this.instructions = JSON.parse(this.instructionsJson);
     this.roleDistribution = JSON.parse(this.roleDistributionJson);
+  }
+
+  @BeforeInsert()
+  dehydrateJson() {
+    this.overviewJson = JSON.stringify(this.overview);
+    this.instructionsJson = JSON.stringify(this.instructions);
+    this.roleDistributionJson = JSON.stringify(this.roleDistribution);
+  }
+
+  constructor(def: ScenarioSchema.Scenario) {
+    super();
+    if (def) {
+      this.scenarioCode = def.scenarioCode;
+      this.maxPlayerSize = def.maxPlayerSize;
+      this.sessionCount = def.sessionCount;
+      this.overview = def.overview;
+      this.description = def.description;
+      this.instructions = def.instructions;
+      this.roleDistribution = def.roleDistribution;
+    }
   }
 }

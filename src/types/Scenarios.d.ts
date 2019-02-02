@@ -1,4 +1,14 @@
-declare namespace Scenarios {
+declare namespace ScenarioSchema {
+  interface Scenario {
+    scenarioCode: string;
+    maxPlayerSize: number;
+    sessionCount: number;
+    overview: Array<SessionOverview>;
+    description: string;
+    instructions: Array<Instructions>;
+    roleDistribution: Array<string>;
+  }
+
   interface Instructions {
     step: number;
     header: string;
@@ -6,11 +16,11 @@ declare namespace Scenarios {
   }
 
   interface InstructionBullet {
-    format: Array<BulletFormat>;
+    format: BulletFormat;
     text: string;
   }
 
-  enum BulletFormat {
+  const enum BulletFormat {
     BOLD = "BOLD",
     ITALIC = "ITALIC",
     NORMAL = "NORMAL",
@@ -20,7 +30,7 @@ declare namespace Scenarios {
   interface SessionOverview {
     sessionNumber: number;
     roleDescription: Array<SessionOverviewRoleDescription>;
-    chartPoints: [number];
+    chartPoints: Array<number>;
     expectations: string;
   }
 
