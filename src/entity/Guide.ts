@@ -28,7 +28,7 @@ export class Guide extends BaseEntity {
   groups: Promise<Group[]>;
 
   @OneToMany(() => Player, player => player.guide, { nullable: true })
-  players: Promise<Player>;
+  players: Promise<Player[]>;
 
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;

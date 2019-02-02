@@ -5,9 +5,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { RoleType } from "./RoleType";
 
 @Entity("scenarios")
 export class Scenario extends BaseEntity {
@@ -40,6 +42,9 @@ export class Scenario extends BaseEntity {
   roleDistributionJson: string;
 
   roleDistribution: Array<string>;
+
+  @OneToMany(() => RoleType, role => role.scenario)
+  roleTypes: Promise<RoleType[]>;
 
   @CreateDateColumn()
   createdDate: Date;

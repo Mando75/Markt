@@ -26,7 +26,7 @@ export class Group extends BaseEntity {
   guide: Promise<Guide>;
 
   @OneToMany(() => Player, player => player.group, { nullable: true })
-  players: Promise<Player>;
+  players: Promise<Player[]>;
 
   @CreateDateColumn({ nullable: false })
   createdDate: Date;
