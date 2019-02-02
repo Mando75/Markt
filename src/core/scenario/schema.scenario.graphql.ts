@@ -40,11 +40,22 @@ export const typeDefs = gql`
     description: String
     instructions: ScenarioInstructions
     roleDistribution: [String]
+    roleTypes: [RoleType]
+    createdDate: Date!
+    updatedDate: Date!
+  }
+
+  type RoleType {
+    id: ID!
+    scenario: Scenario!
+    roleTypeId: ID!
+    name: String
     createdDate: Date!
     updatedDate: Date!
   }
 
   extend type Query {
     scenario(id: ID!): Scenario
+    roleType(id: ID!): RoleType
   }
 `;

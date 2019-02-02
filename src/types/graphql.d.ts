@@ -28,6 +28,7 @@ declare namespace GQL {
     institution: IInstitution | null;
     player: IPlayer | null;
     scenario: IScenario | null;
+    roleType: IRoleType | null;
   }
 
   interface IGroupOnQueryArguments {
@@ -47,6 +48,10 @@ declare namespace GQL {
   }
 
   interface IScenarioOnQueryArguments {
+    id: string;
+  }
+
+  interface IRoleTypeOnQueryArguments {
     id: string;
   }
 
@@ -142,6 +147,7 @@ declare namespace GQL {
     description: string | null;
     instructions: IScenarioInstructions | null;
     roleDistribution: Array<string | null> | null;
+    roleTypes: Array<IRoleType | null> | null;
     createdDate: any;
     updatedDate: any;
   }
@@ -178,6 +184,16 @@ declare namespace GQL {
     ITALIC = "ITALIC",
     NORMAL = "NORMAL",
     UNDERLINE = "UNDERLINE"
+  }
+
+  interface IRoleType {
+    __typename: "RoleType";
+    id: string;
+    scenario: IScenario;
+    roleTypeId: string;
+    name: string | null;
+    createdDate: any;
+    updatedDate: any;
   }
 
   interface IMutation {
