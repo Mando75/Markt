@@ -39,6 +39,7 @@ export const typeDefs = gql`
     overview: [ScenarioSessionOverview]
     description: String
     instructions: ScenarioInstructions
+    roleDistribution: [String]
     createdDate: Date!
     updatedDate: Date!
   }
