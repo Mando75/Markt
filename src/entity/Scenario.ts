@@ -28,12 +28,12 @@ export class Scenario extends BaseEntity {
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   overviewJson: string;
 
-  overview: any;
+  overview: Array<Scenarios.SessionOverview>;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   instructionsJson: string;
 
-  instructions: any;
+  instructions: Array<Scenarios.Instructions>;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   roleDistributionJson: string;
