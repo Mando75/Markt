@@ -42,7 +42,7 @@ declare namespace ScenarioSchema {
 
   interface ScenarioSession {
     id?: string;
-    scenario: Scenario;
+    scenario?: Scenario;
     scenarioSessionId: string;
     sessionNumber: number;
     instructions: Array<Instructions>;
