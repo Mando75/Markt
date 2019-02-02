@@ -26,15 +26,36 @@ export class ScenarioSession extends BaseEntity {
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   instructionsJson: string;
 
-  instructions: any;
+  instructions: Array<ScenarioSchema.Instructions>;
+
+  @Column({ type: "jsonb", nullable: false, default: [{}] })
+  roundDiscussionPointsJson: string;
+
+  roundDiscussionPoints: Array<ScenarioSchema.Instructions>;
+
+  @Column({ type: "integer", nullable: false, default: 1 })
+  numberOfRounds: number;
 
   @AfterLoad()
   hydrateJson() {
     this.instructions = JSON.parse(this.instructionsJson);
+    this.roundDiscussionPoints = JSON.parse(this.roundDiscussionPointsJson);
   }
 
   @BeforeInsert()
   dehydrateJson() {
     this.instructionsJson = JSON.stringify(this.instructions);
+    this.roundDiscussionPointsJson = JSON.stringify(this.roundDiscussionPoints);
+  }
+
+  constructor(props: ScenarioSchema.ScenarioSession) {
+    super();
+    if (props) {
+      this.scenarioSessionId = props.scenarioSessionId;
+      this.sessionNumber = props.sessionNumber;
+      this.instructions = props.instructions;
+      this.roundDiscussionPoints = props.roundDiscussionPoints;
+      this.numberOfRounds = props.numberOfRounds;
+    }
   }
 }
