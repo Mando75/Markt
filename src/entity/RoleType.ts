@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -30,4 +31,10 @@ export class RoleType extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  @BeforeInsert()
+  async createRoleTypeId() {
+    const s = await this.scenario;
+    this.roleTypeId = s.scenarioCode + "-" + this.name;
+  }
 }
