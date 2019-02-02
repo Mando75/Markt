@@ -32,7 +32,7 @@ export const typeDefs = gql`
   }
 
   type Scenario {
-    id: String!
+    id: ID!
     scenarioCode: String!
     maxPlayerSize: Int!
     sessionCount: Int!
@@ -42,5 +42,9 @@ export const typeDefs = gql`
     roleDistribution: [String]
     createdDate: Date!
     updatedDate: Date!
+  }
+
+  extend type Query {
+    scenario(id: ID!): Scenario
   }
 `;
