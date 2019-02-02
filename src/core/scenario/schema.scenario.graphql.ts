@@ -1,21 +1,22 @@
 import { gql } from "apollo-server-express";
 
+// TODO Convert instructions/bullet into interface
 export const typeDefs = gql`
-  type ScenarioInstructions {
+  type Instructions {
     step: Int
     header: String
-    bullets: [ScenarioInstructionBullet]
+    bullets: [InstructionBullet]
   }
 
-  enum ScenarioInstructionBulletFormat {
+  enum InstructionBulletFormat {
     BOLD
     ITALIC
     NORMAL
     UNDERLINE
   }
 
-  type ScenarioInstructionBullet {
-    format: ScenarioInstructionBulletFormat
+  type InstructionBullet {
+    format: InstructionBulletFormat
     text: String
   }
 
@@ -38,9 +39,10 @@ export const typeDefs = gql`
     sessionCount: Int!
     overview: [ScenarioSessionOverview]
     description: String
-    instructions: ScenarioInstructions
+    instructions: Instructions
     roleDistribution: [String]
     roleTypes: [RoleType]
+    scenarioSessions: [ScenarioSession]
     createdDate: Date!
     updatedDate: Date!
   }
@@ -54,8 +56,21 @@ export const typeDefs = gql`
     updatedDate: Date!
   }
 
+  type ScenarioSession {
+    id: ID!
+    scenario: Scenario!
+    scenarioSessionId: ID!
+    sessionNumber: Int
+    instructions: [Instructions]
+    roundDiscussionPoints: [Instructions]
+    numberOfRounds: Int
+    createdDate: Date
+    updatedDate: Date
+  }
+
   extend type Query {
     scenario(id: ID!): Scenario
     roleType(id: ID!): RoleType
+    scenarioSession(id: ID!): ScenarioSession
   }
 `;
