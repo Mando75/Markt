@@ -2,6 +2,7 @@ import { GraphQLContext } from "../../../types/graphql-context";
 import { Scenario } from "../../../entity/Scenario";
 import { RoleType } from "../../../entity/RoleType";
 import { ScenarioSession } from "../../../entity/ScenarioSession";
+import { SessionRole } from "../../../entity/SessionRole";
 
 export const getScenario = async (
   _: any,
@@ -20,3 +21,9 @@ export const getScenarioSession = async (
   { id }: { id: string },
   __: GraphQLContext
 ) => await ScenarioSession.findOne(id);
+
+export const getSessionRole = async (
+  _: any,
+  { id }: { id: string },
+  __: GraphQLContext
+) => await SessionRole.findOne(id);

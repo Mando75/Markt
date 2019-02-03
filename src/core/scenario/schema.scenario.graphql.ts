@@ -52,6 +52,7 @@ export const typeDefs = gql`
     scenario: Scenario!
     roleTypeId: ID!
     name: String
+    sessionRoles: [SessionRole]
     createdDate: Date!
     updatedDate: Date!
   }
@@ -64,13 +65,29 @@ export const typeDefs = gql`
     instructions: [Instructions]
     roundDiscussionPoints: [Instructions]
     numberOfRounds: Int
-    createdDate: Date
-    updatedDate: Date
+    sessionRoles: [SessionRole]
+    createdDate: Date!
+    updatedDate: Date!
+  }
+
+  type SessionRole {
+    id: ID!
+    roleType: RoleType!
+    scenarioSession: ScenarioSession!
+    sessionNumber: Int!
+    name: String
+    value: Float!
+    allowSell: Boolean!
+    instructions: [Instructions]
+    profitEquation: String!
+    createdDate: Date!
+    updatedDate: Date!
   }
 
   extend type Query {
     scenario(id: ID!): Scenario
     roleType(id: ID!): RoleType
     scenarioSession(id: ID!): ScenarioSession
+    sessionRole(id: ID!): SessionRole
   }
 `;
