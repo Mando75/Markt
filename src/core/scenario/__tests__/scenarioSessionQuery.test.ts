@@ -31,32 +31,8 @@ describe("scenarioSessionQuery", () => {
     const scenarioSessDef = {
       scenarioSessionId: faker.lorem.word(),
       sessionNumber: faker.random.number(),
-      instructions: [
-        {
-          header: faker.lorem.words(),
-          step: faker.random.number(),
-          bullets: [
-            {
-              // @ts-ignore
-              format: ScenarioSchema.BulletFormat.ITALIC,
-              text: faker.lorem.words()
-            }
-          ]
-        }
-      ],
-      roundDiscussionPoints: [
-        {
-          header: faker.lorem.words(),
-          step: faker.random.number(),
-          bullets: [
-            {
-              // @ts-ignore
-              format: ScenarioSchema.BulletFormat.NORMAL,
-              text: faker.lorem.words()
-            }
-          ]
-        }
-      ],
+      instructions: TestClient.genInstructions(),
+      roundDiscussionPoints: TestClient.genInstructions(),
       numberOfRounds: faker.random.number()
     };
     const ss = new ScenarioSession(scenarioSessDef);

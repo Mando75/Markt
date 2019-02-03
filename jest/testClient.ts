@@ -194,20 +194,26 @@ export class TestClient {
         }
       ],
       description: faker.lorem.sentence(),
-      instructions: [
-        {
-          step: faker.random.number(),
-          header: faker.company.companyName(),
-          bullets: [
-            {
-              // @ts-ignore
-              format: ScenarioSchema.BulletFormat.BOLD,
-              text: faker.lorem.sentence()
-            }
-          ]
-        }
-      ],
+      instructions: this.genInstructions(),
       roleDistribution: [faker.lorem.word()]
     };
+  }
+
+  static genInstructions(length = 1) {
+    const i = [];
+    for (let k = 0; k < length; k++) {
+      i.push({
+        step: faker.random.number(),
+        header: faker.company.companyName(),
+        bullets: [
+          {
+            // @ts-ignore
+            format: ScenarioSchema.BulletFormat.BOLD,
+            text: faker.lorem.sentence()
+          }
+        ]
+      });
+    }
+    return i;
   }
 }
