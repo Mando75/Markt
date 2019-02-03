@@ -60,7 +60,7 @@ declare namespace ScenarioSchema {
     name: string;
     value: number;
     allowSell: boolean;
-    instructions: [Instructions];
+    instructions: Array<Instructions>;
     profitEquation: string;
   }
 }

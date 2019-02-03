@@ -21,10 +21,10 @@ export class SessionRole extends BaseEntity {
   id: string;
 
   @ManyToOne(() => RoleType, rt => rt.sessionRoles, { nullable: false })
-  roleType: RoleType;
+  roleType: Promise<RoleType>;
 
   @ManyToOne(() => ScenarioSession, ss => ss.sessionRoles)
-  scenarioSession: ScenarioSession;
+  scenarioSession: Promise<ScenarioSession>;
 
   @Column({ type: "integer", nullable: false })
   sessionNumber: number;
