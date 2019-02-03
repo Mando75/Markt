@@ -62,7 +62,6 @@ describe("scenarioSessionQuery", () => {
     const ss = new ScenarioSession(scenarioSessDef);
     ss.scenario = Promise.resolve(scenario);
     await ss.save();
-    await ss.reload();
     const { data } = await tc.query(
       `{ scenarioSession(id: "${
         ss.id

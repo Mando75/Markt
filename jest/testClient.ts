@@ -169,7 +169,6 @@ export class TestClient {
     const scen = this._genScenario();
     const toSave = new Scenario(scen);
     await toSave.save();
-    await toSave.reload();
     return {
       scenario: toSave,
       scenarioDef: scen
