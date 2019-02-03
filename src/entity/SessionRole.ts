@@ -13,6 +13,7 @@ import {
 } from "typeorm";
 import { RoleType } from "./RoleType";
 import { ScenarioSession } from "./ScenarioSession";
+import { ScenarioSchema } from "../types/ScenarioSchema";
 
 @Entity("session_roles")
 export class SessionRole extends BaseEntity {
@@ -40,7 +41,7 @@ export class SessionRole extends BaseEntity {
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   instructionsJson: string;
 
-  instructions: ScenarioSchema.Instructions;
+  instructions: ScenarioSchema.Instructions[];
 
   @Column({ type: "varchar", length: 255, nullable: false })
   profitEquation: string;
@@ -61,5 +62,17 @@ export class SessionRole extends BaseEntity {
   @BeforeUpdate()
   dehydrateJson() {
     this.instructionsJson = JSON.stringify(this.instructions);
+  }
+
+  constructor(props: ScenarioSchema.SessionRole) {
+    super();
+    if (props) {
+      this.sessionNumber = props.sessionNumber;
+      this.name = props.name;
+      this.value = props.value;
+      this.allowSell = props.allowSell;
+      this.instructions = props.instructions;
+      this.profitEquation = props.profitEquation;
+    }
   }
 }

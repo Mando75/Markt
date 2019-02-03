@@ -1,3 +1,5 @@
+import { RoleType } from "../entity/RoleType";
+
 declare namespace ScenarioSchema {
   interface Scenario {
     id?: string;
@@ -48,5 +50,17 @@ declare namespace ScenarioSchema {
     instructions: Array<Instructions>;
     roundDiscussionPoints: Array<Instructions>;
     numberOfRounds: number;
+  }
+
+  interface SessionRole {
+    id?: string;
+    roleType?: RoleType;
+    scenarioSession?: ScenarioSession;
+    sessionNumber: number;
+    name: string;
+    value: number;
+    allowSell: boolean;
+    instructions: [Instructions];
+    profitEquation: string;
   }
 }
