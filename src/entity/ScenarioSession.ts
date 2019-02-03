@@ -1,13 +1,17 @@
 import {
   AfterLoad,
+  AfterUpdate,
   BaseEntity,
   BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
 import { Scenario } from "./Scenario";
+import { SessionRole } from "./SessionRole";
 
 @Entity("scenario_sessions")
 export class ScenarioSession extends BaseEntity {
@@ -36,13 +40,18 @@ export class ScenarioSession extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 1 })
   numberOfRounds: number;
 
+  @OneToMany(() => SessionRole, sr => sr.scenarioSession)
+  sessionRoles: Promise<SessionRole[]>;
+
   @AfterLoad()
+  @AfterUpdate()
   hydrateJson() {
     this.instructions = JSON.parse(this.instructionsJson);
     this.roundDiscussionPoints = JSON.parse(this.roundDiscussionPointsJson);
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   dehydrateJson() {
     this.instructionsJson = JSON.stringify(this.instructions);
     this.roundDiscussionPointsJson = JSON.stringify(this.roundDiscussionPoints);

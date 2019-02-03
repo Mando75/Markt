@@ -1,7 +1,9 @@
 import {
   AfterLoad,
+  AfterUpdate,
   BaseEntity,
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -57,6 +59,7 @@ export class Scenario extends BaseEntity {
   updatedDate: Date;
 
   @AfterLoad()
+  @AfterUpdate()
   hydrateJson() {
     this.overview = JSON.parse(this.overviewJson);
     this.instructions = JSON.parse(this.instructionsJson);
@@ -64,6 +67,7 @@ export class Scenario extends BaseEntity {
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   dehydrateJson() {
     this.overviewJson = JSON.stringify(this.overview);
     this.instructionsJson = JSON.stringify(this.instructions);
