@@ -1,9 +1,5 @@
 import "reflect-metadata";
-import {
-  startTestServer,
-  teardownTestServer,
-  TestClient
-} from "../../../../jest";
+import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 

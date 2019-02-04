@@ -18,8 +18,8 @@ module.exports = {
       tsConfig: "./tsconfig.json"
     }
   },
-  globalSetup: "./jest/globalSetup.js",
-  globalTeardown: "./jest/globalTeardown.js",
+  globalSetup: "./src/jest/globalSetup.js",
+  globalTeardown: "./src/jest/globalTeardown.js",
   coverageReporters: ["lcov", "html"],
   testEnvironment: "node"
 };

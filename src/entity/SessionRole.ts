@@ -13,7 +13,6 @@ import {
 } from "typeorm";
 import { RoleType } from "./RoleType";
 import { ScenarioSession } from "./ScenarioSession";
-import { ScenarioSchema } from "../types/ScenarioSchema";
 
 @Entity("session_roles")
 export class SessionRole extends BaseEntity {
