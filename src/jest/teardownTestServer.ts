@@ -1,6 +1,6 @@
 import { Connection } from "typeorm";
 import { Server } from "http";
-import { CreateTypeORMConnection } from "../src/utils";
+import { CreateTypeORMConnection } from "../utils";
 
 export const teardownTestServer = async (app: Server, db: Connection) => {
   await app.close();

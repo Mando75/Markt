@@ -9,7 +9,8 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToOne,
-  AfterLoad
+  AfterLoad,
+  AfterUpdate
 } from "typeorm";
 import { hash } from "bcrypt";
 import { AccountType } from "../enums/accountType.enum";
@@ -35,6 +36,7 @@ export class User extends BaseEntity {
   fullName: string;
 
   @AfterLoad()
+  @AfterUpdate()
   setFullName() {
     this.fullName = this.firstName + " " + this.lastName;
   }

@@ -4,8 +4,8 @@
   "scripts": {
     "build": "rm -rf dist && yarn run tsc -p ./",
     "start": "node dist/index.js",
-    "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node --project ./tsconfig.json --files' src/index.ts",
-    "test": "jest --forceExit --runInBand",
+    "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'yarn run tsnode' src/index.ts",
+    "test": "jest --config=jest.config.js --forceExit --runInBand",
     "test:coverage": "yarn test && cat ./coverage/lcov.info | codacy-coverage",
     "gen:graphql-types": "yarn run tsnode ./scripts/genSchema.ts",
     "gen:migration": "yarn run tsnode:typeorm migration:generate -c development -n ",

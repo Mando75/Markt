@@ -1,5 +1,6 @@
 declare namespace ScenarioSchema {
   interface Scenario {
+    id?: string;
     scenarioCode: string;
     maxPlayerSize: number;
     sessionCount: number;
@@ -10,8 +11,8 @@ declare namespace ScenarioSchema {
   }
 
   interface Instructions {
-    step: number;
-    header: string;
+    step?: number;
+    header?: string;
     bullets: Array<InstructionBullet>;
   }
 
@@ -37,5 +38,37 @@ declare namespace ScenarioSchema {
   interface SessionOverviewRoleDescription {
     description: string;
     count: number;
+  }
+
+  interface ScenarioSession {
+    id?: string;
+    scenario?: Promise<Scenario>;
+    scenarioSessionId: string;
+    sessionNumber: number;
+    instructions: Array<Instructions>;
+    roundDiscussionPoints: Array<Instructions>;
+    numberOfRounds: number;
+  }
+
+  interface RoleType {
+    id?: string;
+    scenario?: Promise<Scenario>;
+    roleTypeId: string;
+    name: string;
+    sessionRoles: Promise<SessionRole[]>;
+    createdDate?: Date;
+    updatedDate?: Date;
+  }
+
+  interface SessionRole {
+    id?: string;
+    scenarioSession?: Promise<ScenarioSession>;
+    roleType?: Promise<RoleType>;
+    sessionNumber: number;
+    name: string;
+    value: number;
+    allowSell: boolean;
+    instructions: Array<Instructions>;
+    profitEquation: string;
   }
 }
