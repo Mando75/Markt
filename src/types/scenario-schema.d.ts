@@ -31,7 +31,10 @@ declare namespace ScenarioSchema {
   interface SessionOverview {
     sessionNumber: number;
     roleDescription: Array<SessionOverviewRoleDescription>;
-    chartPoints: Array<number>;
+    chartPoints:
+      | Array<number>
+      | Array<Array<number>>
+      | Array<Array<Array<number>>>;
     expectations: string;
   }
 
