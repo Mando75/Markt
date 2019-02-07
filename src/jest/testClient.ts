@@ -1,8 +1,9 @@
 import * as rp from "request-promise";
-import { User } from "../src/entity/User";
-import { AccountType } from "../src/enums/accountType.enum";
+import { User } from "../entity/User";
+import { AccountType } from "../enums/accountType.enum";
 import * as faker from "faker";
-import { Guide } from "../src/entity/Guide";
+import { Guide } from "../entity/Guide";
+import { Scenario } from "../entity/Scenario";
 
 export class TestClient {
   url: string;
@@ -162,5 +163,56 @@ export class TestClient {
       users.push(await User.create(fakeUser).save());
     }
     return users;
+  }
+
+  static async createMockScenario() {
+    const scen = this._genScenario();
+    const toSave = new Scenario(scen);
+    await toSave.save();
+    return {
+      scenario: toSave,
+      scenarioDef: scen
+    };
+  }
+
+  static _genScenario() {
+    return {
+      scenarioCode: faker.lorem.word().substring(0, 9),
+      maxPlayerSize: faker.random.number(),
+      sessionCount: faker.random.number(),
+      overview: [
+        {
+          sessionNumber: faker.random.number(),
+          roleDescription: [
+            {
+              description: faker.lorem.sentence(),
+              count: faker.random.number()
+            }
+          ],
+          chartPoints: [faker.random.number(), faker.random.number()],
+          expectations: faker.lorem.words()
+        }
+      ],
+      description: faker.lorem.sentence(),
+      instructions: this.genInstructions(),
+      roleDistribution: [faker.lorem.word()]
+    };
+  }
+
+  static genInstructions(length = 1) {
+    const i = [];
+    for (let k = 0; k < length; k++) {
+      i.push({
+        step: faker.random.number(),
+        header: faker.company.companyName(),
+        bullets: [
+          {
+            format: ScenarioSchema.BulletFormat.BOLD,
+            text: faker.lorem.sentence()
+          }
+        ]
+      });
+    }
+    return i;
   }
 }

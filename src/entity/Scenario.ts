@@ -1,13 +1,18 @@
 import {
   AfterLoad,
+  AfterUpdate,
   BaseEntity,
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { RoleType } from "./RoleType";
+import { ScenarioSession } from "./ScenarioSession";
 
 @Entity("scenarios")
 export class Scenario extends BaseEntity {
@@ -41,6 +46,12 @@ export class Scenario extends BaseEntity {
 
   roleDistribution: Array<string>;
 
+  @OneToMany(() => RoleType, role => role.scenario)
+  roleTypes: Promise<RoleType[]>;
+
+  @OneToMany(() => ScenarioSession, ss => ss.scenario)
+  scenarioSessions: Promise<ScenarioSession[]>;
+
   @CreateDateColumn()
   createdDate: Date;
 
@@ -48,6 +59,7 @@ export class Scenario extends BaseEntity {
   updatedDate: Date;
 
   @AfterLoad()
+  @AfterUpdate()
   hydrateJson() {
     this.overview = JSON.parse(this.overviewJson);
     this.instructions = JSON.parse(this.instructionsJson);
@@ -55,6 +67,7 @@ export class Scenario extends BaseEntity {
   }
 
   @BeforeInsert()
+  @BeforeUpdate()
   dehydrateJson() {
     this.overviewJson = JSON.stringify(this.overview);
     this.instructionsJson = JSON.stringify(this.instructions);

@@ -1,10 +1,6 @@
 import * as Redis from "ioredis";
 import { ErrorMessages } from "../errorMessages";
-import {
-  startTestServer,
-  teardownTestServer,
-  TestClient
-} from "../../../../jest";
+import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 let app: Server, db: Connection, host: string, tc: TestClient;

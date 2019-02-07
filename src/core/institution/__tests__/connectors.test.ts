@@ -3,7 +3,7 @@ import { CreateTypeORMConnection } from "../../../utils";
 import { getInstitution, getInstitutionUsers } from "../connectors";
 import { Institution } from "../../../entity/Institution";
 import * as faker from "faker";
-import { TestClient } from "../../../../jest";
+import { TestClient } from "../../../jest";
 import { User } from "../../../entity/User";
 
 beforeAll(async () => {
