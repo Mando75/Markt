@@ -1,7 +1,7 @@
-import { TestClient } from "../src/utils";
 import { AddressInfo } from "ws";
-import { bootstrapConnections, normalizePort } from "../src/utils";
+import { bootstrapConnections, normalizePort } from "../utils";
 const nock = require("nock");
+import { TestClient } from "./testClient";
 
 const mockApis = () => {
   nock("https://api.sendgrid.com")

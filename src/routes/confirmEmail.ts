@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { redis } from "../utils/bootstrapConnections";
+import { redis } from "../utils";
 import { User } from "../entity/User";
 import { RedisPrefix } from "../enums/redisPrefix.enum";
 

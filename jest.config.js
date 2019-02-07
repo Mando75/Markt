@@ -1,20 +1,25 @@
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
-    "**/*.{ts,tsx}",
+    "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!**/migration/**",
     "!**/dist/**"
   ],
-  verbose: true,
+  verbose: false,
   transform: {
     "^^.+\\.tsx?$": "ts-jest"
   },
-  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
+  testPathIgnorePatterns: ["/node_modules/", "/dist/", "/jest/"],
   testRegex: "/__tests__/.*.test.(js|ts|tsx)?$",
   moduleFileExtensions: ["ts", "tsx", "js", "json", "node"],
-  globalSetup: "./jest/globalSetup.js",
-  globalTeardown: "./jest/globalTeardown.js",
+  globals: {
+    'ts-jest': {
+      tsConfig: "./tsconfig.json"
+    }
+  },
+  globalSetup: "./src/jest/globalSetup.js",
+  globalTeardown: "./src/jest/globalTeardown.js",
   coverageReporters: ["lcov", "html"],
   testEnvironment: "node"
 };

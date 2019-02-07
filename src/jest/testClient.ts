@@ -2,6 +2,8 @@ import * as rp from "request-promise";
 import { User } from "../entity/User";
 import { AccountType } from "../enums/accountType.enum";
 import * as faker from "faker";
+import { Guide } from "../entity/Guide";
+import { Scenario } from "../entity/Scenario";
 
 export class TestClient {
   url: string;
@@ -129,9 +131,88 @@ export class TestClient {
     return rp.post(this.url, { ...this.options, body: { query } });
   }
 
-  async createUser(emailConfirmed: boolean) {
+  async createUser(
+    emailConfirmed: boolean,
+    accountType: AccountType = AccountType.USER
+  ) {
     this.fakeUser.emailConfirmed = emailConfirmed;
+    this.fakeUser.accountType = accountType;
     this.testUser = await User.create(this.fakeUser).save();
     return this.testUser;
+  }
+
+  async createUserWithGuide() {
+    const user = await this.createUser(true);
+    const guide = new Guide();
+    guide.user = Promise.resolve(user);
+    await guide.save();
+    return { user, guide };
+  }
+
+  static async createMockUsers(count: number) {
+    let users: User[] = [];
+    for (let i = 0; i < count; i++) {
+      const fakeUser = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        accountType: AccountType.USER,
+        email: faker.internet.exampleEmail().toLowerCase(),
+        password: faker.internet.password(8, false) + "@Aa1",
+        emailConfirmed: true
+      };
+      users.push(await User.create(fakeUser).save());
+    }
+    return users;
+  }
+
+  static async createMockScenario() {
+    const scen = this._genScenario();
+    const toSave = new Scenario(scen);
+    await toSave.save();
+    return {
+      scenario: toSave,
+      scenarioDef: scen
+    };
+  }
+
+  static _genScenario() {
+    return {
+      scenarioCode: faker.lorem.word().substring(0, 9),
+      maxPlayerSize: faker.random.number(),
+      sessionCount: faker.random.number(),
+      overview: [
+        {
+          sessionNumber: faker.random.number(),
+          roleDescription: [
+            {
+              description: faker.lorem.sentence(),
+              count: faker.random.number()
+            }
+          ],
+          chartPoints: [faker.random.number(), faker.random.number()],
+          expectations: faker.lorem.words()
+        }
+      ],
+      description: faker.lorem.sentence(),
+      instructions: this.genInstructions(),
+      roleDistribution: [faker.lorem.word()]
+    };
+  }
+
+  static genInstructions(length = 1) {
+    const i = [];
+    for (let k = 0; k < length; k++) {
+      i.push({
+        step: faker.random.number(),
+        header: faker.company.companyName(),
+        bullets: [
+          {
+            format: ScenarioSchema.BulletFormat.BOLD,
+            text: faker.lorem.sentence()
+          }
+        ]
+      });
+    }
+    return i;
   }
 }

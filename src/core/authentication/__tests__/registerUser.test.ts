@@ -1,8 +1,7 @@
 import "reflect-metadata";
-import { TestClient } from "../../../utils";
 import { ErrorMessages } from "../errorMessages";
 import * as faker from "faker";
-import { startTestServer, teardownTestServer } from "../../../../jest";
+import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 let app: Server, db: Connection, host: string, tc: TestClient;

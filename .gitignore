@@ -4,10 +4,12 @@ node_modules/
 dist/
 tmp/
 temp/
-ormconfig.json
+ormconfig.*
+ormconfig.js
 graphql.config.json
 graphql.schema.json
 coverage/
 yarn-error.log
+.directory
 dump.rdb
 .env

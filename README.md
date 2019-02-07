@@ -1,5 +1,10 @@
 # Markt
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/24be41df158a499b92719f2f316ef671)](https://www.codacy.com/app/Mando75/Markt?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Mando75/Markt&amp;utm_campaign=Badge_Grade)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/24be41df158a499b92719f2f316ef671)](https://www.codacy.com/app/Mando75/Markt?utm_source=github.com&utm_medium=referral&utm_content=Mando75/Markt&utm_campaign=Badge_Coverage)
+
+
+[![build status](https://gitlab.com/Mando75/markt/badges/master/pipeline.svg)](https://gitlab.com/Mando75/markt/commits/master)
 ## Description
 
 Markt seeks to develop a simple but powerful educational tool for students studying economics. MARKT allows instructors to craft and run mini-market experiments with their students. With real-time transaction tracking and analysis, instructors are well equipped to provide students with an interactive demonstration of how economic theory can predict outcomes of market performance.

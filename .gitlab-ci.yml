@@ -2,31 +2,39 @@ image: node:10.12.0
 
 cache:
   paths:
-  - node_modules/
+    - node_modules/
 
 before_script:
-- apt-get update -qq && apt-get install
+  - apt-get update -qq && apt-get install
 
 stages:
-- test
-- build
+  - test-build
+  - deployment
 
 test:
-  stage: test
+  stage: test-build
   before_script:
-  - rm -rf .yarn
-  - yarn install
+    - rm -rf .yarn
+    - yarn install
   script:
-  - yarn lint --fix
-  - yarn test-with-coverage
-  only:
-  - test-deploy
+    - yarn test:coverage
 
 build:
-  stage: build
+  stage: test-build
   before_script:
-  - rm -rf .yarn
-  - yarn install
+    - rm -rf .yarn
+    - yarn install
   script:
-  - yarn run gen-types
-  - yarn build
+    - yarn run gen:graphql-types
+    - yarn build
+
+deployment:
+  stage: deployment
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=markt-dev --api-key=$HEROKU_API_KEY
+  only:
+    - master

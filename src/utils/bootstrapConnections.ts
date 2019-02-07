@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "dotenv/config";
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, defaultPlaygroundOptions } from "apollo-server-express";
 import { makeSchema } from "./makeSchema";
 import { CreateTypeORMConnection } from "./CreateTypeORMConnection";
 import { Connection } from "typeorm";
@@ -10,7 +10,7 @@ import * as express from "express";
 import * as session from "express-session";
 import * as connectRedis from "connect-redis";
 import { routes } from "../routes";
-import * as Redis from "ioredis";
+import { redis } from "./redis";
 import { applyMiddleware } from "graphql-middleware";
 import { createShield } from "./createShield";
 import * as RateLimit from "express-rate-limit";
@@ -18,7 +18,6 @@ import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
 
-export const redis = new Redis();
 redis.on("error", () => {
   console.log("Error connecting");
   if (process.env.NODE_ENV != "production") redis.disconnect();
@@ -61,7 +60,10 @@ export const bootstrapConnections = async (port: number) => {
       schema,
       formatError,
       formatResponse,
-      context: setContext
+      context: setContext,
+      introspection: true,
+      playground,
+      debug: process.env.NODE_ENV !== "production"
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
@@ -75,7 +77,6 @@ export const bootstrapConnections = async (port: number) => {
     return { app, db };
   } catch (e) {
     console.error("Could not bootstrap server connections. Exiting", e);
-    process.exit(1);
     return null;
   }
 };
@@ -150,4 +151,16 @@ const createSession = () => {
 const cors = {
   credentials: true,
   origin: (process.env.HOST || process.env.TEST_HOST) as string
+};
+
+/**
+ * Playground configuration
+ */
+const playground = {
+  ...defaultPlaygroundOptions,
+  settings: {
+    ...defaultPlaygroundOptions.settings,
+    "editor.cursorShape": "line",
+    "request.credentials": "same-origin"
+  }
 };
