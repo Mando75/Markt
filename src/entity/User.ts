@@ -12,7 +12,7 @@ import {
   AfterLoad,
   AfterUpdate
 } from "typeorm";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { AccountType } from "../enums/accountType.enum";
 import { Institution } from "./Institution";
 import { Guide } from "./Guide";
