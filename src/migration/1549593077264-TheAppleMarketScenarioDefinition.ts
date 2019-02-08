@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class TheAppleMarketScenarioDefinition1549576989717
+export class TheAppleMarketScenarioDefinition1549593077264
   implements MigrationInterface {
   scenarioCode = "APPLMRKT";
 
