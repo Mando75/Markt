@@ -3,16 +3,14 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class TheAppleMarketScenarioDefinition1549576989717
   implements MigrationInterface {
   scenarioCode = "APPLMRKT";
-  scenarioId = "";
 
   public async up(queryRunner: QueryRunner): Promise<any> {
     const queryBuilder = queryRunner.manager.createQueryBuilder();
-    const res = await queryBuilder
+    await queryBuilder
       .insert()
       .into("scenarios")
       .values(this.genScenarioValues())
       .execute();
-    this.scenarioId = res.identifiers[0].id;
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
