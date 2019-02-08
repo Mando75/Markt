@@ -3,27 +3,74 @@ import { Scenario } from "../../../entity/Scenario";
 import { RoleType } from "../../../entity/RoleType";
 import { ScenarioSession } from "../../../entity/ScenarioSession";
 import { SessionRole } from "../../../entity/SessionRole";
+import * as graphqlFields from "graphql-fields";
+import { GraphQLResolveInfo } from "graphql";
 
 export const getScenario = async (
   _: any,
   { id }: GQL.IScenarioOnQueryArguments,
-  __: GraphQLContext
-) => await Scenario.findOne(id);
+  __: GraphQLContext,
+  info: GraphQLResolveInfo
+) => {
+  /**
+   * Grab only the top level fields being called.
+   * Exclude any relation columns, as they do not exist
+   * on the table
+   */
+  const fields = Object.keys(
+    graphqlFields(
+      info,
+      {},
+      { excludedFields: ["__typename", "scenarioSessions", "roleTypes"] }
+    )
+  ) as (keyof Scenario)[];
+  return await Scenario.findOne(id, { select: fields });
+};
 
 export const getRoleType = async (
   _: any,
   { id }: GQL.IRoleTypeOnQueryArguments,
-  __: GraphQLContext
-) => await RoleType.findOne(id);
+  __: GraphQLContext,
+  info: GraphQLResolveInfo
+) => {
+  const fields = Object.keys(
+    graphqlFields(
+      info,
+      {},
+      { excludedFields: ["scenario", "sessionRoles", "__typename"] }
+    )
+  ) as (keyof RoleType)[];
+  return await RoleType.findOne(id, { select: fields });
+};
 
 export const getScenarioSession = async (
   _: any,
   { id }: { id: string },
-  __: GraphQLContext
-) => await ScenarioSession.findOne(id);
+  __: GraphQLContext,
+  info: GraphQLResolveInfo
+) => {
+  const fields = Object.keys(
+    graphqlFields(
+      info,
+      {},
+      { excludedFields: ["__typename", "sessionRoles", "scenario"] }
+    )
+  ) as (keyof ScenarioSession)[];
+  return await ScenarioSession.findOne(id, { select: fields });
+};
 
 export const getSessionRole = async (
   _: any,
   { id }: { id: string },
-  __: GraphQLContext
-) => await SessionRole.findOne(id);
+  __: GraphQLContext,
+  info: GraphQLResolveInfo
+) => {
+  const fields = Object.keys(
+    graphqlFields(
+      info,
+      {},
+      { excludedFields: ["roleType", "scenarioSession", "scenario"] }
+    )
+  ) as (keyof SessionRole)[];
+  return await SessionRole.findOne(id, { select: fields });
+};

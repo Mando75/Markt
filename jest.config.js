@@ -4,7 +4,8 @@ module.exports = {
     "src/**/*.{ts,tsx}",
     "!**/node_modules/**",
     "!**/migration/**",
-    "!**/dist/**"
+    "!**/dist/**",
+    "!**/jest/**"
   ],
   verbose: false,
   transform: {
