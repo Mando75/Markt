@@ -54,33 +54,4 @@ export class Scenario extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
-
-  // @AfterLoad()
-  // @AfterUpdate()
-  // hydrateJson() {
-  //   this.overview = JSON.parse(this.overviewJson);
-  //   this.instructions = JSON.parse(this.instructionsJson);
-  //   this.roleDistribution = this.roleDistributionJson;
-  // }
-  //
-  // @BeforeInsert()
-  // @BeforeUpdate()
-  // dehydrateJson() {
-  //   this.overviewJson = JSON.stringify(this.overview);
-  //   this.instructionsJson = JSON.stringify(this.instructions);
-  //   this.roleDistributionJson = this.roleDistribution;
-  // }
-
-  constructor(def: ScenarioSchema.Scenario) {
-    super();
-    if (def) {
-      this.scenarioCode = def.scenarioCode;
-      this.maxPlayerSize = def.maxPlayerSize;
-      this.sessionCount = def.sessionCount;
-      this.overview = def.overview;
-      this.description = def.description;
-      this.instructions = def.instructions;
-      this.roleDistribution = def.roleDistribution;
-    }
-  }
 }

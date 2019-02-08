@@ -31,7 +31,7 @@ describe("scenarioSessionQuery", () => {
       roundDiscussionPoints: TestClient.genInstructions(),
       numberOfRounds: faker.random.number()
     };
-    const ss = new ScenarioSession(scenarioSessDef);
+    const ss = ScenarioSession.create(scenarioSessDef);
     ss.scenario = Promise.resolve(scenario);
     await ss.save();
     const { data } = await tc.query(
