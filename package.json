@@ -11,7 +11,7 @@
     "gen:migration": "yarn run tsnode:typeorm migration:generate -c development -n ",
     "migrate:run": "yarn run tsnode:typeorm migration:run -c development",
     "migrate:revert": "yarn run tsnode:typeorm migration:revert -c development",
-    "tsnode":"yarn run ts-node --project ./tsconfig.json --files",
+    "tsnode": "yarn run ts-node --project ./tsconfig.json --files",
     "tsnode:typeorm": "yarn run ts-node --project ./tsconfig.json --files node_modules/.bin/typeorm",
     "setup-dev": "yarn install && yarn build && yarn gen:graphql-types && yarn start:dev",
     "heroku-postbuild": "yarn build"
@@ -24,7 +24,7 @@
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
     "apollo-server-express": "2.0.7",
-    "bcrypt": "^3.0.2",
+    "bcryptjs": "^2.4.3",
     "connect-redis": "^3.4.0",
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@gql2ts/from-schema": "^1.10.1",
-    "@types/bcrypt": "^3.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/connect-redis": "^0.0.8",
     "@types/express-rate-limit": "^2.9.4",
     "@types/express-session": "^1.15.11",

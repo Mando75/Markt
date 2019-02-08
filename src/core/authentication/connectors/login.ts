@@ -4,7 +4,7 @@ import { formatYupError } from "../../../utils";
 import { yupUserLoginSchema } from "../yup.schema";
 import { GraphQLContext } from "../../../types/graphql-context";
 import { ErrorMessages } from "../errorMessages";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 
 /**
  * Logic for login mutation
