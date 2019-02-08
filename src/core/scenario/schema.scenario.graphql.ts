@@ -40,7 +40,7 @@ export const typeDefs = gql`
     sessionCount: Int!
     overview: [ScenarioSessionOverview]
     description: String
-    instructions: Instructions
+    instructions: [Instructions]
     roleDistribution: [String]
     roleTypes: [RoleType]
     scenarioSessions: [ScenarioSession]
