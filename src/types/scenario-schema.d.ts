@@ -1,6 +1,7 @@
 declare namespace ScenarioSchema {
   interface Scenario {
     id?: string;
+    name: string;
     scenarioCode: string;
     maxPlayerSize: number;
     sessionCount: number;
@@ -31,10 +32,7 @@ declare namespace ScenarioSchema {
   interface SessionOverview {
     sessionNumber: number;
     roleDescription: Array<SessionOverviewRoleDescription>;
-    chartPoints:
-      | Array<number>
-      | Array<Array<number>>
-      | Array<Array<Array<number>>>;
+    chartPoints: Array<Array<Array<number>>>;
     expectations: string;
   }
 

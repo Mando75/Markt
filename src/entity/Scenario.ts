@@ -1,9 +1,9 @@
 import {
-  AfterLoad,
-  AfterUpdate,
+  // AfterLoad,
+  // AfterUpdate,
   BaseEntity,
-  BeforeInsert,
-  BeforeUpdate,
+  // BeforeInsert,
+  // BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -19,6 +19,9 @@ export class Scenario extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Column({ type: "varchar", length: 255, nullable: false })
+  name: string;
+
   @Column({ type: "varchar", length: 10, unique: true, nullable: false })
   scenarioCode: string;
 
@@ -32,18 +35,12 @@ export class Scenario extends BaseEntity {
   description: string;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
-  overviewJson: string;
-
   overview: Array<ScenarioSchema.SessionOverview>;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
-  instructionsJson: string;
-
   instructions: Array<ScenarioSchema.Instructions>;
 
   @Column({ type: "jsonb", nullable: false, default: [{}] })
-  roleDistributionJson: string;
-
   roleDistribution: Array<string>;
 
   @OneToMany(() => RoleType, role => role.scenario)
@@ -58,21 +55,21 @@ export class Scenario extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  @AfterLoad()
-  @AfterUpdate()
-  hydrateJson() {
-    this.overview = JSON.parse(this.overviewJson);
-    this.instructions = JSON.parse(this.instructionsJson);
-    this.roleDistribution = JSON.parse(this.roleDistributionJson);
-  }
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  dehydrateJson() {
-    this.overviewJson = JSON.stringify(this.overview);
-    this.instructionsJson = JSON.stringify(this.instructions);
-    this.roleDistributionJson = JSON.stringify(this.roleDistribution);
-  }
+  // @AfterLoad()
+  // @AfterUpdate()
+  // hydrateJson() {
+  //   this.overview = JSON.parse(this.overviewJson);
+  //   this.instructions = JSON.parse(this.instructionsJson);
+  //   this.roleDistribution = this.roleDistributionJson;
+  // }
+  //
+  // @BeforeInsert()
+  // @BeforeUpdate()
+  // dehydrateJson() {
+  //   this.overviewJson = JSON.stringify(this.overview);
+  //   this.instructionsJson = JSON.stringify(this.instructions);
+  //   this.roleDistributionJson = this.roleDistribution;
+  // }
 
   constructor(def: ScenarioSchema.Scenario) {
     super();
