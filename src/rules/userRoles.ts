@@ -7,17 +7,20 @@ import { AuthenticationError } from "apollo-server-express";
 import { ApolloErrors } from "../enums/ApolloErrors";
 
 export const isAuthenticated = rule()(
-  async (_: any, __: any, context: GraphQLContext) => {
-    const userId = context.session.userId;
-    return !!(await User.findOne({ where: { id: userId }, select: ["id"] }))
+  async (_: any, __: any, { session: { userId } }: GraphQLContext) => {
+    return !!(
+      userId && (await User.findOne({ where: { id: userId }, select: ["id"] }))
+    )
       ? true
       : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
   }
 );
 
 export const isAdmin = rule()(
-  async (_: any, __: any, context: GraphQLContext) => {
-    const userId = context.session.userId;
+  async (_: any, __: any, { session: { userId } }: GraphQLContext) => {
+    if (!userId) {
+      return new AuthenticationError(ApolloErrors.UNAUTHORIZED);
+    }
     const user = await User.findOne({
       where: { id: userId },
       select: ["id", "accountType"]
@@ -31,8 +34,10 @@ export const isAdmin = rule()(
 );
 
 export const isGuide = rule()(
-  async (_: any, __: any, context: GraphQLContext) => {
-    const userId = context.session.userId;
+  async (_: any, __: any, { session: { userId } }: GraphQLContext) => {
+    if (!userId) {
+      new AuthenticationError(ApolloErrors.FORBIDDEN);
+    }
     const user = await User.findOne({ where: { id: userId }, select: ["id"] });
     const guide = await Guide.findOne({
       where: { user },

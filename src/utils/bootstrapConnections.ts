@@ -17,6 +17,7 @@ import * as RateLimit from "express-rate-limit";
 import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
+import * as cors from "cors";
 
 redis.on("error", () => {
   console.log("Error connecting");
@@ -39,6 +40,7 @@ export const bootstrapConnections = async (port: number) => {
     max: 1000 // limit each IP to 1000 requests per windowMs
   });
   server.enable("trust proxy");
+  server.use(corsConfig());
   server.use(limiter);
   server.use(session(createSession()));
   server.use(passport.initialize());
@@ -66,7 +68,7 @@ export const bootstrapConnections = async (port: number) => {
       debug: process.env.NODE_ENV !== "production"
     });
 
-    apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
+    apolloServer.applyMiddleware({ app: server, path: "/graphql" });
     app = await server.listen(port);
 
     console.log(
@@ -148,10 +150,17 @@ const createSession = () => {
 /**
  * Cors configuration
  */
-const cors = {
-  credentials: true,
-  origin: (process.env.HOST || process.env.TEST_HOST) as string
-};
+const corsConfig = () =>
+  cors({
+    credentials: true,
+    origin:
+      process.env.NODE_ENV === "production"
+        ? (process.env.HOST as string)
+        : [
+            (process.env.HOST || process.env.TEST_HOST) as string,
+            "http://localhost:8080"
+          ]
+  });
 
 /**
  * Playground configuration
