@@ -167,16 +167,16 @@ export class TestClient {
 
   static async createMockScenario() {
     const scen = this._genScenario();
-    const toSave = new Scenario(scen);
-    await toSave.save();
+    const newScen = await Scenario.create(scen).save();
     return {
-      scenario: toSave,
+      scenario: newScen,
       scenarioDef: scen
     };
   }
 
   static _genScenario() {
     return {
+      name: faker.lorem.word(),
       scenarioCode: faker.lorem.word().substring(0, 9),
       maxPlayerSize: faker.random.number(),
       sessionCount: faker.random.number(),
@@ -189,7 +189,7 @@ export class TestClient {
               count: faker.random.number()
             }
           ],
-          chartPoints: [faker.random.number(), faker.random.number()],
+          chartPoints: [[[faker.random.number(), faker.random.number()]]],
           expectations: faker.lorem.words()
         }
       ],

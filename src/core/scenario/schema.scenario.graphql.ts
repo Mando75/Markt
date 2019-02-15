@@ -23,7 +23,7 @@ export const typeDefs = gql`
   type ScenarioSessionOverview {
     sessionNumber: Int
     roleDescription: [ScenarioOverviewRoleDescription]
-    chartPoints: [Float]
+    chartPoints: [[[Float]]]
     expectations: String
   }
 
@@ -34,12 +34,13 @@ export const typeDefs = gql`
 
   type Scenario {
     id: ID!
+    name: String!
     scenarioCode: String!
     maxPlayerSize: Int!
     sessionCount: Int!
     overview: [ScenarioSessionOverview]
     description: String
-    instructions: Instructions
+    instructions: [Instructions]
     roleDistribution: [String]
     roleTypes: [RoleType]
     scenarioSessions: [ScenarioSession]
