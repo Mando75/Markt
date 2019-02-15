@@ -9,8 +9,14 @@ import {
 } from "typeorm";
 import { RoleType } from "./RoleType";
 import { ScenarioSession } from "./ScenarioSession";
+import { Unique } from "typeorm";
 
 @Entity("session_roles")
+@Unique("UNIQ_SESSION_NUMBER_ROLE_TYPE", [
+  "scenarioSession",
+  "roleType",
+  "sessionNumber"
+])
 export class SessionRole extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -18,7 +24,7 @@ export class SessionRole extends BaseEntity {
   @ManyToOne(() => RoleType, rt => rt.sessionRoles, { nullable: false })
   roleType: Promise<RoleType>;
 
-  @ManyToOne(() => ScenarioSession, ss => ss.sessionRoles)
+  @ManyToOne(() => ScenarioSession, ss => ss.sessionRoles, { nullable: false })
   scenarioSession: Promise<ScenarioSession>;
 
   @Column({ type: "integer", nullable: false })
