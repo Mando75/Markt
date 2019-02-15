@@ -484,14 +484,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/graphql-fields@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@types/graphql-fields/-/graphql-fields-1.3.0.tgz#5c73baa96f41ae3d263d6bda744305cbface2ef3"
-  integrity sha512-W3Lt9SZaVbTSZOoxZEaV2e3U8CvYIgLvnmgJkIBdg0p1CxGhbITBPvTGFkOUnubogyXXv3I2r9hnW/6iEwwMFA==
-  dependencies:
-    "@types/graphql" "*"
-
-"@types/graphql@*", "@types/graphql@^14.0.3":
+"@types/graphql@^14.0.3":
   version "14.0.5"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.0.5.tgz#e696292fd2d77dc168b5b791710f83463aa39abd"
   integrity sha512-bwGYLE0SRy5ZraC91dqI2bxbspfm10kyJ2Yjuvk4OjdGznh7fkoWW+xXZHfFydJaqu9syZi099cpiZw3GlPDiA==
@@ -3394,11 +3387,6 @@ graphql-extensions@0.2.0:
   integrity sha512-dW2PdomN+IXzUDQALzpBk++sEXm2LamCP16hCOZ2B/go50I967R7/K+rr8qOxoNb7lvtLW1BjQg8kRoPqByrug==
   dependencies:
     apollo-server-env "2.0.3"
-
-graphql-fields@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/graphql-fields/-/graphql-fields-2.0.1.tgz#7cfccb8daf8fa27f10296f75cfb4eb016092685b"
-  integrity sha512-fImS22uNtx7jeLS8ytuRH6Pb8UYBMgEuKF1ti7F8kCcbhcsYtFu4pxoc5sXGIO9lY6EiLFj9rILyCjyTQVmRag==
 
 graphql-middleware@^2.0.2:
   version "2.0.2"
