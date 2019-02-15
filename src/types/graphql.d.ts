@@ -21,7 +21,7 @@ declare namespace GQL {
   }
 
   interface IQuery {
-    __typename: 'Query';
+    __typename: "Query";
     me: IMe | null;
     group: IGroup | null;
     guide: IGuide | null;
@@ -66,13 +66,13 @@ declare namespace GQL {
   }
 
   interface IMe {
-    __typename: 'Me';
+    __typename: "Me";
     id: string;
     email: string;
   }
 
   interface IGroup {
-    __typename: 'Group';
+    __typename: "Group";
     id: string;
     name: string;
     active: boolean;
@@ -82,7 +82,7 @@ declare namespace GQL {
   }
 
   interface IGuide {
-    __typename: 'Guide';
+    __typename: "Guide";
     id: string;
     user: IUser;
     firstName: string | null;
@@ -95,7 +95,7 @@ declare namespace GQL {
   }
 
   interface IUser {
-    __typename: 'User';
+    __typename: "User";
     id: string;
     externalGuid: string | null;
     firstName: string | null;
@@ -114,12 +114,12 @@ declare namespace GQL {
   }
 
   const enum AccountType {
-    USER = 'USER',
-    ADMIN = 'ADMIN'
+    USER = "USER",
+    ADMIN = "ADMIN"
   }
 
   interface IInstitution {
-    __typename: 'Institution';
+    __typename: "Institution";
     id: string;
     name: string;
     active: boolean;
@@ -133,7 +133,7 @@ declare namespace GQL {
   }
 
   interface IPlayer {
-    __typename: 'Player';
+    __typename: "Player";
     id: string;
     guide: IGuide;
     group: IGroup | null;
@@ -148,14 +148,15 @@ declare namespace GQL {
   }
 
   interface IScenario {
-    __typename: 'Scenario';
+    __typename: "Scenario";
     id: string;
+    name: string;
     scenarioCode: string;
     maxPlayerSize: number;
     sessionCount: number;
     overview: Array<IScenarioSessionOverview | null> | null;
     description: string | null;
-    instructions: IInstructions | null;
+    instructions: Array<IInstructions | null> | null;
     roleDistribution: Array<string | null> | null;
     roleTypes: Array<IRoleType | null> | null;
     scenarioSessions: Array<IScenarioSession | null> | null;
@@ -164,41 +165,41 @@ declare namespace GQL {
   }
 
   interface IScenarioSessionOverview {
-    __typename: 'ScenarioSessionOverview';
+    __typename: "ScenarioSessionOverview";
     sessionNumber: number | null;
     roleDescription: Array<IScenarioOverviewRoleDescription | null> | null;
-    chartPoints: Array<number | null> | null;
+    chartPoints: Array<Array<Array<number | null> | null> | null> | null;
     expectations: string | null;
   }
 
   interface IScenarioOverviewRoleDescription {
-    __typename: 'ScenarioOverviewRoleDescription';
+    __typename: "ScenarioOverviewRoleDescription";
     description: string | null;
     count: number | null;
   }
 
   interface IInstructions {
-    __typename: 'Instructions';
+    __typename: "Instructions";
     step: number | null;
     header: string | null;
     bullets: Array<IInstructionBullet | null> | null;
   }
 
   interface IInstructionBullet {
-    __typename: 'InstructionBullet';
+    __typename: "InstructionBullet";
     format: InstructionBulletFormat | null;
     text: string | null;
   }
 
   const enum InstructionBulletFormat {
-    BOLD = 'BOLD',
-    ITALIC = 'ITALIC',
-    NORMAL = 'NORMAL',
-    UNDERLINE = 'UNDERLINE'
+    BOLD = "BOLD",
+    ITALIC = "ITALIC",
+    NORMAL = "NORMAL",
+    UNDERLINE = "UNDERLINE"
   }
 
   interface IRoleType {
-    __typename: 'RoleType';
+    __typename: "RoleType";
     id: string;
     scenario: IScenario;
     roleTypeId: string;
@@ -209,7 +210,7 @@ declare namespace GQL {
   }
 
   interface ISessionRole {
-    __typename: 'SessionRole';
+    __typename: "SessionRole";
     id: string;
     roleType: IRoleType;
     scenarioSession: IScenarioSession;
@@ -224,7 +225,7 @@ declare namespace GQL {
   }
 
   interface IScenarioSession {
-    __typename: 'ScenarioSession';
+    __typename: "ScenarioSession";
     id: string;
     scenario: IScenario;
     scenarioSessionId: string;
@@ -238,7 +239,7 @@ declare namespace GQL {
   }
 
   interface IMutation {
-    __typename: 'Mutation';
+    __typename: "Mutation";
     _empty: boolean | null;
     registerUser: Array<IGraphQLError> | null;
     login: Array<IGraphQLError> | null;
@@ -292,7 +293,7 @@ declare namespace GQL {
   }
 
   interface IGraphQLError {
-    __typename: 'GraphQLError';
+    __typename: "GraphQLError";
     path: string;
     message: string;
   }
