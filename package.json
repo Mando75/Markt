@@ -1,6 +1,9 @@
 {
   "name": "markt",
   "version": "1.0.0",
+  "engines": {
+    "node": "11.6.0"
+  },
   "scripts": {
     "build": "rm -rf dist && yarn run tsc -p ./",
     "start": "node dist/index.js",
@@ -8,11 +11,10 @@
     "test": "jest --config=jest.config.js --forceExit --runInBand",
     "test:coverage": "yarn test && cat ./coverage/lcov.info | codacy-coverage",
     "gen:graphql-types": "yarn run tsnode ./scripts/genSchema.ts",
-    "migrate:gen": "yarn run tsnode:typeorm migration:generate -c development -n ",
-    "migrate:create": "yarn run tsnode:typeorm migration:create -c development -n",
+    "gen:migration": "yarn run tsnode:typeorm migration:generate -c development -n ",
     "migrate:run": "yarn run tsnode:typeorm migration:run -c development",
     "migrate:revert": "yarn run tsnode:typeorm migration:revert -c development",
-    "tsnode": "yarn run ts-node --project ./tsconfig.json --files",
+    "tsnode":"yarn run ts-node --project ./tsconfig.json --files",
     "tsnode:typeorm": "yarn run ts-node --project ./tsconfig.json --files node_modules/.bin/typeorm",
     "setup-dev": "yarn install && yarn build && yarn gen:graphql-types && yarn start:dev",
     "heroku-postbuild": "yarn build"
@@ -24,7 +26,6 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
-    "@types/graphql-fields": "^1.3.0",
     "apollo-server-express": "2.0.7",
     "bcrypt": "^3.0.2",
     "connect-redis": "^3.4.0",
@@ -33,7 +34,6 @@
     "express-rate-limit": "^3.3.2",
     "express-session": "^1.15.6",
     "graphql": "^14.0.2",
-    "graphql-fields": "^2.0.1",
     "graphql-middleware": "^2.0.2",
     "graphql-shield": "^4.1.1",
     "graphql-tools": "^4.0.2",
