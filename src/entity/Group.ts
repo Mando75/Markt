@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 import { Guide } from "./Guide";
 import { Player } from "./Player";
+import { Experiment } from "./Experiment";
 
 @Entity("groups")
 export class Group extends BaseEntity {
@@ -27,6 +28,9 @@ export class Group extends BaseEntity {
 
   @OneToMany(() => Player, player => player.group, { nullable: true })
   players: Promise<Player[]>;
+
+  @OneToMany(() => Experiment, e => e.group, { nullable: true })
+  experiments: Promise<Experiment[]>;
 
   @CreateDateColumn({ nullable: false })
   createdDate: Date;

@@ -12,6 +12,7 @@ import {
 import { User } from "./User";
 import { Group } from "./Group";
 import { Player } from "./Player";
+import { Experiment } from "./Experiment";
 
 @Entity("guides")
 export class Guide extends BaseEntity {
@@ -29,6 +30,9 @@ export class Guide extends BaseEntity {
 
   @OneToMany(() => Player, player => player.guide, { nullable: true })
   players: Promise<Player[]>;
+
+  @OneToMany(() => Experiment, e => e.guide, { nullable: true })
+  experiments: Promise<Experiment[]>;
 
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
