@@ -30,7 +30,7 @@ export class Experiment extends BaseEntity {
   scenario: Scenario;
 
   @ManyToOne(() => Group, group => group.experiments, { nullable: false })
-  group: Group;
+  group: Promise<Group>;
 
   @Column({ type: "varchar", length: 8, nullable: false })
   joinCode: string;
@@ -70,5 +70,9 @@ export class Experiment extends BaseEntity {
       if (!existingCode) goodOption = true;
     }
     this.joinCode = option;
+  }
+
+  closed() {
+    return this.numPlayers === this.scenario.maxPlayerSize;
   }
 }

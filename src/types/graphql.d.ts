@@ -268,6 +268,7 @@ declare namespace GQL {
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    startNewExperiment: IExperiment | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -289,6 +290,10 @@ declare namespace GQL {
   interface IForgotPasswordChangeOnMutationArguments {
     newPassword: string;
     key: string;
+  }
+
+  interface IStartNewExperimentOnMutationArguments {
+    params: IExperimentStartType;
   }
 
   interface ICreateGroupOnMutationArguments {
@@ -323,6 +328,12 @@ declare namespace GQL {
   interface IUserLoginType {
     email: string;
     password: string;
+  }
+
+  interface IExperimentStartType {
+    scenarioId: string;
+    guideId: string;
+    groupId: string;
   }
 
   interface IGroupCreationType {

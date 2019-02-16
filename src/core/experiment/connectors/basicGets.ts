@@ -17,7 +17,7 @@ export const getExperiment = async (
     graphqlFields(
       info,
       {},
-      { excludedFields: ["__typename", "group", "guide", "scenario"] }
+      { excludedFields: ["__typename", "group", "guide", "scenario", "closed"] }
     )
   ) as (keyof Experiment)[];
   return fields.length
