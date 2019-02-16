@@ -1,5 +1,8 @@
-import { deleteSessions, getSessionIds } from "./lib";
 import { GraphQLContext } from "../../../types/graphql-context";
+import {
+  deleteSessions,
+  getSessionIds
+} from "../../../utils/ContextSession/sessionControl";
 
 /**
  * Logic for logout mutation

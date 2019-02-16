@@ -17,6 +17,7 @@ import * as RateLimit from "express-rate-limit";
 import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
+import { setContext } from "./ContextSession/contextControl";
 
 redis.on("error", () => {
   console.log("Error connecting");
@@ -60,7 +61,7 @@ export const bootstrapConnections = async (port: number) => {
       schema,
       formatError,
       formatResponse,
-      context: setContext,
+      context: setContext(redis),
       introspection: true,
       playground,
       debug: process.env.NODE_ENV !== "production"
@@ -95,16 +96,6 @@ export const normalizePort = (val: any) => {
   return false;
 };
 
-/**
- * Return the context object for Apollo requests
- * @param req
- */
-const setContext = ({ req }: any) => ({
-  redis,
-  url: `${req.protocol}://${req.get("host")}`,
-  session: req.session,
-  req: req
-});
 /**
  * Request response formatting
  * @param response

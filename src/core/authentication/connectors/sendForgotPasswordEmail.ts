@@ -1,8 +1,12 @@
 import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
 import { ErrorMessages } from "../errorMessages";
-import { createForgotPasswordLink, deleteSessions, getSessionIds } from "./lib";
+import { createForgotPasswordLink } from "./lib";
 import { sendGridForgotPasswordEmail } from "../../../utils/sendEmail";
+import {
+  deleteSessions,
+  getSessionIds
+} from "../../../utils/ContextSession/sessionControl";
 
 export const sendForgotPasswordEmail = async (
   _: any,

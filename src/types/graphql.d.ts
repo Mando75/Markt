@@ -55,7 +55,8 @@ declare namespace GQL {
   }
 
   interface IScenarioOnQueryArguments {
-    id: string;
+    id?: string | null;
+    code?: string | null;
   }
 
   interface IRoleTypeOnQueryArguments {
@@ -85,6 +86,7 @@ declare namespace GQL {
     joinCode: string;
     numPlayers: number;
     active: boolean;
+    closed: boolean;
     endDate: any | null;
     createdDate: any | null;
     updatedDate: any | null;

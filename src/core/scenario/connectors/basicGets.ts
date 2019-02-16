@@ -8,10 +8,14 @@ import { GraphQLResolveInfo } from "graphql";
 
 export const getScenario = async (
   _: any,
-  { id }: GQL.IScenarioOnQueryArguments,
+  { id, code }: GQL.IScenarioOnQueryArguments,
   __: GraphQLContext,
   info: GraphQLResolveInfo
 ) => {
+  // Empty case: They did not provide a param
+  if (!(id || code)) {
+    return null;
+  }
   /**
    * Grab only the top level fields being called.
    * Exclude any relation columns, as they do not exist
@@ -24,9 +28,15 @@ export const getScenario = async (
       { excludedFields: ["__typename", "scenarioSessions", "roleTypes"] }
     )
   ) as (keyof Scenario)[];
-  return fields.length
-    ? await Scenario.findOne(id, { select: fields })
-    : await Scenario.findOne(id);
+  if (id)
+    return fields.length
+      ? await Scenario.findOne(id, { select: fields })
+      : await Scenario.findOne(id);
+  else if (code)
+    return fields.length
+      ? await Scenario.findOne({ scenarioCode: code }, { select: fields })
+      : await Scenario.findOne({ scenarioCode: code });
+  else return null;
 };
 
 export const getRoleType = async (

@@ -12,34 +12,44 @@ export const startNewExperiment = async (
   ___: GraphQLContext,
   __: GraphQLResolveInfo
 ) => {
-  const promises: Array<Promise<any>> = [
-    Scenario.findOne(params.scenarioId, { select: ["id"] }),
-    Guide.findOne(params.guideId, { select: ["id"] }),
-    Group.findOne(params.groupId, { select: ["id"] })
-  ];
-  const [scenario, guide, group] = await Promise.all(promises);
+  let scenario: Scenario, guide: Guide, group: Group;
+  try {
+    const promises: Array<Promise<any>> = [
+      Scenario.findOne(params.scenarioId),
+      Guide.findOne(params.guideId, { select: ["id"] }),
+      Group.findOne(params.groupId, { select: ["id"] })
+    ];
+    [scenario, guide, group] = await Promise.all(promises);
+  } catch (err) {
+    console.log(err.code, err.message);
+    return new ApolloError("Object not found", "404");
+  }
   checkPaths(scenario, guide, group);
   const experiment = new Experiment();
   experiment.scenario = scenario;
   experiment.guide = Promise.resolve(guide);
   experiment.group = Promise.resolve(group);
-  return await experiment.save();
+  await experiment.save();
+  return experiment;
 };
 
 const checkPaths = (scenario: Scenario, guide: Guide, group: Group) => {
-  if (!scenario)
+  if (!scenario) {
     throw new ApolloError(
       "Invalid Scenario: A valid scenario ID must be provided",
       "404"
     );
-  if (!guide)
+  }
+  if (!guide) {
     throw new ApolloError(
       "Invalid Guide: A valid guide ID must be provided",
       "404"
     );
-  if (!group)
+  }
+  if (!group) {
     throw new ApolloError(
       "Invalid Group: A valid group ID must be provided",
       "404"
     );
+  }
 };
