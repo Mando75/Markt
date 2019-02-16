@@ -6,10 +6,14 @@ export const typeDefs = gql`
     scenario: Scenario!
     group: Group!
     joinCode: String!
-    numPlayers: Integer!
+    numPlayers: Int!
     active: Boolean!
     endDate: Date
     createdDate: Date
     updatedDate: Date
+  }
+
+  extend type Query {
+    experiment(id: ID!): Experiment
   }
 `;
