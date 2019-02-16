@@ -44,6 +44,7 @@ export const typeDefs = gql`
     roleDistribution: [String]
     roleTypes: [RoleType]
     scenarioSessions: [ScenarioSession]
+    experiments: [Experiment]
     createdDate: Date!
     updatedDate: Date!
   }

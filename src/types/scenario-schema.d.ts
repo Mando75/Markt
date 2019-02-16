@@ -1,3 +1,5 @@
+import { Experiment } from "../entity/Experiment";
+
 declare namespace ScenarioSchema {
   interface Scenario {
     id?: string;
@@ -9,6 +11,7 @@ declare namespace ScenarioSchema {
     description: string;
     instructions: Array<Instructions>;
     roleDistribution: Array<string>;
+    experiments?: Array<Experiment>;
   }
 
   interface Instructions {
