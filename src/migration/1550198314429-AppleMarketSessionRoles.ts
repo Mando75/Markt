@@ -33,7 +33,7 @@ export class AppleMarketSessionRoles1550198314429
       throw new Error(`Scenario ${this.scenarioCode} does not exist`);
     }
 
-    const types = (await scenario.roleTypes).map(rt => rt.id);
+    const types = (await scenario.roleTypes).map((rt: RoleType) => rt.id);
     await queryRunner.manager
       .createQueryBuilder()
       .delete()
@@ -107,7 +107,7 @@ export class AppleMarketSessionRoles1550198314429
               ]
             }
           ]),
-          profitEquation: "$P-30",
+          profitEquation: "$P - 30",
           roleType: rt,
           scenarioSession: session2
         })
@@ -309,7 +309,7 @@ export class AppleMarketSessionRoles1550198314429
               ]
             }
           ]),
-          profitEquation: "P - 10",
+          profitEquation: "$P - 10",
           roleType: rt,
           scenarioSession: session1
         }),
