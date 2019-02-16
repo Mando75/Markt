@@ -1,9 +1,9 @@
-declare namespace ExperimentSchema {
+declare module ExperimentSchema {
   interface Experiment {
     id?: string;
-    guide: Core.Guide;
+    guide: Promise<Core.Guide>;
     scenario: ScenarioSchema.Scenario;
-    group: Core.Group;
+    group: Promise<Core.Group>;
     joinCode: string;
     numPlayers: number;
     active: boolean;

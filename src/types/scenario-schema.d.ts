@@ -1,4 +1,4 @@
-declare namespace ScenarioSchema {
+declare module ScenarioSchema {
   interface Scenario {
     id?: string;
     name: string;
