@@ -9,7 +9,7 @@ declare namespace ScenarioSchema {
     description: string;
     instructions: Array<Instructions>;
     roleDistribution: Array<string>;
-    experiments?: Array<ExperimentSchema.Experiment>;
+    experiments?: Promise<ExperimentSchema.Experiment[]>;
   }
 
   interface Instructions {

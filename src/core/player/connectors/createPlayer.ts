@@ -26,9 +26,9 @@ export const createPlayer = async (
       email
     });
     const [guide, group] = await Promise.all([guideP, groupP]);
-    player.group = group;
+    player.group = group ? Promise.resolve(group) : group;
     if (guide) {
-      player.guide = guide;
+      player.guide = Promise.resolve(guide);
       return await player.save();
     } else {
       throw new ApolloError(

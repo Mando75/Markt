@@ -1,9 +1,9 @@
 declare namespace ExperimentSchema {
   interface Experiment {
     id?: string;
-    guide: any;
+    guide: Core.Guide;
     scenario: ScenarioSchema.Scenario;
-    group: any;
+    group: Core.Group;
     joinCode: string;
     numPlayers: number;
     active: boolean;

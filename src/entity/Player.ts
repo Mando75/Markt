@@ -20,10 +20,10 @@ export class Player extends BaseEntity {
   id: string;
 
   @ManyToOne(() => Guide, guide => guide.players, { nullable: false })
-  guide: Guide;
+  guide: Promise<Guide>;
 
   @ManyToOne(() => Group, group => group.players, { nullable: true })
-  group: Group | undefined;
+  group: Promise<Group> | undefined;
 
   @Column({ type: "varchar", length: 6, nullable: false })
   playerCode: string;
