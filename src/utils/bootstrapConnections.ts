@@ -110,6 +110,9 @@ const formatResponse = (response: Response) => {
  * @param error
  */
 const formatError = (error: Error) => {
+  if (process.env.NODE_ENV === "test") {
+    return error;
+  }
   console.log(error);
   return error;
 };

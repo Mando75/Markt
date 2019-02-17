@@ -4,6 +4,8 @@ import { AccountType } from "../enums/accountType.enum";
 import * as faker from "faker";
 import { Guide } from "../entity/Guide";
 import { Scenario } from "../entity/Scenario";
+import { Group } from "../entity/Group";
+import { Player } from "../entity/Player";
 
 export class TestClient {
   url: string;
@@ -146,6 +148,9 @@ export class TestClient {
     const guide = new Guide();
     guide.user = Promise.resolve(user);
     await guide.save();
+    if (this.testUser) {
+      await this.testUser.reload();
+    }
     return { user, guide };
   }
 
@@ -163,6 +168,32 @@ export class TestClient {
       users.push(await User.create(fakeUser).save());
     }
     return users;
+  }
+
+  async createMockGroup(playerCount: number = 1) {
+    if (!this.testUser) {
+      throw new Error("Must first create a test user");
+    }
+    const guide = await this.testUser.guide;
+    const group = new Group();
+    group.name = faker.company.companyName();
+    group.guide = Promise.resolve(guide);
+    const playerPs: Promise<any>[] = [];
+    for (let i = 0; i < playerCount; i++) {
+      const fakePlayer = {
+        email: faker.internet.email(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName()
+      };
+      const p = Player.create(fakePlayer);
+      p.guide = Promise.resolve(guide);
+      p.group = Promise.resolve(group);
+      playerPs.push(p.save());
+    }
+    playerPs.push(group.save());
+    await Promise.all(playerPs);
+    await group.reload();
+    return group;
   }
 
   static async createMockScenario() {
