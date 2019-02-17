@@ -208,7 +208,7 @@ export class TestClient {
   static _genScenario() {
     return {
       name: faker.lorem.word(),
-      scenarioCode: faker.lorem.word().substring(0, 9),
+      scenarioCode: faker.random.uuid().substring(0, 9),
       maxPlayerSize: faker.random.number(),
       sessionCount: faker.random.number(),
       overview: [
