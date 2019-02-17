@@ -28,6 +28,7 @@ describe("startExperiment", () => {
         scenarioId: "${scenarioId}" 
      }) {
        id
+       closed
        guide {
          id
        }
@@ -90,6 +91,23 @@ describe("startExperiment", () => {
     );
   });
 
+  it("catches a bad uuid", async () => {
+    const tc = new TestClient(host);
+    await tc.createUserWithGuide();
+    await tc.login();
+    const { data, errors } = await tc.query(
+      startExperiment(
+        faker.random.word(),
+        faker.random.word(),
+        faker.random.word()
+      )
+    );
+    expect(data.startNewExperiment).toBeNull();
+    expect(errors).toHaveLength(1);
+    expect(errors[0].message).toEqual("Object not found");
+    expect(errors[0].extensions.code).toBe("404");
+  });
+
   it("makes a new experiment with the right relations", async () => {
     const tc = new TestClient(host);
     const [{ scenario }, { guide }] = await Promise.all([
@@ -104,6 +122,33 @@ describe("startExperiment", () => {
     expect(startNewExperiment.guide.id).toEqual(guide.id);
     expect(startNewExperiment.group.id).toEqual(group.id);
     expect(startNewExperiment.scenario.id).toEqual(scenario.id);
+  });
+
+  it("can query a newly created experiment", async () => {
+    const tc = new TestClient(host);
+    const [{ scenario }, { guide }] = await Promise.all([
+      TestClient.createMockScenario(),
+      tc.createUserWithGuide()
+    ]);
+    const [group] = await Promise.all([tc.createMockGroup(), tc.login()]);
+    const {
+      data: { startNewExperiment }
+    } = await tc.query(startExperiment(guide.id, group.id, scenario.id));
+    expect(startNewExperiment.id).toBeTruthy();
+    expect(startNewExperiment.guide.id).toEqual(guide.id);
+    expect(startNewExperiment.group.id).toEqual(group.id);
+    expect(startNewExperiment.scenario.id).toEqual(scenario.id);
+    const {
+      data: { experiment }
+    } = await tc.query(
+      `{ experiment(id: "${
+        startNewExperiment.id
+      }") { id guide { id } scenario { id } group { id } } }`
+    );
+    expect(experiment.id).toEqual(startNewExperiment.id);
+    expect(experiment.guide.id).toEqual(startNewExperiment.guide.id);
+    expect(experiment.group.id).toEqual(startNewExperiment.group.id);
+    expect(experiment.scenario.id).toEqual(startNewExperiment.scenario.id);
   });
 });
 

@@ -36,7 +36,6 @@ export const getScenario = async (
     return fields.length
       ? await Scenario.findOne({ scenarioCode: code }, { select: fields })
       : await Scenario.findOne({ scenarioCode: code });
-  else return null;
 };
 
 export const getRoleType = async (
