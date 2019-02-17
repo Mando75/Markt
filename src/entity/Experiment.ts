@@ -72,6 +72,10 @@ export class Experiment extends BaseEntity {
     this.joinCode = option;
   }
 
+  /**
+   * Returns whether or not the experiment is closed
+   * based on if the number of players matches the max player size
+   */
   closed() {
     return this.numPlayers === this.scenario.maxPlayerSize;
   }
