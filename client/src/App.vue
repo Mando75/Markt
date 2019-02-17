@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="h-100">
-hELLO WORLD
+    {{title}}
   </div>
 </template>
 
