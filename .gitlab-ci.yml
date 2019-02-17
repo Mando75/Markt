@@ -6,22 +6,12 @@ cache:
 
 before_script:
   - apt-get update -qq && apt-get install
-  - apt-get install yarn
 
 stages:
   - test-build
   - deployment
 
-test:node:11.6.0:
-  image: node:11.6.0
-  stage: test-build
-  before_script:
-    - rm -rf .yarn
-    - yarn install
-  script:
-    - yarn test:coverage
-
-build:node:11.6.0:
+build:
   image: node:11.6.0
   stage: test-build
   before_script:
@@ -30,6 +20,16 @@ build:node:11.6.0:
   script:
     - yarn run gen:graphql-types
     - yarn build
+
+
+test:
+  image: node:11.6.0
+  stage: test-build
+  before_script:
+    - rm -rf .yarn
+    - yarn install
+  script:
+    - yarn test:coverage
 
 deployment:
   stage: deployment
