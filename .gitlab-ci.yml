@@ -1,6 +1,4 @@
-image:
-  name: node:11.6.0
-  entrypoint: ["/bin/bash"]
+image: node:11.6.0
 
 cache:
   paths:
