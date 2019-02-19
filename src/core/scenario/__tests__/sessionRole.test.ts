@@ -39,7 +39,7 @@ describe("sessionRole", () => {
       roundDiscussionPoints: TestClient.genInstructions(),
       numberOfRounds: faker.random.number()
     };
-    const ss = new ScenarioSession(scenarioSessDef);
+    const ss = ScenarioSession.create(scenarioSessDef);
     ss.scenario = Promise.resolve(scenario);
     await Promise.all([ss.save(), rt.save()]);
     const srDef = {
@@ -50,7 +50,7 @@ describe("sessionRole", () => {
       instructions: TestClient.genInstructions(2),
       profitEquation: faker.lorem.word()
     };
-    const sr = new SessionRole(srDef);
+    const sr = SessionRole.create(srDef);
     sr.scenarioSession = Promise.resolve(ss);
     sr.roleType = Promise.resolve(rt);
     await sr.save();

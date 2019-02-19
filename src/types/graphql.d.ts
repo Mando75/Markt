@@ -150,12 +150,13 @@ declare namespace GQL {
   interface IScenario {
     __typename: "Scenario";
     id: string;
+    name: string;
     scenarioCode: string;
     maxPlayerSize: number;
     sessionCount: number;
     overview: Array<IScenarioSessionOverview | null> | null;
     description: string | null;
-    instructions: IInstructions | null;
+    instructions: Array<IInstructions | null> | null;
     roleDistribution: Array<string | null> | null;
     roleTypes: Array<IRoleType | null> | null;
     scenarioSessions: Array<IScenarioSession | null> | null;
@@ -167,7 +168,7 @@ declare namespace GQL {
     __typename: "ScenarioSessionOverview";
     sessionNumber: number | null;
     roleDescription: Array<IScenarioOverviewRoleDescription | null> | null;
-    chartPoints: Array<number | null> | null;
+    chartPoints: Array<Array<Array<number | null> | null> | null> | null;
     expectations: string | null;
   }
 
