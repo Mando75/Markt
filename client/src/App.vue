@@ -23,7 +23,13 @@
 
 <script>
 import HelloWorld from './components/HelloWorld'
+new Vue({
+  el:'#app',
+  data: {
+    show: true
+  }
 
+});
 export default {
   name: 'App',
   components: {
