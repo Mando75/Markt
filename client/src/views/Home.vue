@@ -1,11 +1,16 @@
-<template> </template>
+<template>
+<nav content="home" ></nav>
+
+</template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
 
+
+import App from "@vue/cli-service/generator/template/src/App";
 export default {
   components: {
-    HelloWorld
+
+
   }
 };
 </script>

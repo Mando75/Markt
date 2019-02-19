@@ -1,6 +1,6 @@
+import Vue from 'vue'
 import Router from "vue-router";
-import "./plugins/vuetify";
-import "./plugins/vuetify";
+import Vuetify from "vuetify";
 import VueApollo from "vue-apollo";
 import { apolloClient } from "./apollo";
 import "vuetify/dist/vuetify.min.css";
