@@ -1,5 +1,7 @@
 <template>
   <div>
+    <v-btn>HERE</v-btn>
+    <v-jumbotron>HERE</v-jumbotron>
     Hello from the test one
     <ul>
       <li>LOOK I"M RENDERED</li>

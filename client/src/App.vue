@@ -1,17 +1,12 @@
 <template>
   <div id="app">
-    <router-view />
+    <v-app><router-view /></v-app>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 export default {
-  name: "app",
-  components: {
-    HelloWorld
-  }
+  name: "app"
 };
 </script>
 
@@ -25,3 +20,4 @@ export default {
   margin-top: 60px;
 }
 </style>
+<style src="vuetify/dist/vuetify.min.css"></style>
