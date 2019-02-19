@@ -1,30 +1,38 @@
 <template>
-  <div id="app" class="h-100">
-    {{title}}
-  </div>
+  <v-app>
+    <v-toolbar app>
+      <v-toolbar-title class="headline text-uppercase">
+        <span>Vuetify</span>
+        <span class="font-weight-light">MATERIAL DESIGN</span>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        flat
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+      >
+        <span class="mr-2">Latest Release</span>
+      </v-btn>
+    </v-toolbar>
+
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-  import gql from 'graphql-tag'
-  export default {
-    name: 'App',
-    data() {
-      return {
-        authenticated: false,
-        mockAccount: {
-          username: 'compacto',
-          password: 'compacto'
-        }
-      }
-    },
-    apollo: {
-      me: {
-        query: gql`{ me { id email } }`,
-        result(data) {
-          console.log(data)
-        }
-      }
+import HelloWorld from './components/HelloWorld'
+
+export default {
+  name: 'App',
+  components: {
+    HelloWorld
+  },
+  data () {
+    return {
+      //
     }
   }
+}
 </script>
-
