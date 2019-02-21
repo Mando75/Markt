@@ -1,26 +1,39 @@
+<div></div>
+
 <template>
-  <v-app>
+  <v-app color="secondary">
+    <v-navigation-drawer
+      app
+      floating
+      clipped
+      mini-variant
+      temporary
+      v-model="drawer"
+    >
+      <!-- add drawer items here:-->
+      <v-list prominent
+        ><v-list-tile-action>
+          <v-icon>dashboard</v-icon>
+        </v-list-tile-action>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app color="primary" fixed clipped-left>
+      <v-toolbar-side-icon v-on:click="drawer = true"></v-toolbar-side-icon>
+      <v-toolbar-title>Markt</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat> Link One</v-btn>
+        <v-btn flat>Link Two</v-btn>
+        <v-btn flat>Link Three</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
     <v-content>
       <v-container grid-list-md text-xs-center fluid>
         <v-layout row wrap>
-          <v-flex xs12 fill-height>
-            <v-card dark color="primary">
-              <v-card-text class="px-0"
-                ><v-toolbar dark>
-                  <v-toolbar-side-icon></v-toolbar-side-icon>
-                  <v-toolbar-title>Title</v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-toolbar-items class="hidden-sm-and-down">
-                    <v-btn flat>Link One</v-btn>
-                    <v-btn flat>Link Two</v-btn>
-                    <v-btn flat>Link Three</v-btn>
-                  </v-toolbar-items>
-                </v-toolbar></v-card-text
-              >
-            </v-card>
-          </v-flex>
+          <v-flex xs12 fill-height> </v-flex>
+          <!-- The "body" begins here-->
           <v-flex v-for="i in 2" :key="`6${i}`" xs6>
-            <v-card dark color="secondary">
+            <v-card dark>
               <v-card-text class="px-0">6</v-card-text>
             </v-card>
           </v-flex>
@@ -53,7 +66,10 @@
 <script>
 import gql from "graphql-tag";
 export default {
-  name: "HelloWorld",
+  name: "Home",
+  data: () => ({
+    drawer: false
+  }),
   props: {
     msg: String
   }
