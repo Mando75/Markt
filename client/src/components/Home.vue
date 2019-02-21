@@ -28,7 +28,7 @@
             </v-card>
           </v-flex>
           <v-flex v-for="i in 12" :key="`1${i}`" xs1>
-            <v-card dark color="accent1">
+            <v-card dark color="modernColor3">
               <v-card-text class="px-0">1</v-card-text>
             </v-card>
           </v-flex>
