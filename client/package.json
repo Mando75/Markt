@@ -37,9 +37,11 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "prettier", "prettier/standard",
+      "plugin:vue/recommended",
       "@vue/prettier"
     ],
+    "plugins": ["vue", "prettier"],
     "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
