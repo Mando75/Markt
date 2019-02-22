@@ -18,6 +18,7 @@ import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
 import * as cors from "cors";
+import * as history from "connect-history-api-fallback";
 
 redis.on("error", () => {
   console.log("Error connecting");
@@ -69,6 +70,9 @@ export const bootstrapConnections = async (port: number) => {
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql" });
+    server.use(history());
+    server.use(express.static(__dirname + "../../../client/dist"));
+
     app = await server.listen(port);
 
     console.log(
