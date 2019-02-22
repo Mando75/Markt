@@ -19,14 +19,22 @@ test:
   script:
     - yarn test:coverage
 
-build:
+build-server:
   stage: test-build
   before_script:
     - rm -rf .yarn
     - yarn install
   script:
     - yarn run gen:graphql-types
-    - yarn build
+    - yarn build:server
+
+build-client:
+  stage: test-build
+  before_script:
+    - rm -rf .yarn
+    - yarn install
+  script:
+    - yarn build:client
 
 deployment:
   stage: deployment
