@@ -24,12 +24,6 @@ Vue.use(Vuetify, {
     modernColor2: "#61706b",
     modernColor3: "#444444",
 
-    accent0: "#AFAE0B",
-    accent1: "#E3E248",
-    accent2: "#D4D21C",
-    accent3: "#919000",
-    accent4: "#6B6B00",
-
     error: "#b71c1c"
   }
 });

@@ -11,6 +11,7 @@ const httpLink = new HttpLink({
   uri,
   credentials: "same-origin"
 });
+
 const cache = new InMemoryCache();
 
 export const apolloClient = new ApolloClient({
