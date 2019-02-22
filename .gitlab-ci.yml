@@ -32,7 +32,7 @@ build-client:
   stage: test-build
   before_script:
     - rm -rf .yarn
-    - yarn install
+    - cd client && yarn install
   script:
     - yarn build:client
 
