@@ -34,7 +34,7 @@ build-client:
     - rm -rf .yarn
     - cd client && yarn install
   script:
-    - yarn build:client
+    - yarn build
 
 deployment:
   stage: deployment
