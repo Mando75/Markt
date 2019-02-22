@@ -2,14 +2,12 @@ import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
-const uri =
-  process.env.NODE_ENV === "production"
-    ? "https://markt-dev.herokuapp.com/graphql"
-    : "http://localhost:4000/graphql";
-
+const uri = "/graphql";
 const httpLink = new HttpLink({
   uri,
-  credentials: "same-origin"
+  fetchOptions: {
+    credentials: "include",
+  },
 });
 
 const cache = new InMemoryCache();

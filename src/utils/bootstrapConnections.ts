@@ -150,18 +150,21 @@ const createSession = () => {
 /**
  * Cors configuration
  */
-const corsConfig = () =>
-  cors({
+const corsConfig = () => {
+  const allowedOrigins = [process.env.HOST, "http://localhost:8080"];
+  return cors({
     credentials: true,
-    origin:
-      process.env.NODE_ENV === "production"
-        ? (process.env.HOST as string)
-        : [
-            (process.env.HOST || process.env.TEST_HOST) as string,
-            "http://localhost:8080"
-          ]
+    origin: function(origin: string, callback: Function) {
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(
+        new Error(`Cors policy prohibits access from origin ${origin}`),
+        false
+      );
+    }
   });
-
+};
 /**
  * Playground configuration
  */

@@ -73,7 +73,7 @@ export default {
     };
   },
   methods: {
-    handleLogin(data) {
+    handleLogin({data}) {
       console.log(data);
       console.log(data.login);
     }
