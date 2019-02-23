@@ -50,7 +50,7 @@ export const bootstrapConnections = async (port: number) => {
     // Connect to Database
     db = await CreateTypeORMConnection();
     // await db.runMigrations();
-    console.log(testEnv ? "" : `Connected to db ${db.options.database}`);
+    if (!testEnv) console.log(`Connected to db ${db.options.database}`);
 
     // Load GraphQL Schema files
     const schema: GraphQLSchema = applyMiddleware(
@@ -72,13 +72,14 @@ export const bootstrapConnections = async (port: number) => {
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
     app = await server.listen(port);
 
-    console.log(
-      testEnv
-        ? ""
-        : `🚀  Server ready at http://localhost:${
-            (app.address() as AddressInfo).port
-          }: Happy Coding!`
-    );
+    if (!testEnv) {
+      console.log(
+        `🚀  Server ready at http://localhost:${
+          (app.address() as AddressInfo).port
+        }: Happy Coding!`
+      );
+    }
+
     return { app, db };
   } catch (e) {
     console.error("Could not bootstrap server connections. Exiting", e);
@@ -114,7 +115,7 @@ const formatResponse = (response: Response) => {
  * @param error
  */
 const formatError = (error: Error) => {
-  if (process.env.NODE_ENV === "test") {
+  if (testEnv) {
     return error;
   }
   console.log(error);

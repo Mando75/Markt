@@ -5,11 +5,13 @@ import { Scenario } from "../../../entity/Scenario";
 import { Group } from "../../../entity/Group";
 import { ApolloError } from "apollo-server-express";
 import { Experiment } from "../../../entity/Experiment";
+import { Redis } from "ioredis";
+import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 
 export const startNewExperiment = async (
   _: any,
   { params }: GQL.IStartNewExperimentOnMutationArguments,
-  ___: GraphQLContext,
+  { redis }: GraphQLContext,
   __: GraphQLResolveInfo
 ) => {
   let scenario: Scenario, guide: Guide, group: Group;
@@ -30,9 +32,16 @@ export const startNewExperiment = async (
   experiment.guide = Promise.resolve(guide);
   experiment.group = Promise.resolve(group);
   await experiment.save();
+  await loadRoleDist(experiment, redis);
   return experiment;
 };
 
+/**
+ * Checks that the scenario, guide, and group are all present and accounted for
+ * @param scenario
+ * @param guide
+ * @param group
+ */
 const checkPaths = (scenario: Scenario, guide: Guide, group: Group) => {
   if (!scenario) {
     throw new ApolloError(
@@ -51,5 +60,28 @@ const checkPaths = (scenario: Scenario, guide: Guide, group: Group) => {
       "Invalid Group: A valid group ID must be provided",
       "404"
     );
+  }
+};
+
+/**
+ * Load the scenario role distribution into redis as an array
+ * to be popped as players join. If an error occurs, a new apollo
+ * error is returned, and the experiment deleted.
+ * @param experiment
+ * @param redis
+ */
+const loadRoleDist = async (experiment: Experiment, redis: Redis) => {
+  const multi = redis.multi();
+  experiment.scenario.roleDistribution.forEach(role =>
+    multi.rpush(RedisPrefix.ROLE_DIST + experiment.id, role)
+  );
+  try {
+    await multi.exec();
+    await redis.expire(RedisPrefix.ROLE_DIST + experiment.id, 60 * 60 * 24);
+  } catch (e) {
+    console.log(e);
+    // Delete the experiment record, roles are not loaded correctly
+    await experiment.remove();
+    throw new ApolloError("Could not load role distribution", "500");
   }
 };
