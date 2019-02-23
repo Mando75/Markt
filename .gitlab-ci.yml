@@ -1,4 +1,4 @@
-image: node:11.6.0
+image: node:11.10.0
 
 cache:
   paths:
@@ -12,7 +12,7 @@ stages:
   - deployment
 
 build:
-  image: node:11.6.0
+  image: node:11.10.0
   stage: test-build
   before_script:
     - rm -rf .yarn
@@ -23,7 +23,7 @@ build:
 
 
 test:
-  image: node:11.6.0
+  image: node:11.10.0
   stage: test-build
   before_script:
     - rm -rf .yarn

@@ -2,7 +2,7 @@
   "name": "markt",
   "version": "1.0.0",
   "engines": {
-    "node": "11.6.0"
+    "node": "11.10.0"
   },
   "scripts": {
     "build": "rm -rf dist && yarn run tsc -p ./",
