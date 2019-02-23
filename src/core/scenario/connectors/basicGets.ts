@@ -1,3 +1,9 @@
+/**
+ * @author Bryan Muller
+ * @description This file contains the basic getters for the scenario schema resolvers.
+ * Each resolver will try to optimize the database query by only requesting the queried fields
+ * from the query.
+ */
 import { GraphQLContext } from "../../../types/graphql-context";
 import { Scenario } from "../../../entity/Scenario";
 import { RoleType } from "../../../entity/RoleType";
@@ -6,6 +12,14 @@ import { SessionRole } from "../../../entity/SessionRole";
 import * as graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 
+/**
+ * Basic scenario query
+ * @param _
+ * @param id
+ * @param code
+ * @param __
+ * @param info
+ */
 export const getScenario = async (
   _: any,
   { id, code }: GQL.IScenarioOnQueryArguments,
@@ -38,6 +52,13 @@ export const getScenario = async (
       : await Scenario.findOne({ scenarioCode: code });
 };
 
+/**
+ * Basic Role Type query
+ * @param _
+ * @param id
+ * @param __
+ * @param info
+ */
 export const getRoleType = async (
   _: any,
   { id }: GQL.IRoleTypeOnQueryArguments,

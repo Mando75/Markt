@@ -85,6 +85,7 @@ declare namespace GQL {
     group: IGroup;
     joinCode: string;
     numPlayers: number;
+    players: Array<IExperimentPlayer | null> | null;
     active: boolean;
     closed: boolean;
     endDate: any | null;
@@ -247,6 +248,18 @@ declare namespace GQL {
     updatedDate: any;
   }
 
+  interface IExperimentPlayer {
+    __typename: "ExperimentPlayer";
+    id: string;
+    experiment: IExperiment;
+    player: IPlayer;
+    roleType: IRoleType;
+    numTransactions: number;
+    totalProfit: number;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
   interface IPlayer {
     __typename: "Player";
     id: string;
@@ -260,6 +273,7 @@ declare namespace GQL {
     createdDate: any | null;
     updatedDate: any | null;
     acceptedTos: boolean;
+    experimentPlayers: Array<IExperimentPlayer | null> | null;
   }
 
   interface IMutation {

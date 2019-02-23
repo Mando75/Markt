@@ -11,4 +11,15 @@ declare module ExperimentSchema {
     createdDate: Date;
     updatedDate: Date;
   }
+
+  interface ExperimentPlayer {
+    id?: string;
+    experiment: Promise<Experiment>;
+    player: Promise<Core.Player>;
+    roleType: Promise<ScenarioSchema.RoleType>;
+    numTransactions: number;
+    totalProfit: number;
+    createdDate: Date;
+    updatedDate: Date;
+  }
 }

@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn
@@ -13,6 +14,7 @@ import { Guide } from "./Guide";
 import { Scenario } from "./Scenario";
 import { Group } from "./Group";
 import { generate } from "randomstring";
+import { ExperimentPlayer } from "./ExperimentPlayer";
 
 @Entity("experiments")
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
@@ -38,11 +40,14 @@ export class Experiment extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 0 })
   numPlayers: number;
 
+  @OneToMany(() => ExperimentPlayer, ep => ep.experiment)
+  players: Promise<Experiment[]>;
+
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
 
   @Column({ type: "timestamp", nullable: true })
-  endDate: Date;
+  endDate: Date | undefined;
 
   @CreateDateColumn()
   createdDate: Date;
