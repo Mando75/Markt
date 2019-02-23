@@ -8,6 +8,7 @@ export const typeDefs = gql`
     joinCode: String!
     numPlayers: Int!
     players: [ExperimentPlayer]
+    sessions: [ExperimentSession]
     active: Boolean!
     closed: Boolean!
     endDate: Date
@@ -22,6 +23,17 @@ export const typeDefs = gql`
     roleType: RoleType!
     numTransactions: Int!
     totalProfit: Float!
+    createdDate: Date
+    updatedDate: Date
+  }
+
+  type ExperimentSession {
+    id: ID!
+    experiment: Experiment!
+    sessionNumber: Int!
+    scenarioSession: ScenarioSession!
+    active: Boolean!
+    endDate: Date
     createdDate: Date
     updatedDate: Date
   }

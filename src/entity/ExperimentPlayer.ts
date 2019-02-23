@@ -37,13 +37,3 @@ export class ExperimentPlayer extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 }
-
-/**
- Table experiment_players {
-  id uuid PK
-  experiment_id uuid
-  player_id uuid
-  role_type_id uuid
-  num_transactions integer
-  total_profit numeric
-} */

@@ -15,6 +15,7 @@ import { Scenario } from "./Scenario";
 import { Group } from "./Group";
 import { generate } from "randomstring";
 import { ExperimentPlayer } from "./ExperimentPlayer";
+import { ExperimentSession } from "./ExperimentSession";
 
 @Entity("experiments")
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
@@ -42,6 +43,9 @@ export class Experiment extends BaseEntity {
 
   @OneToMany(() => ExperimentPlayer, ep => ep.experiment)
   players: Promise<Experiment[]>;
+
+  @OneToMany(() => ExperimentSession, es => es.experiment)
+  sessions: Promise<ExperimentSession[]>;
 
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
