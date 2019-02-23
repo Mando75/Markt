@@ -4,12 +4,14 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { Experiment } from "./Experiment";
 import { Player } from "./Player";
 import { RoleType } from "./RoleType";
+import { PlayerTransaction } from "./PlayerTransaction";
 
 @Entity("experiment_players")
 export class ExperimentPlayer extends BaseEntity {
@@ -27,6 +29,9 @@ export class ExperimentPlayer extends BaseEntity {
 
   @Column({ type: "integer", nullable: false, default: 0 })
   numTransactions: number;
+
+  @OneToMany(() => PlayerTransaction, pt => pt.player, { eager: true })
+  playerTransactions: PlayerTransaction[];
 
   @Column({ type: "float", nullable: false, default: 0.0 })
   totalProfit: number;

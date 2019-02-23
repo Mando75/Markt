@@ -4,11 +4,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
 import { Experiment } from "./Experiment";
 import { ScenarioSession } from "./ScenarioSession";
+import { Round } from "./Round";
 
 @Entity("experiment_sessions")
 export class ExperimentSession extends BaseEntity {
@@ -22,6 +24,9 @@ export class ExperimentSession extends BaseEntity {
     nullable: false
   })
   scenarioSession: Promise<ScenarioSession>;
+
+  @OneToMany(() => Round, r => r.session)
+  rounds: Promise<Round[]>;
 
   @Column({ type: "integer", nullable: false })
   sessionNumber: number;
