@@ -3,8 +3,10 @@ import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import * as faker from "faker";
+import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 
 let app: Server, db: Connection, host: string;
+const redis = TestClient.createRedisConnection();
 
 beforeAll(async () => {
   const setup = await startTestServer();
@@ -150,8 +152,29 @@ describe("startExperiment", () => {
     expect(experiment.group.id).toEqual(startNewExperiment.group.id);
     expect(experiment.scenario.id).toEqual(startNewExperiment.scenario.id);
   });
+
+  it("loads the role distribution into redis", async () => {
+    const tc = new TestClient(host);
+    const [{ scenario }, { guide }] = await Promise.all([
+      TestClient.createMockScenario(),
+      tc.createUserWithGuide()
+    ]);
+    const [group] = await Promise.all([tc.createMockGroup(), tc.login()]);
+    const {
+      data: { startNewExperiment }
+    } = await tc.query(startExperiment(guide.id, group.id, scenario.id));
+
+    console.log(RedisPrefix.ROLE_DIST + startNewExperiment.id);
+    const roleDist = await redis.lrange(
+      RedisPrefix.ROLE_DIST + startNewExperiment.id,
+      0,
+      -1
+    );
+    expect(roleDist).toEqual(scenario.roleDistribution);
+  });
 });
 
 afterAll(async () => {
   await teardownTestServer(app, db);
+  await redis.disconnect();
 });

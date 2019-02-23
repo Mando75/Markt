@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { User } from "../../../entity/User";
-import * as Redis from "ioredis";
 import { createForgotPasswordLink } from "../connectors/lib";
 import { ErrorMessages } from "../errorMessages";
 import { lockAccount } from "../connectors/sendForgotPasswordEmail";
@@ -8,7 +7,7 @@ import { startTestServer, TestClient, teardownTestServer } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 let app: Server, db: Connection, host: string, tc: TestClient, user: User;
-const redis = new Redis(process.env.REDIS_URL as string);
+const redis = TestClient.createRedisConnection();
 
 beforeAll(async () => {
   const setup = await startTestServer();
@@ -92,4 +91,5 @@ describe("forgotPassword", () => {
 
 afterAll(async () => {
   await teardownTestServer(app, db);
+  await redis.disconnect();
 });

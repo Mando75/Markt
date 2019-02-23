@@ -6,6 +6,7 @@ import { Guide } from "../entity/Guide";
 import { Scenario } from "../entity/Scenario";
 import { Group } from "../entity/Group";
 import { Player } from "../entity/Player";
+import * as IORedis from "ioredis";
 
 export class TestClient {
   url: string;
@@ -154,6 +155,9 @@ export class TestClient {
     return { user, guide };
   }
 
+  static createRedisConnection() {
+    return new IORedis(process.env.REDIS_URL + "/1");
+  }
   static async createMockUsers(count: number) {
     let users: User[] = [];
     for (let i = 0; i < count; i++) {
