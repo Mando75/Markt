@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   BaseEntity,
   Column,
   CreateDateColumn,
@@ -12,6 +13,7 @@ import { Experiment } from "./Experiment";
 import { Player } from "./Player";
 import { RoleType } from "./RoleType";
 import { PlayerTransaction } from "./PlayerTransaction";
+import { Transaction } from "./Transaction";
 
 @Entity("experiment_players")
 export class ExperimentPlayer extends BaseEntity {
@@ -33,6 +35,9 @@ export class ExperimentPlayer extends BaseEntity {
   @OneToMany(() => PlayerTransaction, pt => pt.player, { eager: true })
   playerTransactions: PlayerTransaction[];
 
+  // Set by _loadTransactions
+  transactions: Transaction[];
+
   @Column({ type: "float", nullable: false, default: 0.0 })
   totalProfit: number;
 
@@ -41,4 +46,9 @@ export class ExperimentPlayer extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  @AfterLoad()
+  _loadTransactions() {
+    this.transactions = this.playerTransactions.map(pt => pt.transaction);
+  }
 }

@@ -6,18 +6,23 @@ import {
   ManyToOne,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  AfterLoad
 } from "typeorm";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Round } from "./Round";
+import { ExperimentPlayer } from "./ExperimentPlayer";
 
 @Entity("transactions")
 export class Transaction extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToMany(() => PlayerTransaction, pt => pt.transaction, { eager: true })
-  playerTransactions: PlayerTransaction;
+  @OneToMany(() => PlayerTransaction, pt => pt.transaction, {
+    eager: true,
+    nullable: false
+  })
+  playerTransactions: PlayerTransaction[];
 
   @ManyToOne(() => Round, r => r.transactions)
   round: Promise<Round>;
@@ -37,17 +42,24 @@ export class Transaction extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  /**
- Table transactions {
-  id uuid PK
-  buyer_id uuid
-  seller_id uuid
-  round_id uuid
-  amount numeric
-  buyer_profit numeric
-  seller_profit numeric
-  created_date timestamp
-  updated_date timestamp
-}
-   */
+  // buyer and seller are set by _loadBuyerSeller
+  buyer: ExperimentPlayer;
+
+  seller: ExperimentPlayer;
+
+  @AfterLoad()
+  _loadBuyerSeller() {
+    const buyerSearch = this.playerTransactions.find(
+      (pt: PlayerTransaction) => !pt.isSeller
+    );
+    const sellerSearch = this.playerTransactions.find(
+      (pt: PlayerTransaction) => pt.isSeller
+    );
+    if (buyerSearch && sellerSearch) {
+      this.buyer = buyerSearch.player;
+      this.seller = sellerSearch.player;
+    } else {
+      throw new Error("Missing player buyer or seller on transaction");
+    }
+  }
 }
