@@ -14,7 +14,7 @@
     "migrate:gen": "yarn run tsnode:typeorm migration:generate -c development -n ",
     "migrate:create": "yarn run tsnode:typeorm migration:create -c development -n",
     "migrate:run": "yarn run tsnode:typeorm migration:run -c development",
-    "migrate:test": "yarn run tsnode:typeorm migration:run -c test",
+    "migrate:test": "yarn run tsnode:typeorm migration:run",
     "migrate:revert": "yarn run tsnode:typeorm migration:revert -c development",
     "tsnode": "yarn run ts-node --project ./tsconfig.json --files",
     "tsnode:typeorm": "yarn run ts-node --project ./tsconfig.json --files node_modules/.bin/typeorm",
