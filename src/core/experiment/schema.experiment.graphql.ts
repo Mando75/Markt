@@ -7,8 +7,8 @@ export const typeDefs = gql`
     group: Group!
     joinCode: String!
     numPlayers: Int!
-    players: [ExperimentPlayer]
-    sessions: [ExperimentSession]
+    players: [ExperimentPlayer]!
+    sessions: [ExperimentSession]!
     active: Boolean!
     closed: Boolean!
     endDate: Date
@@ -21,10 +21,17 @@ export const typeDefs = gql`
     experiment: Experiment!
     player: Player!
     roleType: RoleType!
+    transactions: [Transaction]!
+    buyerTransactions: [Transaction]
+    sellerTransactions: [Transaction]
     numTransactions: Int!
     totalProfit: Float!
     createdDate: Date
     updatedDate: Date
+  }
+
+  extend type Player {
+    experimentPlayers: [ExperimentPlayer]!
   }
 
   type ExperimentSession {
@@ -38,8 +45,29 @@ export const typeDefs = gql`
     updatedDate: Date
   }
 
-  extend type Player {
-    experimentPlayers: [ExperimentPlayer]
+  type Round {
+    id: ID!
+    session: ExperimentSession
+    roundNumber: Int!
+    active: Boolean
+    averagePrice: Float
+    transactions: [Transaction]!
+    numTransactions: Int
+    endDate: Date
+    createdDate: Date
+    updatedDate: Date
+  }
+
+  type Transaction {
+    id: ID!
+    round: Round!
+    amount: Float!
+    buyer: ExperimentPlayer
+    seller: ExperimentPlayer
+    buyerProfit: Float!
+    sellerProfit: Float!
+    createdDate: Date
+    updatedDate: Date
   }
 
   input ExperimentStartType {

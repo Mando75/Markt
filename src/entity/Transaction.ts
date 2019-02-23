@@ -24,7 +24,7 @@ export class Transaction extends BaseEntity {
   })
   playerTransactions: PlayerTransaction[];
 
-  @ManyToOne(() => Round, r => r.transactions)
+  @ManyToOne(() => Round, r => r.transactions, { nullable: false })
   round: Promise<Round>;
 
   @Column({ type: "float", nullable: false, default: 0.0 })

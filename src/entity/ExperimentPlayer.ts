@@ -1,6 +1,8 @@
 import {
   AfterLoad,
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -38,6 +40,14 @@ export class ExperimentPlayer extends BaseEntity {
   // Set by _loadTransactions
   transactions: Transaction[];
 
+  buyerTransactions() {
+    return this.playerTransactions.filter(pt => !pt.isSeller);
+  }
+
+  sellerTransactions() {
+    return this.playerTransactions.filter(pt => pt.isSeller);
+  }
+
   @Column({ type: "float", nullable: false, default: 0.0 })
   totalProfit: number;
 
@@ -50,5 +60,27 @@ export class ExperimentPlayer extends BaseEntity {
   @AfterLoad()
   _loadTransactions() {
     this.transactions = this.playerTransactions.map(pt => pt.transaction);
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  _setNumTransactions() {
+    this.numTransactions = this.playerTransactions.length;
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  _setTotalProfit() {
+    const sellerProfit = this.sellerTransactions().reduce(
+      (accum: number, pt: PlayerTransaction) =>
+        accum + pt.transaction.sellerProfit,
+      0
+    );
+    const buyerProfit = this.buyerTransactions().reduce(
+      (accum: number, pt: PlayerTransaction) =>
+        accum + pt.transaction.buyerProfit,
+      0
+    );
+    this.totalProfit = sellerProfit + buyerProfit;
   }
 }

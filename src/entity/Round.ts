@@ -1,5 +1,7 @@
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -42,4 +44,21 @@ export class Round extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async _setAveragePrice() {
+    const transactions = await this.transactions;
+    this.averagePrice =
+      transactions.reduce(
+        (accum: number, t: Transaction) => accum + t.amount,
+        0
+      ) / transactions.length;
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async _setNumTransactions() {
+    this.numTransactions = (await this.transactions).length;
+  }
 }
