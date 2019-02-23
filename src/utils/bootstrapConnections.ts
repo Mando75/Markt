@@ -19,6 +19,8 @@ import passport from "./passport";
 import { AddressInfo } from "ws";
 import { setContext } from "./ContextSession/contextControl";
 
+const testEnv = process.env.NODE_ENV === "test";
+
 redis.on("error", () => {
   console.log("Error connecting");
   if (process.env.NODE_ENV != "production") redis.disconnect();
@@ -48,7 +50,7 @@ export const bootstrapConnections = async (port: number) => {
     // Connect to Database
     db = await CreateTypeORMConnection();
     // await db.runMigrations();
-    console.log(`Connected to db ${db.options.database}`);
+    console.log(testEnv ? "" : `Connected to db ${db.options.database}`);
 
     // Load GraphQL Schema files
     const schema: GraphQLSchema = applyMiddleware(
@@ -71,9 +73,11 @@ export const bootstrapConnections = async (port: number) => {
     app = await server.listen(port);
 
     console.log(
-      `🚀  Server ready at http://localhost:${
-        (app.address() as AddressInfo).port
-      }: Happy Coding!`
+      testEnv
+        ? ""
+        : `🚀  Server ready at http://localhost:${
+            (app.address() as AddressInfo).port
+          }: Happy Coding!`
     );
     return { app, db };
   } catch (e) {
