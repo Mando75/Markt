@@ -3,6 +3,7 @@ import { Guide } from "../../../entity/Guide";
 import { Group } from "../../../entity/Group";
 import { Player } from "../../../entity/Player";
 import { UserInputError, ApolloError } from "apollo-server-express";
+import { sendGridPlayerWelcomeEmail } from "../../../utils/email/sendEmail";
 
 export const createPlayer = async (
   _: any,
@@ -13,8 +14,7 @@ export const createPlayer = async (
 ) => {
   try {
     const guideP = Guide.findOne({
-      where: { id: guideId },
-      select: ["id"]
+      where: { id: guideId }
     });
     const groupP = Group.findOne({
       where: { id: groupId },
@@ -29,7 +29,14 @@ export const createPlayer = async (
     player.group = group ? Promise.resolve(group) : group;
     if (guide) {
       player.guide = Promise.resolve(guide);
-      return await player.save();
+      await player.save();
+      await sendGridPlayerWelcomeEmail(
+        player.email,
+        player.firstName || player.lastName || player.email,
+        guide.user.fullName || guide.user.email,
+        player.playerCode
+      );
+      return player;
     } else {
       throw new ApolloError(
         "Invalid guide: Guide does not exist",

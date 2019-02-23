@@ -147,7 +147,7 @@ export class TestClient {
   async createUserWithGuide() {
     const user = await this.createUser(true);
     const guide = new Guide();
-    guide.user = Promise.resolve(user);
+    guide.user = user;
     await guide.save();
     if (this.testUser) {
       await this.testUser.reload();

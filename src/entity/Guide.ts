@@ -21,9 +21,10 @@ export class Guide extends BaseEntity {
 
   @JoinColumn()
   @OneToOne(() => User, user => user.guide, {
-    nullable: false
+    nullable: false,
+    eager: true
   })
-  user: Promise<User>;
+  user: User;
 
   @OneToMany(() => Group, group => group.guide, { nullable: true })
   groups: Promise<Group[]>;

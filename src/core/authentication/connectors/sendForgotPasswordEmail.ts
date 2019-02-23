@@ -2,7 +2,7 @@ import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
 import { ErrorMessages } from "../errorMessages";
 import { createForgotPasswordLink } from "./lib";
-import { sendGridForgotPasswordEmail } from "../../../utils/sendEmail";
+import { sendGridForgotPasswordEmail } from "../../../utils/email/sendEmail";
 import {
   deleteSessions,
   getSessionIds

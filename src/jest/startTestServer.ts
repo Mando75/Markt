@@ -9,6 +9,16 @@ const mockApis = () => {
     .reply(200, {
       message: "success"
     });
+  nock("api.sendgrid.com")
+    .post("v3/mail.send")
+    .reply(200, {
+      message: "success"
+    });
+  nock("https://api.sendgrid.com/v3/mail/send")
+    .post("")
+    .reply(200, {
+      message: "success"
+    });
 };
 
 export const startTestServer = async () => {
