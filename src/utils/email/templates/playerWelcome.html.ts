@@ -1,4 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head>
+export default (
+  playerName: string,
+  guideName: string,
+  playerCode: string
+) => `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head>
     <!--[if gte mso 9]><xml>
      <o:OfficeDocumentSettings>
       <o:AllowPNG/>
@@ -311,7 +315,7 @@ a[x-apple-data-detectors=true] {
                     <div class="">
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 30px; padding-left: 30px; padding-top: 10px; padding-bottom: 0px;"><![endif]-->
 	<div style="color:#555555;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%; padding-right: 30px; padding-left: 30px; padding-top: 10px; padding-bottom: 0px;">
-		<div style="font-size:12px;line-height:14px;font-family:Montserrat, 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;color:#555555;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px"><strong><span style="font-size: 46px; line-height: 55px;">Welcome, <span style="color: #3d3bee;">####PLAYERNAME####</span>!</span></strong></p></div>
+		<div style="font-size:12px;line-height:14px;font-family:Montserrat, 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;color:#555555;text-align:left;"><p style="margin: 0;font-size: 14px;line-height: 17px"><strong><span style="font-size: 46px; line-height: 55px;">Welcome, <span style="color: #3d3bee;">${playerName}</span>!</span></strong></p></div>
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
 </div>
@@ -320,7 +324,7 @@ a[x-apple-data-detectors=true] {
                     <div class="">
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 30px; padding-left: 30px; padding-top: 15px; padding-bottom: 5px;"><![endif]-->
 	<div style="color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;line-height:150%; padding-right: 30px; padding-left: 30px; padding-top: 15px; padding-bottom: 5px;">
-		<div style="font-size:12px;line-height:18px;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 18px"><strong><span style="font-size: 20px; line-height: 30px;">Are you ready to play? You've been invited by ####GUIDENAME#### to join Markt!</span></strong></p></div>
+		<div style="font-size:12px;line-height:18px;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;text-align:left;"><p style="margin: 0;font-size: 12px;line-height: 18px"><strong><span style="font-size: 20px; line-height: 30px;">Are you ready to play? You've been invited by ${guideName} to join Markt!</span></strong></p></div>
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
 </div>
@@ -346,7 +350,7 @@ a[x-apple-data-detectors=true] {
                     <div class="">
 	<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
 	<div style="color:#555555;line-height:120%;font-family:'Open Sans', Helvetica, Arial, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">
-		<div style="line-height:14px;font-size:12px;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;text-align:left;"><p style="margin: 0;line-height: 14px;font-size: 12px"><span style="font-size: 16px; line-height: 19px;">Your player code is <span style="font-size: 22px; line-height: 26px;"><strong>####PLAYERCODE####</strong><span style="font-size: 18px; line-height: 21px;">. Keep this handy, you'll need it to join experiments!&#160;</span></span></span></p><p style="margin: 0;line-height: 14px;font-size: 12px"><span style="font-size: 16px; line-height: 19px;"><span style="font-size: 22px; line-height: 26px;"><span style="font-size: 18px; line-height: 21px;">Are you ready to join a game? Click the link below to get started!</span></span></span></p></div>
+		<div style="line-height:14px;font-size:12px;color:#555555;font-family:'Open Sans', Helvetica, Arial, sans-serif;text-align:left;"><p style="margin: 0;line-height: 14px;font-size: 12px"><span style="font-size: 16px; line-height: 19px;">Your player code is <span style="font-size: 22px; line-height: 26px;"><strong>${playerCode}</strong><span style="font-size: 18px; line-height: 21px;">. Keep this handy, you'll need it to join experiments!&#160;</span></span></span></p><p style="margin: 0;line-height: 14px;font-size: 12px"><span style="font-size: 16px; line-height: 19px;"><span style="font-size: 22px; line-height: 26px;"><span style="font-size: 18px; line-height: 21px;">Are you ready to join a game? Click the link below to get started!</span></span></span></p></div>
 	</div>
 	<!--[if mso]></td></tr></table><![endif]-->
 </div>
@@ -372,7 +376,9 @@ a[x-apple-data-detectors=true] {
 
 <div align="center" class="button-container center " style="padding-right: 10px; padding-left: 10px; padding-top:10px; padding-bottom:10px;">
   <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top:10px; padding-bottom:10px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://markt-dev.herokuapp.com/join" style="height:54pt; v-text-anchor:middle; width:243pt;" arcsize="13%" strokecolor="#3D3BEE" fillcolor="#3D3BEE"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#ffffff; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:26px;"><![endif]-->
-    <a href="https://markt-dev.herokuapp.com/join" target="_blank" style="display: block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #ffffff; background-color: #3D3BEE; border-radius: 9px; -webkit-border-radius: 9px; -moz-border-radius: 9px; max-width: 324px; width: 234px;width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 10px; padding-right: 45px; padding-bottom: 10px; padding-left: 45px; font-family: 'Open Sans', Helvetica, Arial, sans-serif;mso-border-alt: none">
+    <a href="${
+      process.env.HOST
+    }/join" target="_blank" style="display: block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #ffffff; background-color: #3D3BEE; border-radius: 9px; -webkit-border-radius: 9px; -moz-border-radius: 9px; max-width: 324px; width: 234px;width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 10px; padding-right: 45px; padding-bottom: 10px; padding-left: 45px; font-family: 'Open Sans', Helvetica, Arial, sans-serif;mso-border-alt: none">
       <span style="font-family:'Open Sans', Helvetica, Arial, sans-serif;font-size:16px;line-height:32px;"><span style="font-size: 26px; line-height: 52px;"><strong>JOIN A GAME NOW</strong></span></span>
     </a>
   <!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
@@ -457,4 +463,4 @@ a[x-apple-data-detectors=true] {
   <!--[if (mso)|(IE)]></div><![endif]-->
 
 
-</body></html>
+</body></html>`;

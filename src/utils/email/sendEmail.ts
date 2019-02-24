@@ -1,9 +1,8 @@
 import * as sgMail from "@sendgrid/mail";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
-// import playerWelcome from "./templates/playerWelcome.html";
+import playerWelcome from "./templates/playerWelcome.html";
 // TODO move to another email
 const fromEmail = "bryanmullerdev@gmail.com";
-const playerWelcome = "asdf";
 
 /**
  * Sends a confirmation email through the SendGrid API
@@ -62,11 +61,7 @@ export const sendGridPlayerWelcomeEmail = async (
     to,
     from: fromEmail,
     subject: `Welcome to Markt!`,
-    html: playerWelcome
-      .replace("####PLAYERNAME####", playerName)
-      .replace("####PLAYERCODE####", playerCode)
-      .replace("####GUIDENAME####", guideName)
+    html: playerWelcome(playerName, guideName, playerCode)
   };
-  console.log(msg);
   return await sgMail.send(msg);
 };

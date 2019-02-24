@@ -13,6 +13,7 @@ export const createPlayer = async (
   __: GraphQLContext
 ) => {
   try {
+    // Fetch fields
     const guideP = Guide.findOne({
       where: { id: guideId }
     });
@@ -27,16 +28,24 @@ export const createPlayer = async (
     });
     const [guide, group] = await Promise.all([guideP, groupP]);
     player.group = group ? Promise.resolve(group) : group;
+
+    // Try to set the fields
+    // Player must have a guide, so throw error if it does not exist
     if (guide) {
       player.guide = Promise.resolve(guide);
+      // TODO Fix bug that player isn't reloading
       await player.save();
-      await sendGridPlayerWelcomeEmail(
-        player.email,
-        player.firstName || player.lastName || player.email,
-        guide.user.fullName || guide.user.email,
-        player.playerCode
-      );
-      return player;
+      // Manually reload because of bug
+      const p2 = await Player.findOne({
+        where: { playerCode: player.playerCode, guide, active: true }
+      });
+      if (!p2) {
+        await player.remove();
+        throw new ApolloError("Error finding player");
+      }
+
+      await sendWelcomeEmail(p2, guide);
+      return p2;
     } else {
       throw new ApolloError(
         "Invalid guide: Guide does not exist",
@@ -51,5 +60,19 @@ export const createPlayer = async (
       throw e;
     }
     throw new UserInputError("Invalid parameter");
+  }
+};
+
+const sendWelcomeEmail = async (p2: Player, guide: Guide) => {
+  try {
+    await sendGridPlayerWelcomeEmail(
+      p2.email,
+      p2.firstName || p2.lastName || p2.email,
+      guide.user.fullName || guide.user.email,
+      p2.playerCode
+    );
+  } catch (e) {
+    console.log(e);
+    throw new ApolloError("Could not send welcome email");
   }
 };
