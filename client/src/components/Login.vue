@@ -15,7 +15,7 @@
 
                 <v-card-title primary-title>
                   <div>
-                    <h3 class="headline mb-0">Kangaroo Valley Safari</h3>
+                    <h3 class="headline mb-0">Login</h3>
                   </div>
                 </v-card-title>
                 <v-card-text>
@@ -31,16 +31,13 @@
                           label="Password"
                           v-model="userPassword"
                           type="password"
-                        /><v-btn @click="mutate">Login</v-btn>
+                        /><v-btn color="primary3" @click="mutate">Login</v-btn>
                         <p>{{ error }}</p>
                       </template>
                     </ApolloMutation>
                   </div>
                 </v-card-text>
-                <v-card-actions>
-                  <v-btn flat color="orange">Share</v-btn>
-                  <v-btn flat color="orange">Explore</v-btn>
-                </v-card-actions>
+                <v-card-actions> </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout>
@@ -73,7 +70,7 @@ export default {
     };
   },
   methods: {
-    handleLogin({data}) {
+    handleLogin({ data }) {
       console.log(data);
       console.log(data.login);
     }

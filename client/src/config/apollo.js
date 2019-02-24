@@ -6,8 +6,8 @@ const uri = "/graphql";
 const httpLink = new HttpLink({
   uri,
   fetchOptions: {
-    credentials: "include",
-  },
+    credentials: "include"
+  }
 });
 
 const cache = new InMemoryCache();

@@ -17,6 +17,22 @@ export default new Router({
       component: () => import("../components/Login")
     },
     {
+      path: "/scenarios",
+      name: "LandingPage",
+      component: () => import("../components/LandingPage")
+    },
+    {
+      path: "/how",
+      name: "Instructions",
+      component: () => import("../components/Instructions")
+    },
+    {
+      path: "/player",
+      name: "Player",
+      component: () => import("../components/PlayerPage.vue")
+    },
+
+    {
       path: "/create_account",
       name: "account",
       component: () => import("../components/Account")

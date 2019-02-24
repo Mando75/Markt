@@ -16,7 +16,7 @@
         </v-list-tile-action>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app dark fixed clipped-left>
+    <v-toolbar app dark fixed clipped-left scroll-off-screen>
       <v-toolbar-side-icon v-on:click="drawer = true"></v-toolbar-side-icon>
       <v-toolbar-title>Markt</v-toolbar-title>
       <v-spacer></v-spacer>
