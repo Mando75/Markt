@@ -235,7 +235,7 @@ export class TestClient {
   }
 
   static genInstructions(length = 1) {
-    const i = [];
+    const i: Array<ScenarioSchema.Instructions> = [];
     for (let k = 0; k < length; k++) {
       i.push({
         step: faker.random.number(),
