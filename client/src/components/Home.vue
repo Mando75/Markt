@@ -3,17 +3,27 @@
     <v-content>
       <Nav />
 
-      <v-card flat align="left">
-        <v-img
-          ><img src="../assets/RoughDraft_markt.png" height="200" width="200"
-        /></v-img>
-      </v-card>
-
       <v-container grid-list-md text-xs-center fluid>
         <v-layout row wrap>
-          <v-flex v-for="i in 2" :key="`6${i}`" xs6>
-            <v-card color="primary0">
-              <v-card-text class="px-0">6</v-card-text>
+          <v-flex xs2>
+            <v-card flat align="left">
+              <v-img
+                ><img
+                  src="../assets/RoughDraft_markt.png"
+                  height="200"
+                  width="200"
+              /></v-img>
+            </v-card>
+          </v-flex>
+          <v-flex xs8>
+            <v-card flat align="left">
+              <v-img
+                ><img
+                  src="../assets/bw_old_school.png"
+                  height="450"
+                  width="800"
+                />
+              </v-img>
             </v-card>
           </v-flex>
           <v-flex v-for="i in 3" :key="`4${i}`" xs4>

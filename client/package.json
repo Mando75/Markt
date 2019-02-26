@@ -27,6 +27,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "font-awesome": "4.7.0",
     "prettier": "^1.16.4",
     "vue-template-compiler": "^2.5.21",
     "vuetify-loader": "^1.2.1"
@@ -37,11 +38,15 @@
       "node": true
     },
     "extends": [
-      "prettier", "prettier/standard",
+      "prettier",
+      "prettier/standard",
       "plugin:vue/recommended",
       "@vue/prettier"
     ],
-    "plugins": ["vue", "prettier"],
+    "plugins": [
+      "vue",
+      "prettier"
+    ],
     "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
