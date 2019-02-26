@@ -7,6 +7,8 @@ module.exports = async () => {
   process.env.TEST_PORT = 0;
   console.log("Connecting to Database");
   const connection = await createConnection();
+  console.log("Drop existing schema");
+  await connection.dropDatabase();
   console.log("Running migrations");
   await connection.runMigrations();
   console.log("Closing connection");
