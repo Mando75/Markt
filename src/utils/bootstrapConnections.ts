@@ -17,6 +17,9 @@ import * as RateLimit from "express-rate-limit";
 import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
+import { setContext } from "./ContextSession/contextControl";
+
+const testEnv = process.env.NODE_ENV === "test";
 
 redis.on("error", () => {
   console.log("Error connecting");
@@ -47,7 +50,7 @@ export const bootstrapConnections = async (port: number) => {
     // Connect to Database
     db = await CreateTypeORMConnection();
     // await db.runMigrations();
-    console.log(`Connected to db ${db.options.database}`);
+    if (!testEnv) console.log(`Connected to db ${db.options.database}`);
 
     // Load GraphQL Schema files
     const schema: GraphQLSchema = applyMiddleware(
@@ -60,7 +63,7 @@ export const bootstrapConnections = async (port: number) => {
       schema,
       formatError,
       formatResponse,
-      context: setContext,
+      context: setContext(redis),
       introspection: true,
       playground,
       debug: process.env.NODE_ENV !== "production"
@@ -69,11 +72,14 @@ export const bootstrapConnections = async (port: number) => {
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
     app = await server.listen(port);
 
-    console.log(
-      `🚀  Server ready at http://localhost:${
-        (app.address() as AddressInfo).port
-      }: Happy Coding!`
-    );
+    if (!testEnv) {
+      console.log(
+        `🚀  Server ready at http://localhost:${
+          (app.address() as AddressInfo).port
+        }: Happy Coding!`
+      );
+    }
+
     return { app, db };
   } catch (e) {
     console.error("Could not bootstrap server connections. Exiting", e);
@@ -96,16 +102,6 @@ export const normalizePort = (val: any) => {
 };
 
 /**
- * Return the context object for Apollo requests
- * @param req
- */
-const setContext = ({ req }: any) => ({
-  redis,
-  url: `${req.protocol}://${req.get("host")}`,
-  session: req.session,
-  req: req
-});
-/**
  * Request response formatting
  * @param response
  */
@@ -119,6 +115,9 @@ const formatResponse = (response: Response) => {
  * @param error
  */
 const formatError = (error: Error) => {
+  if (testEnv) {
+    return error;
+  }
   console.log(error);
   return error;
 };

@@ -1,3 +1,9 @@
+/**
+ * @author Bryan Muller
+ * @description This file contains the basic getters for the scenario schema resolvers.
+ * Each resolver will try to optimize the database query by only requesting the queried fields
+ * from the query.
+ */
 import { GraphQLContext } from "../../../types/graphql-context";
 import { Scenario } from "../../../entity/Scenario";
 import { RoleType } from "../../../entity/RoleType";
@@ -6,12 +12,24 @@ import { SessionRole } from "../../../entity/SessionRole";
 import * as graphqlFields from "graphql-fields";
 import { GraphQLResolveInfo } from "graphql";
 
+/**
+ * Basic scenario query
+ * @param _
+ * @param id
+ * @param code
+ * @param __
+ * @param info
+ */
 export const getScenario = async (
   _: any,
-  { id }: GQL.IScenarioOnQueryArguments,
+  { id, code }: GQL.IScenarioOnQueryArguments,
   __: GraphQLContext,
   info: GraphQLResolveInfo
 ) => {
+  // Empty case: They did not provide a param
+  if (!(id || code)) {
+    return null;
+  }
   /**
    * Grab only the top level fields being called.
    * Exclude any relation columns, as they do not exist
@@ -24,11 +42,23 @@ export const getScenario = async (
       { excludedFields: ["__typename", "scenarioSessions", "roleTypes"] }
     )
   ) as (keyof Scenario)[];
-  return fields.length
-    ? await Scenario.findOne(id, { select: fields })
-    : await Scenario.findOne(id);
+  if (id)
+    return fields.length
+      ? await Scenario.findOne(id, { select: fields })
+      : await Scenario.findOne(id);
+  else if (code)
+    return fields.length
+      ? await Scenario.findOne({ scenarioCode: code }, { select: fields })
+      : await Scenario.findOne({ scenarioCode: code });
 };
 
+/**
+ * Basic Role Type query
+ * @param _
+ * @param id
+ * @param __
+ * @param info
+ */
 export const getRoleType = async (
   _: any,
   { id }: GQL.IRoleTypeOnQueryArguments,

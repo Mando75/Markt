@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import { RoleType } from "./RoleType";
 import { ScenarioSession } from "./ScenarioSession";
+import { Experiment } from "./Experiment";
 
 @Entity("scenarios")
 export class Scenario extends BaseEntity {
@@ -39,11 +40,14 @@ export class Scenario extends BaseEntity {
   @Column({ type: "jsonb", nullable: false, default: [{}] })
   roleDistribution: Array<string>;
 
-  @OneToMany(() => RoleType, role => role.scenario)
+  @OneToMany(() => RoleType, role => role.scenario, { nullable: true })
   roleTypes: Promise<RoleType[]>;
 
-  @OneToMany(() => ScenarioSession, ss => ss.scenario)
+  @OneToMany(() => ScenarioSession, ss => ss.scenario, { nullable: true })
   scenarioSessions: Promise<ScenarioSession[]>;
+
+  @OneToMany(() => Experiment, e => e.scenario, { nullable: true })
+  experiments: Promise<Experiment[]>;
 
   @CreateDateColumn()
   createdDate: Date;

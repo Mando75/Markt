@@ -4,7 +4,7 @@ import { ErrorMessages } from "../errorMessages";
 import { yupPasswordSchema } from "../yup.schema";
 import { formatYupError } from "../../../utils";
 import { User } from "../../../entity/User";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import * as yup from "yup";
 
 export const forgotPasswordChange = async (

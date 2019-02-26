@@ -1,6 +1,6 @@
 import { ResolverMap } from "./types/graphql-utils";
-import { User } from "./entity/User";
 import { GraphQLScalarType, Kind } from "graphql";
+import { GraphQLContext } from "./types/graphql-context";
 
 export const resolvers: ResolverMap = {
   Date: new GraphQLScalarType({
@@ -20,11 +20,8 @@ export const resolvers: ResolverMap = {
     }
   }),
   Query: {
-    me: async (_: any, __: any, { session }: { session: Express.Session }) => {
-      return await User.findOne({
-        select: ["id", "email"],
-        where: { id: session.userId }
-      });
+    me: (_: any, __: any, { user }: GraphQLContext) => {
+      return user;
     }
   },
   Mutation: {}

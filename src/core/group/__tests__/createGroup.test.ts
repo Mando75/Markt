@@ -48,7 +48,7 @@ describe("createGroup", () => {
     await adminClient.createUser(true, AccountType.ADMIN);
     await adminClient.login();
     const guide = new Guide();
-    guide.user = Promise.resolve(adminClient.testUser as User);
+    guide.user = adminClient.testUser as User;
     await guide.save();
 
     const { data } = await adminClient.query(createGroupQuery(guide.id));

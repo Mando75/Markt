@@ -12,7 +12,7 @@ import {
   AfterLoad,
   AfterUpdate
 } from "typeorm";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { AccountType } from "../enums/accountType.enum";
 import { Institution } from "./Institution";
 import { Guide } from "./Guide";
@@ -23,21 +23,22 @@ export class User extends BaseEntity {
   id: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  externalGuid: string;
+  externalGuid: string | undefined;
 
   @Index()
   @Column({ type: "varchar", length: 255, nullable: true })
-  firstName: string;
+  firstName: string | undefined;
 
   @Index()
   @Column({ type: "varchar", length: 255, nullable: true })
-  lastName: string;
+  lastName: string | undefined;
 
-  fullName: string;
+  fullName: string | undefined;
 
   @AfterLoad()
   @AfterUpdate()
   setFullName() {
+    if (!(this.firstName || this.lastName)) this.fullName = undefined;
     this.fullName = this.firstName + " " + this.lastName;
   }
 

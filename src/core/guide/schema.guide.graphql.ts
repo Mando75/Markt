@@ -8,6 +8,7 @@ export const typeDefs = gql`
     lastName: String
     fullname: String
     email: String
+    experiments: [Experiment]
     active: Boolean!
     createdDate: Date!
     updatedDate: Date!

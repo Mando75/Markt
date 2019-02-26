@@ -61,6 +61,18 @@ describe("createPlayer", () => {
     expect(errors[0].extensions.code).toEqual("BAD_USER_INPUT");
     expect(errors[0].message).toEqual("Invalid parameter");
   });
+
+  it("can query a new player", async () => {
+    const tc = new TestClient(host);
+    const { guide } = await tc.createUserWithGuide();
+    await tc.login();
+    const { data } = await tc.query(query(guide.id));
+    expect(data.createPlayer.id).toBeTruthy();
+    const {
+      data: { player }
+    } = await tc.query(`{ player(id: "${data.createPlayer.id}") { id } }`);
+    expect(player.id).toEqual(data.createPlayer.id);
+  });
 });
 
 afterAll(async () => {

@@ -44,6 +44,7 @@ export const typeDefs = gql`
     roleDistribution: [String]
     roleTypes: [RoleType]
     scenarioSessions: [ScenarioSession]
+    experiments: [Experiment]
     createdDate: Date!
     updatedDate: Date!
   }
@@ -86,7 +87,13 @@ export const typeDefs = gql`
   }
 
   extend type Query {
-    scenario(id: ID!): Scenario
+    # Find a single scenario
+    scenario(
+      # Search by id. Takes precendence
+      id: ID
+      # Search by scenarioCode
+      code: ID
+    ): Scenario
     roleType(id: ID!): RoleType
     scenarioSession(id: ID!): ScenarioSession
     sessionRole(id: ID!): SessionRole
