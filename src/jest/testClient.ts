@@ -4,6 +4,9 @@ import { AccountType } from "../enums/accountType.enum";
 import * as faker from "faker";
 import { Guide } from "../entity/Guide";
 import { Scenario } from "../entity/Scenario";
+import { Group } from "../entity/Group";
+import { Player } from "../entity/Player";
+import * as IORedis from "ioredis";
 
 export class TestClient {
   url: string;
@@ -144,11 +147,17 @@ export class TestClient {
   async createUserWithGuide() {
     const user = await this.createUser(true);
     const guide = new Guide();
-    guide.user = Promise.resolve(user);
+    guide.user = user;
     await guide.save();
+    if (this.testUser) {
+      await this.testUser.reload();
+    }
     return { user, guide };
   }
 
+  static createRedisConnection() {
+    return new IORedis(process.env.REDIS_URL + "/1");
+  }
   static async createMockUsers(count: number) {
     let users: User[] = [];
     for (let i = 0; i < count; i++) {
@@ -165,6 +174,32 @@ export class TestClient {
     return users;
   }
 
+  async createMockGroup(playerCount: number = 1) {
+    if (!this.testUser) {
+      throw new Error("Must first create a test user");
+    }
+    const guide = await this.testUser.guide;
+    const group = new Group();
+    group.name = faker.company.companyName();
+    group.guide = Promise.resolve(guide);
+    const playerPs: Promise<any>[] = [];
+    for (let i = 0; i < playerCount; i++) {
+      const fakePlayer = {
+        email: faker.internet.email(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName()
+      };
+      const p = Player.create(fakePlayer);
+      p.guide = Promise.resolve(guide);
+      p.group = Promise.resolve(group);
+      playerPs.push(p.save());
+    }
+    playerPs.push(group.save());
+    await Promise.all(playerPs);
+    await group.reload();
+    return group;
+  }
+
   static async createMockScenario() {
     const scen = this._genScenario();
     const newScen = await Scenario.create(scen).save();
@@ -177,7 +212,7 @@ export class TestClient {
   static _genScenario() {
     return {
       name: faker.lorem.word(),
-      scenarioCode: faker.lorem.word().substring(0, 9),
+      scenarioCode: faker.random.uuid().substring(0, 9),
       maxPlayerSize: faker.random.number(),
       sessionCount: faker.random.number(),
       overview: [
@@ -200,7 +235,7 @@ export class TestClient {
   }
 
   static genInstructions(length = 1) {
-    const i = [];
+    const i: Array<ScenarioSchema.Instructions> = [];
     for (let k = 0; k < length; k++) {
       i.push({
         step: faker.random.number(),

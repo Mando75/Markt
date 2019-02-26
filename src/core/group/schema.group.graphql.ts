@@ -6,6 +6,7 @@ export const typeDefs = gql`
     name: String!
     active: Boolean!
     guide: Guide!
+    experiments: [Experiment]
     createdDate: Date!
     updatedDate: Date!
   }

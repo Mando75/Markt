@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 import { Scenario } from "./Scenario";
 import { SessionRole } from "./SessionRole";
+import { ExperimentPlayer } from "./ExperimentPlayer";
 
 @Entity("role_types")
 export class RoleType extends BaseEntity {
@@ -29,6 +30,9 @@ export class RoleType extends BaseEntity {
 
   @OneToMany(() => SessionRole, sr => sr.roleType)
   sessionRoles: Promise<SessionRole[]>;
+
+  @OneToMany(() => ExperimentPlayer, ep => ep.roleType)
+  players: Promise<ExperimentPlayer[]>;
 
   @CreateDateColumn()
   createdDate: Date;

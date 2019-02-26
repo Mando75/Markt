@@ -5,13 +5,12 @@ import {
 } from "../connectors/lib";
 import { AccountType } from "../../../enums/accountType.enum";
 import { User } from "../../../entity/User";
-import * as Redis from "ioredis";
 import * as rp from "request-promise";
 import { startTestServer, TestClient, teardownTestServer } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 let app: Server, db: Connection, host: string, userId: string;
-const redis = new Redis(process.env.REDIS_URL as string);
+const redis = TestClient.createRedisConnection();
 
 beforeAll(async () => {
   const setup = await startTestServer();

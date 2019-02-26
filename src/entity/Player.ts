@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn
@@ -12,6 +13,7 @@ import {
 import { Guide } from "./Guide";
 import { Group } from "./Group";
 import { generate } from "randomstring";
+import { ExperimentPlayer } from "./ExperimentPlayer";
 
 @Entity("players")
 @Unique("UNIQ_PLAYER_CODE", ["playerCode", "active", "guide"])
@@ -20,10 +22,13 @@ export class Player extends BaseEntity {
   id: string;
 
   @ManyToOne(() => Guide, guide => guide.players, { nullable: false })
-  guide: Guide;
+  guide: Promise<Guide>;
 
   @ManyToOne(() => Group, group => group.players, { nullable: true })
-  group: Group | undefined;
+  group: Promise<Group> | undefined;
+
+  @OneToMany(() => ExperimentPlayer, ep => ep.player)
+  experimentPlayers: Promise<ExperimentPlayer[]>;
 
   @Column({ type: "varchar", length: 6, nullable: false })
   playerCode: string;
