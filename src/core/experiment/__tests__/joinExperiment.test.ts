@@ -93,7 +93,7 @@ describe("joinExperiment", () => {
     expect(errors[0].message).toEqual(
       ExperimentErrorMessages.EXPERIMENT_CLOSED
     );
-  });
+  }, 50000);
 
   it("creates a new experiment player attached to the experiment record", async () => {
     const tc = new TestClient(host);
