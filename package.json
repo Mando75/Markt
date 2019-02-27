@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'yarn run tsnode' src/index.ts",
     "test": "jest --config=jest.config.js --forceExit",
-    "test:coverage": "yarn test --runInBand && cat ./coverage/lcov.info | codacy-coverage",
+    "test:coverage": "yarn test && cat ./coverage/lcov.info | codacy-coverage",
     "gen:graphql-types": "yarn run tsnode ./scripts/genSchema.ts",
     "migrate:gen": "yarn run tsnode:typeorm migration:generate -c development -n ",
     "migrate:create": "yarn run tsnode:typeorm migration:create -c development -n",
