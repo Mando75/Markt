@@ -7,6 +7,8 @@ import { Scenario } from "../entity/Scenario";
 import { Group } from "../entity/Group";
 import { Player } from "../entity/Player";
 import * as IORedis from "ioredis";
+import { Experiment } from "../entity/Experiment";
+import { loadRoleDist } from "../core/experiment/connectors/startNewExperiment";
 
 export class TestClient {
   url: string;
@@ -207,6 +209,22 @@ export class TestClient {
       scenario: newScen,
       scenarioDef: scen
     };
+  }
+
+  async createMockScenarioWithExperimentAndGuide() {
+    const { guide } = await this.createUserWithGuide();
+    const [{ scenario }, group] = await Promise.all([
+      TestClient.createMockScenario(),
+      this.createMockGroup()
+    ]);
+
+    const experiment = new Experiment();
+    experiment.scenario = scenario;
+    experiment.guide = Promise.resolve(guide);
+    experiment.group = Promise.resolve(group);
+    await experiment.save();
+    await loadRoleDist(experiment, TestClient.createRedisConnection());
+    return experiment;
   }
 
   static _genScenario() {

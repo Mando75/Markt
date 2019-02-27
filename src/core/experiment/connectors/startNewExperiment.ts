@@ -70,7 +70,7 @@ const checkPaths = (scenario: Scenario, guide: Guide, group: Group) => {
  * @param experiment
  * @param redis
  */
-const loadRoleDist = async (experiment: Experiment, redis: Redis) => {
+export const loadRoleDist = async (experiment: Experiment, redis: Redis) => {
   const multi = redis.multi();
   experiment.scenario.roleDistribution.forEach(role =>
     multi.rpush(RedisPrefix.ROLE_DIST + experiment.id, role)
