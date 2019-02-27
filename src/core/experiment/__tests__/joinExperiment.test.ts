@@ -25,10 +25,7 @@ describe("joinExperiment", () => {
         }
         experiment {
           id
-          players {
-            id
-          }
-        }    
+        }
       }
     } 
   `;
@@ -59,6 +56,58 @@ describe("joinExperiment", () => {
     expect(errors).toHaveLength(1);
     expect(errors[0].message).toEqual(
       ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST
+    );
+  });
+
+  it("Does not allow a player to join twice", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    const group = await tc.createMockGroup();
+    const playerCode = (await group.players)[0].playerCode;
+    await tc.query(joinExperiment(playerCode, experiment.joinCode));
+    const { data, errors } = await tc.query(
+      joinExperiment(playerCode, experiment.joinCode)
+    );
+    expect(data.joinExperiment).toBeNull();
+    expect(errors).toHaveLength(1);
+    expect(errors[0].message).toEqual(
+      ExperimentErrorMessages.PLAYER_ALREADY_IN_EXPERIMENT
+    );
+  });
+
+  it("Does not allow a player to join once experiment is full", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    const group = await tc.createMockGroup(9);
+    const players = await group.players;
+    for (let i = 0; i < 8; i++) {
+      await tc.query(
+        joinExperiment(players[i].playerCode, experiment.joinCode)
+      );
+    }
+    const { data, errors } = await tc.query(
+      joinExperiment(players[8].playerCode, experiment.joinCode)
+    );
+    expect(data.joinExperiment).toBeNull();
+    expect(errors).toHaveLength(1);
+    expect(errors[0].message).toEqual(
+      ExperimentErrorMessages.EXPERIMENT_CLOSED
+    );
+  });
+
+  it("creates a new experiment player attached to the experiment record", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    const group = await tc.createMockGroup();
+    const playerCode = (await group.players)[0].playerCode;
+    const { data } = await tc.query(
+      joinExperiment(playerCode, experiment.joinCode)
+    );
+    expect(data.joinExperiment).toBeTruthy();
+    expect(data.joinExperiment.experiment.id).toEqual(experiment.id);
+    expect(data.joinExperiment.player.id).toEqual((await group.players)[0].id);
+    expect((await experiment.players).map(p => p.id)).toContain(
+      data.joinExperiment.id
     );
   });
 });

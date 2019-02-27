@@ -9,6 +9,7 @@ import { Player } from "../entity/Player";
 import * as IORedis from "ioredis";
 import { Experiment } from "../entity/Experiment";
 import { loadRoleDist } from "../core/experiment/connectors/startNewExperiment";
+import { RoleType } from "../entity/RoleType";
 
 export class TestClient {
   url: string;
@@ -202,9 +203,18 @@ export class TestClient {
   static async createMockScenario() {
     const scen = this._genScenario();
     const newScen = await Scenario.create(scen).save();
+    const roleTypes = scen.roleDistribution.map(async rd => {
+      const rt = RoleType.create({
+        roleTypeId: rd,
+        name: faker.random.word()
+      });
+      rt.scenario = Promise.resolve(newScen);
+      return await rt.save();
+    });
     return {
       scenario: newScen,
-      scenarioDef: scen
+      scenarioDef: scen,
+      roleTypes
     };
   }
 
@@ -228,7 +238,7 @@ export class TestClient {
     return {
       name: faker.lorem.word(),
       scenarioCode: faker.random.uuid().substring(0, 9),
-      maxPlayerSize: faker.random.number(),
+      maxPlayerSize: 8,
       sessionCount: faker.random.number(),
       overview: [
         {
@@ -245,7 +255,9 @@ export class TestClient {
       ],
       description: faker.lorem.sentence(),
       instructions: this.genInstructions(),
-      roleDistribution: [faker.lorem.word()]
+      roleDistribution: Array(8)
+        .fill(0)
+        .map(() => faker.random.uuid())
     };
   }
 

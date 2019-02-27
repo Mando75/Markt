@@ -91,4 +91,11 @@ export class ExperimentPlayer extends BaseEntity {
     );
     this.totalProfit = sellerProfit + buyerProfit;
   }
+
+  @BeforeInsert()
+  async _updateExperimentPlayerCount() {
+    const ex = await this.experiment;
+    ex.numPlayers += 1;
+    await ex.save();
+  }
 }
