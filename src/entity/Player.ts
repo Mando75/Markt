@@ -25,7 +25,7 @@ export class Player extends BaseEntity {
   guide: Promise<Guide>;
 
   @ManyToOne(() => Group, group => group.players, { nullable: true })
-  group: Promise<Group> | undefined;
+  group: Group | undefined;
 
   @OneToMany(() => ExperimentPlayer, ep => ep.player)
   experimentPlayers: Promise<ExperimentPlayer[]>;

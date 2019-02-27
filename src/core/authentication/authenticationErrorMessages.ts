@@ -1,4 +1,4 @@
-export enum ErrorMessages {
+export enum AuthenticationErrorMessages {
   // GENERIC min 1, max 255
   TOO_SHORT = "Must be at least 1 character",
   TOO_LONG = "Must be less than 255 characters",

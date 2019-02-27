@@ -1,4 +1,4 @@
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import { createConfirmEmailLink, registerUser, userExists } from "./lib";
 import { formatYupError, sendConfirmEmail } from "../../../utils";
 import { yupUserRegistrationSchema } from "../yup.schema";
@@ -28,7 +28,7 @@ export const register = async (
       return [
         {
           path: "email",
-          message: ErrorMessages.EMAIL_DUPLICATE
+          message: AuthenticationErrorMessages.EMAIL_DUPLICATE
         }
       ];
     }
@@ -48,7 +48,7 @@ export const register = async (
     return [
       {
         path: "register",
-        message: ErrorMessages.GENERIC_FAILURE
+        message: AuthenticationErrorMessages.GENERIC_FAILURE
       }
     ];
   }

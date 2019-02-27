@@ -181,10 +181,10 @@ export class TestClient {
       throw new Error("Must first create a test user");
     }
     const guide = await this.testUser.guide;
-    const group = new Group();
+    const group = Group.create();
     group.name = faker.company.companyName();
     group.guide = Promise.resolve(guide);
-    const playerPs: Promise<any>[] = [];
+    await group.save();
     for (let i = 0; i < playerCount; i++) {
       const fakePlayer = {
         email: faker.internet.email(),
@@ -193,12 +193,9 @@ export class TestClient {
       };
       const p = Player.create(fakePlayer);
       p.guide = Promise.resolve(guide);
-      p.group = Promise.resolve(group);
-      playerPs.push(p.save());
+      p.group = group;
+      await p.save();
     }
-    playerPs.push(group.save());
-    await Promise.all(playerPs);
-    await group.reload();
     return group;
   }
 

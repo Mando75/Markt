@@ -6,6 +6,7 @@ import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
 import { Redis } from "ioredis";
 import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 import { RoleType } from "../../../entity/RoleType";
+import { ExperimentErrorMessages } from "../experimentErrorMessages";
 
 /**
  * Resolver function for joining an experiment
@@ -45,7 +46,7 @@ const getExperimentAndPlayer = async (joinCode: string, playerCode: string) => {
   });
   if (!experiment) {
     throw new ApolloError(
-      "Cannot join Experiment: Experiment does not exist",
+      ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST,
       "404"
     );
   }
@@ -55,10 +56,7 @@ const getExperimentAndPlayer = async (joinCode: string, playerCode: string) => {
     where: { playerCode, guide, active: true }
   });
   if (!player) {
-    throw new ApolloError(
-      "Cannot join Experiment: Player does not exist",
-      "404"
-    );
+    throw new ApolloError(ExperimentErrorMessages.PLAYER_DOES_NOT_EXIST, "404");
   }
   return { experiment, player };
 };
@@ -74,15 +72,12 @@ const checkExperimentBeforeJoin = async (
 ) => {
   // Checks if the experiment is full
   if (experiment.closed()) {
-    throw new ApolloError(
-      "Cannot join experiment: Experiment is closed",
-      "403"
-    );
+    throw new ApolloError(ExperimentErrorMessages.EXPERIMENT_CLOSED, "403");
   }
   // Checks if the player has already joined
   if (await ExperimentPlayer.findOne({ where: { experiment, player } })) {
     throw new ApolloError(
-      "Cannot join experiment: Player already in experiment",
+      ExperimentErrorMessages.PLAYER_ALREADY_IN_EXPERIMENT,
       "403"
     );
   }
@@ -111,6 +106,9 @@ const assignPlayerRoleType = async (eId: string, redis: Redis) => {
     if (roleCode) {
       await redis.lpush(RedisPrefix.ROLE_DIST + eId, roleCode);
     }
-    throw new ApolloError("Cannot Join Experiment: Could not assign role type");
+    throw new ApolloError(
+      ExperimentErrorMessages.CANNOT_ASSIGN_ROLE_TYPE,
+      "500"
+    );
   }
 };
