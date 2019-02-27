@@ -24,8 +24,6 @@ build:
 
 test:
   image: node:11.10.0
-  tags:
-    - aws
   stage: test-build
   before_script:
     - rm -rf .yarn
