@@ -1,11 +1,12 @@
 import { isAdmin, isGuide, isAuthenticated } from "../../rules";
-import { or } from "graphql-shield";
+import { allow, or } from "graphql-shield";
 
 export const permissions = {
   Query: {
     experiment: isAuthenticated
   },
   Mutation: {
-    startNewExperiment: or(isGuide, isAdmin)
+    startNewExperiment: or(isGuide, isAdmin),
+    joinExperiment: allow
   }
 };

@@ -3,7 +3,7 @@ import { User } from "../../../entity/User";
 import { formatYupError } from "../../../utils";
 import { yupUserLoginSchema } from "../yup.schema";
 import { GraphQLContext } from "../../../types/graphql-context";
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import { compare } from "bcryptjs";
 
 /**
@@ -45,7 +45,7 @@ export const login = async (
 export const verifyLogin = async (user: User | undefined, password: string) => {
   const errorResponse = {
     path: "email",
-    message: ErrorMessages.INVALID_LOGIN
+    message: AuthenticationErrorMessages.INVALID_LOGIN
   };
   // Verify user exists and password matches
   const errors =
@@ -57,14 +57,14 @@ export const verifyLogin = async (user: User | undefined, password: string) => {
   if (user && !errors.length && !user.emailConfirmed) {
     errors.push({
       path: "email",
-      message: ErrorMessages.EMAIL_NOT_CONFIRMED
+      message: AuthenticationErrorMessages.EMAIL_NOT_CONFIRMED
     });
   }
 
   if (user && !errors.length && user.accountLocked) {
     errors.push({
       path: "email",
-      message: ErrorMessages.ACCOUNT_LOCKED
+      message: AuthenticationErrorMessages.ACCOUNT_LOCKED
     });
   }
   return errors;

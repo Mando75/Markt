@@ -27,7 +27,7 @@ export const createPlayer = async (
       email
     });
     const [guide, group] = await Promise.all([guideP, groupP]);
-    player.group = group ? Promise.resolve(group) : group;
+    player.group = group;
 
     // Try to set the fields
     // Player must have a guide, so throw error if it does not exist

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { User } from "../../../entity/User";
 import { createForgotPasswordLink } from "../connectors/lib";
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import { lockAccount } from "../connectors/sendForgotPasswordEmail";
 import { startTestServer, TestClient, teardownTestServer } from "../../../jest";
 import { Server } from "http";
@@ -45,7 +45,7 @@ describe("forgotPassword", () => {
         login: [
           {
             path: "email",
-            message: ErrorMessages.ACCOUNT_LOCKED
+            message: AuthenticationErrorMessages.ACCOUNT_LOCKED
           }
         ]
       }
@@ -58,7 +58,7 @@ describe("forgotPassword", () => {
       forgotPasswordChange: [
         {
           path: "newPassword",
-          message: ErrorMessages.PASSWORD_TOO_SIMPLE
+          message: AuthenticationErrorMessages.PASSWORD_TOO_SIMPLE
         }
       ]
     });
@@ -77,7 +77,7 @@ describe("forgotPassword", () => {
       forgotPasswordChange: [
         {
           path: "key",
-          message: ErrorMessages.EXPIRED_KEY
+          message: AuthenticationErrorMessages.EXPIRED_KEY
         }
       ]
     });

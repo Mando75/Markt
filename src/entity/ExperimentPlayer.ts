@@ -41,11 +41,15 @@ export class ExperimentPlayer extends BaseEntity {
   transactions: Transaction[];
 
   buyerTransactions() {
-    return this.playerTransactions.filter(pt => !pt.isSeller);
+    return this.playerTransactions
+      ? this.playerTransactions.filter(pt => !pt.isSeller)
+      : [];
   }
 
   sellerTransactions() {
-    return this.playerTransactions.filter(pt => pt.isSeller);
+    return this.playerTransactions
+      ? this.playerTransactions.filter(pt => pt.isSeller)
+      : [];
   }
 
   @Column({ type: "float", nullable: false, default: 0.0 })
@@ -59,13 +63,17 @@ export class ExperimentPlayer extends BaseEntity {
 
   @AfterLoad()
   _loadTransactions() {
-    this.transactions = this.playerTransactions.map(pt => pt.transaction);
+    this.transactions = this.playerTransactions
+      ? this.playerTransactions.map(pt => pt.transaction)
+      : [];
   }
 
   @BeforeInsert()
   @BeforeUpdate()
   _setNumTransactions() {
-    this.numTransactions = this.playerTransactions.length;
+    this.numTransactions = this.playerTransactions
+      ? this.playerTransactions.length
+      : 0;
   }
 
   @BeforeInsert()
@@ -82,5 +90,12 @@ export class ExperimentPlayer extends BaseEntity {
       0
     );
     this.totalProfit = sellerProfit + buyerProfit;
+  }
+
+  @BeforeInsert()
+  async _updateExperimentPlayerCount() {
+    const ex = await this.experiment;
+    ex.numPlayers += 1;
+    await ex.save();
   }
 }

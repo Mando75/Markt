@@ -23,6 +23,7 @@ describe("RoleTypeQuery", () => {
       TestClient.createMockScenario(),
       tc.createUserWithGuide()
     ]);
+
     await tc.login();
     const name = faker.name.firstName();
     const rtDef = {

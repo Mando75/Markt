@@ -42,7 +42,7 @@ export class Experiment extends BaseEntity {
   numPlayers: number;
 
   @OneToMany(() => ExperimentPlayer, ep => ep.experiment)
-  players: Promise<Experiment[]>;
+  players: Promise<ExperimentPlayer[]>;
 
   @OneToMany(() => ExperimentSession, es => es.experiment)
   sessions: Promise<ExperimentSession[]>;
@@ -80,6 +80,8 @@ export class Experiment extends BaseEntity {
     }
     this.joinCode = option;
   }
+
+  // TODO Update numPlayers
 
   /**
    * Returns whether or not the experiment is closed
