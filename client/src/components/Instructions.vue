@@ -1,5 +1,9 @@
 <!-- Display the instructions. This component can be used as a popup if needed.-->
-<template> </template>
+<template>
+  <div>
+    <v-toolbar-title></v-toolbar-title>
+  </div>
+</template>
 
 <script>
 import gql from "graphql-tag";

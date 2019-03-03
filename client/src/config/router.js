@@ -38,6 +38,11 @@ export default new Router({
       component: () => import("../components/Account")
     },
     {
+      path: "/join_xp",
+      name: "account",
+      component: () => import("../components/JoinSession")
+    },
+    {
       path: "/buy_sell",
       name: "transaction",
       component: () => import("../components/Transaction")

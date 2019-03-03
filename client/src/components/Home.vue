@@ -1,30 +1,26 @@
 <template>
-  <v-app color="secondary0">
+  <div color="secondary0">
     <v-content>
       <Nav />
 
       <v-container grid-list-md text-xs-center fluid>
+        <v-carousel>
+          <v-carousel-item
+            v-for="(item, i) in items"
+            :key="i"
+            :src="item.src"
+          ></v-carousel-item>
+        </v-carousel>
         <v-layout row wrap>
           <v-flex xs2>
             <v-card flat align="left">
               <v-img
-                ><img
-                  src="../assets/RoughDraft_markt.png"
-                  height="200"
-                  width="200"
+                ><img src="../../public/favicon.png" height="200" width="200"
               /></v-img>
             </v-card>
           </v-flex>
           <v-flex xs8>
-            <v-card flat align="left">
-              <v-img
-                ><img
-                  src="../assets/bw_old_school.png"
-                  height="450"
-                  width="800"
-                />
-              </v-img>
-            </v-card>
+            <v-card flat align="left"></v-card>
           </v-flex>
           <v-flex v-for="i in 3" :key="`4${i}`" xs4>
             <v-card dark color="primary2">
@@ -49,7 +45,7 @@
         </v-layout>
       </v-container>
     </v-content>
-  </v-app>
+  </div>
 </template>
 
 <script>
