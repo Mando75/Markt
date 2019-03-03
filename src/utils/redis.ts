@@ -4,5 +4,4 @@ const url =
   process.env.NODE_ENV === "test" && process.env.CI_ENV !== "true"
     ? process.env.REDIS_URL + "/1"
     : process.env.REDIS_URL;
-console.log(url);
 export const redis = new Redis(url as string);

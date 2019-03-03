@@ -1,6 +1,6 @@
 import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import { createForgotPasswordLink } from "./lib";
 import { sendGridForgotPasswordEmail } from "../../../utils/email/sendEmail";
 import {
@@ -18,7 +18,7 @@ export const sendForgotPasswordEmail = async (
     return [
       {
         path: "email",
-        message: ErrorMessages.INVALID_LOGIN
+        message: AuthenticationErrorMessages.INVALID_LOGIN
       }
     ];
   }

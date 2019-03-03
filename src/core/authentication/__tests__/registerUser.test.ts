@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import * as faker from "faker";
 import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
@@ -42,7 +42,9 @@ describe("Registering a new user", async () => {
     } = await duplicateUser.register(false);
     expect(registerUser).toHaveLength(1);
     expect(registerUser[0].path).toEqual("email");
-    expect(registerUser[0].message).toEqual(ErrorMessages.EMAIL_DUPLICATE);
+    expect(registerUser[0].message).toEqual(
+      AuthenticationErrorMessages.EMAIL_DUPLICATE
+    );
   });
 
   it("catches an invalid email", async () => {
@@ -51,7 +53,9 @@ describe("Registering a new user", async () => {
     } = await tc.register(false, user({ email: "bademail" }));
     expect(registerUser).toHaveLength(1);
     expect(registerUser[0].path).toEqual("email");
-    expect(registerUser[0].message).toEqual(ErrorMessages.EMAIL_INVALID_EMAIL);
+    expect(registerUser[0].message).toEqual(
+      AuthenticationErrorMessages.EMAIL_INVALID_EMAIL
+    );
   });
 
   it("catches short email", async () => {
@@ -60,7 +64,9 @@ describe("Registering a new user", async () => {
     } = await tc.register(false, user({ email: "1@a.c" }));
     expect(registerUser).toHaveLength(1);
     expect(registerUser[0].path).toEqual("email");
-    expect(registerUser[0].message).toEqual(ErrorMessages.EMAIL_TOO_SHORT);
+    expect(registerUser[0].message).toEqual(
+      AuthenticationErrorMessages.EMAIL_TOO_SHORT
+    );
   });
 
   it("catches long email", async () => {
@@ -70,7 +76,9 @@ describe("Registering a new user", async () => {
     } = await tc.register(false, user({ email: invalidEmail }));
     expect(registerUser).toHaveLength(1);
     expect(registerUser[0].path).toEqual("email");
-    expect(registerUser[0].message).toEqual(ErrorMessages.EMAIL_TOO_LONG);
+    expect(registerUser[0].message).toEqual(
+      AuthenticationErrorMessages.EMAIL_TOO_LONG
+    );
   });
 
   it("catches invalid password", async () => {
@@ -82,9 +90,13 @@ describe("Registering a new user", async () => {
     );
     expect(registerUser).toHaveLength(2);
     expect(registerUser[0].path).toEqual("password");
-    expect(registerUser[0].message).toEqual(ErrorMessages.PASSWORD_TOO_SHORT);
+    expect(registerUser[0].message).toEqual(
+      AuthenticationErrorMessages.PASSWORD_TOO_SHORT
+    );
     expect(registerUser[1].path).toEqual("password");
-    expect(registerUser[1].message).toEqual(ErrorMessages.PASSWORD_TOO_SIMPLE);
+    expect(registerUser[1].message).toEqual(
+      AuthenticationErrorMessages.PASSWORD_TOO_SIMPLE
+    );
   });
 });
 

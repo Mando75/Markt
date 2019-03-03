@@ -76,11 +76,17 @@ export const typeDefs = gql`
     groupId: ID!
   }
 
+  input ExperimentJoinType {
+    playerCode: ID!
+    joinCode: ID!
+  }
+
   extend type Query {
     experiment(id: ID!): Experiment
   }
 
   extend type Mutation {
     startNewExperiment(params: ExperimentStartType!): Experiment
+    joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
   }
 `;

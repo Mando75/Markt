@@ -1,6 +1,6 @@
 import { GraphQLContext } from "../../../types/graphql-context";
 import { RedisPrefix } from "../../../enums/redisPrefix.enum";
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import { yupPasswordSchema } from "../yup.schema";
 import { formatYupError } from "../../../utils";
 import { User } from "../../../entity/User";
@@ -17,7 +17,7 @@ export const forgotPasswordChange = async (
     return [
       {
         path: "key",
-        message: ErrorMessages.EXPIRED_KEY
+        message: AuthenticationErrorMessages.EXPIRED_KEY
       }
     ];
   }

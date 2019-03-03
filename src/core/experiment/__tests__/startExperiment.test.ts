@@ -18,6 +18,7 @@ beforeAll(async () => {
 });
 
 describe("startExperiment", () => {
+  console.log("Starting Experiment tests");
   const startExperiment = (
     guideId: string,
     groupId: string,

@@ -85,7 +85,8 @@ declare namespace GQL {
     group: IGroup;
     joinCode: string;
     numPlayers: number;
-    players: Array<IExperimentPlayer | null> | null;
+    players: Array<IExperimentPlayer | null>;
+    sessions: Array<IExperimentSession | null>;
     active: boolean;
     closed: boolean;
     endDate: any | null;
@@ -254,6 +255,9 @@ declare namespace GQL {
     experiment: IExperiment;
     player: IPlayer;
     roleType: IRoleType;
+    transactions: Array<ITransaction | null>;
+    buyerTransactions: Array<ITransaction | null> | null;
+    sellerTransactions: Array<ITransaction | null> | null;
     numTransactions: number;
     totalProfit: number;
     createdDate: any | null;
@@ -273,7 +277,46 @@ declare namespace GQL {
     createdDate: any | null;
     updatedDate: any | null;
     acceptedTos: boolean;
-    experimentPlayers: Array<IExperimentPlayer | null> | null;
+    experimentPlayers: Array<IExperimentPlayer | null>;
+  }
+
+  interface ITransaction {
+    __typename: "Transaction";
+    id: string;
+    round: IRound;
+    amount: number;
+    buyer: IExperimentPlayer | null;
+    seller: IExperimentPlayer | null;
+    buyerProfit: number;
+    sellerProfit: number;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
+  interface IRound {
+    __typename: "Round";
+    id: string;
+    session: IExperimentSession | null;
+    roundNumber: number;
+    active: boolean | null;
+    averagePrice: number | null;
+    transactions: Array<ITransaction | null>;
+    numTransactions: number | null;
+    endDate: any | null;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
+  interface IExperimentSession {
+    __typename: "ExperimentSession";
+    id: string;
+    experiment: IExperiment;
+    sessionNumber: number;
+    scenarioSession: IScenarioSession;
+    active: boolean;
+    endDate: any | null;
+    createdDate: any | null;
+    updatedDate: any | null;
   }
 
   interface IMutation {
@@ -285,6 +328,7 @@ declare namespace GQL {
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
     startNewExperiment: IExperiment | null;
+    joinExperiment: IExperimentPlayer | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -310,6 +354,10 @@ declare namespace GQL {
 
   interface IStartNewExperimentOnMutationArguments {
     params: IExperimentStartType;
+  }
+
+  interface IJoinExperimentOnMutationArguments {
+    params: IExperimentJoinType;
   }
 
   interface ICreateGroupOnMutationArguments {
@@ -350,6 +398,11 @@ declare namespace GQL {
     scenarioId: string;
     guideId: string;
     groupId: string;
+  }
+
+  interface IExperimentJoinType {
+    playerCode: string;
+    joinCode: string;
   }
 
   interface IGroupCreationType {

@@ -1,5 +1,5 @@
 import * as Redis from "ioredis";
-import { ErrorMessages } from "../errorMessages";
+import { AuthenticationErrorMessages } from "../authenticationErrorMessages";
 import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
@@ -26,7 +26,7 @@ describe("Logging in a user", () => {
       login: [
         {
           path: "email",
-          message: ErrorMessages.EMAIL_NOT_CONFIRMED
+          message: AuthenticationErrorMessages.EMAIL_NOT_CONFIRMED
         }
       ]
     });
@@ -47,7 +47,7 @@ describe("Logging in a user", () => {
       login: [
         {
           path: "email",
-          message: ErrorMessages.INVALID_LOGIN
+          message: AuthenticationErrorMessages.INVALID_LOGIN
         }
       ]
     });
@@ -59,7 +59,7 @@ describe("Logging in a user", () => {
       login: [
         {
           path: "email",
-          message: ErrorMessages.INVALID_LOGIN
+          message: AuthenticationErrorMessages.INVALID_LOGIN
         }
       ]
     });
