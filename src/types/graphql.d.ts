@@ -273,11 +273,11 @@ declare namespace GQL {
     email: string;
     firstName: string | null;
     lastName: string | null;
+    experimentPlayers: Array<IExperimentPlayer | null>;
     active: boolean;
     createdDate: any | null;
     updatedDate: any | null;
     acceptedTos: boolean;
-    experimentPlayers: Array<IExperimentPlayer | null>;
   }
 
   interface ITransaction {
@@ -329,6 +329,7 @@ declare namespace GQL {
     forgotPasswordChange: Array<IGraphQLError> | null;
     startNewExperiment: IExperiment | null;
     joinExperiment: IExperimentPlayer | null;
+    startNextSession: IExperimentSession | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -358,6 +359,10 @@ declare namespace GQL {
 
   interface IJoinExperimentOnMutationArguments {
     params: IExperimentJoinType;
+  }
+
+  interface IStartNextSessionOnMutationArguments {
+    experimentId: string;
   }
 
   interface ICreateGroupOnMutationArguments {

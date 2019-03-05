@@ -4,7 +4,17 @@ import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentSession } from "../../../entity/ExperimentSession";
 
-export const startNextSession = async (_: any, { experimentId }: any) => {
+/**
+ * Starts a new session in a given experiment. Validates that a new session
+ * can be created before doing so. Returns the new experiment session.
+ * TODO: Add subscription update
+ * @param _
+ * @param experimentId
+ */
+export const startNextSession = async (
+  _: any,
+  { experimentId }: GQL.IStartNextSessionOnMutationArguments
+) => {
   const experiment = await findAndCheckExperiment(experimentId);
   const [sessions, scenarioSessions] = await Promise.all([
     checkExperimentSessions(experiment),
