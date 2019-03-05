@@ -39,7 +39,8 @@ export class TestClient {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       accountType: AccountType.USER,
-      email: faker.internet.exampleEmail().toLowerCase(),
+      email: faker.internet.email(),
+      // email: faker.internet.exampleEmail().toLowerCase(),
       password: faker.internet.password(8, false) + "@Aa1",
       emailConfirmed: false
     };
