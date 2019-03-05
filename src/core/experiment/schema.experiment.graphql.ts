@@ -30,10 +30,6 @@ export const typeDefs = gql`
     updatedDate: Date
   }
 
-  extend type Player {
-    experimentPlayers: [ExperimentPlayer]!
-  }
-
   type ExperimentSession {
     id: ID!
     experiment: Experiment!
