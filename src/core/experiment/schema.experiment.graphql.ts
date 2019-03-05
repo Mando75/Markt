@@ -88,5 +88,6 @@ export const typeDefs = gql`
   extend type Mutation {
     startNewExperiment(params: ExperimentStartType!): Experiment
     joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
+    startNextSession(experimentId: ID!): ExperimentSession
   }
 `;
