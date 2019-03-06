@@ -8,7 +8,6 @@ import { GraphQLSchema } from "graphql";
 import { Server } from "http";
 import * as express from "express";
 import * as session from "express-session";
-import * as connectRedis from "connect-redis";
 import { routes } from "../routes";
 import { redis } from "./redis";
 import { applyMiddleware } from "graphql-middleware";
@@ -18,6 +17,7 @@ import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
 import { setContext } from "./ContextSession/contextControl";
+import { createSession } from "./ContextSession/sessionControl";
 
 const testEnv = process.env.NODE_ENV === "test";
 
@@ -43,7 +43,7 @@ export const bootstrapConnections = async (port: number) => {
   });
   server.enable("trust proxy");
   server.use(limiter);
-  server.use(session(createSession()));
+  server.use(session(createSession(session, redis)));
   server.use(passport.initialize());
   server.use(routes);
   try {
@@ -120,28 +120,6 @@ const formatError = (error: Error) => {
   }
   console.log(error);
   return error;
-};
-
-/**
- * Configuration for session storage
- */
-const createSession = () => {
-  const RedisStore = connectRedis(session);
-  return {
-    store: new RedisStore({
-      client: redis as any,
-      prefix: process.env.REDIS_SESSION_PREFIX
-    }),
-    name: "bid",
-    secret: process.env.SESSION_SECRET as string,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
-    }
-  };
 };
 
 /**

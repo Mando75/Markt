@@ -7,10 +7,12 @@ import { Redis } from "ioredis";
 import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 import { RoleType } from "../../../entity/RoleType";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
+import { setPlayerSession } from "../../../utils/ContextSession/sessionControl";
 
 /**
  * Resolver function for joining an experiment
  * Returns a new ExperimentPlayer entity
+ * TODO: Create a cookie
  * @param _
  * @param joinCode
  * @param playerCode
@@ -19,7 +21,7 @@ import { ExperimentErrorMessages } from "../experimentErrorMessages";
 export const joinExperiment = async (
   _: any,
   { params: { joinCode, playerCode } }: GQL.IJoinExperimentOnMutationArguments,
-  { redis }: GraphQLContext
+  { redis, session, req }: GraphQLContext
 ) => {
   const { experiment, player } = await getExperimentAndPlayer(
     joinCode,
@@ -31,6 +33,7 @@ export const joinExperiment = async (
   ep.experiment = Promise.resolve(experiment);
   const roleType = await assignPlayerRoleType(experiment.id, redis);
   ep.roleType = Promise.resolve(roleType);
+  await setPlayerSession(player.id, experiment.id, session, req, redis);
   return await ep.save();
 };
 
