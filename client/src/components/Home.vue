@@ -4,19 +4,18 @@
       <Nav />
 
       <v-container grid-list-md text-xs-center fluid>
-        <v-carousel>
-          <v-carousel-item
-            v-for="(item, i) in items"
-            :key="i"
-            :src="item.src"
-          ></v-carousel-item>
+        <v-carousel hide-controls hide-delimiters>
+          <v-carousel-item v-for="(item, i) in images" :key="i" :src="item.src">
+          </v-carousel-item>
         </v-carousel>
         <v-layout row wrap>
           <v-flex xs2>
             <v-card flat align="left">
               <v-img
-                ><img src="../../public/favicon.png" height="200" width="200"
-              /></v-img>
+                :src="require('@/assets/mainStockStockimg.png')"
+                height="200"
+                width="200"
+              ></v-img>
             </v-card>
           </v-flex>
           <v-flex xs8>
@@ -58,12 +57,20 @@ export default {
   props: {
     msg: String
   },
-  computed: {
-    divFunction: function() {
-      return {
-        red
-      };
-    }
+  data() {
+    return {
+      images: [
+        {
+          src: require("@/assets/mainStockStockimg.png")
+        },
+        {
+          src: require("@/assets/marketPainting.jpg")
+        },
+        {
+          src: require("@/assets/stock_market.jpg")
+        }
+      ]
+    };
   }
 };
 //   apollo: {

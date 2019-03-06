@@ -9,7 +9,7 @@
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title>{{ users.fullDisplayName }}</v-list-tile-title>
+            <v-list-tile-title>{{ users.displayName }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -38,16 +38,15 @@
       <v-toolbar-items class="hidden-md-and-down">
         <!--button 1-->
         <v-btn flat
-          ><router-link class="font-weight-medium mNavLinks" to="/login"
+          ><router-link class="font-weight-medium" to="/login"
             >Sign In</router-link
           ></v-btn
         >
         <!--button 2-->
-        <v-btn color="modernColor2"
-          ><span class="mNavLinks">Join Simulation</span></v-btn
-        >
+        <v-btn color="modernColor2"><span>Join Simulation</span></v-btn>
       </v-toolbar-items>
     </v-toolbar>
+    <!--208-496-1154 schmidt-->
   </v-content>
 </template>
 
@@ -56,11 +55,7 @@ export default {
   name: "Nav",
   data() {
     return {
-      users: [
-        {
-          displayName: "Bryan Müller"
-        }
-      ],
+      users: { displayName: "Bryan" },
       items: [
         { title: "Home", icon: "dashboard" },
         { title: "Select Experiment", icon: "poll" },
