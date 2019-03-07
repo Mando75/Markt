@@ -3,6 +3,7 @@ import { startTestServer, teardownTestServer, TestClient } from "../../../jest";
 import { Server } from "http";
 import { Connection } from "typeorm";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
+import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 
 let app: Server, db: Connection, host: string;
 
@@ -109,6 +110,29 @@ describe("joinExperiment", () => {
     expect((await experiment.players).map(p => p.id)).toContain(
       data.joinExperiment.id
     );
+  });
+
+  it("creates a new session for the player in redis", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    const group = await tc.createMockGroup();
+    const playerCode = (await group.players)[0].playerCode;
+    const { data } = await tc.query(
+      joinExperiment(playerCode, experiment.joinCode)
+    );
+    const redis = TestClient.createRedisConnection();
+    const sessions = await redis.lrange(
+      `${RedisPrefix.PLAYER_SESSION}${experiment.id}`,
+      0,
+      -1
+    );
+    expect(data.joinExperiment).toBeTruthy();
+    expect(data.joinExperiment.experiment.id).toEqual(experiment.id);
+    expect(data.joinExperiment.player.id).toEqual((await group.players)[0].id);
+    expect((await experiment.players).map(p => p.id)).toContain(
+      data.joinExperiment.id
+    );
+    expect(sessions).toHaveLength(1);
   });
 });
 
