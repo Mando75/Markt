@@ -17,7 +17,7 @@ export default new Router({
       component: () => import("../components/Login")
     },
     {
-      path: "/scenarios",
+      path: "/guide/scenarios",
       name: "LandingPage",
       component: () => import("../components/LandingPage")
     },
@@ -27,7 +27,7 @@ export default new Router({
       component: () => import("../components/Instructions")
     },
     {
-      path: "/user/dashboards",
+      path: "/guide/dashboards",
       name: "myHome",
       component: () => import("../components/DashboardsHome")
     },
@@ -38,13 +38,13 @@ export default new Router({
     },
 
     {
-      path: "/create_account",
+      path: "/guide/create_account",
       name: "account",
       component: () => import("../components/Account")
     },
     {
-      path: "/join_xp",
-      name: "account",
+      path: "/join",
+      name: "join",
       component: () => import("../components/JoinSession")
     },
     {
@@ -53,9 +53,14 @@ export default new Router({
       component: () => import("../components/Welcome")
     },
     {
-      path: "/Setup",
+      path: "/guide/setup",
       name: "simulation_Setup",
       component: () => import("../components/SessionCreation")
+    },
+    {
+      path: "/play",
+      name: "simulation_running",
+      component: () => import("../components/ExperimentInProgressPage")
     },
     {
       path: "/buy_sell",

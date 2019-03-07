@@ -37,13 +37,17 @@
       <!--The right side buttons-->
       <v-toolbar-items class="hidden-md-and-down">
         <!--button 1-->
-        <v-btn flat
-          ><router-link class="font-weight-medium" to="/login"
+        <v-btn dark
+          ><router-link class="font-weight-bold white--text " to="/login"
             >Sign In</router-link
           ></v-btn
         >
         <!--button 2-->
-        <v-btn color="modernColor2"><span>Join Simulation</span></v-btn>
+        <v-btn dark>
+          <router-link class="font-weight-bold white--text" to="/login"
+            >Join Simulation</router-link
+          >
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
     <!--208-496-1154 schmidt-->
@@ -57,10 +61,14 @@ export default {
     return {
       users: { displayName: "Bryan" },
       items: [
-        { title: "Home", icon: "dashboard", path: "/user/dashboards" },
-        { title: "Select Experiment", icon: "poll", path: "/scenarios" },
-        { title: "Invite Participants", icon: "person_add", path: "" },
-        { title: "Begin Simulation", icon: "monetization_on", path: "" },
+        { title: "Home", icon: "dashboard", path: "/guide/dashboards" },
+        { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
+        {
+          title: "Invite Participants",
+          icon: "person_add",
+          path: "/guide/setup"
+        },
+        { title: "Begin Simulation", icon: "monetization_on", path: "/play" },
         // { title: "UserResults?", icon: "person" },
         { title: "About", icon: "question_answer", path: "" },
         { title: "Settings", icon: "settings", path: "" }

@@ -1,8 +1,12 @@
-<template> </template>
+<template>
+  <v-content><Nav /></v-content>
+</template>
 
 <script>
+import Nav from "./Nav";
 export default {
-  name: "LandingPage"
+  name: "LandingPage",
+  components: { Nav }
 };
 </script>
 

@@ -1,5 +1,7 @@
 <template>
   <section id="welcome" class="hide-overflow">
+    <v-content color="secondary0"><Nav /></v-content>
+
     <v-layout>
       <v-flex hidden-sm-and-down md6>
         <v-img
