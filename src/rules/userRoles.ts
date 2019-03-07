@@ -5,12 +5,22 @@ import { Guide } from "../entity/Guide";
 import { AuthenticationError } from "apollo-server-express";
 import { ApolloErrors } from "../enums/ApolloErrors";
 import { User } from "../entity/User";
+import { Player } from "../entity/Player";
 /**
  * All of these checks should already be handled before
  * setting the context, but this is double reinforcement
  */
 const userExists = (user: User | undefined, session: Session) => {
   return !!user && user.active && user.id === session.userId;
+};
+
+/**
+ * Mirror of user Exists except as player
+ * @param player
+ * @param session
+ */
+export const playerExists = (player: Player | undefined, session: Session) => {
+  return !!player && player.active && player.id === session.playerId;
 };
 
 /**

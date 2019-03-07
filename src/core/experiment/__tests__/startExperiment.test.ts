@@ -164,7 +164,6 @@ describe("startExperiment", () => {
       data: { startNewExperiment }
     } = await tc.query(startExperiment(guide.id, group.id, scenario.id));
 
-    console.log(RedisPrefix.ROLE_DIST + startNewExperiment.id);
     const roleDist = await redis.lrange(
       RedisPrefix.ROLE_DIST + startNewExperiment.id,
       0,
