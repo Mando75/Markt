@@ -15,7 +15,7 @@
               class="white--text mt-2"
             >
               <v-img
-                :src="require('@/assets/logo.png')"
+                :src="require('@/assets/marktLogo.png')"
                 height="160"
                 width="160"
               ></v-img>
