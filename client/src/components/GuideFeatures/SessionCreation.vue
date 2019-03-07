@@ -1,11 +1,11 @@
 <template>
-  <v-content><Nav /></v-content>
+  <v-content color="secondary0"><Nav /></v-content>
 </template>
 
 <script>
-import Nav from "./Nav";
+import Nav from "../Nav";
 export default {
-  name: "LandingPage",
+  name: "SessionCreation",
   components: { Nav }
 };
 </script>

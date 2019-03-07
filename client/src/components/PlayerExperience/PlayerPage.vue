@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import Nav from "./Nav";
+import Nav from "../Nav";
 export default {
   name: "PlayerPage",
   components: { Nav }

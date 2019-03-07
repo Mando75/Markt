@@ -19,12 +19,11 @@
                 height="160"
                 width="160"
               ></v-img>
-              <h1 class="mb-3 display-1 text-xs-center modernColor0">
-                Classroom Market Simulations
+              <h1 class="mb-3 display-3 font-weight-medium text-lg-center ">
+                Markt
               </h1>
-              <div class="subheading mb-3 text-xs-center modernColor0">
-                " Invite students with a join code, view market simulation
-                results and more! "
+              <div class="subheading mb-3 text-xs-center ">
+                " Classroom Market Simulations "
               </div>
               <v-btn
                 class=" modernColor3 darken-1 mt-2 mb-4"
@@ -40,6 +39,13 @@
 
         <section>
           <v-layout column wrap class="my-5" align-center>
+            <div class="md3">
+              <h4 class="italic">
+                Markt(noun) the Dutch word for Market.
+              </h4>
+
+              <v-card-text><i>"We use the 'e' for Education!"</i> </v-card-text>
+            </div>
             <v-timeline align-top>
               <v-timeline-item
                 v-for="(item, i) in timeline"
@@ -49,13 +55,10 @@
                 fill-dot
               >
                 <v-card :color="item.color" dark>
-                  <v-card-title class="title">Lorem Ipsum Dolor</v-card-title>
+                  <v-card-title class="title">{{ item.title }}</v-card-title>
                   <v-card-text class="modernColor1 text--primary">
-                    <p>
-                      Lorem ipsum dolor sit amet, no nam oblique veritus.
-                      Commune scaevola imperdiet nec ut, sed euismod convenire
-                      principes at. Est et nobis iisque percipit, an vim zril
-                      disputando voluptatibus, vix an salutandi sententiae.
+                    <p class="font-weight-regular">
+                      {{ item.body }}
                     </p>
                     <!--<v-btn :color="item.color" class="mx-0" >-->
                     <!--Button-->
@@ -75,9 +78,9 @@
           >
             <v-layout column align-center justify-center>
               <div class="headline white--text mb-3 text-xs-center">
-                Lorem
+                Digital learning is one step away.
               </div>
-              <em>Create an account to start teaching</em>
+              <em>Create an account to make your Markt</em>
               <v-btn color="modernColor3 darken-1" class="" dark large href="/">
                 Get Started
               </v-btn>
@@ -120,15 +123,24 @@ export default {
     timeline: [
       {
         color: "primary0 darken-2",
-        icon: "ballot"
+        icon: "ballot",
+        title: "Choose from a number of Simulations",
+        body:
+          "Teach supply and demand with an interactive example where the students are part of the experiment."
       },
       {
         color: "primary4 ",
-        icon: "people"
+        icon: "people",
+        title: "Easily Invite Participants",
+        body:
+          "Students can participate with their smart phones, without downloading anything"
       },
       {
         color: "primary3 ",
-        icon: "school"
+        icon: "school",
+        title: "Use Experiment Data to Teach",
+        body:
+          "View market summaries, item price changes, and many more to follow up with your class about the results"
       }
     ]
   })

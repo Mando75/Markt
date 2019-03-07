@@ -19,7 +19,7 @@ export default new Router({
     {
       path: "/guide/scenarios",
       name: "LandingPage",
-      component: () => import("../components/LandingPage")
+      component: () => import("../components/GuideFeatures/LandingPage")
     },
     {
       path: "/how",
@@ -29,12 +29,12 @@ export default new Router({
     {
       path: "/guide/home",
       name: "myHome",
-      component: () => import("../components/GuideHome")
+      component: () => import("../components/GuideFeatures/GuideHome")
     },
     {
       path: "/player",
       name: "Player",
-      component: () => import("../components/PlayerPage")
+      component: () => import("../components/PlayerExperience/PlayerPage")
     },
 
     {
@@ -45,22 +45,23 @@ export default new Router({
     {
       path: "/join",
       name: "join",
-      component: () => import("../components/JoinSession")
+      component: () => import("../components/PlayerExperience/JoinSession")
     },
     {
       path: "/guide/setup",
       name: "simulation_Setup",
-      component: () => import("../components/SessionCreation")
+      component: () => import("../components/GuideFeatures/SessionCreation")
     },
     {
       path: "/play",
       name: "simulation_running",
-      component: () => import("../components/ExperimentInProgressPage")
+      component: () =>
+        import("../components/GuideFeatures/ExperimentInProgressPage")
     },
     {
       path: "/buy_sell",
       name: "transaction",
-      component: () => import("../components/Transaction")
+      component: () => import("../components/PlayerExperience/Transaction")
     }
   ]
 });

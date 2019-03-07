@@ -62,7 +62,7 @@
 
 <script>
 import gql from "graphql-tag";
-import Nav from "./Nav";
+import Nav from "../Nav";
 
 export default {
   name: "Home",

@@ -45,7 +45,7 @@
   </v-content>
 </template>
 <script>
-import Nav from "./Nav";
+import Nav from "../Nav";
 export default {
   name: "Transaction",
   components: { Nav }

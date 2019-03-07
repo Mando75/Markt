@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-navigation-drawer app dark v-model="drawer">
+    <v-navigation-drawer app dark v-model="drawer" v-if="function() {}">
       <v-list> <br /><br /><br /></v-list>
       <v-list class="pa-0">
         <v-list-tile avatar>
