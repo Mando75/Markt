@@ -9,7 +9,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-card>
                 <v-img
-                  src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
+                  :src="require('@/assets/iStock_teacher-math-class.jpg')"
                   aspect-ratio="2.75"
                 ></v-img>
 

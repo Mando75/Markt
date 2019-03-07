@@ -27,9 +27,14 @@ export default new Router({
       component: () => import("../components/Instructions")
     },
     {
+      path: "/user/dashboards",
+      name: "myHome",
+      component: () => import("../components/DashboardsHome")
+    },
+    {
       path: "/player",
       name: "Player",
-      component: () => import("../components/PlayerPage.vue")
+      component: () => import("../components/PlayerPage")
     },
 
     {
@@ -41,6 +46,16 @@ export default new Router({
       path: "/join_xp",
       name: "account",
       component: () => import("../components/JoinSession")
+    },
+    {
+      path: "/welcome",
+      name: "welcome",
+      component: () => import("../components/Welcome")
+    },
+    {
+      path: "/Setup",
+      name: "simulation_Setup",
+      component: () => import("../components/SessionCreation")
     },
     {
       path: "/buy_sell",

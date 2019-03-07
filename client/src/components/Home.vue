@@ -3,24 +3,37 @@
     <v-content>
       <Nav />
 
-      <v-container grid-list-md text-xs-center fluid>
-        <v-carousel hide-controls hide-delimiters>
-          <v-carousel-item v-for="(item, i) in images" :key="i" :src="item.src">
-          </v-carousel-item>
-        </v-carousel>
+      <v-container grid-list-xl text-lg-center fluid>
         <v-layout row wrap>
-          <v-flex xs2>
-            <v-card flat align="left">
+          <v-flex fill-height xs12>
+            <v-card flat align="center">
               <v-img
                 :src="require('@/assets/mainStockStockimg.png')"
-                height="200"
-                width="200"
+                height="580"
+                width="880"
               ></v-img>
             </v-card>
           </v-flex>
-          <v-flex xs8>
-            <v-card flat align="left"></v-card>
+          <v-flex xs6>
+            <v-card flat align="left"
+              ><v-card-text class="px-1"
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec
+                cursus nibh, sit amet condimentum magna. Vestibulum a elit
+                semper, maximus eros ac, tempor velit. Proin condimentum erat
+                pharetra, hendrerit turpis in, pulvinar nibh. Aenean ipsum sem,
+                interdum et laoreet ut, tempus non urna. Nam tempus nisl porta
+                purus commodo dictum. Proin sit amet augue nulla. Ut sagittis
+                sit amet nulla ut malesuada. Praesent vel convallis erat. Etiam
+                mauris mauris, vulputate non aliquet sed, vulputate eget elit.
+                Donec rutrum ipsum non lectus aliquet, ut sodales justo
+                faucibus. In hac habitasse platea dictumst. Aenean metus justo,
+                malesuada nec lectus non, facilisis iaculis diam. Suspendisse
+                tincidunt placerat erat, malesuada interdum nunc hendrerit
+                eu.</v-card-text
+              ></v-card
+            >
           </v-flex>
+
           <v-flex v-for="i in 3" :key="`4${i}`" xs4>
             <v-card dark color="primary2">
               <v-card-text class="px-0">4</v-card-text>
@@ -111,3 +124,13 @@ a {
   color: #42b983;
 }
 </style>
+<!--<v-flex align-content-end>-->
+<!--<v-carousel hide-controls hide-delimiters>-->
+<!--<v-carousel-item-->
+<!--v-for="(item, i) in images"-->
+<!--:key="i"-->
+<!--:src="item.src"-->
+<!--&gt;-->
+<!--</v-carousel-item>-->
+<!--</v-carousel>-->
+<!--</v-flex>-->

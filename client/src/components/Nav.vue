@@ -17,7 +17,7 @@
       <v-divider></v-divider>
 
       <v-list dense class="pt-0">
-        <v-list-tile v-for="item in items" :key="item.title" @click="">
+        <v-list-tile v-for="item in items" :key="item.title" :to="item.path">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -57,13 +57,13 @@ export default {
     return {
       users: { displayName: "Bryan" },
       items: [
-        { title: "Home", icon: "dashboard" },
-        { title: "Select Experiment", icon: "poll" },
-        { title: "Invite Participants", icon: "person_add" },
-        { title: "Begin Simulation", icon: "monetization_on" },
+        { title: "Home", icon: "dashboard", path: "/user/dashboards" },
+        { title: "Select Experiment", icon: "poll", path: "/scenarios" },
+        { title: "Invite Participants", icon: "person_add", path: "" },
+        { title: "Begin Simulation", icon: "monetization_on", path: "" },
         // { title: "UserResults?", icon: "person" },
-        { title: "About", icon: "question_answer" },
-        { title: "Settings", icon: "settings" }
+        { title: "About", icon: "question_answer", path: "" },
+        { title: "Settings", icon: "settings", path: "" }
       ],
       drawer: false
     };
