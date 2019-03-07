@@ -9,7 +9,7 @@ export default new Router({
     {
       path: "/",
       name: "root",
-      component: () => import("../components/Home")
+      component: () => import("../components/Welcome")
     },
     {
       path: "/login",
@@ -27,9 +27,9 @@ export default new Router({
       component: () => import("../components/Instructions")
     },
     {
-      path: "/guide/dashboards",
+      path: "/guide/home",
       name: "myHome",
-      component: () => import("../components/DashboardsHome")
+      component: () => import("../components/GuideHome")
     },
     {
       path: "/player",
@@ -40,17 +40,12 @@ export default new Router({
     {
       path: "/guide/create_account",
       name: "account",
-      component: () => import("../components/Account")
+      component: () => import("../components/CreateAccount")
     },
     {
       path: "/join",
       name: "join",
       component: () => import("../components/JoinSession")
-    },
-    {
-      path: "/welcome",
-      name: "welcome",
-      component: () => import("../components/Welcome")
     },
     {
       path: "/guide/setup",

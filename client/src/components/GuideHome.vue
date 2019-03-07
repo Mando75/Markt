@@ -5,17 +5,17 @@
 
       <v-container grid-list-xl text-lg-center fluid>
         <v-layout row wrap>
-          <v-flex fill-height xs12>
+          <v-flex fill-height xs6>
             <v-card flat align="center">
               <v-img
                 :src="require('@/assets/mainStockStockimg.png')"
-                height="580"
-                width="880"
+                height="380"
+                width="680"
               ></v-img>
             </v-card>
           </v-flex>
-          <v-flex xs6>
-            <v-card flat align="left"
+          <v-flex xs4 align="right">
+            <v-card flat
               ><v-card-text class="px-1"
                 >Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nec
                 cursus nibh, sit amet condimentum magna. Vestibulum a elit

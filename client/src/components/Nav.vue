@@ -28,11 +28,14 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar app color="modernColor3" fixed clipped-left scroll-off-screen>
+    <v-toolbar app color="modernColor3" fixed clipped-left>
       <v-toolbar-side-icon v-on:click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="display-1 white--text font-weight-bold "
-        >Markt</v-toolbar-title
-      >
+      <router-link to="/">
+        <v-toolbar-title class="display-1 white--text font-weight-bold "
+          >Markt</v-toolbar-title
+        >
+      </router-link>
+
       <v-spacer></v-spacer>
       <!--The right side buttons-->
       <v-toolbar-items class="hidden-md-and-down">
@@ -44,7 +47,7 @@
         >
         <!--button 2-->
         <v-btn dark>
-          <router-link class="font-weight-bold white--text" to="/login"
+          <router-link class="font-weight-bold white--text" to="/join"
             >Join Simulation</router-link
           >
         </v-btn>
@@ -61,7 +64,7 @@ export default {
     return {
       users: { displayName: "Bryan" },
       items: [
-        { title: "Home", icon: "dashboard", path: "/guide/dashboards" },
+        { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
         {
           title: "Invite Participants",
@@ -78,3 +81,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+</style>
