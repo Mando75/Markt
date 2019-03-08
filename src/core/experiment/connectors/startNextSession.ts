@@ -30,6 +30,7 @@ export const startNextSession = async (
   const newSession = ExperimentSession.create({
     sessionNumber: newSessionNumber
   });
+  await deactivateSessions(sessions);
   newSession.experiment = Promise.resolve(experiment);
   newSession.scenarioSession = Promise.resolve(scenarioSession);
   return await newSession.save();
@@ -83,8 +84,21 @@ const checkExperimentSessions = async (experiment: Experiment) => {
  */
 const checkScenarioSessions = async (experiment: Experiment) => {
   const scenarioSessions = await experiment.scenario.scenarioSessions;
-  if (!scenarioSessions) {
+  if (!scenarioSessions || !scenarioSessions.length) {
     throw new ApolloError(ExperimentErrorMessages.MALFORMED_SCENARIO, "500");
   }
   return scenarioSessions;
+};
+
+/**
+ * Deactivates a list of sessions
+ * @param sessions
+ */
+const deactivateSessions = async (sessions: ExperimentSession[]) => {
+  await Promise.all(
+    sessions.map(s => {
+      s.active = false;
+      return s.save();
+    })
+  );
 };

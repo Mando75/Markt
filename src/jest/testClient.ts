@@ -10,6 +10,7 @@ import * as IORedis from "ioredis";
 import { Experiment } from "../entity/Experiment";
 import { loadRoleDist } from "../core/experiment/connectors/startNewExperiment";
 import { RoleType } from "../entity/RoleType";
+import { ScenarioSession } from "../entity/ScenarioSession";
 
 export class TestClient {
   url: string;
@@ -39,7 +40,7 @@ export class TestClient {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       accountType: AccountType.USER,
-      email: faker.internet.email(),
+      email: `${faker.random.alphaNumeric()}${faker.internet.email()}`,
       // email: faker.internet.exampleEmail().toLowerCase(),
       password: faker.internet.password(8, false) + "@Aa1",
       emailConfirmed: false
@@ -204,6 +205,7 @@ export class TestClient {
   static async createMockScenario() {
     const scen = this._genScenario();
     const newScen = await Scenario.create(scen).save();
+    await TestClient.genScenarioSessions(newScen, 2);
     const roleTypes = scen.roleDistribution.map(async rd => {
       const rt = RoleType.create({
         roleTypeId: rd,
@@ -235,12 +237,12 @@ export class TestClient {
     return experiment;
   }
 
-  static _genScenario() {
+  static _genScenario(sessionCount = 2) {
     return {
       name: faker.lorem.word(),
       scenarioCode: faker.random.uuid().substring(0, 9),
       maxPlayerSize: 8,
-      sessionCount: faker.random.number(),
+      sessionCount: sessionCount,
       overview: [
         {
           sessionNumber: faker.random.number(),
@@ -260,6 +262,22 @@ export class TestClient {
         .fill(0)
         .map(() => faker.random.uuid())
     };
+  }
+
+  static async genScenarioSessions(scenario: Scenario, length = 1) {
+    const slist: Array<Promise<ScenarioSession>> = [];
+    for (let k = 0; k < length; k++) {
+      const s = ScenarioSession.create({
+        scenarioSessionId: faker.random.uuid(),
+        sessionNumber: k + 1,
+        instructions: TestClient.genInstructions(1),
+        roundDiscussionPoints: TestClient.genInstructions(1),
+        numberOfRounds: k
+      });
+      s.scenario = Promise.resolve(scenario);
+      slist.push(s.save());
+    }
+    return await Promise.all(slist);
   }
 
   static genInstructions(length = 1) {

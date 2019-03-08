@@ -1,5 +1,6 @@
 import {
   BaseEntity,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -42,4 +43,11 @@ export class ExperimentSession extends BaseEntity {
 
   @UpdateDateColumn()
   updatedDate: Date;
+
+  @BeforeUpdate()
+  _setEndDate() {
+    if (!this.active && !this.endDate) {
+      this.endDate = new Date();
+    }
+  }
 }
