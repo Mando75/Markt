@@ -93,9 +93,11 @@ const checkScenarioSessions = async (experiment: Experiment) => {
  */
 const deactivateSessions = async (sessions: ExperimentSession[]) => {
   await Promise.all(
-    sessions.map(s => {
-      s.active = false;
-      return s.save();
-    })
+    sessions
+      .filter(s => s.active)
+      .map(s => {
+        s.active = false;
+        return s.save();
+      })
   );
 };
