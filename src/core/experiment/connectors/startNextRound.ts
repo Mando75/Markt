@@ -25,7 +25,9 @@ export const startNextRound = async (
 };
 
 const findAndCheckExperiment = async (id: string) => {
-  const experiment = await Experiment.findOne({ where: { id, active: true } });
+  const experiment = await Experiment.findOne({
+    where: { id, active: true }
+  });
   if (!experiment) {
     throw new ApolloError(
       ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST,
