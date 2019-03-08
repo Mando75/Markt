@@ -1,6 +1,7 @@
 process.env.TS_NODE_FILES = "true";
 require("ts-node/register");
-const createConnection = require('../utils/CreateTypeORMConnection').CreateTypeORMConnection
+const createConnection = require("../utils/CreateTypeORMConnection")
+  .CreateTypeORMConnection;
 module.exports = async () => {
   console.log("Setting environment");
   process.env.NODE_ENV = "test";
