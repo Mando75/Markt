@@ -57,10 +57,7 @@ const findAndCheckExperiment = async (id: string) => {
       ExperimentStatusEnum.ROUND_SUMMARY
     ].includes(experiment.status)
   ) {
-    throw new ApolloError(
-      ExperimentErrorMessages.EXPERIMENT_IN_ROUND_OR_CLOSED,
-      "403"
-    );
+    throw new ApolloError(ExperimentErrorMessages.STATUS_NOT_READY, "403");
   }
   return experiment;
 };

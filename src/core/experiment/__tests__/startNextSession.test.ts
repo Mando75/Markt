@@ -49,9 +49,7 @@ describe("startNextSession", () => {
     await Promise.all([tc.login(), experiment.save()]);
     const { errors } = await tc.query(startNextSession(experiment.id));
     expect(errors).toHaveLength(1);
-    expect(errors[0].message).toEqual(
-      ExperimentErrorMessages.EXPERIMENT_IN_ROUND_OR_CLOSED
-    );
+    expect(errors[0].message).toEqual(ExperimentErrorMessages.STATUS_NOT_READY);
   });
 
   it("rejects starting a session when the scenario is malformed", async () => {

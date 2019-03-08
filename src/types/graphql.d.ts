@@ -84,6 +84,7 @@ declare namespace GQL {
     scenario: IScenario;
     group: IGroup;
     joinCode: string;
+    status: ExperimentStatus | null;
     numPlayers: number;
     players: Array<IExperimentPlayer | null>;
     sessions: Array<IExperimentSession | null>;
@@ -249,6 +250,14 @@ declare namespace GQL {
     updatedDate: any;
   }
 
+  const enum ExperimentStatus {
+    joining = "joining",
+    session_start = "session_start",
+    in_round = "in_round",
+    round_summary = "round_summary",
+    closed = "closed"
+  }
+
   interface IExperimentPlayer {
     __typename: "ExperimentPlayer";
     id: string;
@@ -330,6 +339,7 @@ declare namespace GQL {
     startNewExperiment: IExperiment | null;
     joinExperiment: IExperimentPlayer | null;
     startNextSession: IExperimentSession | null;
+    startNextRound: IRound | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -362,6 +372,10 @@ declare namespace GQL {
   }
 
   interface IStartNextSessionOnMutationArguments {
+    experimentId: string;
+  }
+
+  interface IStartNextRoundOnMutationArguments {
     experimentId: string;
   }
 
