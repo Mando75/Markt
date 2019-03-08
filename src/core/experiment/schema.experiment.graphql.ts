@@ -30,10 +30,6 @@ export const typeDefs = gql`
     updatedDate: Date
   }
 
-  extend type Player {
-    experimentPlayers: [ExperimentPlayer]!
-  }
-
   type ExperimentSession {
     id: ID!
     experiment: Experiment!
@@ -88,5 +84,6 @@ export const typeDefs = gql`
   extend type Mutation {
     startNewExperiment(params: ExperimentStartType!): Experiment
     joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
+    startNextSession(experimentId: ID!): ExperimentSession
   }
 `;

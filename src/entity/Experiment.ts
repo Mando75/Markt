@@ -16,6 +16,7 @@ import { Group } from "./Group";
 import { generate } from "randomstring";
 import { ExperimentPlayer } from "./ExperimentPlayer";
 import { ExperimentSession } from "./ExperimentSession";
+import { ExperimentStatusEnum } from "../enums/experimentStatus.enum";
 
 @Entity("experiments")
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
@@ -50,6 +51,13 @@ export class Experiment extends BaseEntity {
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
 
+  @Column("enum", {
+    enum: ExperimentStatusEnum,
+    nullable: false,
+    default: ExperimentStatusEnum.JOINING
+  })
+  status: ExperimentStatusEnum;
+
   @Column({ type: "timestamp", nullable: true })
   endDate: Date | undefined;
 
@@ -81,13 +89,14 @@ export class Experiment extends BaseEntity {
     this.joinCode = option;
   }
 
-  // TODO Update numPlayers
-
   /**
    * Returns whether or not the experiment is closed
    * based on if the number of players matches the max player size
    */
   closed() {
-    return this.numPlayers === this.scenario.maxPlayerSize;
+    return (
+      this.status !== ExperimentStatusEnum.JOINING ||
+      this.numPlayers === this.scenario.maxPlayerSize
+    );
   }
 }

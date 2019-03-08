@@ -1,10 +1,12 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { Scenario } from "./Scenario";
 import { SessionRole } from "./SessionRole";
@@ -38,4 +40,10 @@ export class ScenarioSession extends BaseEntity {
 
   @OneToMany(() => SessionRole, sr => sr.scenarioSession)
   sessionRoles: Promise<SessionRole[]>;
+
+  @UpdateDateColumn()
+  updatedDate: Date;
+
+  @CreateDateColumn()
+  createdDate: Date;
 }
