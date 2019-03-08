@@ -5,6 +5,7 @@ import { Connection } from "typeorm";
 import * as faker from "faker";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
+import { Experiment } from "../../../entity/Experiment";
 
 let app: Server, db: Connection, host: string;
 
@@ -25,6 +26,11 @@ describe("startNextSession", () => {
       }
     }
   `;
+
+  const resetExperiment = async (experiment: Experiment) => {
+    experiment.status = ExperimentStatusEnum.JOINING;
+    await experiment.save();
+  };
   it("handles an nonexistent experiment", async () => {
     const tc = new TestClient(host);
     await tc.createUserWithGuide();
@@ -91,7 +97,9 @@ describe("startNextSession", () => {
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
     await tc.query(startNextSession(experiment.id));
+    await resetExperiment(experiment);
     await tc.query(startNextSession(experiment.id));
+    await resetExperiment(experiment);
     const { errors } = await tc.query(startNextSession(experiment.id));
     expect(errors).toHaveLength(1);
     expect(errors[0].message).toEqual(
@@ -104,6 +112,7 @@ describe("startNextSession", () => {
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
     await tc.query(startNextSession(experiment.id));
+    await resetExperiment(experiment);
     await tc.query(startNextSession(experiment.id));
     await experiment.reload();
     const sessions = await experiment.sessions;
@@ -112,6 +121,15 @@ describe("startNextSession", () => {
     expect(sessions[0].endDate).toBeTruthy();
     expect(sessions[1].active).toBeTruthy();
     expect(sessions[1].endDate).toBeFalsy();
+  });
+
+  it("sets the experiment status to SESSION_START", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    await tc.login();
+    await tc.query(startNextSession(experiment.id));
+    await experiment.reload();
+    expect(experiment.status).toEqual(ExperimentStatusEnum.SESSION_START);
   });
 });
 

@@ -6,6 +6,7 @@ export const typeDefs = gql`
     scenario: Scenario!
     group: Group!
     joinCode: String!
+    status: ExperimentStatus
     numPlayers: Int!
     players: [ExperimentPlayer]!
     sessions: [ExperimentSession]!
@@ -75,6 +76,14 @@ export const typeDefs = gql`
   input ExperimentJoinType {
     playerCode: ID!
     joinCode: ID!
+  }
+
+  enum ExperimentStatus {
+    joining
+    session_start
+    in_round
+    round_summary
+    closed
   }
 
   extend type Query {

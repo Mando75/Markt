@@ -1,4 +1,5 @@
 import {
+  AfterInsert,
   BaseEntity,
   BeforeUpdate,
   Column,
@@ -12,6 +13,7 @@ import {
 import { Experiment } from "./Experiment";
 import { ScenarioSession } from "./ScenarioSession";
 import { Round } from "./Round";
+import { ExperimentStatusEnum } from "../enums/experimentStatus.enum";
 
 @Entity("experiment_sessions")
 export class ExperimentSession extends BaseEntity {
@@ -49,5 +51,12 @@ export class ExperimentSession extends BaseEntity {
     if (!this.active && !this.endDate) {
       this.endDate = new Date();
     }
+  }
+
+  @AfterInsert()
+  async _updateExperimentStatus() {
+    const ex = await this.experiment;
+    ex.status = ExperimentStatusEnum.SESSION_START;
+    await ex.save();
   }
 }
