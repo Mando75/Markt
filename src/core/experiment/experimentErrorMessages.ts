@@ -8,5 +8,5 @@ export enum ExperimentErrorMessages {
   NO_ACTIVE_SESSION = "The experiment currently has no active sessions",
   PLAYER_ALREADY_IN_EXPERIMENT = "Player already in Experiment",
   PLAYER_DOES_NOT_EXIST = "Player does not exist",
-  STATUS_NOT_READY = "Experiment is currently in the correct status to complete the desired action"
+  STATUS_NOT_READY = "Experiment is not currently in the correct status to complete the desired action"
 }

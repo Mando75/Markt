@@ -272,7 +272,7 @@ export class TestClient {
         sessionNumber: k + 1,
         instructions: TestClient.genInstructions(1),
         roundDiscussionPoints: TestClient.genInstructions(1),
-        numberOfRounds: k
+        numberOfRounds: length
       });
       s.scenario = Promise.resolve(scenario);
       slist.push(s.save());

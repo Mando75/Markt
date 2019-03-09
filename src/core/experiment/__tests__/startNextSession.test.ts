@@ -31,7 +31,7 @@ describe("startNextSession", () => {
     experiment.status = ExperimentStatusEnum.JOINING;
     await experiment.save();
   };
-  it("handles an nonexistent experiment", async () => {
+  it("handles a nonexistent experiment", async () => {
     const tc = new TestClient(host);
     await tc.createUserWithGuide();
     await tc.login();

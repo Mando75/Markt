@@ -4,12 +4,15 @@ import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentSession } from "../../../entity/ExperimentSession";
 import { Round } from "../../../entity/Round";
+import { GraphQLContext } from "../../../types/graphql-context";
+import { User } from "../../../entity/User";
 
 export const startNextRound = async (
   _: any,
-  { experimentId }: GQL.IStartNextRoundOnMutationArguments
+  { experimentId }: GQL.IStartNextRoundOnMutationArguments,
+  { user }: GraphQLContext
 ) => {
-  const experiment = await findAndCheckExperiment(experimentId);
+  const experiment = await findAndCheckExperiment(experimentId, user);
   const activeSession = await experiment.getActiveSession();
   if (!activeSession) {
     throw new ApolloError(ExperimentErrorMessages.NO_ACTIVE_SESSION, "403");
@@ -24,9 +27,16 @@ export const startNextRound = async (
   return await newRound.save();
 };
 
-const findAndCheckExperiment = async (id: string) => {
+/**
+ * Finds the experiment, scoping the possible results to those owned
+ * by the guide.
+ * @param id
+ * @param user
+ */
+const findAndCheckExperiment = async (id: string, user: User | undefined) => {
+  const guide = user ? await user.guide : null;
   const experiment = await Experiment.findOne({
-    where: { id, active: true }
+    where: { id, active: true, guide }
   });
   if (!experiment) {
     throw new ApolloError(
@@ -44,6 +54,11 @@ const findAndCheckExperiment = async (id: string) => {
   return experiment;
 };
 
+/**
+ * Validation on session rounds
+ * Checks length to ensure we don't overshoot
+ * @param session
+ */
 const checkSessionRounds = async (session: ExperimentSession) => {
   const [rounds, scenarioSession] = await Promise.all([
     session.rounds,
@@ -55,6 +70,11 @@ const checkSessionRounds = async (session: ExperimentSession) => {
   return rounds;
 };
 
+/**
+ * Deactivates previous rounds which were still listed
+ * as active
+ * @param rounds
+ */
 const deactivateRounds = async (rounds: Round[]) => {
   await Promise.all(
     rounds
