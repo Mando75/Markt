@@ -5,6 +5,7 @@ import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
 import { Round } from "../../../entity/Round";
 import { Transaction } from "../../../entity/Transaction";
+import { PlayerTransaction } from "../../../entity/PlayerTransaction";
 
 export const makeTransaction = async (
   _: any,
@@ -18,7 +19,9 @@ export const makeTransaction = async (
     sellerCode,
     experiment
   );
-  const transaction = createTransaction(round, amount, buyer, seller);
+  const transaction = await createTransaction(round, amount, buyer, seller);
+  await createPlayerTransactions(buyer, seller, transaction);
+  return transaction;
 };
 
 /**
@@ -98,5 +101,23 @@ const createTransaction = async (
     sellerProfit
   });
   t.round = Promise.resolve(currentRound);
-  return t;
+  return await t.save();
+};
+
+const createPlayerTransactions = async (
+  buyer: ExperimentPlayer,
+  seller: ExperimentPlayer,
+  transaction: Transaction
+) => {
+  await PlayerTransaction.create({
+    player: buyer,
+    transaction,
+    isSeller: false
+  }).save();
+  await PlayerTransaction.create({
+    player: seller,
+    transaction,
+    isSeller: true
+  });
+  await Promise.all([buyer.reload, seller.reload(), transaction.reload()]);
 };
