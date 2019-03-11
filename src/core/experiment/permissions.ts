@@ -7,6 +7,8 @@ export const permissions = {
   },
   Mutation: {
     startNewExperiment: or(isGuide, isAdmin),
-    joinExperiment: allow
+    joinExperiment: allow,
+    startNextSession: or(isGuide, isAdmin),
+    startNextRound: or(isGuide, isAdmin)
   }
 };

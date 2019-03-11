@@ -1,10 +1,12 @@
 export enum ExperimentErrorMessages {
-  EXPERIMENT_DOES_NOT_EXIST = "Experiment does not exist",
-  PLAYER_DOES_NOT_EXIST = "Player does not exist",
-  EXPERIMENT_CLOSED = "Experiment is closed",
-  PLAYER_ALREADY_IN_EXPERIMENT = "Player already in Experiment",
   CANNOT_ASSIGN_ROLE_TYPE = "Could not assign role type",
-  EXPERIMENT_IN_ROUND_OR_CLOSED = "Experiment is currently in a round or is closed",
+  EXPERIMENT_CLOSED = "Experiment is closed",
+  EXPERIMENT_DOES_NOT_EXIST = "Experiment does not exist",
+  MALFORMED_SCENARIO = "Scenario definition is malformed please contact an administrator",
+  MAX_ROUNDS_REACHED = "Session has no more rounds to play",
   MAX_SESSIONS_REACHED = "Experiment has no more sessions to play",
-  MALFORMED_SCENARIO = "Scenario definition is malformed, please contact an administrator"
+  NO_ACTIVE_SESSION = "The experiment currently has no active sessions",
+  PLAYER_ALREADY_IN_EXPERIMENT = "Player already in Experiment",
+  PLAYER_DOES_NOT_EXIST = "Player does not exist",
+  STATUS_NOT_READY = "Experiment is not currently in the correct status to complete the desired action"
 }

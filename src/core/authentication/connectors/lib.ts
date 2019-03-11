@@ -3,6 +3,7 @@ import { AccountType } from "../../../enums/accountType.enum";
 import { Redis } from "ioredis";
 import { v4 } from "uuid";
 import { RedisPrefix } from "../../../enums/redisPrefix.enum";
+import { Guide } from "../../../entity/Guide";
 
 /**
  * Checks if user already exists based upon email address
@@ -32,10 +33,23 @@ export const registerUser = async ({
   user: GQL.IUserRegistrationType;
   accountType: AccountType;
 }) => {
-  return await User.create({
-    ...user,
-    accountType
-  }).save();
+  return createGuide(
+    await User.create({
+      ...user,
+      accountType
+    }).save()
+  );
+};
+
+/**
+ * Create a guide for the user
+ * @param user
+ */
+const createGuide = async (user: User) => {
+  const g = new Guide();
+  g.user = user;
+  await g.save();
+  return g.user;
 };
 
 /**

@@ -53,6 +53,7 @@ export const setSession = async (
  * @param experimentId
  * @param session
  * @param req
+ * @param redis
  */
 export const setPlayerSession = async (
   playerId: string,
@@ -62,6 +63,7 @@ export const setPlayerSession = async (
   redis: Redis
 ) => {
   session.playerId = playerId;
+  session.experimentId = experimentId;
   if (req.sessionID) {
     await redis.lpush(
       `${RedisPrefix.PLAYER_SESSION}${experimentId}`,

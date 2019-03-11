@@ -11,7 +11,7 @@ import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 export const startNewExperiment = async (
   _: any,
   { params }: GQL.IStartNewExperimentOnMutationArguments,
-  { redis }: GraphQLContext,
+  { redis, session }: GraphQLContext,
   __: GraphQLResolveInfo
 ) => {
   let scenario: Scenario, guide: Guide, group: Group;
@@ -33,6 +33,7 @@ export const startNewExperiment = async (
   experiment.group = Promise.resolve(group);
   await experiment.save();
   await loadRoleDist(experiment, redis);
+  session.experimentId = experiment.id;
   return experiment;
 };
 

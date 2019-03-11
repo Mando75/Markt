@@ -3,6 +3,8 @@ import { ApolloError } from "apollo-server-express";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentSession } from "../../../entity/ExperimentSession";
+import { GraphQLContext } from "../../../types/graphql-context";
+import { User } from "../../../entity/User";
 
 /**
  * Starts a new session in a given experiment. Validates that a new session
@@ -13,9 +15,10 @@ import { ExperimentSession } from "../../../entity/ExperimentSession";
  */
 export const startNextSession = async (
   _: any,
-  { experimentId }: GQL.IStartNextSessionOnMutationArguments
+  { experimentId }: GQL.IStartNextSessionOnMutationArguments,
+  { user }: GraphQLContext
 ) => {
-  const experiment = await findAndCheckExperiment(experimentId);
+  const experiment = await findAndCheckExperiment(experimentId, user);
   const [sessions, scenarioSessions] = await Promise.all([
     checkExperimentSessions(experiment),
     checkScenarioSessions(experiment)
@@ -41,9 +44,13 @@ export const startNextSession = async (
  * performs validation that a new session can be created
  * by checking experiment status
  * @param id
+ * @param user
  */
-const findAndCheckExperiment = async (id: string) => {
-  const experiment = await Experiment.findOne({ where: { id, active: true } });
+const findAndCheckExperiment = async (id: string, user: User | undefined) => {
+  const guide = user ? await user.guide : null;
+  const experiment = await Experiment.findOne({
+    where: { id, active: true, guide }
+  });
   // Check if a valid experiment id
   if (!experiment) {
     throw new ApolloError(
@@ -57,10 +64,7 @@ const findAndCheckExperiment = async (id: string) => {
       ExperimentStatusEnum.ROUND_SUMMARY
     ].includes(experiment.status)
   ) {
-    throw new ApolloError(
-      ExperimentErrorMessages.EXPERIMENT_IN_ROUND_OR_CLOSED,
-      "403"
-    );
+    throw new ApolloError(ExperimentErrorMessages.STATUS_NOT_READY, "403");
   }
   return experiment;
 };
@@ -96,9 +100,11 @@ const checkScenarioSessions = async (experiment: Experiment) => {
  */
 const deactivateSessions = async (sessions: ExperimentSession[]) => {
   await Promise.all(
-    sessions.map(s => {
-      s.active = false;
-      return s.save();
-    })
+    sessions
+      .filter(s => s.active)
+      .map(s => {
+        s.active = false;
+        return s.save();
+      })
   );
 };

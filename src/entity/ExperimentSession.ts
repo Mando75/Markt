@@ -59,4 +59,15 @@ export class ExperimentSession extends BaseEntity {
     ex.status = ExperimentStatusEnum.SESSION_START;
     await ex.save();
   }
+
+  /**
+   * Returns the current round
+   */
+  async getActiveRound() {
+    const rounds = await this.rounds;
+    if (rounds) {
+      return rounds.find(r => r.active);
+    }
+    return null;
+  }
 }

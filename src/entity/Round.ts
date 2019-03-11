@@ -61,4 +61,11 @@ export class Round extends BaseEntity {
   async _setNumTransactions() {
     this.numTransactions = (await this.transactions).length;
   }
+
+  @BeforeUpdate()
+  _setEndDate() {
+    if (!this.active && !this.endDate) {
+      this.endDate = new Date();
+    }
+  }
 }

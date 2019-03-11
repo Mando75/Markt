@@ -99,4 +99,26 @@ export class Experiment extends BaseEntity {
       this.numPlayers === this.scenario.maxPlayerSize
     );
   }
+
+  /**
+   * Returns back the current experiment session
+   */
+  async getActiveSession() {
+    const sessions = await this.sessions;
+    if (sessions) {
+      return sessions.find(s => s.active);
+    }
+    return null;
+  }
+
+  /**
+   * Returns back the current experiment round
+   */
+  async getActiveRound() {
+    const activeSession = await this.getActiveSession();
+    if (activeSession) {
+      return await activeSession.getActiveRound();
+    }
+    return null;
+  }
 }

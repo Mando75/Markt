@@ -6,11 +6,12 @@ import { AuthenticationError } from "apollo-server-express";
 import { ApolloErrors } from "../enums/ApolloErrors";
 import { User } from "../entity/User";
 import { Player } from "../entity/Player";
+
 /**
  * All of these checks should already be handled before
  * setting the context, but this is double reinforcement
  */
-const userExists = (user: User | undefined, session: Session) => {
+export const userExists = (user: User | undefined, session: Session) => {
   return !!user && user.active && user.id === session.userId;
 };
 

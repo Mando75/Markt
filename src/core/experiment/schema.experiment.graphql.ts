@@ -94,5 +94,6 @@ export const typeDefs = gql`
     startNewExperiment(params: ExperimentStartType!): Experiment
     joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
     startNextSession(experimentId: ID!): ExperimentSession
+    startNextRound(experimentId: ID!): Round
   }
 `;

@@ -14,4 +14,5 @@ export interface GraphQLContext {
 export interface Session extends Express.Session {
   userId?: string;
   playerId?: string;
+  experimentId?: string;
 }
