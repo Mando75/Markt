@@ -16,6 +16,7 @@ import { Player } from "./Player";
 import { RoleType } from "./RoleType";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Transaction } from "./Transaction";
+import { SessionRole } from "./SessionRole";
 
 @Entity("experiment_players")
 export class ExperimentPlayer extends BaseEntity {
@@ -97,5 +98,33 @@ export class ExperimentPlayer extends BaseEntity {
     const ex = await this.experiment;
     ex.numPlayers += 1;
     await ex.save();
+  }
+
+  async getCurrentSessionRole() {
+    const [ex, role] = await Promise.all([this.experiment, this.roleType]);
+    const [currentSession, sessionRoles] = await Promise.all([
+      ex.getActiveSession(),
+      role.sessionRoles
+    ]);
+    if (!currentSession) {
+      return sessionRoles.find(sr => sr.sessionNumber === 1) as SessionRole;
+    } else {
+      return sessionRoles.find(
+        sr => sr.sessionNumber === currentSession.sessionNumber
+      ) as SessionRole;
+    }
+  }
+
+  async getProfitEquation() {
+    const sr = await this.getCurrentSessionRole();
+    return sr.profitEquation;
+  }
+
+  async getProfit(amount: number) {
+    return eval(
+      (await this.getProfitEquation())
+        .replace("$", "")
+        .replace("P", amount.toString())
+    );
   }
 }

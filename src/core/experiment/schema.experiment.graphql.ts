@@ -82,6 +82,7 @@ export const typeDefs = gql`
     experimentId: ID!
     buyerCode: ID!
     sellerCode: ID!
+    amount: Float!
   }
 
   enum ExperimentStatus {

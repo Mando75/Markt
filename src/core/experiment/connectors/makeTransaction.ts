@@ -3,26 +3,29 @@ import { ApolloError } from "apollo-server-express";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
+import { Round } from "../../../entity/Round";
+import { Transaction } from "../../../entity/Transaction";
 
 export const makeTransaction = async (
   _: any,
   {
-    params: { experimentId, buyerCode, sellerCode }
+    params: { experimentId, buyerCode, sellerCode, amount }
   }: GQL.IMakeTransactionOnMutationArguments
 ) => {
-  const experiment = await findAndCheckExperiment(experimentId);
+  const { experiment, round } = await findAndCheckExperimentInfo(experimentId);
   const { buyer, seller } = await findAndCheckPlayers(
     buyerCode,
     sellerCode,
     experiment
   );
+  const transaction = createTransaction(round, amount, buyer, seller);
 };
 
 /**
  * Find's and checks a valid experiment id was given
  * @param id
  */
-const findAndCheckExperiment = async (id: string) => {
+const findAndCheckExperimentInfo = async (id: string) => {
   const experiment = await Experiment.findOne({
     where: { id, active: true }
   });
@@ -34,7 +37,11 @@ const findAndCheckExperiment = async (id: string) => {
   } else if (experiment.status !== ExperimentStatusEnum.IN_ROUND) {
     throw new ApolloError(ExperimentErrorMessages.STATUS_NOT_READY, "403");
   }
-  return experiment;
+  const round = await experiment.getActiveRound();
+  if (!round) {
+    throw new ApolloError(ExperimentErrorMessages.STATUS_NOT_READY, "403");
+  }
+  return { experiment, round };
 };
 
 /**
@@ -66,4 +73,30 @@ const findAndCheckPlayers = async (
     throw new ApolloError(ExperimentErrorMessages.SELLER_DOES_NOT_EXIST, "404");
   }
   return { buyer, seller };
+};
+
+/**
+ * Creates a new transaction record. DOES NOT SAVE IT
+ * @param currentRound
+ * @param amount
+ * @param buyer
+ * @param seller
+ */
+const createTransaction = async (
+  currentRound: Round,
+  amount: number,
+  buyer: ExperimentPlayer,
+  seller: ExperimentPlayer
+) => {
+  const [buyerProfit, sellerProfit] = await Promise.all([
+    buyer.getProfit(amount),
+    seller.getProfit(amount)
+  ]);
+  const t = Transaction.create({
+    amount,
+    buyerProfit,
+    sellerProfit
+  });
+  t.round = Promise.resolve(currentRound);
+  return t;
 };
