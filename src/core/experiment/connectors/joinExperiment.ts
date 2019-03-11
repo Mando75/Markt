@@ -17,6 +17,8 @@ import { setPlayerSession } from "../../../utils/ContextSession/sessionControl";
  * @param joinCode
  * @param playerCode
  * @param redis
+ * @param session
+ * @param req
  */
 export const joinExperiment = async (
   _: any,
@@ -28,8 +30,7 @@ export const joinExperiment = async (
     playerCode
   );
   await checkExperimentBeforeJoin(experiment, player);
-  const ep = ExperimentPlayer.create();
-  ep.player = Promise.resolve(player);
+  const ep = ExperimentPlayer.create({ player });
   ep.experiment = Promise.resolve(experiment);
   const roleType = await assignPlayerRoleType(experiment.id, redis);
   ep.roleType = Promise.resolve(roleType);

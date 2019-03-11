@@ -4,6 +4,7 @@ import { startNewExperiment } from "./connectors/startNewExperiment";
 import { joinExperiment } from "./connectors/joinExperiment";
 import { startNextSession } from "./connectors/startNextSession";
 import { startNextRound } from "./connectors/startNextRound";
+import { makeTransaction } from "./connectors/makeTransaction";
 
 export const resolvers: ResolverMap = {
   Query: {
@@ -13,6 +14,7 @@ export const resolvers: ResolverMap = {
     startNewExperiment,
     joinExperiment,
     startNextSession,
-    startNextRound
+    startNextRound,
+    makeTransaction
   }
 };

@@ -340,6 +340,7 @@ declare namespace GQL {
     joinExperiment: IExperimentPlayer | null;
     startNextSession: IExperimentSession | null;
     startNextRound: IRound | null;
+    makeTransaction: ITransaction | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -377,6 +378,10 @@ declare namespace GQL {
 
   interface IStartNextRoundOnMutationArguments {
     experimentId: string;
+  }
+
+  interface IMakeTransactionOnMutationArguments {
+    params: IMakeTransactionType;
   }
 
   interface ICreateGroupOnMutationArguments {
@@ -422,6 +427,12 @@ declare namespace GQL {
   interface IExperimentJoinType {
     playerCode: string;
     joinCode: string;
+  }
+
+  interface IMakeTransactionType {
+    experimentId: string;
+    buyerCode: string;
+    sellerCode: string;
   }
 
   interface IGroupCreationType {

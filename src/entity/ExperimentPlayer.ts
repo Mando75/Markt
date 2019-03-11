@@ -26,7 +26,7 @@ export class ExperimentPlayer extends BaseEntity {
   experiment: Promise<Experiment>;
 
   @ManyToOne(() => Player, p => p.experimentPlayers, { nullable: false })
-  player: Promise<Player>;
+  player: Player;
 
   @ManyToOne(() => RoleType, rt => rt.players, { nullable: false })
   roleType: Promise<RoleType>;

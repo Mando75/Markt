@@ -78,6 +78,12 @@ export const typeDefs = gql`
     joinCode: ID!
   }
 
+  input MakeTransactionType {
+    experimentId: ID!
+    buyerCode: ID!
+    sellerCode: ID!
+  }
+
   enum ExperimentStatus {
     joining
     session_start
@@ -95,5 +101,6 @@ export const typeDefs = gql`
     joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
     startNextSession(experimentId: ID!): ExperimentSession
     startNextRound(experimentId: ID!): Round
+    makeTransaction(params: MakeTransactionType!): Transaction
   }
 `;
