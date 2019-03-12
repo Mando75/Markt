@@ -75,24 +75,7 @@ declare namespace GQL {
     __typename: "Me";
     id: string;
     email: string;
-  }
-
-  interface IExperiment {
-    __typename: "Experiment";
-    id: string;
-    guide: IGuide;
-    scenario: IScenario;
-    group: IGroup;
-    joinCode: string;
-    status: ExperimentStatus | null;
-    numPlayers: number;
-    players: Array<IExperimentPlayer | null>;
-    sessions: Array<IExperimentSession | null>;
-    active: boolean;
-    closed: boolean;
-    endDate: any | null;
-    createdDate: any | null;
-    updatedDate: any | null;
+    guide: IGuide | null;
   }
 
   interface IGuide {
@@ -145,6 +128,24 @@ declare namespace GQL {
 
   interface IUsersOnInstitutionArguments {
     id?: string | null;
+  }
+
+  interface IExperiment {
+    __typename: "Experiment";
+    id: string;
+    guide: IGuide;
+    scenario: IScenario;
+    group: IGroup;
+    joinCode: string;
+    status: ExperimentStatus | null;
+    numPlayers: number;
+    players: Array<IExperimentPlayer | null>;
+    sessions: Array<IExperimentSession | null>;
+    active: boolean;
+    closed: boolean;
+    endDate: any | null;
+    createdDate: any | null;
+    updatedDate: any | null;
   }
 
   interface IScenario {
@@ -416,7 +417,7 @@ declare namespace GQL {
   interface IExperimentStartType {
     scenarioId: string;
     guideId: string;
-    groupId: string;
+    groupId?: string | null;
   }
 
   interface IExperimentJoinType {

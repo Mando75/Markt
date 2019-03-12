@@ -17,6 +17,8 @@ import { setPlayerSession } from "../../../utils/ContextSession/sessionControl";
  * @param joinCode
  * @param playerCode
  * @param redis
+ * @param session
+ * @param req
  */
 export const joinExperiment = async (
   _: any,
