@@ -6,6 +6,7 @@ export const typeDefs = gql`
   type Me {
     id: ID!
     email: String!
+    guide: Guide
   }
 
   enum AccountType {
