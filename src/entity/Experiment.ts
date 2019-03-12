@@ -33,7 +33,7 @@ export class Experiment extends BaseEntity {
   })
   scenario: Scenario;
 
-  @ManyToOne(() => Group, group => group.experiments, { nullable: true })
+  @ManyToOne(() => Group, group => group.experiments, { nullable: false })
   group: Promise<Group>;
 
   @Column({ type: "varchar", length: 8, nullable: false })
