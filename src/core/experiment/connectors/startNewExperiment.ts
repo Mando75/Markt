@@ -18,9 +18,11 @@ export const startNewExperiment = async (
   try {
     const promises: Array<Promise<any>> = [
       Scenario.findOne(params.scenarioId),
-      Guide.findOne(params.guideId, { select: ["id"] }),
-      Group.findOne(params.groupId, { select: ["id"] })
+      Guide.findOne(params.guideId, { select: ["id"] })
     ];
+    if (params.groupId) {
+      promises.push(Group.findOne(params.groupId, { select: ["id"] }));
+    }
     [scenario, guide, group] = await Promise.all(promises);
   } catch (err) {
     console.log(err.code, err.message);
