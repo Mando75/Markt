@@ -3,5 +3,6 @@ export const credentialStore = {
   isUser: false,
   isPlayer: false,
   userId: "",
-  playerId: ""
+  playerId: "",
+  guideId: ""
 };
