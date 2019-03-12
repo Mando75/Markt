@@ -75,23 +75,23 @@ describe("startExperiment", () => {
     );
   });
 
-  it("returns an error when an invalid group is given", async () => {
-    const tc = new TestClient(host);
-    const [{ scenario }, { guide }] = await Promise.all([
-      TestClient.createMockScenario(),
-      tc.createUserWithGuide()
-    ]);
-    await tc.login();
-    const { data, errors } = await tc.query(
-      startExperiment(guide.id, faker.random.uuid(), scenario.id)
-    );
-    expect(data.startNewExperiment).toBeNull();
-    expect(errors).toHaveLength(1);
-    expect(errors[0].extensions.code).toBe("404");
-    expect(errors[0].message).toEqual(
-      "Invalid Group: A valid group ID must be provided"
-    );
-  });
+  // it("returns an error when an invalid group is given", async () => {
+  //   const tc = new TestClient(host);
+  //   const [{ scenario }, { guide }] = await Promise.all([
+  //     TestClient.createMockScenario(),
+  //     tc.createUserWithGuide()
+  //   ]);
+  //   await tc.login();
+  //   const { data, errors } = await tc.query(
+  //     startExperiment(guide.id, faker.random.uuid(), scenario.id)
+  //   );
+  //   expect(data.startNewExperiment).toBeNull();
+  //   expect(errors).toHaveLength(1);
+  //   expect(errors[0].extensions.code).toBe("404");
+  //   expect(errors[0].message).toEqual(
+  //     "Invalid Group: A valid group ID must be provided"
+  //   );
+  // });
 
   it("catches a bad uuid", async () => {
     const tc = new TestClient(host);

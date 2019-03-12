@@ -58,12 +58,12 @@ const checkPaths = (scenario: Scenario, guide: Guide, group: Group) => {
       "404"
     );
   }
-  if (!group) {
-    throw new ApolloError(
-      "Invalid Group: A valid group ID must be provided",
-      "404"
-    );
-  }
+  // if (!group) {
+  //   throw new ApolloError(
+  //     "Invalid Group: A valid group ID must be provided",
+  //     "404"
+  //   );
+  // }
 };
 
 /**
