@@ -28,7 +28,7 @@ export const startNewExperiment = async (
     console.log(err.code, err.message);
     return new ApolloError("Object not found", "404");
   }
-  checkPaths(scenario, guide, group);
+  checkPaths(scenario, guide);
   const experiment = new Experiment();
   experiment.scenario = scenario;
   experiment.guide = Promise.resolve(guide);
@@ -43,9 +43,8 @@ export const startNewExperiment = async (
  * Checks that the scenario, guide, and group are all present and accounted for
  * @param scenario
  * @param guide
- * @param group
  */
-const checkPaths = (scenario: Scenario, guide: Guide, group: Group) => {
+const checkPaths = (scenario: Scenario, guide: Guide) => {
   if (!scenario) {
     throw new ApolloError(
       "Invalid Scenario: A valid scenario ID must be provided",
