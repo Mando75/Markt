@@ -33,7 +33,7 @@ describe("sessionRole", () => {
     const rt = RoleType.create(rtDef);
     rt.scenario = Promise.resolve(scenario);
     const scenarioSessDef = {
-      scenarioSessionId: faker.lorem.word(),
+      scenarioSessionId: faker.random.number().toString(),
       sessionNumber: faker.random.number(),
       instructions: TestClient.genInstructions(),
       roundDiscussionPoints: TestClient.genInstructions(),

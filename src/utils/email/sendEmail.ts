@@ -1,5 +1,6 @@
 import * as sgMail from "@sendgrid/mail";
 sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+import playerWelcome from "./templates/playerWelcome.html";
 // TODO move to another email
 const fromEmail = "bryanmullerdev@gmail.com";
 
@@ -46,6 +47,21 @@ export const sendGridForgotPasswordEmail = async ({
     from: fromEmail,
     subject: "Password reset link",
     html: `<html><body><p>Click on the link below to reset your password</p><a href="${link}">Reset Password</a></body></html>`
+  };
+  return await sgMail.send(msg);
+};
+
+export const sendGridPlayerWelcomeEmail = async (
+  to: string,
+  playerName: string,
+  guideName: string,
+  playerCode: string
+) => {
+  const msg = {
+    to,
+    from: fromEmail,
+    subject: `Welcome to Markt!`,
+    html: playerWelcome(playerName, guideName, playerCode)
   };
   return await sgMail.send(msg);
 };

@@ -8,7 +8,6 @@ import { GraphQLSchema } from "graphql";
 import { Server } from "http";
 import * as express from "express";
 import * as session from "express-session";
-import * as connectRedis from "connect-redis";
 import { routes } from "../routes";
 import { redis } from "./redis";
 import { applyMiddleware } from "graphql-middleware";
@@ -19,6 +18,10 @@ import passport from "./passport";
 import { AddressInfo } from "ws";
 import * as cors from "cors";
 import * as history from "connect-history-api-fallback";
+import { setContext } from "./ContextSession/contextControl";
+import { createSession } from "./ContextSession/sessionControl";
+
+const testEnv = process.env.NODE_ENV === "test";
 
 redis.on("error", () => {
   console.log("Error connecting");
@@ -43,14 +46,14 @@ export const bootstrapConnections = async (port: number) => {
   server.enable("trust proxy");
   server.use(corsConfig());
   server.use(limiter);
-  server.use(session(createSession()));
+  server.use(session(createSession(session, redis)));
   server.use(passport.initialize());
   server.use(routes);
   try {
     // Connect to Database
     db = await CreateTypeORMConnection();
     // await db.runMigrations();
-    console.log(`Connected to db ${db.options.database}`);
+    if (!testEnv) console.log(`Connected to db ${db.options.database}`);
 
     // Load GraphQL Schema files
     const schema: GraphQLSchema = applyMiddleware(
@@ -63,7 +66,7 @@ export const bootstrapConnections = async (port: number) => {
       schema,
       formatError,
       formatResponse,
-      context: setContext,
+      context: setContext(redis),
       introspection: true,
       playground,
       debug: process.env.NODE_ENV !== "production"
@@ -75,11 +78,14 @@ export const bootstrapConnections = async (port: number) => {
 
     app = await server.listen(port);
 
-    console.log(
-      `🚀  Server ready at http://localhost:${
-        (app.address() as AddressInfo).port
-      }: Happy Coding!`
-    );
+    if (!testEnv) {
+      console.log(
+        `🚀  Server ready at http://localhost:${
+          (app.address() as AddressInfo).port
+        }: Happy Coding!`
+      );
+    }
+
     return { app, db };
   } catch (e) {
     console.error("Could not bootstrap server connections. Exiting", e);
@@ -102,16 +108,6 @@ export const normalizePort = (val: any) => {
 };
 
 /**
- * Return the context object for Apollo requests
- * @param req
- */
-const setContext = ({ req }: any) => ({
-  redis,
-  url: `${req.protocol}://${req.get("host")}`,
-  session: req.session,
-  req: req
-});
-/**
  * Request response formatting
  * @param response
  */
@@ -125,30 +121,11 @@ const formatResponse = (response: Response) => {
  * @param error
  */
 const formatError = (error: Error) => {
+  if (testEnv) {
+    return error;
+  }
   console.log(error);
   return error;
-};
-
-/**
- * Configuration for session storage
- */
-const createSession = () => {
-  const RedisStore = connectRedis(session);
-  return {
-    store: new RedisStore({
-      client: redis as any,
-      prefix: process.env.REDIS_SESSION_PREFIX
-    }),
-    name: "bid",
-    secret: process.env.SESSION_SECRET as string,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
-    }
-  };
 };
 
 /**

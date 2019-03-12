@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import * as passport from "passport";
-import { setSession } from "../core/authentication/connectors/lib";
+import { setSession } from "../utils/ContextSession/sessionControl";
 import { redis } from "../utils";
 
 const router = Router();

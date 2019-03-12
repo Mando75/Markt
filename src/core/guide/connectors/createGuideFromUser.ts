@@ -10,7 +10,7 @@ export const createGuideFromUser = async (
   const user = await User.findOne(userId);
   if (user) {
     const guide = new Guide();
-    guide.user = Promise.resolve(user);
+    guide.user = user;
     return await guide.save();
   }
 };

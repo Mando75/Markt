@@ -29,6 +29,29 @@ describe("scenarioQuery", () => {
     expect(data.scenario.id).toEqual(scenario.id);
     expect(data.scenario.scenarioCode).toEqual(scenario.scenarioCode);
   });
+
+  it("searches by code instead of id", async () => {
+    const tc = new TestClient(host);
+    const [{ scenario }] = await Promise.all([
+      TestClient.createMockScenario(),
+      tc.createUserWithGuide()
+    ]);
+    await tc.login();
+    const { data } = await tc.query(
+      `{scenario(code: "${scenario.scenarioCode}") { id scenarioCode } }`
+    );
+    expect(data.scenario).toBeTruthy();
+    expect(data.scenario.scenarioCode).toEqual(scenario.scenarioCode);
+    expect(data.scenario.id).toEqual(scenario.id);
+  });
+
+  it("returns null if no id or code is given", async () => {
+    const tc = new TestClient(host);
+    await tc.createUserWithGuide();
+    await tc.login();
+    const { data } = await tc.query(`{scenario { id scenarioCode } }`);
+    expect(data.scenario).toBeNull();
+  });
 });
 
 afterAll(async () => {

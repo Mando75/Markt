@@ -1,4 +1,4 @@
-declare namespace ScenarioSchema {
+declare module ScenarioSchema {
   interface Scenario {
     id?: string;
     name: string;
@@ -9,6 +9,7 @@ declare namespace ScenarioSchema {
     description: string;
     instructions: Array<Instructions>;
     roleDistribution: Array<string>;
+    experiments?: Promise<ExperimentSchema.Experiment[]>;
   }
 
   interface Instructions {

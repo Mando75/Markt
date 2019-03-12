@@ -23,6 +23,7 @@ declare namespace GQL {
   interface IQuery {
     __typename: "Query";
     me: IMe | null;
+    experiment: IExperiment | null;
     group: IGroup | null;
     guide: IGuide | null;
     institution: IInstitution | null;
@@ -31,6 +32,10 @@ declare namespace GQL {
     roleType: IRoleType | null;
     scenarioSession: IScenarioSession | null;
     sessionRole: ISessionRole | null;
+  }
+
+  interface IExperimentOnQueryArguments {
+    id: string;
   }
 
   interface IGroupOnQueryArguments {
@@ -50,7 +55,8 @@ declare namespace GQL {
   }
 
   interface IScenarioOnQueryArguments {
-    id: string;
+    id?: string | null;
+    code?: string | null;
   }
 
   interface IRoleTypeOnQueryArguments {
@@ -71,14 +77,22 @@ declare namespace GQL {
     email: string;
   }
 
-  interface IGroup {
-    __typename: "Group";
+  interface IExperiment {
+    __typename: "Experiment";
     id: string;
-    name: string;
-    active: boolean;
     guide: IGuide;
-    createdDate: any;
-    updatedDate: any;
+    scenario: IScenario;
+    group: IGroup;
+    joinCode: string;
+    status: ExperimentStatus | null;
+    numPlayers: number;
+    players: Array<IExperimentPlayer | null>;
+    sessions: Array<IExperimentSession | null>;
+    active: boolean;
+    closed: boolean;
+    endDate: any | null;
+    createdDate: any | null;
+    updatedDate: any | null;
   }
 
   interface IGuide {
@@ -89,6 +103,7 @@ declare namespace GQL {
     lastName: string | null;
     fullname: string | null;
     email: string | null;
+    experiments: Array<IExperiment | null> | null;
     active: boolean;
     createdDate: any;
     updatedDate: any;
@@ -132,21 +147,6 @@ declare namespace GQL {
     id?: string | null;
   }
 
-  interface IPlayer {
-    __typename: "Player";
-    id: string;
-    guide: IGuide;
-    group: IGroup | null;
-    playerCode: string;
-    email: string;
-    firstName: string | null;
-    lastName: string | null;
-    active: boolean;
-    createdDate: any | null;
-    updatedDate: any | null;
-    acceptedTos: boolean;
-  }
-
   interface IScenario {
     __typename: "Scenario";
     id: string;
@@ -160,6 +160,7 @@ declare namespace GQL {
     roleDistribution: Array<string | null> | null;
     roleTypes: Array<IRoleType | null> | null;
     scenarioSessions: Array<IScenarioSession | null> | null;
+    experiments: Array<IExperiment | null> | null;
     createdDate: any;
     updatedDate: any;
   }
@@ -238,6 +239,95 @@ declare namespace GQL {
     updatedDate: any;
   }
 
+  interface IGroup {
+    __typename: "Group";
+    id: string;
+    name: string;
+    active: boolean;
+    guide: IGuide;
+    experiments: Array<IExperiment | null> | null;
+    createdDate: any;
+    updatedDate: any;
+  }
+
+  const enum ExperimentStatus {
+    joining = "joining",
+    session_start = "session_start",
+    in_round = "in_round",
+    round_summary = "round_summary",
+    closed = "closed"
+  }
+
+  interface IExperimentPlayer {
+    __typename: "ExperimentPlayer";
+    id: string;
+    experiment: IExperiment;
+    player: IPlayer;
+    roleType: IRoleType;
+    transactions: Array<ITransaction | null>;
+    buyerTransactions: Array<ITransaction | null> | null;
+    sellerTransactions: Array<ITransaction | null> | null;
+    numTransactions: number;
+    totalProfit: number;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
+  interface IPlayer {
+    __typename: "Player";
+    id: string;
+    guide: IGuide;
+    group: IGroup | null;
+    playerCode: string;
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    experimentPlayers: Array<IExperimentPlayer | null>;
+    active: boolean;
+    createdDate: any | null;
+    updatedDate: any | null;
+    acceptedTos: boolean;
+  }
+
+  interface ITransaction {
+    __typename: "Transaction";
+    id: string;
+    round: IRound;
+    amount: number;
+    buyer: IExperimentPlayer | null;
+    seller: IExperimentPlayer | null;
+    buyerProfit: number;
+    sellerProfit: number;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
+  interface IRound {
+    __typename: "Round";
+    id: string;
+    session: IExperimentSession | null;
+    roundNumber: number;
+    active: boolean | null;
+    averagePrice: number | null;
+    transactions: Array<ITransaction | null>;
+    numTransactions: number | null;
+    endDate: any | null;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
+  interface IExperimentSession {
+    __typename: "ExperimentSession";
+    id: string;
+    experiment: IExperiment;
+    sessionNumber: number;
+    scenarioSession: IScenarioSession;
+    active: boolean;
+    endDate: any | null;
+    createdDate: any | null;
+    updatedDate: any | null;
+  }
+
   interface IMutation {
     __typename: "Mutation";
     _empty: boolean | null;
@@ -246,6 +336,10 @@ declare namespace GQL {
     logout: boolean | null;
     sendForgotPasswordEmail: boolean | null;
     forgotPasswordChange: Array<IGraphQLError> | null;
+    startNewExperiment: IExperiment | null;
+    joinExperiment: IExperimentPlayer | null;
+    startNextSession: IExperimentSession | null;
+    startNextRound: IRound | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -267,6 +361,22 @@ declare namespace GQL {
   interface IForgotPasswordChangeOnMutationArguments {
     newPassword: string;
     key: string;
+  }
+
+  interface IStartNewExperimentOnMutationArguments {
+    params: IExperimentStartType;
+  }
+
+  interface IJoinExperimentOnMutationArguments {
+    params: IExperimentJoinType;
+  }
+
+  interface IStartNextSessionOnMutationArguments {
+    experimentId: string;
+  }
+
+  interface IStartNextRoundOnMutationArguments {
+    experimentId: string;
   }
 
   interface ICreateGroupOnMutationArguments {
@@ -301,6 +411,17 @@ declare namespace GQL {
   interface IUserLoginType {
     email: string;
     password: string;
+  }
+
+  interface IExperimentStartType {
+    scenarioId: string;
+    guideId: string;
+    groupId: string;
+  }
+
+  interface IExperimentJoinType {
+    playerCode: string;
+    joinCode: string;
   }
 
   interface IGroupCreationType {

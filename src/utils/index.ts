@@ -3,7 +3,7 @@ import { createShield } from "./createShield";
 import { CreateTypeORMConnection } from "./CreateTypeORMConnection";
 import { formatYupError } from "./formatYupError";
 import { filePath, makeSchema } from "./makeSchema";
-import { sendConfirmEmail } from "./sendEmail";
+import { sendConfirmEmail } from "./email/sendEmail";
 import { redis } from "./redis";
 
 export {

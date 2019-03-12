@@ -9,19 +9,12 @@ before_script:
   - apt-get update -qq && apt-get install
 
 stages:
-  - test-build
+  - build
   - deployment
 
-test:
-  stage: test-build
-  before_script:
-    - rm -rf .yarn
-    - yarn install
-  script:
-    - yarn test:coverage
-
 build-server:
-  stage: test-build
+  image: node:11.10.0
+  stage: build
   before_script:
     - rm -rf .yarn
     - yarn install
@@ -30,12 +23,22 @@ build-server:
     - yarn build:server
 
 build-client:
-  stage: test-build
+  stage: build
   before_script:
     - rm -rf .yarn
     - cd client && yarn install
   script:
     - yarn build
+
+
+#test:
+#  image: node:11.10.0
+#  stage: test-build
+#  before_script:
+#    - rm -rf .yarn
+#    - yarn install
+#  script:
+#    - yarn test:coverage
 
 deployment:
   stage: deployment

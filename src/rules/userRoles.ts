@@ -1,52 +1,67 @@
 import { rule } from "graphql-shield";
-import { User } from "../entity/User";
-import { GraphQLContext } from "../types/graphql-context";
+import { GraphQLContext, Session } from "../types/graphql-context";
 import { AccountType } from "../enums/accountType.enum";
 import { Guide } from "../entity/Guide";
 import { AuthenticationError } from "apollo-server-express";
 import { ApolloErrors } from "../enums/ApolloErrors";
+import { User } from "../entity/User";
+import { Player } from "../entity/Player";
 
-export const isAuthenticated = rule()(
-  async (_: any, __: any, { session: { userId } }: GraphQLContext) => {
-    return !!(
-      userId && (await User.findOne({ where: { id: userId }, select: ["id"] }))
-    )
-      ? true
-      : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
+/**
+ * All of these checks should already be handled before
+ * setting the context, but this is double reinforcement
+ */
+export const userExists = (user: User | undefined, session: Session) => {
+  return !!user && user.active && user.id === session.userId;
+};
+
+/**
+ * Mirror of user Exists except as player
+ * @param player
+ * @param session
+ */
+export const playerExists = (player: Player | undefined, session: Session) => {
+  return !!player && player.active && player.id === session.playerId;
+};
+
+/**
+ * Basic check if the user is logged in with an active user
+ */
+export const isAuthenticated = rule({ cache: "contextual" })(
+  async (_: any, __: any, { user, session }: GraphQLContext) => {
+    return (
+      userExists(user, session) ||
+      new AuthenticationError(ApolloErrors.UNAUTHORIZED)
+    );
   }
 );
 
-export const isAdmin = rule()(
-  async (_: any, __: any, { session: { userId } }: GraphQLContext) => {
-    if (!userId) {
+/**
+ * Basic check if user is type admin
+ */
+export const isAdmin = rule({ cache: "contextual" })(
+  async (_: any, __: any, { user, session }: GraphQLContext) => {
+    if (!user || !userExists(user, session)) {
       return new AuthenticationError(ApolloErrors.UNAUTHORIZED);
     }
-    const user = await User.findOne({
-      where: { id: userId },
-      select: ["id", "accountType"]
-    });
-    return user
-      ? user.accountType === AccountType.ADMIN
-        ? true
-        : new AuthenticationError(ApolloErrors.FORBIDDEN)
-      : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
+    return user.accountType === AccountType.ADMIN
+      ? true
+      : new AuthenticationError(ApolloErrors.FORBIDDEN);
   }
 );
 
-export const isGuide = rule()(
-  async (_: any, __: any, { session: { userId } }: GraphQLContext) => {
-    if (!userId) {
-      new AuthenticationError(ApolloErrors.FORBIDDEN);
+/**
+ * Basic check if the user has a Guide record
+ */
+export const isGuide = rule({ cache: "contextual" })(
+  async (_: any, __: any, { user, session }: GraphQLContext) => {
+    if (!user || !userExists(user, session)) {
+      return new AuthenticationError(ApolloErrors.UNAUTHORIZED);
     }
-    const user = await User.findOne({ where: { id: userId }, select: ["id"] });
     const guide = await Guide.findOne({
       where: { user },
       select: ["id"]
     });
-    return user
-      ? !!guide
-        ? true
-        : new AuthenticationError(ApolloErrors.FORBIDDEN)
-      : new AuthenticationError(ApolloErrors.UNAUTHORIZED);
+    return !!guide ? true : new AuthenticationError(ApolloErrors.FORBIDDEN);
   }
 );

@@ -1,13 +1,16 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from "typeorm";
 import { Scenario } from "./Scenario";
 import { SessionRole } from "./SessionRole";
+import { ExperimentSession } from "./ExperimentSession";
 
 @Entity("scenario_sessions")
 export class ScenarioSession extends BaseEntity {
@@ -32,6 +35,15 @@ export class ScenarioSession extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 1 })
   numberOfRounds: number;
 
+  @OneToMany(() => ExperimentSession, es => es.scenarioSession)
+  experimentSessions: Promise<ExperimentSession[]>;
+
   @OneToMany(() => SessionRole, sr => sr.scenarioSession)
   sessionRoles: Promise<SessionRole[]>;
+
+  @UpdateDateColumn()
+  updatedDate: Date;
+
+  @CreateDateColumn()
+  createdDate: Date;
 }
