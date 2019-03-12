@@ -2,7 +2,7 @@
   "name": "markt",
   "version": "1.0.0",
   "engines": {
-    "node": "11.10.0"
+    "node": ">=11.0.0"
   },
   "scripts": {
     "build": "yarn build:server && yarn build:client",
