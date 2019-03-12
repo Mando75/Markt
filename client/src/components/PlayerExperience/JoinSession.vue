@@ -5,10 +5,26 @@
       <v-layout>
         <v-flex>
           <v-card>
-            <v-card-media></v-card-media>
-            <v-card-text></v-card-text>
-            <v-input></v-input>
-            <v-btn></v-btn>
+            <v-form v-model="valid">
+              <v-flex xs6 md4>
+                <v-text-field
+                  v-model="playerName"
+                  :rules="nameRules"
+                  :counter="10"
+                  label="Name"
+                  required
+                ></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 md4>
+                <v-text-field
+                  v-model="joinCode"
+                  :counter="10"
+                  label="Join Code"
+                  required
+                ></v-text-field>
+              </v-flex>
+            </v-form>
           </v-card>
         </v-flex>
       </v-layout>

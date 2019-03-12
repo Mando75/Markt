@@ -16,7 +16,7 @@
 
                 <v-card-title primary-title>
                   <div>
-                    <h2 class="display-2 mb-0 text-md-center">Welcome Back!</h2>
+                    <h2 class="display-2 mb-0 text-md-right">Welcome Back!</h2>
                   </div>
                 </v-card-title>
                 <v-card-text>
@@ -27,18 +27,25 @@
                       @done="handleLogin"
                     >
                       <template slot-scope="{ mutate, loading, error }">
-                        <v-text-field label="User Email" v-model="userEmail" />
+                        <v-text-field
+                          label="User Email"
+                          v-model="userEmail"
+                        ></v-text-field>
                         <v-text-field
                           label="Password"
                           v-model="userPassword"
                           type="password"
-                        /><v-btn color="primary3" @click="mutate">Login</v-btn>
-                        <p>{{ error }}</p>
+                        ></v-text-field>
+                        <v-btn color="primary3" @click="mutate">Login</v-btn>
+                        <p class="red" v-for="(msg, i) in warningMsg" :key="i">
+                          {{ msg }}
+                        </p>
                       </template>
                     </ApolloMutation>
                   </div>
+                  <br />
                   <div>
-                    <h3 class="headline mb-0">Don't have an account yet?</h3>
+                    <h3 class="title mb-0">Don't have an account yet?</h3>
                     <br />
                     <router-link to="/create_account"
                       >Click Here To Get Started</router-link
@@ -74,13 +81,25 @@ export default {
             message
           }
         }
-      `
+      `,
+      warningMsg: []
     };
   },
   methods: {
     handleLogin({ data }) {
+      console.log(this.$credentials);
+      //the structure has response 'data' or 'errors'
+      //see here for later: Destructuring assignment on mozilla dev site
       console.log(data);
       console.log(data.loginMutation);
+      if (!data.login) {
+        this.$credentials.authenticated = true;
+        this.$credentials.isUser = true;
+        this.$router.push("/guide/home");
+      } else {
+        this.warningMsg = data.login.map(m => m);
+        //  this does a deep copy of the array
+      }
     }
   }
 };

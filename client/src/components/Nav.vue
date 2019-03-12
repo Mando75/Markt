@@ -40,16 +40,20 @@
       <!--The right side buttons-->
       <v-toolbar-items class="hidden-md-and-down">
         <!--button 1-->
-        <v-btn dark
-          ><router-link class="font-weight-bold white--text " to="/login"
-            >Sign In</router-link
-          ></v-btn
+        <v-btn
+          dark
+          @click="$router.push('/login')"
+          class="font-weight-bold white--text "
         >
+          Sign In
+        </v-btn>
         <!--button 2-->
-        <v-btn dark>
-          <router-link class="font-weight-bold white--text" to="/join"
-            >Join Simulation</router-link
-          >
+        <v-btn
+          dark
+          class="font-weight-bold white--text"
+          @click="$router.push('/join')"
+        >
+          Join Simulation
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>

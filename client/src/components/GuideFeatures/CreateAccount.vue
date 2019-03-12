@@ -3,7 +3,7 @@
 ></template>
 
 <script>
-import Nav from "./Nav";
+import Nav from "../Nav";
 export default {
   name: "Account",
   components: { Nav }

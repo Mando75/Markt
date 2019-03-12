@@ -5,7 +5,7 @@
       <v-content>
         <section>
           <v-parallax
-            :src="require('@/assets/Big-data-analytics-solutions.jpg')"
+            :src="require('@/assets/Ultra-High-Res-Wallpaper-4.jpg')"
             height="350"
           >
             <v-layout
@@ -15,6 +15,7 @@
               class="white--text mt-2"
             >
               <v-img
+                class="mt-2"
                 :src="require('@/assets/marktLogo.png')"
                 height="160"
                 width="160"

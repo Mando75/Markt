@@ -1,7 +1,15 @@
 <!-- Display the instructions. This component can be used as a popup if needed.-->
 <template>
   <div>
+    <Nav />
     <v-toolbar-title></v-toolbar-title>
+    <v-container>
+      <div>
+        <h1>Experiment: {{}}</h1>
+        <p><em></em></p>
+      </div>
+      <v-item-group> </v-item-group>
+    </v-container>
   </div>
 </template>
 
@@ -13,18 +21,24 @@ export default {
   name: "Instructions",
   components: { Nav },
   data() {
-    return {
-      userEmail: "",
-      userPassword: "",
-      loginMutation: gql`
-        mutation login($userEmail: String!, $userPassword: String!) {
-          login(user: { email: $userEmail, password: $userPassword }) {
-            path
-            message
+    return {};
+  },
+  apollo: {
+    me: {
+      query: gql`
+        {
+          scenario(id: 1) {
+            instructions {
+              header
+            }
           }
         }
-      `
-    };
+      `,
+      result({ data }) {
+        this.$credentials.userId = data.me.id;
+        console.log(this.$credentials);
+      }
+    }
   },
   methods: {
     handleLogin({ data }) {

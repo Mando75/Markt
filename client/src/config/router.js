@@ -17,19 +17,14 @@ export default new Router({
       component: () => import("../components/Login")
     },
     {
-      path: "/guide/scenarios",
+      path: "/guide/home",
       name: "LandingPage",
       component: () => import("../components/GuideFeatures/LandingPage")
     },
     {
-      path: "/how",
-      name: "Instructions",
-      component: () => import("../components/Instructions")
-    },
-    {
-      path: "/guide/home",
-      name: "myHome",
-      component: () => import("../components/GuideFeatures/GuideHome")
+      path: "/guide/scenarios",
+      name: "scenarioSelect",
+      component: () => import("../components/GuideFeatures/SessionCreation")
     },
     {
       path: "/player",
@@ -40,7 +35,7 @@ export default new Router({
     {
       path: "/guide/create_account",
       name: "account",
-      component: () => import("../components/CreateAccount")
+      component: () => import("../components/GuideFeatures/CreateAccount")
     },
     {
       path: "/join",
