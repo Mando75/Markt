@@ -7,17 +7,18 @@
       <v-item-group> </v-item-group>
     </v-container>
     <!---->
-    <v-container> </v-container>
+    <v-container> <loading-block /> </v-container>
   </v-content>
 </template>
 
 <script>
 import Nav from "../Nav";
 import gql from "graphql-tag";
+import LoadingBlock from "../loadingBlock";
 
 export default {
   name: "LandingPage",
-  components: { Nav },
+  components: { LoadingBlock, Nav },
   data() {
     return {
       guideId: ""

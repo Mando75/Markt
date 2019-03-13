@@ -33,11 +33,6 @@ export default new Router({
     },
 
     {
-      path: "/guide/create_account",
-      name: "account",
-      component: () => import("../components/GuideFeatures/CreateAccount")
-    },
-    {
       path: "/join",
       name: "join",
       component: () => import("../components/PlayerExperience/JoinSession")

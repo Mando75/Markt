@@ -9,50 +9,88 @@
           <v-layout>
             <v-flex xs12 sm6 offset-sm3>
               <v-card>
-                <v-img
-                  :src="require('@/assets/iStock_teacher-math-class.jpg')"
-                  aspect-ratio="2.75"
-                ></v-img>
+                <v-card flat v-if="!signUp">
+                  <v-img
+                    :src="require('@/assets/iStock_teacher-math-class.jpg')"
+                    aspect-ratio="2.75"
+                  ></v-img>
 
-                <v-card-title primary-title>
-                  <div>
-                    <h2 class="display-2 mb-0 text-md-right">Welcome Back!</h2>
-                  </div>
-                </v-card-title>
-                <v-card-text>
-                  <div>
-                    <ApolloMutation
-                      :mutation="loginMutation"
-                      :variables="{ userEmail, userPassword }"
-                      @done="handleLogin"
-                    >
-                      <template slot-scope="{ mutate, loading, error }">
-                        <v-text-field
-                          label="User Email"
-                          v-model="userEmail"
-                        ></v-text-field>
-                        <v-text-field
-                          label="Password"
-                          v-model="userPassword"
-                          type="password"
-                        ></v-text-field>
-                        <v-btn color="primary3" @click="mutate">Login</v-btn>
-                        <p class="red" v-for="(msg, i) in warningMsg" :key="i">
-                          {{ msg }}
-                        </p>
-                      </template>
-                    </ApolloMutation>
-                  </div>
-                  <br />
-                  <div>
-                    <h3 class="title mb-0">Don't have an account yet?</h3>
+                  <v-card-title primary-title>
+                    <v-flex xs12 sm12 md12>
+                      <h1
+                        class=" mb-0 xs1 text-md-center text-lg-center text-xs-center"
+                      >
+                        Welcome Back!
+                      </h1>
+                    </v-flex>
+                  </v-card-title>
+                  <v-card-text>
+                    <div>
+                      <ApolloMutation
+                        :mutation="loginMutation"
+                        :variables="{ userEmail, userPassword }"
+                        @done="handleLogin"
+                      >
+                        <template slot-scope="{ mutate, loading, error }">
+                          <v-text-field
+                            label="User Email"
+                            v-model="userEmail"
+                          ></v-text-field>
+                          <v-text-field
+                            label="Password"
+                            v-model="userPassword"
+                            type="password"
+                          ></v-text-field>
+                          <v-btn color="primary3" @click="mutate">Login</v-btn>
+                          <p
+                            class="red"
+                            v-for="(msg, i) in warningMsg"
+                            :key="i"
+                          >
+                            {{ msg }}
+                          </p>
+                        </template>
+                      </ApolloMutation>
+                    </div>
                     <br />
-                    <router-link to="/create_account"
-                      >Click Here To Get Started</router-link
+                    <div>
+                      <br />
+                      <v-btn v-on:click="signUp = !signUp">sign Up here</v-btn>
+                    </div>
+                  </v-card-text>
+                  <v-card-actions> </v-card-actions>
+                </v-card>
+                <!--sign up form bellow-->
+                <CreateAccount v-model="signUp" v-else />
+                <div v-if="signUp">
+                  <h3 class="title mb-0">
+                    Already have an account?
+                  </h3>
+
+                  <v-btn v-on:click="signUp = !signUp"
+                    >Click Here To Log In</v-btn
+                  >
+                </div>
+                <div>
+                  <v-tabs
+                    fixed-tabs
+                    centered
+                    grow
+                    v-model="active"
+                    color="modernColor4"
+                  >
+                    <v-tabs-slider color="success"></v-tabs-slider>
+                    <v-tab
+                      v-for="n in 2"
+                      :key="n"
+                      active-class="your-class"
+                      ripple
                     >
-                  </div>
-                </v-card-text>
-                <v-card-actions> </v-card-actions>
+                      Item {{ n }}
+                    </v-tab>
+                    <v-tab-item class="d" v-for="n in 2" :key="n"> </v-tab-item>
+                  </v-tabs>
+                </div>
               </v-card>
             </v-flex>
           </v-layout>
@@ -66,15 +104,15 @@
 <script>
 import Nav from "./Nav";
 import gql from "graphql-tag";
+import CreateAccount from "./GuideFeatures/CreateAccount";
 
 export default {
   name: "Login",
-  components: { Nav },
+  components: { Nav, CreateAccount },
   data() {
     return {
       userEmail: "",
       userPassword: "",
-      // login: '',
       loginMutation: gql`
         mutation login($userEmail: String!, $userPassword: String!) {
           login(user: { email: $userEmail, password: $userPassword }) {
@@ -83,7 +121,8 @@ export default {
           }
         }
       `,
-      warningMsg: []
+      warningMsg: [],
+      signUp: false
     };
   },
   methods: {
