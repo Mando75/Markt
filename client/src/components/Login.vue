@@ -74,6 +74,7 @@ export default {
     return {
       userEmail: "",
       userPassword: "",
+      // login: '',
       loginMutation: gql`
         mutation login($userEmail: String!, $userPassword: String!) {
           login(user: { email: $userEmail, password: $userPassword }) {

@@ -2,7 +2,8 @@
   <v-content
     ><Nav />
     <v-container>
-      <div>{{ me.id }}</div>
+      <v-layout> </v-layout>
+      <div>{{ me.guide.id }}</div>
       <v-item-group> </v-item-group>
     </v-container>
     <!---->
@@ -17,6 +18,11 @@ import gql from "graphql-tag";
 export default {
   name: "LandingPage",
   components: { Nav },
+  data() {
+    return {
+      guideId: ""
+    };
+  },
   mounted() {
     console.log(this.$apollo.queries);
   },
