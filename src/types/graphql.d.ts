@@ -21,7 +21,7 @@ declare namespace GQL {
   }
 
   interface IQuery {
-    __typename: 'Query';
+    __typename: "Query";
     me: IUser | null;
     experiment: IExperiment | null;
     group: IGroup | null;
@@ -72,7 +72,7 @@ declare namespace GQL {
   }
 
   interface IUser {
-    __typename: 'User';
+    __typename: "User";
     id: string;
     externalGuid: string | null;
     firstName: string | null;
@@ -91,12 +91,12 @@ declare namespace GQL {
   }
 
   const enum AccountType {
-    USER = 'USER',
-    ADMIN = 'ADMIN'
+    USER = "USER",
+    ADMIN = "ADMIN"
   }
 
   interface IGuide {
-    __typename: 'Guide';
+    __typename: "Guide";
     id: string;
     user: IUser;
     experiments: Array<IExperiment | null> | null;
@@ -106,7 +106,7 @@ declare namespace GQL {
   }
 
   interface IExperiment {
-    __typename: 'Experiment';
+    __typename: "Experiment";
     id: string;
     guide: IGuide;
     scenario: IScenario;
@@ -124,7 +124,7 @@ declare namespace GQL {
   }
 
   interface IScenario {
-    __typename: 'Scenario';
+    __typename: "Scenario";
     id: string;
     name: string;
     scenarioCode: string;
@@ -142,7 +142,7 @@ declare namespace GQL {
   }
 
   interface IScenarioSessionOverview {
-    __typename: 'ScenarioSessionOverview';
+    __typename: "ScenarioSessionOverview";
     sessionNumber: number | null;
     roleDescription: Array<IScenarioOverviewRoleDescription | null> | null;
     chartPoints: Array<Array<Array<number | null> | null> | null> | null;
@@ -150,33 +150,33 @@ declare namespace GQL {
   }
 
   interface IScenarioOverviewRoleDescription {
-    __typename: 'ScenarioOverviewRoleDescription';
+    __typename: "ScenarioOverviewRoleDescription";
     description: string | null;
     count: number | null;
   }
 
   interface IInstructions {
-    __typename: 'Instructions';
+    __typename: "Instructions";
     step: number | null;
     header: string | null;
     bullets: Array<IInstructionBullet | null> | null;
   }
 
   interface IInstructionBullet {
-    __typename: 'InstructionBullet';
+    __typename: "InstructionBullet";
     format: InstructionBulletFormat | null;
     text: string | null;
   }
 
   const enum InstructionBulletFormat {
-    BOLD = 'BOLD',
-    ITALIC = 'ITALIC',
-    NORMAL = 'NORMAL',
-    UNDERLINE = 'UNDERLINE'
+    BOLD = "BOLD",
+    ITALIC = "ITALIC",
+    NORMAL = "NORMAL",
+    UNDERLINE = "UNDERLINE"
   }
 
   interface IRoleType {
-    __typename: 'RoleType';
+    __typename: "RoleType";
     id: string;
     scenario: IScenario;
     roleTypeId: string;
@@ -187,7 +187,7 @@ declare namespace GQL {
   }
 
   interface ISessionRole {
-    __typename: 'SessionRole';
+    __typename: "SessionRole";
     id: string;
     roleType: IRoleType;
     scenarioSession: IScenarioSession;
@@ -202,7 +202,7 @@ declare namespace GQL {
   }
 
   interface IScenarioSession {
-    __typename: 'ScenarioSession';
+    __typename: "ScenarioSession";
     id: string;
     scenario: IScenario;
     scenarioSessionId: string;
@@ -216,7 +216,7 @@ declare namespace GQL {
   }
 
   interface IGroup {
-    __typename: 'Group';
+    __typename: "Group";
     id: string;
     name: string;
     active: boolean;
@@ -227,15 +227,15 @@ declare namespace GQL {
   }
 
   const enum ExperimentStatus {
-    joining = 'joining',
-    session_start = 'session_start',
-    in_round = 'in_round',
-    round_summary = 'round_summary',
-    closed = 'closed'
+    joining = "joining",
+    session_start = "session_start",
+    in_round = "in_round",
+    round_summary = "round_summary",
+    closed = "closed"
   }
 
   interface IExperimentPlayer {
-    __typename: 'ExperimentPlayer';
+    __typename: "ExperimentPlayer";
     id: string;
     experiment: IExperiment;
     player: IPlayer;
@@ -250,7 +250,7 @@ declare namespace GQL {
   }
 
   interface IPlayer {
-    __typename: 'Player';
+    __typename: "Player";
     id: string;
     guide: IGuide;
     group: IGroup | null;
@@ -266,7 +266,7 @@ declare namespace GQL {
   }
 
   interface ITransaction {
-    __typename: 'Transaction';
+    __typename: "Transaction";
     id: string;
     round: IRound;
     amount: number;
@@ -279,7 +279,7 @@ declare namespace GQL {
   }
 
   interface IRound {
-    __typename: 'Round';
+    __typename: "Round";
     id: string;
     session: IExperimentSession | null;
     roundNumber: number;
@@ -293,7 +293,7 @@ declare namespace GQL {
   }
 
   interface IExperimentSession {
-    __typename: 'ExperimentSession';
+    __typename: "ExperimentSession";
     id: string;
     experiment: IExperiment;
     sessionNumber: number;
@@ -305,7 +305,7 @@ declare namespace GQL {
   }
 
   interface IInstitution {
-    __typename: 'Institution';
+    __typename: "Institution";
     id: string;
     name: string;
     active: boolean;
@@ -319,7 +319,7 @@ declare namespace GQL {
   }
 
   interface IMutation {
-    __typename: 'Mutation';
+    __typename: "Mutation";
     _empty: boolean | null;
     registerUser: Array<IGraphQLError> | null;
     login: Array<IGraphQLError> | null;
@@ -393,7 +393,7 @@ declare namespace GQL {
   }
 
   interface IGraphQLError {
-    __typename: 'GraphQLError';
+    __typename: "GraphQLError";
     path: string;
     message: string;
   }
