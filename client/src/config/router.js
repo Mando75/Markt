@@ -17,6 +17,11 @@ export default new Router({
       component: () => import("../components/Login")
     },
     {
+      path: "/register",
+      name: "SignUp",
+      component: () => import("../components/GuideFeatures/CreateAccount.vue")
+    },
+    {
       path: "/guide/home",
       name: "LandingPage",
       component: () => import("../components/GuideFeatures/LandingPage")

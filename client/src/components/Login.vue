@@ -2,14 +2,14 @@
   <v-app>
     <Nav />
     <v-content>
-      <div v-if="$apollo.loading">Loading...</div>
+      <!--<div v-if="$apollo.loading"><loading-block /></div>-->
       <v-container fluid>
         <router-view> </router-view>
         <template>
           <v-layout>
             <v-flex xs12 sm6 offset-sm3>
               <v-card dark>
-                <v-card flat v-if="!signUp">
+                <v-card flat>
                   <v-img
                     :src="require('@/assets/iStock_teacher-math-class.jpg')"
                     aspect-ratio="2.75"
@@ -55,42 +55,45 @@
                     <br />
                     <div>
                       <br />
-                      <v-btn v-on:click="signUp = !signUp">sign Up here</v-btn>
+                      <v-btn v-on:click="$router.push('/register')"
+                        >sign Up here</v-btn
+                      >
+                      <!--<v-btn v-on:click="signUp = !signUp"></v-btn>-->
                     </div>
                   </v-card-text>
                   <v-card-actions> </v-card-actions>
                 </v-card>
                 <!--sign up form bellow-->
-                <CreateAccount v-model="signUp" v-else />
-                <div v-if="signUp">
-                  <h3 class="title mb-0">
-                    Already have an account?
-                  </h3>
 
-                  <v-btn v-on:click="signUp = !signUp"
-                    >Click Here To Log In</v-btn
-                  >
-                </div>
-                <div>
-                  <v-tabs
-                    fixed-tabs
-                    centered
-                    grow
-                    v-model="active"
-                    color="modernColor4"
-                  >
-                    <v-tabs-slider color="success"></v-tabs-slider>
-                    <v-tab
-                      v-for="n in 2"
-                      :key="n"
-                      active-class="your-class"
-                      ripple
-                    >
-                      Item {{ n }}
-                    </v-tab>
-                    <v-tab-item class="d" v-for="n in 2" :key="n"> </v-tab-item>
-                  </v-tabs>
-                </div>
+                <!--<div v-if="signUp">-->
+                <!--<h3 class="title mb-0">-->
+                <!--Already have an account?-->
+                <!--</h3>-->
+
+                <!--<v-btn v-on:click="signUp = !signUp"-->
+                <!--&gt;Click Here To Log In</v-btn-->
+                <!--&gt;-->
+                <!--</div>-->
+                <!--<div>-->
+                <!--<v-tabs-->
+                <!--fixed-tabs-->
+                <!--centered-->
+                <!--grow-->
+                <!--v-model="active"-->
+                <!--color="modernColor4"-->
+                <!--&gt;-->
+                <!--<v-tabs-slider color="success"></v-tabs-slider>-->
+                <!--<v-tab-->
+                <!--v-for="n in 2"-->
+                <!--:key="n"-->
+                <!--active-class="your-class"-->
+                <!--ripple-->
+                <!--&gt;-->
+                <!--Item {{ n }}-->
+                <!--</v-tab>-->
+                <!--<v-tab-item class="d" v-for="n in 2" :key="n"> </v-tab-item>-->
+                <!--</v-tabs>-->
+                <!--</div>-->
               </v-card>
             </v-flex>
           </v-layout>
@@ -105,10 +108,11 @@
 import Nav from "./Nav";
 import gql from "graphql-tag";
 import CreateAccount from "./GuideFeatures/CreateAccount";
+import LoadingBlock from "./loadingBlock";
 
 export default {
   name: "Login",
-  components: { Nav, CreateAccount },
+  components: { LoadingBlock, Nav, CreateAccount },
   data() {
     return {
       userEmail: "",
