@@ -15,7 +15,10 @@
                 ></v-img>
 
                 <v-card-title primary-title>
-                  <div>
+                  <div v-if="$apollo.loading || $apollo.queries.ping.loading">
+                    <LoadingBlock />
+                  </div>
+                  <div v-else>
                     <h2 class="display-2 mb-0 text-md-right">
                       Create Your Account
                     </h2>
@@ -52,8 +55,8 @@
                           type="password"
                         ></v-text-field>
                         <v-btn color="primary3" @click="mutate">Register</v-btn>
-                        <p class="red" v-for="(msg, i) in warningMsg" :key="i">
-                          {{ msg }}
+                        <p class="red" v-for="msg in warningMsg">
+                          {{ msg.message }}
                         </p>
                       </template>
                     </ApolloMutation>
@@ -71,11 +74,12 @@
 <script>
 import Nav from "../Nav";
 import gql from "graphql-tag";
+import LoadingBlock from "../loadingBlock";
 // import LoadingBlock from "../loadingBlock";
 
 export default {
   name: "Account",
-  components: { Nav },
+  components: { LoadingBlock, Nav },
   data() {
     return {
       email: "",

@@ -42,12 +42,8 @@
                             type="password"
                           ></v-text-field>
                           <v-btn color="primary3" @click="mutate">Login</v-btn>
-                          <p
-                            class="red"
-                            v-for="(msg, i) in warningMsg"
-                            :key="i"
-                          >
-                            {{ msg }}
+                          <p class="red" v-for="msg in warningMsg">
+                            {{ msg.message }}
                           </p>
                         </template>
                       </ApolloMutation>

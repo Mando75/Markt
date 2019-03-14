@@ -1,5 +1,15 @@
 <template>
-  <div><Nav /></div>
+  <div>
+    <Nav />
+    <v-content>
+      <v-container>
+        <v-flex>
+          JOIN CODE:<br />
+          JKERS2
+        </v-flex>
+      </v-container>
+    </v-content>
+  </div>
 </template>
 
 <script>
