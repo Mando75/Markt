@@ -35,7 +35,7 @@ export class ExperimentPlayer extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 0 })
   numTransactions: number;
 
-  @OneToMany(() => PlayerTransaction, pt => pt.player, { eager: true })
+  @OneToMany(() => PlayerTransaction, pt => pt.player, { cascade: true })
   playerTransactions: PlayerTransaction[];
 
   // Set by _loadTransactions

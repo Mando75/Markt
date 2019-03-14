@@ -6,8 +6,7 @@ import {
   ManyToOne,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
-  AfterLoad
+  UpdateDateColumn
 } from "typeorm";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Round } from "./Round";
@@ -42,24 +41,27 @@ export class Transaction extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  // buyer and seller are set by _loadBuyerSeller
-  buyer: ExperimentPlayer;
+  _buyer: ExperimentPlayer | undefined;
 
-  seller: ExperimentPlayer;
-
-  @AfterLoad()
-  _loadBuyerSeller() {
-    const buyerSearch = this.playerTransactions.find(
-      (pt: PlayerTransaction) => !pt.isSeller
-    );
-    const sellerSearch = this.playerTransactions.find(
-      (pt: PlayerTransaction) => pt.isSeller
-    );
-    if (buyerSearch && sellerSearch) {
-      this.buyer = buyerSearch.player;
-      this.seller = sellerSearch.player;
-    } else {
-      throw new Error("Missing player buyer or seller on transaction");
+  buyer() {
+    if (!this._buyer) {
+      const buyer = this.playerTransactions.find(
+        pt => !pt.isSeller
+      ) as PlayerTransaction;
+      this._buyer = buyer.player;
     }
+    return this._buyer;
+  }
+
+  _seller: ExperimentPlayer | undefined;
+
+  seller() {
+    if (!this._seller) {
+      const seller = this.playerTransactions.find(
+        pt => pt.isSeller
+      ) as PlayerTransaction;
+      this._seller = seller.player;
+    }
+    return this._seller;
   }
 }

@@ -21,7 +21,7 @@ export const makeTransaction = async (
   );
   const transaction = await createTransaction(round, amount, buyer, seller);
   await createPlayerTransactions(buyer, seller, transaction);
-  return transaction;
+  return await transaction.save();
 };
 
 /**
@@ -98,10 +98,11 @@ const createTransaction = async (
   const t = Transaction.create({
     amount,
     buyerProfit,
-    sellerProfit
+    sellerProfit,
+    playerTransactions: []
   });
   t.round = Promise.resolve(currentRound);
-  return await t.save();
+  return t;
 };
 
 const createPlayerTransactions = async (
@@ -109,15 +110,17 @@ const createPlayerTransactions = async (
   seller: ExperimentPlayer,
   transaction: Transaction
 ) => {
-  await PlayerTransaction.create({
-    player: buyer,
-    transaction,
-    isSeller: false
-  }).save();
-  await PlayerTransaction.create({
-    player: seller,
-    transaction,
-    isSeller: true
-  });
-  await Promise.all([buyer.reload, seller.reload(), transaction.reload()]);
+  transaction.playerTransactions.push(
+    PlayerTransaction.create({
+      player: buyer,
+      isSeller: false
+    })
+  );
+  transaction.playerTransactions.push(
+    PlayerTransaction.create({
+      player: seller,
+      isSeller: true
+    })
+  );
+  return await transaction.save();
 };
