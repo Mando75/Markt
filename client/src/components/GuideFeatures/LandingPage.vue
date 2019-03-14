@@ -7,7 +7,13 @@
       <v-item-group> </v-item-group>
     </v-container>
     <!---->
-    <v-container> <loading-block /> </v-container>
+    <v-container>
+      <LoadingBlock
+        v-if="
+          this.$_apollo.loading || this.$apollo.loading || $apolloData.loading
+        "
+      />
+    </v-container>
   </v-content>
 </template>
 

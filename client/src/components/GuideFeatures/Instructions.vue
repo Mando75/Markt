@@ -27,7 +27,7 @@ export default {
     me: {
       query: gql`
         {
-          scenario(id: 1) {
+          scenario(code:"APPLMRKT) {
             instructions {
               header
             }
