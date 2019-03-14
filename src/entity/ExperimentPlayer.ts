@@ -26,8 +26,10 @@ export class ExperimentPlayer extends BaseEntity {
   @ManyToOne(() => Experiment, ex => ex.players, { nullable: false })
   experiment: Promise<Experiment>;
 
-  @ManyToOne(() => Player, p => p.experimentPlayers, { nullable: false })
-  player: Player;
+  @ManyToOne(() => Player, p => p.experimentPlayers, {
+    nullable: false
+  })
+  player: Promise<Player>;
 
   @ManyToOne(() => RoleType, rt => rt.players, { nullable: false })
   roleType: Promise<RoleType>;
@@ -35,22 +37,30 @@ export class ExperimentPlayer extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 0 })
   numTransactions: number;
 
-  @OneToMany(() => PlayerTransaction, pt => pt.player, { cascade: true })
-  playerTransactions: PlayerTransaction[];
+  @OneToMany(() => PlayerTransaction, pt => pt.player, {
+    cascade: true,
+    lazy: true
+  })
+  playerTransactions: Promise<PlayerTransaction[]>;
 
   // Set by _loadTransactions
-  transactions: Transaction[];
-
-  buyerTransactions() {
-    return this.playerTransactions
-      ? this.playerTransactions.filter(pt => !pt.isSeller)
-      : [];
+  _transactions: Transaction[] | undefined;
+  async transactions() {
+    if (!this._transactions) {
+      await this._loadTransactions();
+    }
+    console.log(this._transactions);
+    return this._transactions;
   }
 
-  sellerTransactions() {
-    return this.playerTransactions
-      ? this.playerTransactions.filter(pt => pt.isSeller)
-      : [];
+  async buyerTransactions() {
+    const pts = await this.playerTransactions;
+    return pts ? pts.filter(pt => !pt.isSeller) : [];
+  }
+
+  async sellerTransactions() {
+    const pts = await this.playerTransactions;
+    return pts ? pts.filter(pt => pt.isSeller) : [];
   }
 
   @Column({ type: "float", nullable: false, default: 0.0 })
@@ -63,29 +73,32 @@ export class ExperimentPlayer extends BaseEntity {
   updatedDate: Date;
 
   @AfterLoad()
-  _loadTransactions() {
-    this.transactions = this.playerTransactions
-      ? this.playerTransactions.map(pt => pt.transaction)
-      : [];
+  async _loadTransactions() {
+    const pts = await this.playerTransactions;
+    const trans = pts ? pts.map(pt => pt.transaction) : [];
+    this._transactions = await Promise.all(trans);
   }
 
   @BeforeInsert()
   @BeforeUpdate()
-  _setNumTransactions() {
-    this.numTransactions = this.playerTransactions
-      ? this.playerTransactions.length
-      : 0;
+  async setNumTransactions() {
+    const pts = await this.playerTransactions;
+    this.numTransactions = pts ? pts.length : 0;
   }
 
   @BeforeInsert()
   @BeforeUpdate()
-  _setTotalProfit() {
-    const sellerProfit = this.sellerTransactions().reduce(
+  async setTotalProfit() {
+    const [sts, bts] = await Promise.all([
+      this.sellerTransactions(),
+      this.buyerTransactions()
+    ]);
+    const sellerProfit = sts.reduce(
       (accum: number, pt: PlayerTransaction) =>
         accum + pt.transaction.sellerProfit,
       0
     );
-    const buyerProfit = this.buyerTransactions().reduce(
+    const buyerProfit = bts.reduce(
       (accum: number, pt: PlayerTransaction) =>
         accum + pt.transaction.buyerProfit,
       0

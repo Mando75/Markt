@@ -6,7 +6,8 @@ import {
   ManyToOne,
   Column,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  AfterInsert
 } from "typeorm";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Round } from "./Round";
@@ -19,7 +20,8 @@ export class Transaction extends BaseEntity {
 
   @OneToMany(() => PlayerTransaction, pt => pt.transaction, {
     eager: true,
-    nullable: false
+    nullable: false,
+    cascade: true
   })
   playerTransactions: PlayerTransaction[];
 
@@ -63,5 +65,22 @@ export class Transaction extends BaseEntity {
       this._seller = seller.player;
     }
     return this._seller;
+  }
+
+  @AfterInsert()
+  async _updatePlayers() {
+    const buyer = this.buyer();
+    const seller = this.seller();
+    // const p: Promise<any>[] = [];
+    console.log("buyer transactions!@");
+    console.log(await buyer.playerTransactions);
+    console.log("seller transactions!");
+    console.log(await seller.playerTransactions);
+    // p.push(buyer.setNumTransactions());
+    // p.push(buyer.setTotalProfit());
+    // p.push(seller.setNumTransactions());
+    // p.push(seller.setTotalProfit());
+    // await Promise.all(p);
+    // await Promise.all([buyer.save(), seller.save()]);
   }
 }

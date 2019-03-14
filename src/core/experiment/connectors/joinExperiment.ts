@@ -30,7 +30,8 @@ export const joinExperiment = async (
     playerCode
   );
   await checkExperimentBeforeJoin(experiment, player);
-  const ep = ExperimentPlayer.create({ player });
+  const ep = ExperimentPlayer.create();
+  ep.player = Promise.resolve(player);
   ep.experiment = Promise.resolve(experiment);
   const roleType = await assignPlayerRoleType(experiment.id, redis);
   ep.roleType = Promise.resolve(roleType);

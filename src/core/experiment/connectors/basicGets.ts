@@ -20,10 +20,6 @@ export const getExperiment = async (
       { excludedFields: ["__typename", "group", "guide", "closed", "players"] }
     )
   ) as (keyof Experiment)[];
-  return fields.length
-    ? await Experiment.findOne(id, {
-        select: fields,
-        relations: fields.includes("scenario") ? ["scenario"] : []
-      })
-    : await Experiment.findOne(id);
+  console.log(fields);
+  return await Experiment.findOne(id);
 };
