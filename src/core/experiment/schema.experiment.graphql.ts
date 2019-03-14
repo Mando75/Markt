@@ -70,7 +70,7 @@ export const typeDefs = gql`
   input ExperimentStartType {
     scenarioId: ID!
     guideId: ID!
-    groupId: ID!
+    groupId: ID
   }
 
   input ExperimentJoinType {

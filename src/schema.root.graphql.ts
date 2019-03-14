@@ -3,11 +3,6 @@ import { gql } from "apollo-server-express";
 export const typeDefs = gql`
   scalar Date
 
-  type Me {
-    id: ID!
-    email: String!
-  }
-
   enum AccountType {
     USER
     ADMIN
@@ -30,7 +25,7 @@ export const typeDefs = gql`
   }
 
   type Query {
-    me: Me
+    me: User
   }
 
   type GraphQLError {
