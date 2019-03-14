@@ -14,7 +14,7 @@ Vue.use(Vuetify, {
     primary2: "#8ABD5F",
     primary3: "#609732",
     primary4: "#3E7213",
-    primary6: "#224C00",
+    accent: "#224C00",
 
     modernColor0: "#222222" /* Main Secondary color (2) */,
     modernColor1: "#adadad",

@@ -2,13 +2,14 @@
   <v-card>
     <v-img>
       <v-progress-circular
+        v-if="$apollo.loading"
         :size="70"
         :width="7"
         color="primary2"
         indeterminate
-      ></v-progress-circular
-    ></v-img>
-    <v-card-title><div v-if="$apollo.loading">Loading...</div></v-card-title>
+        >Loading...</v-progress-circular
+      ></v-img
+    >
   </v-card>
 </template>
 

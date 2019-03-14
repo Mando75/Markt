@@ -1,12 +1,7 @@
 <template>
   <v-content>
-    <v-navigation-drawer
-      app
-      dark
-      v-model="drawer"
-      v-if="this.$credentials.authenticated"
-    >
-      <v-list> <br /><br /><br /></v-list>
+    <v-navigation-drawer app dark class="link--text" v-model="drawer">
+      <v-list class="hidden-sm-and-down"> <br /><br /><br /></v-list>
       <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
@@ -23,7 +18,8 @@
 
       <v-list dense class="pt-0">
         <v-list-tile
-          class="white--text"
+          dark
+          class="blue-grey.darken-4"
           v-for="item in items"
           :key="item.title"
           :to="item.path"
@@ -39,22 +35,26 @@
     </v-navigation-drawer>
 
     <v-toolbar app color="modernColor3" fixed clipped-left>
+      <v-toolbar-side-icon
+        v-if="this.$credentials.authenticated"
+        v-on:click="drawer = !drawer"
+      ></v-toolbar-side-icon>
       <router-link to="/">
-        <v-toolbar-title class="display-1 white--text font-weight-bold "
+        <v-toolbar-title class="display-2 white--text font-weight-bold "
           >Markt</v-toolbar-title
         >
       </router-link>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
       <!--The right side buttons-->
-      <v-toolbar-items class="hidden-md-and-down">
+      <v-toolbar-items>
         <!--button 1-->
         <v-btn
           v-if="!this.$credentials.authenticated"
           depressed
           dark
           @click="$router.push('/login')"
-          class="font-weight-bold white--text "
+          class="font-weight-bold white--text hidden-md-and-down"
         >
           Log In <span class="headline">/</span> Sign Up
         </v-btn>
@@ -64,7 +64,7 @@
           depressed
           dark
           class="font-weight-bold white--text"
-          @click="$router.push('')"
+          @click="$router.push('/joinCode')"
         >
           Join Code
         </v-btn>
@@ -77,7 +77,6 @@
         >
           Join Simulation
         </v-btn>
-        <!--<v-toolbar-side-icon v-if="breakpoint(xsOnly)"></v-toolbar-side-icon>-->
       </v-toolbar-items>
     </v-toolbar>
     <!--208-496-1154 schmidt-->
@@ -96,12 +95,12 @@ export default {
         {
           title: "Invite Participants",
           icon: "person_add",
-          path: "/guide/setup"
+          path: "/guide/joinCode"
         },
-        { title: "Begin Simulation", icon: "monetization_on", path: "/play" },
+        { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
         // { title: "UserResults?", icon: "person" },
-        { title: "About", icon: "question_answer", path: "" },
-        { title: "Settings", icon: "settings", path: "" }
+        // { title: "About", icon: "question_answer", path: "" },
+        // { title: "Settings", icon: "settings", path: "" }
       ],
       drawer: true
     };
@@ -109,9 +108,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 a:link {
   text-decoration: none;
+}
+.primary--text {
+  /*background-color: #222222 !important;*/
+  color: #609732 !important; /*primary3*/
+  caret-color: #609732 !important;
 }
 
 a:visited {

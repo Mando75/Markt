@@ -8,7 +8,7 @@
         <template>
           <v-layout>
             <v-flex xs12 sm6 offset-sm3>
-              <v-card>
+              <v-card dark>
                 <v-card flat v-if="!signUp">
                   <v-img
                     :src="require('@/assets/iStock_teacher-math-class.jpg')"

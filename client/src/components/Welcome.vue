@@ -16,7 +16,7 @@
             >
               <v-img
                 class="mt-2"
-                :src="require('@/assets/marktLogo.png')"
+                :src="require('@/assets/logo.png')"
                 height="160"
                 width="160"
               ></v-img>
@@ -45,9 +45,9 @@
                 Markt(noun) the Dutch word for Market.
               </h4>
 
-              <v-card-text><i>"We use the 'e' for Education!"</i> </v-card-text>
+              <!--<v-card-text><i>"We use the 'e' for Education!"</i> </v-card-text>-->
             </div>
-            <v-timeline align-top>
+            <v-timeline :dense="$vuetify.breakpoint.xsOnly">
               <v-timeline-item
                 v-for="(item, i) in timeline"
                 :key="i"
@@ -144,7 +144,8 @@ export default {
           "View market summaries, item price changes, and many more to follow up with your class about the results"
       }
     ]
-  })
+  }),
+  methods: {}
 };
 </script>
 
