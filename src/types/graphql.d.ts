@@ -22,7 +22,7 @@ declare namespace GQL {
 
   interface IQuery {
     __typename: "Query";
-    me: IMe | null;
+    me: IUser | null;
     experiment: IExperiment | null;
     group: IGroup | null;
     guide: IGuide | null;
@@ -71,27 +71,6 @@ declare namespace GQL {
     id: string;
   }
 
-  interface IMe {
-    __typename: "Me";
-    id: string;
-    email: string;
-    guide: IGuide | null;
-  }
-
-  interface IGuide {
-    __typename: "Guide";
-    id: string;
-    user: IUser;
-    firstName: string | null;
-    lastName: string | null;
-    fullname: string | null;
-    email: string | null;
-    experiments: Array<IExperiment | null> | null;
-    active: boolean;
-    createdDate: any;
-    updatedDate: any;
-  }
-
   interface IUser {
     __typename: "User";
     id: string;
@@ -116,18 +95,14 @@ declare namespace GQL {
     ADMIN = "ADMIN"
   }
 
-  interface IInstitution {
-    __typename: "Institution";
+  interface IGuide {
+    __typename: "Guide";
     id: string;
-    name: string;
+    user: IUser;
+    experiments: Array<IExperiment | null> | null;
     active: boolean;
     createdDate: any;
     updatedDate: any;
-    users: Array<IUser> | null;
-  }
-
-  interface IUsersOnInstitutionArguments {
-    id?: string | null;
   }
 
   interface IExperiment {
@@ -327,6 +302,20 @@ declare namespace GQL {
     endDate: any | null;
     createdDate: any | null;
     updatedDate: any | null;
+  }
+
+  interface IInstitution {
+    __typename: "Institution";
+    id: string;
+    name: string;
+    active: boolean;
+    createdDate: any;
+    updatedDate: any;
+    users: Array<IUser> | null;
+  }
+
+  interface IUsersOnInstitutionArguments {
+    id?: string | null;
   }
 
   interface IMutation {
