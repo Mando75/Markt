@@ -48,6 +48,11 @@ export default new Router({
       component: () => import("../components/GuideFeatures/SessionCreation")
     },
     {
+      path: "/guide/instructions",
+      name: "instructions",
+      component: () => import("../components/GuideFeatures/Instructions")
+    },
+    {
       path: "/guide/joinCode",
       name: "displayCode",
       component: () => import("../components/GuideFeatures/JoinCode")

@@ -15,7 +15,7 @@
                 ></v-img>
 
                 <v-card-title primary-title>
-                  <div v-if="$apollo.loading || $apollo.queries.ping.loading">
+                  <div v-if="$apollo.loading">
                     <LoadingBlock />
                   </div>
                   <div v-else>

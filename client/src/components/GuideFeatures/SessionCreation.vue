@@ -1,10 +1,11 @@
 <template>
+  <!--do we want instructions and setup on the same screen or different?-->
   <v-content color="secondary0">
     <Nav />
     <LoadingBlock v-if="this.$apollo.loading" />
     <v-layout justify-center>
       <v-flex xs12 sm10>
-        <v-card>
+        <v-card @click="$router.push('/guide/instructions')">
           <v-container fluid grid-list-md>
             <v-layout row wrap>
               <v-flex
@@ -51,12 +52,12 @@ export default {
         title: "TEST APPLE MARKET",
         src: require("@/assets/marketPainting.jpg"),
         flex: 6,
-        route: "",
+        route: "/guide/instructions",
         scenarioCode: ""
       },
       {
         title: "Other Scenario",
-        src: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
+        src: "",
         flex: 6,
         route: "",
         scenarioCode: ""
