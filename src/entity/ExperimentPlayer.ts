@@ -49,7 +49,6 @@ export class ExperimentPlayer extends BaseEntity {
     if (!this._transactions) {
       await this._loadTransactions();
     }
-    console.log(this._transactions);
     return this._transactions;
   }
 
@@ -93,14 +92,14 @@ export class ExperimentPlayer extends BaseEntity {
       this.sellerTransactions(),
       this.buyerTransactions()
     ]);
-    const sellerProfit = sts.reduce(
-      (accum: number, pt: PlayerTransaction) =>
-        accum + pt.transaction.sellerProfit,
+    const sellerTransactions = await Promise.all(sts.map(st => st.transaction));
+    const buyerTransactions = await Promise.all(bts.map(bt => bt.transaction));
+    const sellerProfit = sellerTransactions.reduce(
+      (accum: number, curr: Transaction) => accum + curr.sellerProfit,
       0
     );
-    const buyerProfit = bts.reduce(
-      (accum: number, pt: PlayerTransaction) =>
-        accum + pt.transaction.buyerProfit,
+    const buyerProfit = buyerTransactions.reduce(
+      (accum: number, curr: Transaction) => accum + curr.buyerProfit,
       0
     );
     this.totalProfit = sellerProfit + buyerProfit;

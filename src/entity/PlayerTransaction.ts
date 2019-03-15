@@ -20,7 +20,7 @@ export class PlayerTransaction extends BaseEntity {
   @ManyToOne(() => ExperimentPlayer, ep => ep.playerTransactions, {
     nullable: false
   })
-  player: ExperimentPlayer;
+  player: Promise<ExperimentPlayer>;
 
   @ManyToOne(() => Transaction, t => t.playerTransactions, {
     nullable: false

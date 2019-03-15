@@ -2,6 +2,7 @@ import { GraphQLContext } from "../../../types/graphql-context";
 import { GraphQLResolveInfo } from "graphql";
 import * as graphqlFields from "graphql-fields";
 import { Experiment } from "../../../entity/Experiment";
+import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
 
 export const getExperiment = async (
   _: any,
@@ -20,6 +21,17 @@ export const getExperiment = async (
       { excludedFields: ["__typename", "group", "guide", "closed", "players"] }
     )
   ) as (keyof Experiment)[];
-  console.log(fields);
-  return await Experiment.findOne(id);
+  return fields.length
+    ? await Experiment.findOne(id, {
+        select: fields.filter(f => f !== "scenario"),
+        relations: fields.includes("scenario") ? ["scenario"] : []
+      })
+    : await Experiment.findOne(id);
+};
+
+export const getExperimentPlayers = async (exp: Experiment) => {
+  return await ExperimentPlayer.createQueryBuilder("ep")
+    .leftJoinAndSelect("ep.player", "epPlayer")
+    .where("ep.experiment_id = :experimentId", { experimentId: exp.id })
+    .getMany();
 };

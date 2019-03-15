@@ -45,42 +45,37 @@ export class Transaction extends BaseEntity {
 
   _buyer: ExperimentPlayer | undefined;
 
-  buyer() {
+  async buyer() {
     if (!this._buyer) {
-      const buyer = this.playerTransactions.find(
-        pt => !pt.isSeller
-      ) as PlayerTransaction;
-      this._buyer = buyer.player;
+      const pts = this.playerTransactions;
+      const buyer = pts.find(pt => !pt.isSeller) as PlayerTransaction;
+      this._buyer = await buyer.player;
     }
     return this._buyer;
   }
 
   _seller: ExperimentPlayer | undefined;
 
-  seller() {
+  async seller() {
     if (!this._seller) {
-      const seller = this.playerTransactions.find(
-        pt => pt.isSeller
-      ) as PlayerTransaction;
-      this._seller = seller.player;
+      const pts = this.playerTransactions;
+      const seller = pts.find(pt => pt.isSeller) as PlayerTransaction;
+      this._seller = await seller.player;
     }
     return this._seller;
   }
 
   @AfterInsert()
   async _updatePlayers() {
-    const buyer = this.buyer();
-    const seller = this.seller();
-    // const p: Promise<any>[] = [];
-    console.log("buyer transactions!@");
-    console.log(await buyer.playerTransactions);
-    console.log("seller transactions!");
-    console.log(await seller.playerTransactions);
-    // p.push(buyer.setNumTransactions());
-    // p.push(buyer.setTotalProfit());
-    // p.push(seller.setNumTransactions());
-    // p.push(seller.setTotalProfit());
-    // await Promise.all(p);
-    // await Promise.all([buyer.save(), seller.save()]);
+    const buyer = await this.buyer();
+    const seller = await this.seller();
+    await Promise.all([buyer.reload(), seller.reload()]);
+    await Promise.all([
+      buyer.setTotalProfit(),
+      buyer.setNumTransactions(),
+      seller.setTotalProfit(),
+      seller.setNumTransactions()
+    ]);
+    await Promise.all([buyer.save(), seller.save()]);
   }
 }

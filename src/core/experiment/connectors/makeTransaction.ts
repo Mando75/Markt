@@ -58,7 +58,7 @@ const findAndCheckPlayers = async (
   sellerCode: string,
   experiment: Experiment
 ) => {
-  const [players, count] = await ExperimentPlayer.createQueryBuilder("ep")
+  const [ePlayers, count] = await ExperimentPlayer.createQueryBuilder("ep")
     .leftJoinAndSelect("ep.player", "p")
     .where("ep.experiment_id = :exId", { exId: experiment.id })
     .andWhere("p.player_code IN (:...playerCodes)", {
@@ -68,8 +68,11 @@ const findAndCheckPlayers = async (
   if (count !== 2) {
     throw new ApolloError(ExperimentErrorMessages.PLAYER_DOES_NOT_EXIST, "404");
   }
-  const buyer = players.find(p => p.player.playerCode === buyerCode);
-  const seller = players.find(p => p.player.playerCode === sellerCode);
+  const players = await Promise.all(ePlayers.map(p => p.player));
+  const buyerIndex = players.findIndex(p => p.playerCode === buyerCode);
+  const sellerIndex = players.findIndex(p => p.playerCode === sellerCode);
+  const buyer = ePlayers[buyerIndex];
+  const seller = ePlayers[sellerIndex];
   if (!buyer) {
     throw new ApolloError(ExperimentErrorMessages.BUYER_DOES_NOT_EXIST, "404");
   } else if (!seller) {
@@ -98,8 +101,7 @@ const createTransaction = async (
   const t = Transaction.create({
     amount,
     buyerProfit,
-    sellerProfit,
-    playerTransactions: []
+    sellerProfit
   });
   t.round = Promise.resolve(currentRound);
   return t;
@@ -110,17 +112,14 @@ const createPlayerTransactions = async (
   seller: ExperimentPlayer,
   transaction: Transaction
 ) => {
-  transaction.playerTransactions.push(
-    PlayerTransaction.create({
-      player: buyer,
-      isSeller: false
-    })
-  );
-  transaction.playerTransactions.push(
-    PlayerTransaction.create({
-      player: seller,
-      isSeller: true
-    })
-  );
+  const sellerPt = PlayerTransaction.create({
+    isSeller: false
+  });
+  sellerPt.player = Promise.resolve(seller);
+  const buyerPt = PlayerTransaction.create({
+    isSeller: true
+  });
+  buyerPt.player = Promise.resolve(buyer);
+  transaction.playerTransactions = [buyerPt, sellerPt];
   return await transaction.save();
 };
