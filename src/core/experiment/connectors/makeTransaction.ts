@@ -120,6 +120,6 @@ const createPlayerTransactions = async (
     isSeller: true
   });
   buyerPt.player = Promise.resolve(buyer);
-  transaction.playerTransactions = [buyerPt, sellerPt];
-  return await transaction.save();
+  transaction.playerTransactions = Promise.resolve([buyerPt, sellerPt]);
+  return;
 };

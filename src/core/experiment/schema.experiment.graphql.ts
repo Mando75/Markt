@@ -36,6 +36,7 @@ export const typeDefs = gql`
     experiment: Experiment!
     sessionNumber: Int!
     scenarioSession: ScenarioSession!
+    rounds: [Round]
     active: Boolean!
     endDate: Date
     createdDate: Date

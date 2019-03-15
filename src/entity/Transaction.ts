@@ -23,7 +23,7 @@ export class Transaction extends BaseEntity {
     nullable: false,
     cascade: true
   })
-  playerTransactions: PlayerTransaction[];
+  playerTransactions: Promise<PlayerTransaction[]>;
 
   @ManyToOne(() => Round, r => r.transactions, { nullable: false })
   round: Promise<Round>;
@@ -47,7 +47,8 @@ export class Transaction extends BaseEntity {
 
   async buyer() {
     if (!this._buyer) {
-      const pts = this.playerTransactions;
+      await this._loadPlayerTransactions();
+      const pts = await this.playerTransactions;
       const buyer = pts.find(pt => !pt.isSeller) as PlayerTransaction;
       this._buyer = await buyer.player;
     }
@@ -58,7 +59,8 @@ export class Transaction extends BaseEntity {
 
   async seller() {
     if (!this._seller) {
-      const pts = this.playerTransactions;
+      await this._loadPlayerTransactions();
+      const pts = await this.playerTransactions;
       const seller = pts.find(pt => pt.isSeller) as PlayerTransaction;
       this._seller = await seller.player;
     }
@@ -77,5 +79,16 @@ export class Transaction extends BaseEntity {
       seller.setNumTransactions()
     ]);
     await Promise.all([buyer.save(), seller.save()]);
+  }
+
+  async _loadPlayerTransactions() {
+    const pt = await this.playerTransactions;
+    if (pt.length === 0) {
+      this.playerTransactions = Promise.resolve(
+        await PlayerTransaction.find({
+          where: { transaction: this }
+        })
+      );
+    }
   }
 }
