@@ -5,5 +5,6 @@ export const credentialStore = {
   userId: "",
   playerId: "",
   guideId: "",
-  scenarioId: ""
+  scenarioId: "",
+  displayName: ""
 };

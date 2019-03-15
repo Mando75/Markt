@@ -49,7 +49,7 @@ export default {
       result({ data }) {
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;
-
+        this.$credentials.displayName = data.me.guide.fullname;
         console.log(this.$credentials);
       }
     }
