@@ -6,8 +6,7 @@ import {
   ManyToOne,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
-  AfterInsert
+  UpdateDateColumn
 } from "typeorm";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Round } from "./Round";
@@ -67,8 +66,7 @@ export class Transaction extends BaseEntity {
     return this._seller;
   }
 
-  @AfterInsert()
-  async _updatePlayers() {
+  async updatePlayers() {
     const buyer = await this.buyer();
     const seller = await this.seller();
     await Promise.all([buyer.reload(), seller.reload()]);

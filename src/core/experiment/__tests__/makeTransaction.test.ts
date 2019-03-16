@@ -7,8 +7,10 @@ import { ApolloErrors } from "../../../enums/ApolloErrors";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { Experiment } from "../../../entity/Experiment";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
+import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
 
 let app: Server, db: Connection, host: string;
+const transactionAmount = 20;
 
 const makeTransaction = (
   experimentId: string,
@@ -19,6 +21,7 @@ const makeTransaction = (
 mutation {
   makeTransaction(params: { experimentId: "${experimentId}", buyerCode: "${buyerCode}", sellerCode: "${sellerCode}", amount: ${amount}}) {
   id
+  amount
   }
 }
 `;
@@ -151,6 +154,80 @@ describe("makeTransaction", () => {
     expect(errors[0].message).toEqual(
       ExperimentErrorMessages.PLAYER_DOES_NOT_EXIST
     );
+  });
+
+  it("Posts a transaction with the right amount", async () => {
+    const { seller, experimentId, buyer } = await TestClient.scaffoldExperiment(
+      host,
+      true,
+      true
+    );
+    const {
+      data: { makeTransaction: data },
+      errors
+    } = await seller.client.query(
+      makeTransaction(
+        experimentId,
+        buyer.playerCode,
+        seller.playerCode,
+        transactionAmount
+      )
+    );
+    expect(data.id).toBeTruthy();
+    expect(data.amount).toEqual(transactionAmount);
+    expect(errors).toBeUndefined();
+  });
+
+  it("Updates the number of transactions and profit on the buyer", async () => {
+    const { seller, experimentId, buyer } = await TestClient.scaffoldExperiment(
+      host,
+      true,
+      true
+    );
+    const {
+      data: { makeTransaction: resp }
+    } = await seller.client.query(
+      makeTransaction(
+        experimentId,
+        buyer.playerCode,
+        seller.playerCode,
+        transactionAmount
+      )
+    );
+    const b = await ExperimentPlayer.findOne(buyer.id);
+    expect(b).toBeTruthy();
+    if (b) {
+      const profit = await b.getProfit(transactionAmount);
+      expect(b.totalProfit).toEqual(profit);
+      expect(b.numTransactions).toEqual(1);
+    }
+    expect(resp.id).toBeTruthy();
+  });
+
+  it("Updates the number of transactions and profit on the seller", async () => {
+    const { seller, experimentId, buyer } = await TestClient.scaffoldExperiment(
+      host,
+      true,
+      true
+    );
+    const {
+      data: { makeTransaction: resp }
+    } = await seller.client.query(
+      makeTransaction(
+        experimentId,
+        buyer.playerCode,
+        seller.playerCode,
+        transactionAmount
+      )
+    );
+    const s = await ExperimentPlayer.findOne(seller.id);
+    expect(s).toBeTruthy();
+    if (s) {
+      const profit = await s.getProfit(transactionAmount);
+      expect(s.totalProfit).toEqual(profit);
+      expect(s.numTransactions).toEqual(1);
+    }
+    expect(resp.id).toBeTruthy();
   });
 });
 afterAll(async () => {

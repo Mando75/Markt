@@ -2,7 +2,6 @@ import {
   AfterLoad,
   BaseEntity,
   BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -52,14 +51,19 @@ export class ExperimentPlayer extends BaseEntity {
     return this._transactions;
   }
 
+  _playerTransactions: PlayerTransaction[] | undefined;
   async buyerTransactions() {
-    const pts = await this.playerTransactions;
-    return pts ? pts.filter(pt => !pt.isSeller) : [];
+    if (!this._playerTransactions) {
+      this._playerTransactions = await this.playerTransactions;
+    }
+    return this._playerTransactions.filter(pt => !pt.isSeller);
   }
 
   async sellerTransactions() {
-    const pts = await this.playerTransactions;
-    return pts ? pts.filter(pt => pt.isSeller) : [];
+    if (!this._playerTransactions) {
+      this._playerTransactions = await this.playerTransactions;
+    }
+    return this._playerTransactions.filter(pt => pt.isSeller);
   }
 
   @Column({ type: "float", nullable: false, default: 0.0 })
@@ -78,15 +82,11 @@ export class ExperimentPlayer extends BaseEntity {
     this._transactions = await Promise.all(trans);
   }
 
-  @BeforeInsert()
-  @BeforeUpdate()
   async setNumTransactions() {
     const pts = await this.playerTransactions;
     this.numTransactions = pts ? pts.length : 0;
   }
 
-  @BeforeInsert()
-  @BeforeUpdate()
   async setTotalProfit() {
     const [sts, bts] = await Promise.all([
       this.sellerTransactions(),

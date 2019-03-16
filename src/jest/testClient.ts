@@ -333,7 +333,7 @@ export class TestClient {
     const experimentGroupPlayers = await group.players;
     const joinCode = experiment.joinCode;
     await tc.login();
-    let players: { playerCode: string; client: TestClient }[] = [];
+    let players: { id: string; playerCode: string; client: TestClient }[] = [];
     if (loadPlayers) {
       players = await TestClient.joinPlayers(
         experimentGroupPlayers,
@@ -391,11 +391,21 @@ export class TestClient {
     joinCode: string,
     host: string
   ) => {
-    const playerCodes: { playerCode: string; client: TestClient }[] = [];
+    const playerCodes: {
+      id: string;
+      playerCode: string;
+      client: TestClient;
+    }[] = [];
     for (const p of experimentGroupPlayers) {
       const pTc = new TestClient(host);
-      await pTc.query(TestClient.joinExperiment(joinCode, p.playerCode));
-      playerCodes.push({ playerCode: p.playerCode, client: pTc });
+      const {
+        data: { joinExperiment }
+      } = await pTc.query(TestClient.joinExperiment(joinCode, p.playerCode));
+      playerCodes.push({
+        id: joinExperiment.id,
+        playerCode: p.playerCode,
+        client: pTc
+      });
     }
     return playerCodes;
   };
