@@ -151,6 +151,6 @@ export default {
 
 <style scoped>
 h1 {
-  color: modernColor0;
+  /*color: "modernColor0";*/
 }
 </style>

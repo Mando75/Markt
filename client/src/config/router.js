@@ -49,7 +49,7 @@ export default new Router({
     },
     {
       path: "/guide/instructions",
-      name: "instructions",
+      name: "Instructions",
       component: () => import("../components/GuideFeatures/Instructions")
     },
     {

@@ -1,11 +1,11 @@
 <template>
   <v-content>
     <v-navigation-drawer app dark class="link--text" v-model="drawer">
-      <v-list class="hidden-sm-and-down"> <br /><br /><br /></v-list>
+      <v-list class="hidden-sm-and-down"> <br /><br /></v-list>
       <v-list class="pa-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+            <v-icon x-large>account_circle</v-icon>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -88,7 +88,11 @@ export default {
   name: "Nav",
   data() {
     return {
-      users: { displayName: "Bryan" },
+      users: {
+        displayName: this.$credentials.displayName
+          ? this.$credentials.displayName
+          : null
+      },
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
@@ -107,7 +111,6 @@ export default {
   }
 };
 </script>
-
 <style>
 a:link {
   text-decoration: none;
@@ -122,3 +125,4 @@ a:visited {
   text-decoration: none;
 }
 </style>
+<style></style>

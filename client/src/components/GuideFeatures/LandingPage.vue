@@ -1,9 +1,19 @@
 <template>
-  <v-content
-    ><Nav />
+  <v-content>
+    <Nav />
     <v-container>
-      <v-layout> </v-layout>
-      <div>{{ me.guide.id }}</div>
+      <v-layout>
+        <v-flex align-self-center (size)(5)>
+          <v-card>
+            <v-card-text>Me.id: {{ me.id }}</v-card-text>
+            <br />
+            <div>Me.guide.id: {{ me.guide.id }}</div>
+            <br />
+            <div>guideId: {{ this.$credentials.guideId }}</div>
+          </v-card>
+        </v-flex>
+      </v-layout>
+
       <v-item-group> </v-item-group>
     </v-container>
     <!---->
@@ -40,6 +50,7 @@ export default {
         {
           me {
             id
+            fullName
             guide {
               id
             }
@@ -49,8 +60,9 @@ export default {
       result({ data }) {
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;
-        this.$credentials.displayName = data.me.guide.fullname;
+        this.$credentials.displayName = data.me.fullName;
         console.log(this.$credentials);
+        // this.$apollo.queries.tags.skip = true;
       }
     }
   }
