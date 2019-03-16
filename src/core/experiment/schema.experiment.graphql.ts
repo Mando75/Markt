@@ -26,6 +26,9 @@ export const typeDefs = gql`
     buyerTransactions: [Transaction]
     sellerTransactions: [Transaction]
     numTransactions: Int!
+    playerCode: ID!
+    currentSessionRole: SessionRole!
+    profitEquation: String
     totalProfit: Float!
     createdDate: Date
     updatedDate: Date

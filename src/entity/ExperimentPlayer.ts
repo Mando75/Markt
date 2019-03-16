@@ -112,6 +112,11 @@ export class ExperimentPlayer extends BaseEntity {
     await ex.save();
   }
 
+  async getPlayerCode() {
+    const player = await this.player;
+    return player.playerCode;
+  }
+
   async getCurrentSessionRole() {
     const [ex, role] = await Promise.all([this.experiment, this.roleType]);
     const [currentSession, sessionRoles] = await Promise.all([

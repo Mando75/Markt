@@ -244,6 +244,9 @@ declare namespace GQL {
     buyerTransactions: Array<ITransaction | null> | null;
     sellerTransactions: Array<ITransaction | null> | null;
     numTransactions: number;
+    playerCode: string;
+    currentSessionRole: ISessionRole;
+    profitEquation: string | null;
     totalProfit: number;
     createdDate: any | null;
     updatedDate: any | null;
@@ -298,6 +301,7 @@ declare namespace GQL {
     experiment: IExperiment;
     sessionNumber: number;
     scenarioSession: IScenarioSession;
+    rounds: Array<IRound | null> | null;
     active: boolean;
     endDate: any | null;
     createdDate: any | null;
