@@ -136,6 +136,7 @@ export class TestClient {
   }
 
   async query(query: string) {
+    console.log(this.url);
     return rp.post(this.url, { ...this.options, body: { query } });
   }
 
@@ -235,6 +236,29 @@ export class TestClient {
     await experiment.save();
     await loadRoleDist(experiment, TestClient.createRedisConnection());
     return experiment;
+  }
+
+  async createAppleMarketExperimentAndGuide() {
+    const { guide } = await this.createUserWithGuide();
+    const group = await this.createMockGroup();
+    const scen = await Scenario.findOne({
+      where: { scenarioCode: "APPLMRKT" }
+    });
+    if (!guide || !group || !scen) {
+      throw new Error("Could not create stuff");
+    }
+    const {
+      data: { startNewExperiment: experiment }
+    } = await this.query(`mutation { 
+      startNewExperiment(params: {
+        guideId: "${guide.id}", 
+        scenarioId: "${scen.id}", 
+        groupId: "${group.id}"
+      }) {
+      id
+      joinCode
+      }`);
+    return { experiment, group, guide, scen };
   }
 
   static _genScenario(sessionCount = 2) {

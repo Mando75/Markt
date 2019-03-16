@@ -107,6 +107,12 @@ const createTransaction = async (
   return t;
 };
 
+/**
+ * Creates the playerTransaction join table record
+ * @param buyer
+ * @param seller
+ * @param transaction
+ */
 const createPlayerTransactions = async (
   buyer: ExperimentPlayer,
   seller: ExperimentPlayer,
