@@ -37,7 +37,8 @@ export default {
   components: { LoadingBlock, Nav },
   data() {
     return {
-      guideId: ""
+      guideId: "",
+      fullName: ""
     };
   },
   mounted() {

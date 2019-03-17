@@ -20,26 +20,38 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
 import Nav from "../Nav";
-
+import gql from "graphql-tag";
 export default {
   name: "Instructions",
   components: { Nav },
   data() {
-    return {};
+    return {
+      guideId: "",
+      fullName: ""
+    };
   },
   mounted() {
     console.log(this.$apollo.queries);
   },
+  // Apollo-specific options
   apollo: {
-    //grab the instructions
-    scenario: {
-      query: gql``,
-      result({ data }) {}
+    // Query with parameters
+    ping: {
+      // gql query
+      query: gql`
+        query scenario($code: ID!) {
+          scenario(code: $code) {
+            name
+          }
+        }
+      `,
+      // Static parameters
+      variables: {
+        code: "APPLMRKT"
+      }
     }
   }
 };
 </script>
-
 <style scoped></style>
