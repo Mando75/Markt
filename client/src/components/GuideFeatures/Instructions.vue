@@ -74,7 +74,7 @@ export default {
         code: "APPLMRKT"
       },
       result({ data }) {
-        instructs = data.scenario.instructions;
+        this.instructs = data.scenario.instructions;
         this.blts = data.scenario.instructions.bullets;
       }
     }
