@@ -87,6 +87,7 @@ export default {
   components: { LoadingBlock, Nav },
   data() {
     return {
+      scenarios: "",
       dialog: false,
       cards: [
         {
@@ -127,13 +128,16 @@ export default {
     // Simple query that gets the user id
     scenario: {
       query: gql`
-        {
-          scenario(code: "APPLMRKT") {
+        query scenario($code: ID!) {
+          scenario(code: $code) {
             id
             description
           }
         }
       `,
+      variables: {
+        code: "APPLMRKT"
+      },
       result({ data }) {
         this.$credentials.scenarioId = data.scenario.id;
 
