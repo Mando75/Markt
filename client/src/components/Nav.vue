@@ -31,6 +31,15 @@
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <!--conditional drawer items-->
+        <v-list-tile dark class="blue-grey.darken-4" :to="here" v-on:click="">
+          <v-list-tile-action>
+            <v-icon>live_help</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Scenario Instructions</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -104,7 +113,6 @@ export default {
         { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
         // { title: "UserResults?", icon: "person" },
         // { title: "About", icon: "question_answer", path: "" },
-        // { title: "Settings", icon: "settings", path: "" }
       ],
       drawer: true
     };

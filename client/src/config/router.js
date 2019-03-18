@@ -29,7 +29,7 @@ export default new Router({
     {
       path: "/guide/scenarios",
       name: "scenarioSelect",
-      component: () => import("../components/GuideFeatures/SessionCreation")
+      component: () => import("../components/GuideFeatures/ExperimentSelect")
     },
     {
       path: "/player",
@@ -45,7 +45,7 @@ export default new Router({
     {
       path: "/guide/setup",
       name: "simulation_Setup",
-      component: () => import("../components/GuideFeatures/SessionCreation")
+      component: () => import("../components/GuideFeatures/ExperimentSelect")
     },
     {
       path: "/guide/instructions",

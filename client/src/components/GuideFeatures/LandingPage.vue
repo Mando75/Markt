@@ -1,21 +1,7 @@
 <template>
   <v-content>
     <Nav />
-    <v-container>
-      <v-layout>
-        <v-flex align-self-center (size)(5)>
-          <v-card>
-            <v-card-text>Me.id: {{ me.id }}</v-card-text>
-            <br />
-            <div>Me.guide.id: {{ me.guide.id }}</div>
-            <br />
-            <div>guideId: {{ this.$credentials.guideId }}</div>
-          </v-card>
-        </v-flex>
-      </v-layout>
-
-      <v-item-group> </v-item-group>
-    </v-container>
+    <v-item-group> </v-item-group>
     <!---->
     <v-container>
       <LoadingBlock
@@ -23,6 +9,54 @@
           this.$_apollo.loading || this.$apollo.loading || $apolloData.loading
         "
       />
+    </v-container>
+    <v-container fluid grid-list-md>
+      <v-layout row wrap>
+        <v-flex d-flex xs12 sm6 md4>
+          <v-card color="purple" dark>
+            <v-card-title primary class="title"
+              >The current User ID</v-card-title
+            >
+            <v-card-text>Me.id: {{ me.id }}</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex d-flex xs12 sm6 md3>
+          <v-layout row wrap>
+            <v-flex d-flex>
+              <v-card color="indigo" dark>
+                <v-card-title primary class="title"
+                  >The current Guide ID</v-card-title
+                >
+                <v-card-text> Me.guide.id: {{ me.guide.id }}</v-card-text>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex>
+              <v-layout row wrap>
+                <v-flex d-flex xs12>
+                  <v-card color="red lighten-2" dark>
+                    <v-card-title primary class="title"
+                      >The "guideId" variable
+                    </v-card-title>
+                    <v-card-text
+                      >guideId: {{ this.$credentials.guideId }}</v-card-text
+                    >
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex d-flex xs12 sm6 md2 child-flex>
+          <v-card color="green lighten-2" dark>
+            <v-card-text>lorem Ipsum asjkdfhl</v-card-text>
+          </v-card>
+        </v-flex>
+        <v-flex d-flex xs12 sm6 md3>
+          <v-card color="blue lighten-2" dark>
+            <v-card-text>Lorem Ipsum sheuofd djhfu aure </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </v-container>
   </v-content>
 </template>
