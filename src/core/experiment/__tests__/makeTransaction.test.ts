@@ -255,6 +255,26 @@ describe("makeTransaction", () => {
       expect(round.averagePrice).toEqual(transactionAmount);
     }
   });
+
+  it("prevents a user without the selling permission to make a sale", async () => {
+    const {
+      experimentId,
+      buyer,
+      players
+    } = await TestClient.scaffoldExperiment(host, true, true);
+    const { errors } = await players[1].client.query(
+      makeTransaction(
+        experimentId,
+        buyer.playerCode,
+        players[1].playerCode,
+        transactionAmount
+      )
+    );
+    expect(errors).toHaveLength(1);
+    expect(errors[0].message).toEqual(
+      ExperimentErrorMessages.PLAYER_NOT_ALLOWED_TO_SELL
+    );
+  });
 });
 afterAll(async () => {
   await teardownTestServer(app, db);

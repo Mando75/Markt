@@ -80,6 +80,13 @@ const findAndCheckPlayers = async (
   } else if (!seller) {
     throw new ApolloError(ExperimentErrorMessages.SELLER_DOES_NOT_EXIST, "404");
   }
+  const sRoleType = await seller.getCurrentSessionRole();
+  if (!sRoleType.allowSell) {
+    throw new ApolloError(
+      ExperimentErrorMessages.PLAYER_NOT_ALLOWED_TO_SELL,
+      "403"
+    );
+  }
   return { buyer, seller };
 };
 
