@@ -24,7 +24,9 @@ export class Transaction extends BaseEntity {
   })
   playerTransactions: Promise<PlayerTransaction[]>;
 
-  @ManyToOne(() => Round, r => r.transactions, { nullable: false })
+  @ManyToOne(() => Round, r => r.transactions, {
+    nullable: false
+  })
   round: Promise<Round>;
 
   @Column({ type: "float", nullable: false, default: 0.0 })
@@ -88,5 +90,12 @@ export class Transaction extends BaseEntity {
         })
       );
     }
+  }
+
+  async _updateRound() {
+    const round = await this.round;
+    round.numTransactions += 1;
+    round.averagePrice = await round._setAveragePrice();
+    await round.save();
   }
 }

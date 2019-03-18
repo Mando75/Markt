@@ -22,7 +22,7 @@ export const makeTransaction = async (
   let transaction = await createTransaction(round, amount, buyer, seller);
   transaction = await createPlayerTransactions(buyer, seller, transaction);
   await transaction.save();
-  await transaction.updatePlayers();
+  await Promise.all([transaction.updatePlayers(), transaction._updateRound()]);
   return transaction;
 };
 

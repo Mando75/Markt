@@ -37,7 +37,7 @@ beforeAll(async () => {
 
 describe("makeTransaction", () => {
   it("prevents non-players from making a transaction", async () => {
-    const { experimentId, joinCode, tc } = await TestClient.scaffoldExperiment(
+    const { experimentId, tc } = await TestClient.scaffoldExperiment(
       host,
       false,
       false
@@ -50,10 +50,9 @@ describe("makeTransaction", () => {
         faker.random.number()
       )
     );
-    console.log(joinCode);
     expect(errors).toHaveLength(1);
     expect(errors[0].message).toEqual(ApolloErrors.UNAUTHORIZED);
-  });
+  }, 6000);
 
   it("fails with invalid experiment id", async () => {
     const { buyer, seller } = await TestClient.scaffoldExperiment(
@@ -228,6 +227,33 @@ describe("makeTransaction", () => {
       expect(s.numTransactions).toEqual(1);
     }
     expect(resp.id).toBeTruthy();
+  });
+
+  it("updates the round record with number of transactions and average price", async () => {
+    const { seller, experimentId, buyer } = await TestClient.scaffoldExperiment(
+      host,
+      true,
+      true
+    );
+    const {
+      data: { makeTransaction: resp }
+    } = await seller.client.query(
+      makeTransaction(
+        experimentId,
+        buyer.playerCode,
+        seller.playerCode,
+        transactionAmount
+      )
+    );
+    expect(resp).toBeTruthy();
+    const exp = await Experiment.findOne(experimentId);
+    expect(exp).toBeTruthy();
+    const round = exp ? await exp.getActiveRound() : null;
+    expect(round).toBeTruthy();
+    if (round) {
+      expect(round.numTransactions).toEqual(1);
+      expect(round.averagePrice).toEqual(transactionAmount);
+    }
   });
 });
 afterAll(async () => {
