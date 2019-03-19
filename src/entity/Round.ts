@@ -45,6 +45,36 @@ export class Round extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 
+  _loadedTransactions: Transaction[] | undefined;
+
+  async _loadTransactions() {
+    if (!this._loadedTransactions) {
+      this._loadedTransactions = await this.transactions;
+    }
+    return this._loadedTransactions;
+  }
+
+  async generateRoundSummaryReport() {
+    await this.updateRoundMeta();
+    return {
+      transactions: this._loadTransactions(),
+      numTransaction: this.numTransactions,
+      averagePrice: this.averagePrice,
+      minPrice: this.minPrice(),
+      maxPrice: this.maxPrice()
+    };
+  }
+
+  async minPrice() {
+    const transactions = await this._loadTransactions();
+    return Math.min(...transactions.map(t => t.amount));
+  }
+
+  async maxPrice() {
+    const transactions = await this._loadTransactions();
+    return Math.max(...transactions.map(t => t.amount));
+  }
+
   async _setAveragePrice() {
     const transactions = await this.transactions;
     if (transactions.length === 0) {
