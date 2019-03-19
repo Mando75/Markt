@@ -26,6 +26,9 @@ export const typeDefs = gql`
     buyerTransactions: [Transaction]
     sellerTransactions: [Transaction]
     numTransactions: Int!
+    playerCode: ID!
+    currentSessionRole: SessionRole!
+    profitEquation: String
     totalProfit: Float!
     createdDate: Date
     updatedDate: Date
@@ -36,6 +39,7 @@ export const typeDefs = gql`
     experiment: Experiment!
     sessionNumber: Int!
     scenarioSession: ScenarioSession!
+    rounds: [Round]
     active: Boolean!
     endDate: Date
     createdDate: Date
@@ -78,6 +82,13 @@ export const typeDefs = gql`
     joinCode: ID!
   }
 
+  input MakeTransactionType {
+    experimentId: ID!
+    buyerCode: ID!
+    sellerCode: ID!
+    amount: Float!
+  }
+
   enum ExperimentStatus {
     joining
     session_start
@@ -95,5 +106,6 @@ export const typeDefs = gql`
     joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
     startNextSession(experimentId: ID!): ExperimentSession
     startNextRound(experimentId: ID!): Round
+    makeTransaction(params: MakeTransactionType!): Transaction
   }
 `;

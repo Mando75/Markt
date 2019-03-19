@@ -6,6 +6,7 @@ import * as faker from "faker";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { Round } from "../../../entity/Round";
+import { Experiment } from "../../../entity/Experiment";
 
 let app: Server, db: Connection, host: string;
 
@@ -36,7 +37,10 @@ describe("startNextRound", () => {
       }
     }
   `;
-
+  const resetExperiment = async (experiment: Experiment) => {
+    experiment.status = ExperimentStatusEnum.SESSION_START;
+    await experiment.save();
+  };
   it("handles a nonexistent experiment", async () => {
     const tc = new TestClient(host);
     await tc.createUserWithGuide();
@@ -75,10 +79,10 @@ describe("startNextRound", () => {
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
     await tc.query(startNextSession(experiment.id));
-    await Promise.all([
-      tc.query(startNextRound(experiment.id)),
-      tc.query(startNextRound(experiment.id))
-    ]);
+    await tc.query(startNextRound(experiment.id));
+    await resetExperiment(experiment);
+    await tc.query(startNextRound(experiment.id));
+    await resetExperiment(experiment);
     const { errors } = await tc.query(startNextRound(experiment.id));
     expect(errors).toHaveLength(1);
     expect(errors[0].message).toEqual(
@@ -110,6 +114,7 @@ describe("startNextRound", () => {
     const round = (await Round.findOne(id)) as Round;
     expect(round).toBeTruthy();
     expect(round.active).toBeTruthy();
+    await resetExperiment(experiment);
     await tc.query(startNextRound(experiment.id));
     await round.reload();
     expect(round.active).toBeFalsy();

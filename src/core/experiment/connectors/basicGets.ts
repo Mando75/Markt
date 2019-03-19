@@ -22,7 +22,7 @@ export const getExperiment = async (
   ) as (keyof Experiment)[];
   return fields.length
     ? await Experiment.findOne(id, {
-        select: fields,
+        select: fields.filter(f => f !== "scenario"),
         relations: fields.includes("scenario") ? ["scenario"] : []
       })
     : await Experiment.findOne(id);

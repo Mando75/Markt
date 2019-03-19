@@ -2,7 +2,6 @@ import {
   AfterLoad,
   BaseEntity,
   BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -16,6 +15,7 @@ import { Player } from "./Player";
 import { RoleType } from "./RoleType";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Transaction } from "./Transaction";
+import { SessionRole } from "./SessionRole";
 
 @Entity("experiment_players")
 export class ExperimentPlayer extends BaseEntity {
@@ -25,7 +25,9 @@ export class ExperimentPlayer extends BaseEntity {
   @ManyToOne(() => Experiment, ex => ex.players, { nullable: false })
   experiment: Promise<Experiment>;
 
-  @ManyToOne(() => Player, p => p.experimentPlayers, { nullable: false })
+  @ManyToOne(() => Player, p => p.experimentPlayers, {
+    nullable: false
+  })
   player: Promise<Player>;
 
   @ManyToOne(() => RoleType, rt => rt.players, { nullable: false })
@@ -34,22 +36,34 @@ export class ExperimentPlayer extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 0 })
   numTransactions: number;
 
-  @OneToMany(() => PlayerTransaction, pt => pt.player, { eager: true })
-  playerTransactions: PlayerTransaction[];
+  @OneToMany(() => PlayerTransaction, pt => pt.player, {
+    cascade: true,
+    lazy: true
+  })
+  playerTransactions: Promise<PlayerTransaction[]>;
 
   // Set by _loadTransactions
-  transactions: Transaction[];
-
-  buyerTransactions() {
-    return this.playerTransactions
-      ? this.playerTransactions.filter(pt => !pt.isSeller)
-      : [];
+  _transactions: Transaction[] | undefined;
+  async transactions() {
+    if (!this._transactions) {
+      await this._loadTransactions();
+    }
+    return this._transactions;
   }
 
-  sellerTransactions() {
-    return this.playerTransactions
-      ? this.playerTransactions.filter(pt => pt.isSeller)
-      : [];
+  _playerTransactions: PlayerTransaction[] | undefined;
+  async buyerTransactions() {
+    if (!this._playerTransactions) {
+      this._playerTransactions = await this.playerTransactions;
+    }
+    return this._playerTransactions.filter(pt => !pt.isSeller);
+  }
+
+  async sellerTransactions() {
+    if (!this._playerTransactions) {
+      this._playerTransactions = await this.playerTransactions;
+    }
+    return this._playerTransactions.filter(pt => pt.isSeller);
   }
 
   @Column({ type: "float", nullable: false, default: 0.0 })
@@ -62,31 +76,30 @@ export class ExperimentPlayer extends BaseEntity {
   updatedDate: Date;
 
   @AfterLoad()
-  _loadTransactions() {
-    this.transactions = this.playerTransactions
-      ? this.playerTransactions.map(pt => pt.transaction)
-      : [];
+  async _loadTransactions() {
+    const pts = await this.playerTransactions;
+    const trans = pts ? pts.map(pt => pt.transaction) : [];
+    this._transactions = await Promise.all(trans);
   }
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  _setNumTransactions() {
-    this.numTransactions = this.playerTransactions
-      ? this.playerTransactions.length
-      : 0;
+  async setNumTransactions() {
+    const pts = await this.playerTransactions;
+    this.numTransactions = pts ? pts.length : 0;
   }
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  _setTotalProfit() {
-    const sellerProfit = this.sellerTransactions().reduce(
-      (accum: number, pt: PlayerTransaction) =>
-        accum + pt.transaction.sellerProfit,
+  async setTotalProfit() {
+    const [sts, bts] = await Promise.all([
+      this.sellerTransactions(),
+      this.buyerTransactions()
+    ]);
+    const sellerTransactions = await Promise.all(sts.map(st => st.transaction));
+    const buyerTransactions = await Promise.all(bts.map(bt => bt.transaction));
+    const sellerProfit = sellerTransactions.reduce(
+      (accum: number, curr: Transaction) => accum + curr.sellerProfit,
       0
     );
-    const buyerProfit = this.buyerTransactions().reduce(
-      (accum: number, pt: PlayerTransaction) =>
-        accum + pt.transaction.buyerProfit,
+    const buyerProfit = buyerTransactions.reduce(
+      (accum: number, curr: Transaction) => accum + curr.buyerProfit,
       0
     );
     this.totalProfit = sellerProfit + buyerProfit;
@@ -97,5 +110,38 @@ export class ExperimentPlayer extends BaseEntity {
     const ex = await this.experiment;
     ex.numPlayers += 1;
     await ex.save();
+  }
+
+  async getPlayerCode() {
+    const player = await this.player;
+    return player.playerCode;
+  }
+
+  async getCurrentSessionRole() {
+    const [ex, role] = await Promise.all([this.experiment, this.roleType]);
+    const [currentSession, sessionRoles] = await Promise.all([
+      ex.getActiveSession(),
+      role.sessionRoles
+    ]);
+    if (!currentSession) {
+      return sessionRoles.find(sr => sr.sessionNumber === 1) as SessionRole;
+    } else {
+      return sessionRoles.find(
+        sr => sr.sessionNumber === currentSession.sessionNumber
+      ) as SessionRole;
+    }
+  }
+
+  async getProfitEquation() {
+    const sr = await this.getCurrentSessionRole();
+    return sr.profitEquation;
+  }
+
+  async getProfit(amount: number) {
+    return eval(
+      (await this.getProfitEquation())
+        .replace("$", "")
+        .replace("P", amount.toString())
+    );
   }
 }
