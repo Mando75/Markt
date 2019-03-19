@@ -17,13 +17,22 @@ export const getExperiment = async (
     graphqlFields(
       info,
       {},
-      { excludedFields: ["__typename", "group", "guide", "closed", "players"] }
+      {
+        excludedFields: [
+          "__typename",
+          "group",
+          "guide",
+          "closed",
+          "players",
+          "activeRound",
+          "activeSession"
+        ]
+      }
     )
   ) as (keyof Experiment)[];
   return fields.length
     ? await Experiment.findOne(id, {
-        select: fields.filter(f => f !== "scenario"),
-        relations: fields.includes("scenario") ? ["scenario"] : []
+        relations: fields.includes("scenario") ? ["scenario"] : undefined
       })
     : await Experiment.findOne(id);
 };

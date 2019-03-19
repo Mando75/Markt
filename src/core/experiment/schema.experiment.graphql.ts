@@ -10,6 +10,8 @@ export const typeDefs = gql`
     numPlayers: Int!
     players: [ExperimentPlayer]!
     sessions: [ExperimentSession]!
+    activeSession: ExperimentSession
+    activeRound: Round
     active: Boolean!
     closed: Boolean!
     endDate: Date

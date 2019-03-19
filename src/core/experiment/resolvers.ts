@@ -6,6 +6,7 @@ import { startNextSession } from "./connectors/startNextSession";
 import { startNextRound } from "./connectors/startNextRound";
 import { makeTransaction } from "./connectors/makeTransaction";
 import { ExperimentPlayer } from "../../entity/ExperimentPlayer";
+import { Experiment } from "../../entity/Experiment";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
@@ -14,6 +15,10 @@ export const resolvers: ResolverMap = {
       await obj.getCurrentSessionRole(),
     profitEquation: async (obj: ExperimentPlayer) =>
       await obj.getProfitEquation()
+  },
+  Experiment: {
+    activeSession: async (obj: Experiment) => await obj.getActiveSession(),
+    activeRound: async (obj: Experiment) => await obj.getActiveRound()
   },
   Query: {
     experiment: getExperiment
