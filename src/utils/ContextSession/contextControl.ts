@@ -1,6 +1,9 @@
 import { Redis } from "ioredis";
 import { User } from "../../entity/User";
 import { Player } from "../../entity/Player";
+import { PubSub } from "apollo-server-express";
+
+export const pubsub = new PubSub();
 /**
  * Return a closure to generate the graphql context
  * @param redis
@@ -17,6 +20,7 @@ export const setContext = (redis: Redis) => {
     }
     return {
       redis,
+      pubsub,
       url: `${req.protocol}://${req.get("host")}`,
       session: req.session,
       user,
