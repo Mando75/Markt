@@ -95,7 +95,6 @@ describe("endCurrentRound", () => {
     expect(experiment).toBeTruthy();
     if (experiment)
       expect(experiment.status).toEqual(ExperimentStatusEnum.ROUND_SUMMARY);
-    console.log(data);
     expect(data).toBeTruthy();
   });
 

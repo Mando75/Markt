@@ -118,5 +118,6 @@ export const typeDefs = gql`
     startNextRound(experimentId: ID!): Round
     makeTransaction(params: MakeTransactionType!): Transaction
     endCurrentRound(experimentId: ID!): RoundSummary
+    endExperiment(experimentId: ID!): Experiment
   }
 `;

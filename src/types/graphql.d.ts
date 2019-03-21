@@ -338,6 +338,7 @@ declare namespace GQL {
     startNextRound: IRound | null;
     makeTransaction: ITransaction | null;
     endCurrentRound: IRoundSummary | null;
+    endExperiment: IExperiment | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -382,6 +383,10 @@ declare namespace GQL {
   }
 
   interface IEndCurrentRoundOnMutationArguments {
+    experimentId: string;
+  }
+
+  interface IEndExperimentOnMutationArguments {
     experimentId: string;
   }
 

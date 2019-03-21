@@ -11,6 +11,8 @@ export const permissions = {
     joinExperiment: allow,
     startNextSession: or(isGuide, isAdmin),
     startNextRound: or(isGuide, isAdmin),
-    makeTransaction: or(isPlayer, isAdmin)
+    makeTransaction: or(isPlayer, isAdmin),
+    endCurrentRound: or(isGuide, isAdmin),
+    endExperiment: or(isGuide, isAdmin)
   }
 };
