@@ -18,9 +18,7 @@ import passport from "./passport";
 import { AddressInfo } from "ws";
 import { setContext } from "./ContextSession/contextControl";
 import { createSession } from "./ContextSession/sessionControl";
-import { createServer } from "http";
-import { SubscriptionServer } from "subscriptions-transport-ws";
-import { execute, subscribe } from "graphql";
+import { createSubscriptionServer } from "./createSubscriptionServer";
 
 const testEnv = process.env.NODE_ENV === "test";
 
@@ -46,7 +44,8 @@ export const bootstrapConnections = async (port: number) => {
   });
   server.enable("trust proxy");
   server.use(limiter);
-  server.use(session(createSession(session, redis)));
+  const sessionParser = session(createSession(session, redis));
+  server.use(sessionParser);
   server.use(passport.initialize());
   server.use(routes);
   try {
@@ -74,13 +73,7 @@ export const bootstrapConnections = async (port: number) => {
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
-    const ws = createServer(server);
-    app = await ws.listen(port, () => {
-      new SubscriptionServer(
-        { execute, subscribe, schema },
-        { server: ws, path: "/subscriptions" }
-      );
-    });
+    app = await createSubscriptionServer(server, port, schema, sessionParser);
     if (!testEnv) {
       console.log(
         `🚀  Server ready at http://localhost:${
