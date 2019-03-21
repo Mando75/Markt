@@ -42,8 +42,16 @@ export const resolvers: ResolverMap = {
       resolve: (payload: Experiment) => payload.status,
       subscribe: withFilter(
         () => pubsub.asyncIterator(SubscriptionKey.EXPERIMENT_STATUS_UPDATE),
-        (payload: Experiment, variables: any) =>
-          payload.id === variables.experimentId
+        (payload: Experiment, { experimentId }: { experimentId: string }) =>
+          payload.id === experimentId
+      )
+    },
+    playerJoinedExperiment: {
+      resolve: (payload: Experiment) => payload.numPlayers,
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(SubscriptionKey.PLAYER_JOINED_EXPERIMENT),
+        (payload: Experiment, { experimentId }: { experimentId: string }) =>
+          payload.id === experimentId
       )
     }
   }
