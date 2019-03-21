@@ -9,19 +9,17 @@ import {
   getPlayerSessionIds
 } from "../../../utils/ContextSession/sessionControl";
 import { Redis } from "ioredis";
-import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
 
 export const endExperiment = async (
   _: any,
   { experimentId }: GQL.IEndExperimentOnMutationArguments,
-  { user, redis, pubsub }: GraphQLContext
+  { user, redis }: GraphQLContext
 ) => {
   const experiment = await findAndCheckExperiment(experimentId, user);
   await deactivateSessionsAndRounds(experiment);
   await killPlayerSessions(experiment.id, redis);
   experiment.status = ExperimentStatusEnum.CLOSED;
   experiment.active = false;
-  pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return await experiment.save();
 };
 
