@@ -43,10 +43,8 @@
   </div>
 </template>
 <script>
-import Nav from "../Nav";
 export default {
-  name: "Transaction",
-  components: { Nav }
+  name: "Transaction"
 };
 </script>
 

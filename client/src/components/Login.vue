@@ -28,18 +28,22 @@
                       :variables="{ userEmail, userPassword }"
                       @done="handleLogin"
                     >
-                      <template slot-scope="{ mutate, loading, error }">
+                      <template slot-scope="{ mutate }">
                         <v-text-field
-                          label="User Email"
                           v-model="userEmail"
+                          label="User Email"
                         ></v-text-field>
                         <v-text-field
-                          label="Password"
                           v-model="userPassword"
+                          label="Password"
                           type="password"
                         ></v-text-field>
                         <v-btn color="primary3" @click="mutate">Login</v-btn>
-                        <p class="red" v-for="msg in warningMsg">
+                        <p
+                          v-for="(msg, i) in warningMsg"
+                          :key="`warningMsg${i}`"
+                          class="red"
+                        >
                           {{ msg.message }}
                         </p>
                       </template>
@@ -48,7 +52,7 @@
                   <br />
                   <div>
                     <br />
-                    <v-btn v-on:click="$router.push('/register')"
+                    <v-btn @click="$router.push('/register')"
                       >sign Up here</v-btn
                     >
                     <!--<v-btn v-on:click="signUp = !signUp"></v-btn>-->
@@ -65,14 +69,10 @@
 </template>
 
 <script>
-import Nav from "./Nav";
 import gql from "graphql-tag";
-import CreateAccount from "./GuideFeatures/CreateAccount";
-import LoadingBlock from "./loadingBlock";
 
 export default {
   name: "Login",
-  components: { LoadingBlock, Nav, CreateAccount },
   data() {
     return {
       userEmail: "",

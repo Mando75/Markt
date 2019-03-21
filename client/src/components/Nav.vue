@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer app dark class="link--text" v-model="drawer">
+    <v-navigation-drawer v-model="drawer" app dark class="link--text">
       <v-list class="hidden-sm-and-down"></v-list>
       <v-list class="pt-5">
         <v-list-tile avatar>
@@ -16,11 +16,11 @@
 
       <v-list dense class="pt-0">
         <v-list-tile
+          v-for="item in items"
+          :key="item.title"
           dark
           active-class="primaryTheme"
           :class="item.path === $route.path ? 'primaryTheme' : ''"
-          v-for="item in items"
-          :key="item.title"
           :to="item.path"
         >
           <v-list-tile-action>
@@ -32,11 +32,11 @@
         </v-list-tile>
         <!--TODO conditional drawer items-->
         <v-list-tile
+          v-for="conds in conditionals"
+          :key="conds.title"
           dark
           active-class="primaryTheme"
-          v-for="conds in conditionals"
           :class="conds.path === $route.path ? 'primaryTheme' : ''"
-          :key="conds.title"
           :to="conds.path"
           @click="sheets"
         >
@@ -53,7 +53,7 @@
     <v-toolbar app color="modernColor3" fixed clipped-left>
       <v-toolbar-side-icon
         v-if="this.$credentials.authenticated"
-        v-on:click="drawer = !drawer"
+        @click="drawer = !drawer"
       ></v-toolbar-side-icon>
       <router-link to="/">
         <v-toolbar-title class="display-2 white--text font-weight-bold "
@@ -69,8 +69,8 @@
           v-if="!this.$credentials.authenticated"
           depressed
           dark
-          @click="$router.push('/login')"
           class="font-weight-bold white--text hidden-sm-and-down"
+          @click="$router.push('/login')"
         >
           Log In <span class="headline">/</span> Sign Up
         </v-btn>

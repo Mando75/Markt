@@ -79,19 +79,12 @@
 </template>
 
 <script>
-import Nav from "../Nav";
 import LoadingBlock from "../loadingBlock.vue";
 import gql from "graphql-tag";
 
 export default {
   name: "SessionCreation",
-  components: { LoadingBlock, Nav },
-  methods: {
-    handleSelect() {
-      this.$router.push("/guide/home");
-      this.$credentials.sSelect = this.scenario.name;
-    }
-  },
+  components: { LoadingBlock },
   data() {
     return {
       scenarios: "",
@@ -130,6 +123,12 @@ export default {
   },
   mounted() {
     console.log(this.$apollo.queries);
+  },
+  methods: {
+    handleSelect() {
+      this.$router.push("/guide/home");
+      this.$credentials.sSelect = this.scenario.name;
+    }
   },
   apollo: {
     // Simple query that gets the user id

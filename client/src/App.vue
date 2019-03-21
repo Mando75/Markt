@@ -10,7 +10,7 @@
 import Nav from "./components/Nav";
 import MobileNav from "./components/PlayerExperience/MobileNav";
 export default {
-  name: "app",
+  name: "App",
   components: { MobileNav, Nav }
 };
 </script>

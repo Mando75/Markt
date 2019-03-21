@@ -27,20 +27,8 @@
 </template>
 
 <script>
-import LoadingBlock from "../loadingBlock";
 export default {
-  name: "JoinSession",
-  components: { LoadingBlock },
-  data() {
-    return {
-      key: value
-    };
-  },
-  computed: {
-    name() {
-      return this.data;
-    }
-  }
+  name: "JoinSession"
 };
 </script>
 

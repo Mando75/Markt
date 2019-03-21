@@ -7,7 +7,7 @@ module.exports = {
         secure: false,
         changeOrigin: false,
         cookieDomainRewrite: "localhost:4000",
-        onProxyReq: function(request, req, res) {
+        onProxyReq: function(request) {
           request.setHeader(
             "Access-Control-Allow-Origin",
             "http://localhost:8080"

@@ -1,5 +1,23 @@
 {
   "rules": {
-    "no-console": "off"
-  }
+    "no-console": "off",
+    "vue/no-v-html": 0
+  },
+  "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "prettier",
+      "prettier/standard",
+      "plugin:vue/recommended",
+      "@vue/prettier"
+    ],
+    "plugins": [
+      "vue",
+      "prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
 }

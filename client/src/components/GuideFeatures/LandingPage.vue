@@ -54,13 +54,12 @@
 </template>
 
 <script>
-import Nav from "../Nav";
 import gql from "graphql-tag";
 import LoadingBlock from "../loadingBlock";
 
 export default {
   name: "LandingPage",
-  components: { LoadingBlock, Nav },
+  components: { LoadingBlock },
   data() {
     return {
       guideId: "",

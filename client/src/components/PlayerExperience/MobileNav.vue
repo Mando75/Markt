@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "mobileNav",
+  name: "MobileNav",
   data() {
     return {
       bottomNav: "recent"

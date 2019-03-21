@@ -4,7 +4,7 @@ import Vuetify from "vuetify";
 import VueApollo from "vue-apollo";
 import router from "./config/router";
 import { apolloClient } from "./config/apollo";
-import { credentialStore, store } from "./config/credentialStore";
+import { credentialStore } from "./config/credentialStore";
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify, {

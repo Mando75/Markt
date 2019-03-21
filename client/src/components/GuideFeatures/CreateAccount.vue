@@ -27,23 +27,27 @@
                 }"
                 @done="handleRegister"
               >
-                <template slot-scope="{ mutate, loading, error }">
+                <template slot-scope="{ mutate }">
                   <v-text-field
-                    label="First Name"
                     v-model="firstName"
+                    label="First Name"
                   ></v-text-field>
                   <v-text-field
-                    label="Last Name"
                     v-model="lastName"
+                    label="Last Name"
                   ></v-text-field>
-                  <v-text-field label="Email" v-model="email"></v-text-field>
+                  <v-text-field v-model="email" label="Email"></v-text-field>
                   <v-text-field
-                    label="Password"
                     v-model="password"
+                    label="Password"
                     type="password"
                   ></v-text-field>
                   <v-btn color="primary3" @click="mutate">Register</v-btn>
-                  <p class="red" v-for="msg in warningMsg">
+                  <p
+                    v-for="(msg, i) in warningMsg"
+                    :key="`warningMsg${i}`"
+                    class="red"
+                  >
                     {{ msg.message }}
                   </p>
                 </template>
@@ -57,13 +61,10 @@
 </template>
 
 <script>
-import Nav from "../Nav";
 import gql from "graphql-tag";
-import LoadingBlock from "../loadingBlock";
 
 export default {
   name: "Account",
-  components: { LoadingBlock, Nav },
   data() {
     return {
       email: "",

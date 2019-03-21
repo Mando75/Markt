@@ -61,11 +61,7 @@
 
       <!--Each Instruction-->
       <v-layout align-space-between justify-start column>
-        <v-flex
-          d-flex
-          v-for="value in scenario.instructions"
-          :key="scenario.instructions.step"
-        >
+        <v-flex v-for="value in scenario.instructions" :key="value.step" d-flex>
           <div class="text-md-left text-sm-justify font-weight-regular">
             <v-list-tile class="mt-0 pt-0"
               >{{ value.step }}) {{ value.header }}</v-list-tile
@@ -91,12 +87,11 @@
 </template>
 
 <script>
-import Nav from "../Nav";
 import gql from "graphql-tag";
 import LoadingBlock from "../loadingBlock";
 export default {
   name: "Instructions",
-  components: { LoadingBlock, Nav },
+  components: { LoadingBlock },
   data() {
     return {
       // instructs: {}
@@ -133,8 +128,7 @@ export default {
       variables: {
         code: "APPLMRKT"
       },
-      loadingKey: "isLoading",
-      result({ data }) {}
+      loadingKey: "isLoading"
     }
   }
 };

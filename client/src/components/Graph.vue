@@ -56,13 +56,13 @@ export default {
 
       variables: {
         code: "APPLMRKT"
-      },
-      result({ data }) {
-        // value = data.chart.overview.chartPoints;
-        for ((point, index) in data.chart.overview.chartPoints) {
-          value[index] = point;
-        }
       }
+      // result({ data }) {
+      // value = data.chart.overview.chartPoints;
+      // for (point in data.chart.overview.chartPoints) {
+      //   value[index] = point;
+      // }
+      // }
     }
   }
 };

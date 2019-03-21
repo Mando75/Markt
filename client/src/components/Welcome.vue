@@ -106,13 +106,8 @@
 </template>
 
 <script>
-import Nav from "./Nav";
-import gql from "graphql-tag";
-import MobileNav from "./PlayerExperience/MobileNav";
-
 export default {
   name: "Welcome",
-  components: { MobileNav, Nav },
   data: () => ({
     timeline: [
       {

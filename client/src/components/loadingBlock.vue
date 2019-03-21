@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "loadingBlock"
+  name: "LoadingBlock"
 };
 </script>
 

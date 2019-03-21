@@ -10,10 +10,8 @@
 </template>
 
 <script>
-import Nav from "../Nav";
 export default {
-  name: "JoinCode",
-  components: { Nav }
+  name: "JoinCode"
 };
 </script>
 
