@@ -73,6 +73,14 @@ export const typeDefs = gql`
     updatedDate: Date
   }
 
+  type RoundSummary {
+    numTransactions: Int
+    averagePrice: Float
+    maxPrice: Float
+    minPrice: Float
+    transactions: [Transaction]
+  }
+
   input ExperimentStartType {
     scenarioId: ID!
     guideId: ID!
@@ -109,5 +117,7 @@ export const typeDefs = gql`
     startNextSession(experimentId: ID!): ExperimentSession
     startNextRound(experimentId: ID!): Round
     makeTransaction(params: MakeTransactionType!): Transaction
+    endCurrentRound(experimentId: ID!): RoundSummary
+    endExperiment(experimentId: ID!): Experiment
   }
 `;

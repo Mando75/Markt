@@ -7,6 +7,8 @@ import { startNextRound } from "./connectors/startNextRound";
 import { makeTransaction } from "./connectors/makeTransaction";
 import { ExperimentPlayer } from "../../entity/ExperimentPlayer";
 import { Experiment } from "../../entity/Experiment";
+import { endCurrentRound } from "./connectors/endCurrentRound";
+import { endExperiment } from "./connectors/endExperiment";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
@@ -28,6 +30,8 @@ export const resolvers: ResolverMap = {
     joinExperiment,
     startNextSession,
     startNextRound,
-    makeTransaction
+    makeTransaction,
+    endCurrentRound,
+    endExperiment
   }
 };
