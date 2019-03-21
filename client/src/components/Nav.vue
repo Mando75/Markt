@@ -1,25 +1,24 @@
 <template>
-  <v-content>
+  <div>
     <v-navigation-drawer app dark class="link--text" v-model="drawer">
-      <v-list class="hidden-sm-and-down"> <br /><br /></v-list>
-      <v-list class="pa-0">
+      <v-list class="hidden-sm-and-down"></v-list>
+      <v-list class="pt-5">
         <v-list-tile avatar>
           <v-list-tile-avatar>
             <v-icon x-large>account_circle</v-icon>
           </v-list-tile-avatar>
-
           <v-list-tile-content>
             <v-list-tile-title>{{ users.displayName }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-
       <v-divider></v-divider>
 
       <v-list dense class="pt-0">
         <v-list-tile
           dark
-          class="blue-grey.darken-4"
+          active-class="primaryTheme"
+          :class="item.path === $route.path ? 'primaryTheme' : ''"
           v-for="item in items"
           :key="item.title"
           :to="item.path"
@@ -31,13 +30,21 @@
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <!--conditional drawer items-->
-        <v-list-tile dark class="blue-grey.darken-4" :to="here" v-on:click="">
+        <!--TODO conditional drawer items-->
+        <v-list-tile
+          dark
+          active-class="primaryTheme"
+          v-for="conds in conditionals"
+          :class="conds.path === $route.path ? 'primaryTheme' : ''"
+          :key="conds.title"
+          :to="conds.path"
+          @click="sheets"
+        >
           <v-list-tile-action>
-            <v-icon>live_help</v-icon>
+            <v-icon>{{ conds.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Scenario Instructions</v-list-tile-title>
+            <v-list-tile-title>{{ conds.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -63,7 +70,7 @@
           depressed
           dark
           @click="$router.push('/login')"
-          class="font-weight-bold white--text hidden-md-and-down"
+          class="font-weight-bold white--text hidden-sm-and-down"
         >
           Log In <span class="headline">/</span> Sign Up
         </v-btn>
@@ -89,7 +96,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <!--208-496-1154 schmidt-->
-  </v-content>
+  </div>
 </template>
 
 <script>
@@ -111,26 +118,28 @@ export default {
           path: "/guide/joinCode"
         },
         { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
-        // { title: "UserResults?", icon: "person" },
-        // { title: "About", icon: "question_answer", path: "" },
+      ],
+      conditionals: [
+        { title: "Instructions", icon: "live_help", path: "" }
+        // { title: "NextRound", icon: "question_answer", path: "" }
       ],
       drawer: true
     };
   }
 };
 </script>
-<style>
+<style scoped>
 a:link {
   text-decoration: none;
 }
-.primary--text {
-  /*background-color: #222222 !important;*/
+.primaryTheme {
+  background-color: #222222 !important;
   color: #609732 !important; /*primary3*/
   caret-color: #609732 !important;
+  text-decoration: none;
 }
 
 a:visited {
   text-decoration: none;
 }
 </style>
-<style></style>

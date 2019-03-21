@@ -1,5 +1,5 @@
 <template>
-  <v-content color="secondary0"><Nav /></v-content>
+  <div color="secondary0"></div>
 </template>
 
 <script>

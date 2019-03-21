@@ -1,7 +1,6 @@
 <template>
   <!--do we want instructions and setup on the same screen or different?-->
-  <v-content color="secondary0">
-    <Nav />
+  <div color="secondary0">
     <LoadingBlock v-if="this.$apollo.loading" />
     <v-layout justify-center>
       <v-flex xs12 sm10>
@@ -42,7 +41,7 @@
                           class="headline grey lighten-2"
                           primary-title
                         >
-                          Apple Market
+                          {{ scenario.name }}
                         </v-card-title>
 
                         <v-card-text>
@@ -64,9 +63,10 @@
                       outline
                       ripple
                       color="primary4"
-                      v-on:click="$router.push('/guide/instructions')"
-                      >Select</v-btn
+                      @click="handleSelect"
                     >
+                      Select
+                    </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-flex>
@@ -75,16 +75,23 @@
         </v-card>
       </v-flex>
     </v-layout>
-  </v-content>
+  </div>
 </template>
 
 <script>
 import Nav from "../Nav";
 import LoadingBlock from "../loadingBlock.vue";
 import gql from "graphql-tag";
+
 export default {
   name: "SessionCreation",
   components: { LoadingBlock, Nav },
+  methods: {
+    handleSelect() {
+      this.$router.push("/guide/home");
+      this.$credentials.sSelect = this.scenario.name;
+    }
+  },
   data() {
     return {
       scenarios: "",
@@ -132,6 +139,7 @@ export default {
           scenario(code: $code) {
             id
             description
+            name
           }
         }
       `,

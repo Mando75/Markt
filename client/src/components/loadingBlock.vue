@@ -2,7 +2,12 @@
   <v-card>
     <!--v-if="this.$apollo.loading"-->
     <v-img>
-      <v-progress-circular :size="70" :width="7" color="primary2" indeterminate>
+      <v-progress-circular
+        :size="100"
+        :width="8"
+        color="primary2"
+        indeterminate
+      >
         Loading...
       </v-progress-circular>
     </v-img>
@@ -10,7 +15,6 @@
 </template>
 
 <script>
-import VueApollo from "vue-apollo";
 export default {
   name: "loadingBlock"
 };

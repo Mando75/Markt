@@ -3,3 +3,8 @@
     text-decoration: none;
 
 }
+.primaryTheme {
+    background-color: #222222 !important;
+    color: #609732 !important; /*primary3*/
+    caret-color: #609732 !important;
+}

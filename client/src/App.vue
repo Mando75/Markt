@@ -1,12 +1,17 @@
 <template>
   <div id="app">
-    <v-app><router-view /></v-app>
+    <v-app
+      ><Nav /><MobileNav /><v-content><router-view /></v-content>
+    </v-app>
   </div>
 </template>
 
 <script>
+import Nav from "./components/Nav";
+import MobileNav from "./components/PlayerExperience/MobileNav";
 export default {
-  name: "app"
+  name: "app",
+  components: { MobileNav, Nav }
 };
 </script>
 

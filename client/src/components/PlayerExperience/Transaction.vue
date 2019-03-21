@@ -1,7 +1,5 @@
 <template>
-  <v-content color="secondary0">
-    <Nav />
-
+  <div color="secondary0">
     <v-card flat>
       <v-toolbar color="primary" dark extended flat>
         <v-toolbar-side-icon></v-toolbar-side-icon>
@@ -42,7 +40,7 @@
         </v-flex>
       </v-layout>
     </v-card>
-  </v-content>
+  </div>
 </template>
 <script>
 import Nav from "../Nav";

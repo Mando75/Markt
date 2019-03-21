@@ -1,39 +1,40 @@
 <template>
-  <v-content>
-    <Nav />
-    <v-item-group> </v-item-group>
+  <div>
     <!---->
-    <v-container>
-      <LoadingBlock
-        v-if="
-          this.$_apollo.loading || this.$apollo.loading || $apolloData.loading
-        "
-      />
-    </v-container>
-    <v-container fluid grid-list-md>
+    <LoadingBlock v-if="isLoading" />
+    <v-container v-else fluid grid-list-md>
       <v-layout row wrap>
-        <v-flex d-flex xs12 sm6 md4>
-          <v-card color="purple" dark>
-            <v-card-title primary class="title"
-              >The current User ID</v-card-title
-            >
-            <v-card-text>Me.id: {{ me.id }}</v-card-text>
+        <v-flex d-flex xs12 sm6 md6>
+          <v-card color="primary3 lighten-1" dark>
+            <v-card-title primary class="title">$Credentials</v-card-title>
+            <v-card-text
+              >authenticated: {{ $credentials.authenticated }}<br />
+              isUser: {{ $credentials.isUser }}<br />
+              isPlayer: {{ $credentials.isPlayer }}<br />
+              <strong>userId: "{{ $credentials.userId }}"</strong><br />
+              <i>playerId: "{{ $credentials.playerId }}"</i><br />
+              <strong>guideId: "{{ $credentials.guideId }}"</strong><br />
+              scenarioId: "{{ $credentials.scenarioId }}"<br />
+              sSelect: "{{ $credentials.sSelect }}"
+            </v-card-text>
           </v-card>
         </v-flex>
-        <v-flex d-flex xs12 sm6 md3>
+        <v-flex d-flex xs12 sm6 md6>
           <v-layout row wrap>
             <v-flex d-flex>
-              <v-card color="indigo" dark>
-                <v-card-title primary class="title"
-                  >The current Guide ID</v-card-title
+              <v-card color="primary1 darken-3" dark>
+                <v-card-title primary class="title font-weight-bold"
+                  >Scenario Selected</v-card-title
                 >
-                <v-card-text> Me.guide.id: {{ me.guide.id }}</v-card-text>
+                <v-card-text class="headline">{{
+                  $credentials.sSelect
+                }}</v-card-text>
               </v-card>
             </v-flex>
-            <v-flex d-flex>
+            <v-flex d-flex xs12 sm6 md6>
               <v-layout row wrap>
-                <v-flex d-flex xs12>
-                  <v-card color="red lighten-2" dark>
+                <v-flex d-flex>
+                  <v-card color="primary2" dark>
                     <v-card-title primary class="title"
                       >The "guideId" variable
                     </v-card-title>
@@ -46,19 +47,10 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex d-flex xs12 sm6 md2 child-flex>
-          <v-card color="green lighten-2" dark>
-            <v-card-text>lorem Ipsum asjkdfhl</v-card-text>
-          </v-card>
-        </v-flex>
-        <v-flex d-flex xs12 sm6 md3>
-          <v-card color="blue lighten-2" dark>
-            <v-card-text>Lorem Ipsum sheuofd djhfu aure </v-card-text>
-          </v-card>
-        </v-flex>
+        <!--<v-flex d-flex xs12 sm6 md2 child-flex> </v-flex>-->
       </v-layout>
     </v-container>
-  </v-content>
+  </div>
 </template>
 
 <script>
@@ -72,7 +64,8 @@ export default {
   data() {
     return {
       guideId: "",
-      fullName: ""
+      fullName: "",
+      isLoading: 0
     };
   },
   mounted() {
@@ -92,6 +85,7 @@ export default {
           }
         }
       `,
+      loadingKey: "isLoading",
       result({ data }) {
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;

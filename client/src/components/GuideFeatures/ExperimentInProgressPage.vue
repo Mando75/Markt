@@ -1,17 +1,12 @@
 <template>
-  <v-content color="secondary0">
-    <Nav />
-    <div>
-      <span>The Simulation in progress</span>
-    </div>
-  </v-content>
+  <div color="secondary0">
+    <span>The Simulation in progress</span>
+  </div>
 </template>
 
 <script>
-import Nav from "../Nav";
 export default {
-  name: "ExperimentInProgressPage",
-  components: { Nav }
+  name: "ExperimentInProgressPage"
 };
 </script>
 

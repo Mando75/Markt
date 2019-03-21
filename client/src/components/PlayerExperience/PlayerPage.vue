@@ -1,6 +1,5 @@
 <template>
-  <v-content>
-    <Nav />
+  <div>
     <v-container fluid grid-list-md>
       <v-layout row wrap>
         <v-flex d-flex xs12 sm6 md4>
@@ -39,7 +38,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-content>
+  </div>
 </template>
 
 <script>
