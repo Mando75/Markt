@@ -7,6 +7,7 @@ export enum ExperimentErrorMessages {
   MAX_ROUNDS_REACHED = "Session has no more rounds to play",
   MAX_SESSIONS_REACHED = "Experiment has no more sessions to play",
   NO_ACTIVE_SESSION = "The experiment currently has no active sessions",
+  NO_ACTIVE_ROUND = "The experiment currently has no active round",
   PLAYER_ALREADY_IN_EXPERIMENT = "Player already in Experiment",
   PLAYER_DOES_NOT_EXIST = "Player does not exist",
   PLAYER_NOT_ALLOWED_TO_SELL = "Player is not allowed to sell this round",

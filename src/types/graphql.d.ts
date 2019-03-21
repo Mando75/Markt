@@ -116,6 +116,8 @@ declare namespace GQL {
     numPlayers: number;
     players: Array<IExperimentPlayer | null>;
     sessions: Array<IExperimentSession | null>;
+    activeSession: IExperimentSession | null;
+    activeRound: IRound | null;
     active: boolean;
     closed: boolean;
     endDate: any | null;
@@ -335,6 +337,7 @@ declare namespace GQL {
     startNextSession: IExperimentSession | null;
     startNextRound: IRound | null;
     makeTransaction: ITransaction | null;
+    endCurrentRound: IRoundSummary | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
     createInstitution: IInstitution | null;
@@ -376,6 +379,10 @@ declare namespace GQL {
 
   interface IMakeTransactionOnMutationArguments {
     params: IMakeTransactionType;
+  }
+
+  interface IEndCurrentRoundOnMutationArguments {
+    experimentId: string;
   }
 
   interface ICreateGroupOnMutationArguments {
@@ -428,6 +435,15 @@ declare namespace GQL {
     buyerCode: string;
     sellerCode: string;
     amount: number;
+  }
+
+  interface IRoundSummary {
+    __typename: "RoundSummary";
+    numTransactions: number | null;
+    averagePrice: number | null;
+    maxPrice: number | null;
+    minPrice: number | null;
+    transactions: Array<ITransaction | null> | null;
   }
 
   interface IGroupCreationType {

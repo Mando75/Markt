@@ -55,23 +55,28 @@ export class Round extends BaseEntity {
   }
 
   async generateRoundSummaryReport() {
-    await this.updateRoundMeta();
     return {
-      transactions: this._loadTransactions(),
-      numTransaction: this.numTransactions,
+      transactions: await this._loadTransactions(),
+      numTransactions: this.numTransactions,
       averagePrice: this.averagePrice,
-      minPrice: this.minPrice(),
-      maxPrice: this.maxPrice()
+      minPrice: await this.minPrice(),
+      maxPrice: await this.maxPrice()
     };
   }
 
   async minPrice() {
-    const transactions = await this._loadTransactions();
+    const transactions = await this.transactions;
+    if (transactions.length === 0) {
+      return 0;
+    }
     return Math.min(...transactions.map(t => t.amount));
   }
 
   async maxPrice() {
     const transactions = await this._loadTransactions();
+    if (transactions.length === 0) {
+      return 0;
+    }
     return Math.max(...transactions.map(t => t.amount));
   }
 
