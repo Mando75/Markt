@@ -6,12 +6,11 @@ import { ExperimentSession } from "../../../entity/ExperimentSession";
 import { Round } from "../../../entity/Round";
 import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
-import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
 
 export const startNextRound = async (
   _: any,
   { experimentId }: GQL.IStartNextRoundOnMutationArguments,
-  { user, pubsub }: GraphQLContext
+  { user }: GraphQLContext
 ) => {
   const experiment = await findAndCheckExperiment(experimentId, user);
   const activeSession = await experiment.getActiveSession();
@@ -27,7 +26,6 @@ export const startNextRound = async (
   newRound.session = Promise.resolve(activeSession);
   experiment.status = ExperimentStatusEnum.IN_ROUND;
   await experiment.save();
-  pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return await newRound.save();
 };
 

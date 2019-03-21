@@ -9,9 +9,6 @@ import { ExperimentPlayer } from "../../entity/ExperimentPlayer";
 import { Experiment } from "../../entity/Experiment";
 import { endCurrentRound } from "./connectors/endCurrentRound";
 import { endExperiment } from "./connectors/endExperiment";
-import { pubsub } from "../../utils/ContextSession/contextControl";
-import { withFilter } from "apollo-server-express";
-import { SubscriptionKey } from "../../enums/subscriptionKey.enum";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
@@ -36,23 +33,5 @@ export const resolvers: ResolverMap = {
     makeTransaction,
     endCurrentRound,
     endExperiment
-  },
-  Subscription: {
-    experimentStatusChanged: {
-      resolve: (payload: Experiment) => payload.status,
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(SubscriptionKey.EXPERIMENT_STATUS_UPDATE),
-        (payload: Experiment, { experimentId }: { experimentId: string }) =>
-          payload.id === experimentId
-      )
-    },
-    playerJoinedExperiment: {
-      resolve: (payload: Experiment) => payload.numPlayers,
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(SubscriptionKey.PLAYER_JOINED_EXPERIMENT),
-        (payload: Experiment, { experimentId }: { experimentId: string }) =>
-          payload.id === experimentId
-      )
-    }
   }
 };
