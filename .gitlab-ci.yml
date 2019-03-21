@@ -3,6 +3,7 @@ image: node:11.10.0
 cache:
   paths:
     - node_modules/
+    - client/node_modules/
 
 before_script:
   - apt-get update -qq && apt-get install
@@ -11,7 +12,7 @@ stages:
   - build
   - deployment
 
-build:
+build-server:
   image: node:11.10.0
   stage: build
   before_script:
@@ -19,6 +20,14 @@ build:
     - yarn install
   script:
     - yarn run gen:graphql-types
+    - yarn build:server
+
+build-client:
+  stage: build
+  before_script:
+    - rm -rf .yarn
+    - cd client && yarn install
+  script:
     - yarn build
 
 

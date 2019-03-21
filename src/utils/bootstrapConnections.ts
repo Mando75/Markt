@@ -16,6 +16,8 @@ import * as RateLimit from "express-rate-limit";
 import * as RateLimitStore from "rate-limit-redis";
 import passport from "./passport";
 import { AddressInfo } from "ws";
+import * as cors from "cors";
+import * as history from "connect-history-api-fallback";
 import { setContext } from "./ContextSession/contextControl";
 import { createSession } from "./ContextSession/sessionControl";
 import { createSubscriptionServer } from "./createSubscriptionServer";
@@ -43,6 +45,7 @@ export const bootstrapConnections = async (port: number) => {
     max: 1000 // limit each IP to 1000 requests per windowMs
   });
   server.enable("trust proxy");
+  server.use(corsConfig());
   server.use(limiter);
   const sessionParser = session(createSession(session, redis));
   server.use(sessionParser);
@@ -72,7 +75,9 @@ export const bootstrapConnections = async (port: number) => {
       subscriptions: "/subscriptions"
     });
 
-    apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
+    apolloServer.applyMiddleware({ app: server, path: "/graphql" });
+    server.use(history());
+    server.use(express.static(__dirname + "../../../client/dist"));
     app = await createSubscriptionServer(server, port, schema, sessionParser);
     if (!testEnv) {
       console.log(
@@ -130,10 +135,17 @@ const formatError = (error: Error) => {
 /**
  * Cors configuration
  */
-const cors = {
-  credentials: true,
-  origin: (process.env.HOST || process.env.TEST_HOST) as string
-};
+const corsConfig = () =>
+  cors({
+    credentials: true,
+    origin:
+      process.env.NODE_ENV === "production"
+        ? (process.env.HOST as string)
+        : [
+            (process.env.HOST || process.env.TEST_HOST) as string,
+            "http://localhost:8080"
+          ]
+  });
 
 /**
  * Playground configuration
