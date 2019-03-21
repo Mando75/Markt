@@ -3,7 +3,7 @@
 
 declare namespace GQL {
   interface IGraphQLResponseRoot {
-    data?: IQuery | IMutation;
+    data?: IQuery | IMutation | ISubscription;
     errors?: Array<IGraphQLResponseError>;
   }
 
@@ -462,6 +462,15 @@ declare namespace GQL {
     email: string;
     firstName?: string | null;
     lastName?: string | null;
+  }
+
+  interface ISubscription {
+    __typename: "Subscription";
+    experimentStatusChanged: IExperiment | null;
+  }
+
+  interface IExperimentStatusChangedOnSubscriptionArguments {
+    experimentId: string;
   }
 }
 
