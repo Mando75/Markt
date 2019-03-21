@@ -18,6 +18,9 @@ import passport from "./passport";
 import { AddressInfo } from "ws";
 import { setContext } from "./ContextSession/contextControl";
 import { createSession } from "./ContextSession/sessionControl";
+import { createServer } from "http";
+import { SubscriptionServer } from "subscriptions-transport-ws";
+import { execute, subscribe } from "graphql";
 
 const testEnv = process.env.NODE_ENV === "test";
 
@@ -66,17 +69,26 @@ export const bootstrapConnections = async (port: number) => {
       context: setContext(redis),
       introspection: true,
       playground,
-      debug: process.env.NODE_ENV !== "production"
+      debug: process.env.NODE_ENV !== "production",
+      subscriptions: "/subscriptions"
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql", cors });
-    app = await server.listen(port);
-
+    const ws = createServer(server);
+    app = await ws.listen(port, () => {
+      new SubscriptionServer(
+        { execute, subscribe, schema },
+        { server: ws, path: "/subscriptions" }
+      );
+    });
     if (!testEnv) {
       console.log(
         `🚀  Server ready at http://localhost:${
           (app.address() as AddressInfo).port
-        }: Happy Coding!`
+        }/graphql \n🚀  Subscription Server ready at ws://localhost:${
+          (app.address() as AddressInfo).port
+        }/subscription\nHappy Coding!
+        `
       );
     }
 

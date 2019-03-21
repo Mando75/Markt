@@ -108,7 +108,7 @@ export const typeDefs = gql`
   }
 
   type Subscription {
-    experimentStatusChanged(experimentId: ID!): Experiment
+    experimentStatusChanged(experimentId: ID!): ExperimentStatus
   }
 
   extend type Query {

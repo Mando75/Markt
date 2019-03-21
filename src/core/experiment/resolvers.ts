@@ -39,12 +39,11 @@ export const resolvers: ResolverMap = {
   },
   Subscription: {
     experimentStatusChanged: {
+      resolve: (payload: Experiment) => payload.status,
       subscribe: withFilter(
         () => pubsub.asyncIterator(SubscriptionKey.EXPERIMENT_STATUS_UPDATE),
-        (
-          { experimentStatusChanged }: { experimentStatusChanged: Experiment },
-          variables: any
-        ) => experimentStatusChanged.id === variables.experimentId
+        (payload: Experiment, variables: any) =>
+          payload.id === variables.experimentId
       )
     }
   }
