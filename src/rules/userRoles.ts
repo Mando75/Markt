@@ -65,3 +65,12 @@ export const isGuide = rule({ cache: "contextual" })(
     return !!guide ? true : new AuthenticationError(ApolloErrors.FORBIDDEN);
   }
 );
+
+export const isPlayer = rule({ cache: "contextual" })(
+  async (_: any, __: any, { session, player }: GraphQLContext) => {
+    if (!player || !playerExists(player, session)) {
+      return new AuthenticationError(ApolloErrors.UNAUTHORIZED);
+    }
+    return true;
+  }
+);

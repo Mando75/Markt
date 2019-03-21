@@ -24,6 +24,8 @@ export const startNextRound = async (
   });
   await deactivateRounds(rounds);
   newRound.session = Promise.resolve(activeSession);
+  experiment.status = ExperimentStatusEnum.IN_ROUND;
+  await experiment.save();
   return await newRound.save();
 };
 

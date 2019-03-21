@@ -20,12 +20,12 @@ export class PlayerTransaction extends BaseEntity {
   @ManyToOne(() => ExperimentPlayer, ep => ep.playerTransactions, {
     nullable: false
   })
-  player: ExperimentPlayer;
+  player: Promise<ExperimentPlayer>;
 
   @ManyToOne(() => Transaction, t => t.playerTransactions, {
     nullable: false
   })
-  transaction: Transaction;
+  transaction: Promise<Transaction>;
 
   @Column({ type: "boolean", nullable: false, default: false })
   isSeller: boolean;

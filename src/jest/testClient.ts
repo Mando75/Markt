@@ -237,6 +237,31 @@ export class TestClient {
     return experiment;
   }
 
+  async createAppleMarketExperimentAndGuide(playerCount = 4) {
+    const { guide } = await this.createUserWithGuide();
+    const group = await this.createMockGroup(playerCount);
+    const scen = await Scenario.findOne({
+      where: { scenarioCode: "APPLMRKT" }
+    });
+    if (!guide || !group || !scen) {
+      throw new Error("Could not create stuff");
+    }
+    await this.login();
+    const {
+      data: { startNewExperiment: experiment }
+    } = await this.query(`mutation { 
+      startNewExperiment(params: {
+        guideId: "${guide.id}", 
+        scenarioId: "${scen.id}", 
+        groupId: "${group.id}"
+      }) {
+        id
+        joinCode
+      }
+    }`);
+    return { experiment, group, guide, scen };
+  }
+
   static _genScenario(sessionCount = 2) {
     return {
       name: faker.lorem.word(),
@@ -296,4 +321,92 @@ export class TestClient {
     }
     return i;
   }
+
+  static async scaffoldExperiment(
+    host: string,
+    loadPlayers = true,
+    loadRound = true
+  ) {
+    const tc = new TestClient(host);
+    let { experiment, group } = await tc.createAppleMarketExperimentAndGuide();
+    const experimentId = experiment.id;
+    const experimentGroupPlayers = await group.players;
+    const joinCode = experiment.joinCode;
+    await tc.login();
+    let players: { id: string; playerCode: string; client: TestClient }[] = [];
+    if (loadPlayers) {
+      players = await TestClient.joinPlayers(
+        experimentGroupPlayers,
+        joinCode,
+        host
+      );
+    }
+    const roundLoader = async () => {
+      await tc.query(TestClient.startNextSession(experimentId));
+      await tc.query(TestClient.startNextRound(experimentId));
+    };
+    if (loadRound) {
+      await roundLoader();
+    }
+    return {
+      players,
+      tc,
+      experimentId,
+      joinCode,
+      buyer: players[0],
+      seller: players[3]
+    };
+  }
+
+  static startNextRound = (experimentId: string) => `
+  mutation {
+    startNextRound(experimentId: "${experimentId}") {
+      id
+    }
+  }`;
+
+  static startNextSession = (experimentId: string) => `
+    mutation {
+      startNextSession(experimentId: "${experimentId}") {
+        id
+        scenarioSession {
+          id
+          numberOfRounds
+        }
+      }
+    }
+  `;
+
+  static joinExperiment = (joinCode: string, playerCode: string) => `
+  mutation {
+    joinExperiment(params: {joinCode: "${joinCode}", playerCode: "${playerCode}"}) {
+      id
+      playerCode
+    }
+  }
+`;
+
+  static joinPlayers = async (
+    experimentGroupPlayers: Player[],
+    joinCode: string,
+    host: string
+  ) => {
+    const playerCodes: {
+      id: string;
+      playerCode: string;
+      client: TestClient;
+    }[] = [];
+    for (const p of experimentGroupPlayers) {
+      const pTc = new TestClient(host);
+      const {
+        data: { joinExperiment }
+      } = await pTc.query(TestClient.joinExperiment(joinCode, p.playerCode));
+      playerCodes.push({
+        id: joinExperiment.id,
+        playerCode: p.playerCode,
+        client: pTc
+      });
+    }
+    return playerCodes;
+  };
 }

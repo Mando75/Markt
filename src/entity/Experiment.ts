@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -120,5 +121,12 @@ export class Experiment extends BaseEntity {
       return await activeSession.getActiveRound();
     }
     return null;
+  }
+
+  @BeforeUpdate()
+  _setEndDate() {
+    if (!this.active && !this.endDate) {
+      this.endDate = new Date();
+    }
   }
 }

@@ -20,6 +20,7 @@ import * as cors from "cors";
 import * as history from "connect-history-api-fallback";
 import { setContext } from "./ContextSession/contextControl";
 import { createSession } from "./ContextSession/sessionControl";
+import { createSubscriptionServer } from "./createSubscriptionServer";
 
 const testEnv = process.env.NODE_ENV === "test";
 
@@ -46,7 +47,8 @@ export const bootstrapConnections = async (port: number) => {
   server.enable("trust proxy");
   server.use(corsConfig());
   server.use(limiter);
-  server.use(session(createSession(session, redis)));
+  const sessionParser = session(createSession(session, redis));
+  server.use(sessionParser);
   server.use(passport.initialize());
   server.use(routes);
   try {
@@ -69,20 +71,22 @@ export const bootstrapConnections = async (port: number) => {
       context: setContext(redis),
       introspection: true,
       playground,
-      debug: process.env.NODE_ENV !== "production"
+      debug: process.env.NODE_ENV !== "production",
+      subscriptions: "/subscriptions"
     });
 
     apolloServer.applyMiddleware({ app: server, path: "/graphql" });
     server.use(history());
     server.use(express.static(__dirname + "../../../client/dist"));
-
-    app = await server.listen(port);
-
+    app = await createSubscriptionServer(server, port, schema, sessionParser);
     if (!testEnv) {
       console.log(
         `🚀  Server ready at http://localhost:${
           (app.address() as AddressInfo).port
-        }: Happy Coding!`
+        }/graphql \n🚀  Subscription Server ready at ws://localhost:${
+          (app.address() as AddressInfo).port
+        }/subscription\nHappy Coding!
+        `
       );
     }
 

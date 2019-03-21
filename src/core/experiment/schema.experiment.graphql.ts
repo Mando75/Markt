@@ -10,6 +10,8 @@ export const typeDefs = gql`
     numPlayers: Int!
     players: [ExperimentPlayer]!
     sessions: [ExperimentSession]!
+    activeSession: ExperimentSession
+    activeRound: Round
     active: Boolean!
     closed: Boolean!
     endDate: Date
@@ -26,6 +28,9 @@ export const typeDefs = gql`
     buyerTransactions: [Transaction]
     sellerTransactions: [Transaction]
     numTransactions: Int!
+    playerCode: ID!
+    currentSessionRole: SessionRole!
+    profitEquation: String
     totalProfit: Float!
     createdDate: Date
     updatedDate: Date
@@ -36,6 +41,7 @@ export const typeDefs = gql`
     experiment: Experiment!
     sessionNumber: Int!
     scenarioSession: ScenarioSession!
+    rounds: [Round]
     active: Boolean!
     endDate: Date
     createdDate: Date
@@ -67,6 +73,14 @@ export const typeDefs = gql`
     updatedDate: Date
   }
 
+  type RoundSummary {
+    numTransactions: Int
+    averagePrice: Float
+    maxPrice: Float
+    minPrice: Float
+    transactions: [Transaction]
+  }
+
   input ExperimentStartType {
     scenarioId: ID!
     guideId: ID!
@@ -76,6 +90,13 @@ export const typeDefs = gql`
   input ExperimentJoinType {
     playerCode: ID!
     joinCode: ID!
+  }
+
+  input MakeTransactionType {
+    experimentId: ID!
+    buyerCode: ID!
+    sellerCode: ID!
+    amount: Float!
   }
 
   enum ExperimentStatus {
@@ -95,5 +116,8 @@ export const typeDefs = gql`
     joinExperiment(params: ExperimentJoinType!): ExperimentPlayer
     startNextSession(experimentId: ID!): ExperimentSession
     startNextRound(experimentId: ID!): Round
+    makeTransaction(params: MakeTransactionType!): Transaction
+    endCurrentRound(experimentId: ID!): RoundSummary
+    endExperiment(experimentId: ID!): Experiment
   }
 `;
