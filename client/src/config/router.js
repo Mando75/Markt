@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import { credentialStore } from "./credentialStore";
 
 Vue.use(Router);
 
@@ -73,4 +72,21 @@ const router = new Router({
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.path.includes("/player") || to.path.includes("/guide")) {
+    fetch("/auth/check")
+      .then(res => res.json())
+      .then(res => {
+        if (res.authenticated) {
+          localStorage.setItem("authenticated", "true");
+          next();
+        } else {
+          localStorage.setItem("authenticated", "false");
+          next("/login?sessionExpired=1");
+        }
+      });
+  } else {
+    return next();
+  }
+});
 export default router;

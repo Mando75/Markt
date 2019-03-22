@@ -28,28 +28,24 @@
                 @done="handleRegister"
               >
                 <template slot-scope="{ mutate }">
-                  <v-text-field
-                    v-model="firstName"
-                    label="First Name"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="lastName"
-                    label="Last Name"
-                  ></v-text-field>
-                  <v-text-field v-model="email" label="Email"></v-text-field>
+                  <v-text-field v-model="firstName" label="First Name" />
+                  <v-text-field v-model="lastName" label="Last Name" />
+                  <v-text-field v-model="email" label="Email" />
                   <v-text-field
                     v-model="password"
                     label="Password"
                     type="password"
-                  ></v-text-field>
+                  />
                   <v-btn color="primary3" @click="mutate">Register</v-btn>
-                  <p
+                  <v-alert
                     v-for="(msg, i) in warningMsg"
                     :key="`warningMsg${i}`"
-                    class="red"
+                    color="warning"
+                    :value="true"
+                    dismissible
                   >
                     {{ msg.message }}
-                  </p>
+                  </v-alert>
                 </template>
               </ApolloMutation>
             </v-card-text>

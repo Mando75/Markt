@@ -20,9 +20,9 @@
         >
           <v-list-tile slot="activator">
             <v-list-tile-content>
-              <v-list-tile-title>{{
-                `${player.firstName} ${player.lastName}`
-              }}</v-list-tile-title>
+              <v-list-tile-title>
+                {{ `${player.firstName} ${player.lastName}` }}
+              </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile>
@@ -61,8 +61,8 @@ export default {
     };
   },
   methods: {
-    refetch() {
-      this.$apollo.queries.players.refetch();
+    addPlayer(player) {
+      this.players.push({ ...player, open: false });
     }
   },
   apollo: {

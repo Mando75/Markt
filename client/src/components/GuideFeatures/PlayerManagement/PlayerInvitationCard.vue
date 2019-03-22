@@ -15,7 +15,7 @@
         :variables="{ email, firstName, lastName, guideId }"
         @done="handlePlayerCreated"
       >
-        <template slot-scope="{ mutate, loading, errors }">
+        <template slot-scope="{ mutate, loading }">
           <v-form v-model="validInput">
             <v-text-field
               v-model="email"
@@ -26,22 +26,21 @@
                 textValidationRules.validEmail,
                 textValidationRules.required
               ]"
-            ></v-text-field>
+            />
             <v-text-field
               v-model="firstName"
               color="primary0"
               :disabled="loading"
               :rules="[textValidationRules.required]"
               label="Player First Name"
-            ></v-text-field>
+            />
             <v-text-field
               v-model="lastName"
               color="primary0"
               :disabled="loading"
               label="Player Last Name"
               :rules="[textValidationRules.required]"
-            >
-            </v-text-field>
+            />
           </v-form>
           <v-card-actions>
             <v-flex xs12>
@@ -88,7 +87,7 @@ export default {
     handlePlayerCreated({ data }) {
       this.playerAdded = true;
       this.playerAddedMessage = data.createPlayer.firstName + " was added.";
-      this.$emit("playerAdded");
+      this.$emit("playerAdded", data.createPlayer);
     }
   }
 };

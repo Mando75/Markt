@@ -5,6 +5,14 @@ import { redis } from "../utils";
 
 const router = Router();
 
+router.get("/auth/check", (req: any, res) => {
+  if (req.session.userId || req.session.playerId) {
+    res.json({ authenticated: true });
+  } else {
+    res.json({ authenticated: false });
+  }
+});
+
 router.get(
   "/auth/google",
   passport.authenticate("google", {

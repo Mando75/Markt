@@ -10,7 +10,7 @@
                 <v-img
                   :src="require('@/assets/iStock_teacher-math-class.jpg')"
                   aspect-ratio="2.75"
-                ></v-img>
+                />
 
                 <v-card-title primary-title>
                   <v-flex xs12 sm12 md12>
@@ -32,33 +32,37 @@
                         <v-text-field
                           v-model="userEmail"
                           label="User Email"
-                        ></v-text-field>
+                          :rules="[
+                            textValidationRules.required,
+                            textValidationRules.validEmail
+                          ]"
+                        />
                         <v-text-field
                           v-model="userPassword"
                           label="Password"
                           type="password"
-                        ></v-text-field>
+                        />
                         <v-btn color="primary3" @click="mutate">Login</v-btn>
-                        <p
-                          v-for="(msg, i) in warningMsg"
-                          :key="`warningMsg${i}`"
-                          class="red"
-                        >
-                          {{ msg.message }}
-                        </p>
                       </template>
                     </ApolloMutation>
+                    <v-alert
+                      v-for="(msg, i) in warningMsg"
+                      :key="`warningMsg${i}`"
+                      :value="true"
+                      color="warning"
+                      dismissible
+                    >
+                      {{ msg.message }}
+                    </v-alert>
                   </div>
                   <br />
                   <div>
                     <br />
-                    <v-btn @click="$router.push('/register')"
-                      >sign Up here</v-btn
-                    >
-                    <!--<v-btn v-on:click="signUp = !signUp"></v-btn>-->
+                    <v-btn @click="$router.push('/register')">
+                      Sign Up here
+                    </v-btn>
                   </div>
                 </v-card-text>
-                <v-card-actions> </v-card-actions>
               </v-card>
             </v-card>
           </v-flex>
@@ -70,9 +74,11 @@
 
 <script>
 import gql from "graphql-tag";
+import InputValidationMixin from "../mixins/InputValidationMixin";
 
 export default {
   name: "Login",
+  mixins: [InputValidationMixin],
   data() {
     return {
       userEmail: "",
@@ -88,6 +94,14 @@ export default {
       warningMsg: [],
       signUp: false
     };
+  },
+  mounted() {
+    if (this.$route.query.sessionExpired === "1") {
+      this.warningMsg.push({
+        path: "Session",
+        message: "Your session has expired"
+      });
+    }
   },
   methods: {
     handleLogin({ data }) {

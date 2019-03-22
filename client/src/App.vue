@@ -39,7 +39,11 @@ export default {
           this.$credentials.isUser = true;
         }
       },
-      loadingKey: "loading"
+      loadingKey: "loading",
+      skip: () => {
+        const authed = localStorage.getItem("authenticated");
+        return !authed || authed === "false";
+      }
     }
   }
 };
