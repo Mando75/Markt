@@ -30,8 +30,8 @@ export default {
   apollo: {
     me: {
       query: me,
-      result({ data, errors }) {
-        if (!errors) {
+      result({ data, error }) {
+        if (!error) {
           this.$credentials.userId = data.me.id;
           this.$credentials.guideId = data.me.guide.id;
           this.$credentials.displayName = data.me.fullName;
