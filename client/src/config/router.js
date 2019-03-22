@@ -58,7 +58,7 @@ export default new Router({
       component: () => import("../components/GuideFeatures/JoinCode")
     },
     {
-      path: "/play",
+      path: "/guide/start",
       name: "simulation_running",
       component: () =>
         import("../components/GuideFeatures/ExperimentInProgressPage")

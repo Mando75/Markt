@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!--<div v-if="$apollo.loading"><loading-block /></div>-->
     <v-container fluid>
       <template>
         <v-layout>
@@ -30,6 +29,7 @@
                     >
                       <template slot-scope="{ mutate }">
                         <v-text-field
+                          color="primary0"
                           v-model="userEmail"
                           label="User Email"
                         ></v-text-field>
@@ -37,6 +37,7 @@
                           v-model="userPassword"
                           label="Password"
                           type="password"
+                          color="primary0"
                         ></v-text-field>
                         <v-btn color="primary3" @click="mutate">Login</v-btn>
                         <p
@@ -53,9 +54,8 @@
                   <div>
                     <br />
                     <v-btn @click="$router.push('/register')"
-                      >sign Up here</v-btn
+                      >Sign Up Here</v-btn
                     >
-                    <!--<v-btn v-on:click="signUp = !signUp"></v-btn>-->
                   </div>
                 </v-card-text>
                 <v-card-actions> </v-card-actions>

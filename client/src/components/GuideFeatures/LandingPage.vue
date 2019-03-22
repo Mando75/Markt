@@ -47,7 +47,11 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <!--<v-flex d-flex xs12 sm6 md2 child-flex> </v-flex>-->
+        <v-flex d-flex xs12 sm6 md2>
+          <v-card color="primary1 darken-3" dark>
+            jkslfjs
+          </v-card>
+        </v-flex>
       </v-layout>
     </v-container>
   </div>

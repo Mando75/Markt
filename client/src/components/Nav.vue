@@ -38,7 +38,6 @@
           active-class="primaryTheme"
           :class="conds.path === $route.path ? 'primaryTheme' : ''"
           :to="conds.path"
-          @click="sheets"
         >
           <v-list-tile-action>
             <v-icon>{{ conds.icon }}</v-icon>
@@ -117,7 +116,11 @@ export default {
           icon: "person_add",
           path: "/guide/joinCode"
         },
-        { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
+        {
+          title: "Begin Simulation",
+          icon: "monetization_on",
+          path: "/guide/start"
+        }
       ],
       conditionals: [
         { title: "Instructions", icon: "live_help", path: "" }
