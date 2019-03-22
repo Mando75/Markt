@@ -19,7 +19,7 @@
     "migrate:revert": "yarn run tsnode:typeorm migration:revert -c development",
     "tsnode": "yarn run ts-node --project ./tsconfig.json --files",
     "tsnode:typeorm": "yarn run ts-node --project ./tsconfig.json --files node_modules/.bin/typeorm",
-    "setup-dev": "yarn install && yarn build && yarn gen:graphql-types && yarn start:dev",
+    "setup-dev": "yarn install && yarn build && yarn gen:graphql-types && yarn start:dev"
   },
   "description": "Project Markt server",
   "main": "dist/index.js",
