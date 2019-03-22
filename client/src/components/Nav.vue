@@ -8,7 +8,7 @@
             <v-icon x-large>account_circle</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>{{ users.displayName }}</v-list-tile-title>
+            <v-list-tile-title>{{ displayName }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -38,7 +38,6 @@
           active-class="primaryTheme"
           :class="conds.path === $route.path ? 'primaryTheme' : ''"
           :to="conds.path"
-          @click="sheets"
         >
           <v-list-tile-action>
             <v-icon>{{ conds.icon }}</v-icon>
@@ -104,18 +103,13 @@ export default {
   name: "Nav",
   data() {
     return {
-      users: {
-        displayName: this.$credentials.displayName
-          ? this.$credentials.displayName
-          : null
-      },
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
         {
-          title: "Invite Participants",
+          title: "Invite Players",
           icon: "person_add",
-          path: "/guide/joinCode"
+          path: "/guide/players"
         },
         { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
       ],
@@ -125,6 +119,11 @@ export default {
       ],
       drawer: true
     };
+  },
+  computed: {
+    displayName() {
+      return this.$credentials.displayName;
+    }
   }
 };
 </script>

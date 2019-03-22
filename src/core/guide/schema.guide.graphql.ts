@@ -6,6 +6,7 @@ export const typeDefs = gql`
     user: User!
     experiments: [Experiment]
     active: Boolean!
+    players: [Player]
     createdDate: Date!
     updatedDate: Date!
   }

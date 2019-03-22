@@ -1,9 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { credentialStore } from "./credentialStore";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   routes: [
     {
@@ -53,9 +54,10 @@ export default new Router({
       component: () => import("../components/GuideFeatures/Instructions")
     },
     {
-      path: "/guide/joinCode",
+      path: "/guide/players",
       name: "displayCode",
-      component: () => import("../components/GuideFeatures/JoinCode")
+      component: () =>
+        import("../components/GuideFeatures/PlayerManagement/PlayerManagement")
     },
     {
       path: "/play",
@@ -70,3 +72,5 @@ export default new Router({
     }
   ]
 });
+
+export default router;

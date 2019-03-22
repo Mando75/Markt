@@ -9,6 +9,7 @@ import { credentialStore } from "./config/credentialStore";
 Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   theme: {
+    primary: "#7FCA40",
     primary0: "#7FCA40" /* Main Primary color */,
     primary1: "#BAE397",
     primary2: "#8ABD5F",

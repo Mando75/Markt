@@ -1,9 +1,12 @@
-import * as sgMail from "@sendgrid/mail";
-sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+// import * as sgMail from "@sendgrid/mail";
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
 import playerWelcome from "./templates/playerWelcome.html";
 // TODO move to another email
 const fromEmail = "bryanmullerdev@gmail.com";
 
+const sgMail = {
+  send: async (msg: any) => console.log("Faking email...", msg)
+};
 /**
  * Sends a confirmation email through the SendGrid API
  * @param to
