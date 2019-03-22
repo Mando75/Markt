@@ -67,9 +67,6 @@ export default {
       isLoading: 0
     };
   },
-  mounted() {
-    console.log(this.$apollo.queries);
-  },
   apollo: {
     // Simple query that gets the user id
     me: {
@@ -89,7 +86,6 @@ export default {
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;
         this.$credentials.displayName = data.me.fullName;
-        console.log(this.$credentials);
         // this.$apollo.queries.tags.skip = true;
       }
     }

@@ -37,24 +37,24 @@
               >
               </v-text-field>
             </v-form>
-            <ApolloMutation
-              :mutation="createPlayerMutation"
-              :variables="{ email, firstName, lastName, guideId }"
-              @done="handlePlayerCreated"
-            >
-              <template slot-scope="{ mutate }">
-                <v-card-actions>
-                  <v-flex xs12>
-                    <v-btn
-                      :disabled="!validInput"
-                      @click="mutate()"
-                      color="primary3"
-                      >Invite</v-btn
-                    >
-                  </v-flex>
-                </v-card-actions>
-              </template>
-            </ApolloMutation>
+
+            <v-card-actions>
+              <v-flex xs12>
+                <ApolloMutation
+                  :mutation="createPlayerMutation"
+                  :variables="{ email, firstName, lastName, guideId }"
+                  @done="handlePlayerCreated"
+                >
+                  <v-btn
+                    slot-scope="{ mutate }"
+                    :disabled="!validInput"
+                    @click="mutate()"
+                    color="primary3"
+                    >Invite</v-btn
+                  >
+                </ApolloMutation>
+              </v-flex>
+            </v-card-actions>
           </v-card-text>
         </v-card>
       </v-flex>

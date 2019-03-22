@@ -9,9 +9,34 @@
 <script>
 import Nav from "./components/Nav";
 import MobileNav from "./components/PlayerExperience/MobileNav";
+import gql from "graphql-tag";
 export default {
   name: "App",
-  components: { MobileNav, Nav }
+  components: { MobileNav, Nav },
+  apollo: {
+    me: {
+      query: gql`
+        {
+          me {
+            id
+            fullName
+            guide {
+              id
+            }
+          }
+        }
+      `,
+      result({ data, errors }) {
+        if (!errors) {
+          this.$credentials.userId = data.me.id;
+          this.$credentials.guideId = data.me.guide.id;
+          this.$credentials.displayName = data.me.fullName;
+          this.$credentials.authenticated = true;
+          this.$credentials.isUser = true;
+        }
+      }
+    }
+  }
 };
 </script>
 

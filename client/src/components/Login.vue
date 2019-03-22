@@ -91,11 +91,8 @@ export default {
   },
   methods: {
     handleLogin({ data }) {
-      console.log(this.$credentials);
       //the structure has response 'data' or 'errors'
       //see here for later: Destructuring assignment on mozilla dev site
-      console.log(data);
-      console.log(data.loginMutation);
       if (!data.login) {
         this.$credentials.authenticated = true;
         this.$credentials.isUser = true;

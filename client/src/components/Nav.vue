@@ -38,7 +38,6 @@
           active-class="primaryTheme"
           :class="conds.path === $route.path ? 'primaryTheme' : ''"
           :to="conds.path"
-          @click="sheets"
         >
           <v-list-tile-action>
             <v-icon>{{ conds.icon }}</v-icon>
