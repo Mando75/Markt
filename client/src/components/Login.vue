@@ -10,7 +10,7 @@
                 <v-img
                   :src="require('@/assets/iStock_teacher-math-class.jpg')"
                   aspect-ratio="2.75"
-                ></v-img>
+                />
 
                 <v-card-title primary-title>
                   <v-flex xs12 sm12 md12>
@@ -36,12 +36,12 @@
                             textValidationRules.required,
                             textValidationRules.validEmail
                           ]"
-                        ></v-text-field>
+                        />
                         <v-text-field
                           v-model="userPassword"
                           label="Password"
                           type="password"
-                        ></v-text-field>
+                        />
                         <v-btn color="primary3" @click="mutate">Login</v-btn>
                       </template>
                     </ApolloMutation>
@@ -58,10 +58,9 @@
                   <br />
                   <div>
                     <br />
-                    <v-btn @click="$router.push('/register')"
-                      >sign Up here</v-btn
-                    >
-                    <!--<v-btn v-on:click="signUp = !signUp"></v-btn>-->
+                    <v-btn @click="$router.push('/register')">
+                      Sign Up here
+                    </v-btn>
                   </div>
                 </v-card-text>
               </v-card>

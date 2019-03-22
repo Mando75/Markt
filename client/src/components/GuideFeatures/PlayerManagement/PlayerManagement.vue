@@ -2,7 +2,7 @@
   <v-container fluid color="secondary0" grid-list-lg>
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <PlayerInvitationCard @playerAdded="refetchPlayerList" />
+        <PlayerInvitationCard @playerAdded="addPlayer" />
       </v-flex>
       <v-flex xs12 md6>
         <PlayerList ref="playerList" />
@@ -22,9 +22,8 @@ export default {
     PlayerList
   },
   methods: {
-    refetchPlayerList() {
-      console.log("refetch");
-      this.$refs.playerList.refetch();
+    addPlayer(player) {
+      this.$refs.playerList.addPlayer(player);
     }
   }
 };
