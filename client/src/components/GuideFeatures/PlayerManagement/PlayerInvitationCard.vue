@@ -15,7 +15,7 @@
         :variables="{ email, firstName, lastName, guideId }"
         @done="handlePlayerCreated"
       >
-        <template slot-scope="{ mutate, loading, errors }">
+        <template slot-scope="{ mutate, loading }">
           <v-form v-model="validInput">
             <v-text-field
               v-model="email"
