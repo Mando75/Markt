@@ -9,7 +9,6 @@ before_script:
   - apt-get update -qq && apt-get install
 
 stages:
-  - build
   - deployment
 
 build-server:
