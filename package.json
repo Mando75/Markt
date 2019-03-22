@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "yarn build:server && yarn build:client",
-    "build:server": "rm -rf dist && yarn install && yarn run tsc -p ./",
+    "build:server": "rm -rf dist && yarn install && npx tsc -p ./",
     "build:client": "rm -rf client/dist && cd client && yarn install && yarn build",
     "start": "node dist/index.js",
     "start:dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'yarn run tsnode' src/index.ts",
