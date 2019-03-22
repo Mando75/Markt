@@ -1,0 +1,33 @@
+mutation createPlayerMutation(
+  $guideId: ID!
+  $groupId: ID
+  $email: String!
+  $firstName: String
+  $lastName: String
+) {
+  createPlayer(
+    playerParams: {
+      guideId: $guideId
+      groupId: $groupId
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+    }
+  ) {
+      id
+    firstName
+  }
+}
+
+query guidesPlayers($guideId: ID!) {
+  guide(id: $guideId) {
+    players {
+      id
+      playerCode
+      email
+      firstName
+      lastName
+      active
+    }
+  }
+}
