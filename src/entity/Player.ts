@@ -66,7 +66,8 @@ export class Player extends BaseEntity {
       option = generate({
         length: 6,
         charset: "alphanumeric",
-        readable: true
+        readable: true,
+        capitalization: "uppercase"
       });
       const existingCode = await Player.findOne({
         where: { playerCode: option, active: true, guide: this.guide },
