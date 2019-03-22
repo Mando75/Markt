@@ -4,6 +4,7 @@
     :active.sync="bottomNav"
     :value="true"
     fixed
+    app
     class="hidden-md-and-up"
   >
     <v-btn color="primary0" flat value="recent">
