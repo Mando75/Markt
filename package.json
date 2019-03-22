@@ -20,7 +20,6 @@
     "tsnode": "yarn run ts-node --project ./tsconfig.json --files",
     "tsnode:typeorm": "yarn run ts-node --project ./tsconfig.json --files node_modules/.bin/typeorm",
     "setup-dev": "yarn install && yarn build && yarn gen:graphql-types && yarn start:dev",
-    "postinstall": "cd client && yarn install"
   },
   "description": "Project Markt server",
   "main": "dist/index.js",
