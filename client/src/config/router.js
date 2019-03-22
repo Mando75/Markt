@@ -53,9 +53,9 @@ export default new Router({
       component: () => import("../components/GuideFeatures/Instructions")
     },
     {
-      path: "/guide/joinCode",
+      path: "/guide/invite",
       name: "displayCode",
-      component: () => import("../components/GuideFeatures/JoinCode")
+      component: () => import("../components/GuideFeatures/InvitePlayers")
     },
     {
       path: "/play",

@@ -115,7 +115,7 @@ export default {
         {
           title: "Invite Participants",
           icon: "person_add",
-          path: "/guide/joinCode"
+          path: "/guide/invite"
         },
         { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
       ],
