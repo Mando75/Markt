@@ -1,13 +1,17 @@
 <template>
   <div>
     <!---->
-    <LoadingBlock v-if="isLoading" />
-    <v-container v-else fluid grid-list-md>
-      <v-layout row wrap>
+    <v-layout v-if="isLoading" align-content-space-between column>
+      <v-flex xs12><LoadingBlock /></v-flex>
+    </v-layout>
+    <v-container v-else fluid grid-list-lg>
+      <v-layout row wrap justify-start>
         <v-flex d-flex xs12 sm6 md6>
           <v-card color="primary3 lighten-1" dark>
-            <v-card-title primary class="title">$Credentials</v-card-title>
-            <v-card-text
+            <v-card-title primary class="headline font-weight-bold"
+              >$Credentials</v-card-title
+            >
+            <v-card-text class="mt-0 pt-0"
               >authenticated: {{ $credentials.authenticated }}<br />
               isUser: {{ $credentials.isUser }}<br />
               isPlayer: {{ $credentials.isPlayer }}<br />
@@ -23,23 +27,61 @@
           <v-layout row wrap>
             <v-flex d-flex>
               <v-card color="primary1 darken-3" dark>
-                <v-card-title primary class="title font-weight-bold"
-                  >Scenario Selected</v-card-title
+                <v-card-title primary-title v-if="$credentials.sSelect === ''"
+                  >No Experiment Selected</v-card-title
                 >
-                <v-card-text class="headline">{{
+                <v-card-title v-else primary class="headline font-weight-bold"
+                  >Scenario Selected:</v-card-title
+                >
+                <v-card-text class="title font-weight-medium">{{
                   $credentials.sSelect
                 }}</v-card-text>
+
+                <div v-if="$credentials.sSelect != ''">
+                  <span class="subheading"
+                    ><v-btn
+                      dark
+                      large
+                      color="primary1 darken-4"
+                      class="text-capitalize"
+                      @click="proceedToStart"
+                      >Begin Selected</v-btn
+                    ></span
+                  >
+                  <br />
+                </div>
               </v-card>
             </v-flex>
+
             <v-flex d-flex xs12 sm6 md6>
               <v-layout row wrap>
                 <v-flex d-flex>
                   <v-card color="primary2" dark>
-                    <v-card-title primary class="title"
-                      >The "guideId" variable
+                    <v-card-title class="headline font-weight-bold"
+                      >Recent Scenarios
                     </v-card-title>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex d-flex xs12 sm6 md3>
+          <v-layout column wrap>
+            <v-flex d-flex>
+              <v-card color="primary1 darken-3" dark>
+                <v-card-text
+                  >hajsdhlahsdfjasjf;dkfa;kjdkfj lkasjie aioeu;a
+                </v-card-text>
+              </v-card>
+            </v-flex>
+            <v-flex d-flex>
+              <v-layout row wrap>
+                <v-flex d-flex xs12>
+                  <v-card color="primary3 lighten-1" dark>
                     <v-card-text
-                      >guideId: {{ this.$credentials.guideId }}</v-card-text
+                      >dksjflsdjfl salkuoep aieuo adskj kshdfauua dskfa lewh
+                      fadsfy alewhfaj</v-card-text
                     >
                   </v-card>
                 </v-flex>
@@ -47,9 +89,12 @@
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex d-flex xs12 sm6 md2>
-          <v-card color="primary1 darken-3" dark>
-            jkslfjs
+        <v-flex d-flex xs12 sm6 md9>
+          <v-card color="primary4 lighten-2" dark>
+            <v-card-text
+              >jkjjjfsdjfladsjkfjl;dfsa;fj
+              ;aiuak;ljdfajsdkfjaiojiewajkldsjfa;dskadgpaewij</v-card-text
+            >
           </v-card>
         </v-flex>
       </v-layout>
@@ -64,6 +109,16 @@ import LoadingBlock from "../loadingBlock";
 export default {
   name: "LandingPage",
   components: { LoadingBlock },
+  methods: {
+    proceedToStart() {
+      var peopleInvited = true;
+      if (peopleInvited) {
+        this.$router.push("/guide/start");
+      } else {
+        this.$router.push("/guide/invite");
+      }
+    }
+  },
   data() {
     return {
       guideId: "",

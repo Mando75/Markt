@@ -2,13 +2,17 @@
   <div>
     <v-navigation-drawer v-model="drawer" app dark class="link--text">
       <v-list class="hidden-sm-and-down"></v-list>
-      <v-list class="pt-5">
+      <v-list class="pt-5 pb-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
             <v-icon x-large>account_circle</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>{{ users.displayName }}</v-list-tile-title>
+            <v-list-tile-title>{{
+              this.$credentials.displayName
+                ? this.$credentials.displayName
+                : null
+            }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -103,11 +107,6 @@ export default {
   name: "Nav",
   data() {
     return {
-      users: {
-        displayName: this.$credentials.displayName
-          ? this.$credentials.displayName
-          : null
-      },
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },

@@ -33,7 +33,6 @@
                                     depressed
                                     small
                                     color="primary4"
-                                    dark
                                     v-on="on"
                                   >
                                     Details
