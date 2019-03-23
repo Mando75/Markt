@@ -1,4 +1,8 @@
-<template> </template>
+<template>
+  <div>
+    Welcome to experiment Runner
+  </div>
+</template>
 
 <script>
 export default {

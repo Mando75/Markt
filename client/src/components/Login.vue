@@ -110,6 +110,7 @@ export default {
       if (!data.login) {
         this.$credentials.authenticated = true;
         this.$credentials.isUser = true;
+        this.$credentials.isPlayer = false;
         this.$router.push("/guide/home");
       } else {
         this.warningMsg = data.login.map(m => m);

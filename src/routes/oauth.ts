@@ -6,10 +6,12 @@ import { redis } from "../utils";
 const router = Router();
 
 router.get("/auth/check", (req: any, res) => {
-  if (req.session.userId || req.session.playerId) {
-    res.json({ authenticated: true });
+  if (req.session.userId) {
+    res.json({ authenticated: true, isUser: true, isPlayer: false });
+  } else if (req.session.playerId) {
+    res.json({ authenticated: true, isUser: false, isPlayer: true });
   } else {
-    res.json({ authenticated: false });
+    res.json({ authenticated: false, isUser: false, isPlayer: false });
   }
 });
 
