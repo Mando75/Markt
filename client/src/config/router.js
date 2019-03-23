@@ -32,15 +32,9 @@ const router = new Router({
       component: () => import("../components/GuideFeatures/ExperimentSelect")
     },
     {
-      path: "/player",
-      name: "Player",
-      component: () => import("../components/PlayerExperience/PlayerPage")
-    },
-
-    {
       path: "/join",
       name: "join",
-      component: () => import("../components/PlayerExperience/JoinSession")
+      component: () => import("../components/PlayerExperience/JoinExperiment")
     },
     {
       path: "/guide/setup",

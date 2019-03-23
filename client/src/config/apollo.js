@@ -13,7 +13,11 @@ const httpLink = new HttpLink({
   }
 });
 
-const wsUri = "/subscriptions";
+const env = process.env.NODE_ENV;
+const baseUri =
+  env !== "production" ? "ws://localhost:4000" : "ws://markt-dev.herokuapp.com";
+
+const wsUri = baseUri + "/subscriptions";
 const wsLink = new WebSocketLink({ uri: wsUri, options: { reconnect: true } });
 
 const link = split(
