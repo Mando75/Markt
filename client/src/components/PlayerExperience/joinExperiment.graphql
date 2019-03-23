@@ -1,0 +1,8 @@
+mutation joinExperiment($playerCode: ID!, $joinCode: ID!) {
+    joinExperiment(params: {playerCode: $playerCode, joinCode: $joinCode}) {
+        id
+        experiment {
+            id
+        }
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-  <v-card dark flat tile height="600">
+  <v-card dark elevation="4" tile height="600">
     <v-card-title primary-title>
       <h1 class="headline text-xs-center" style="width: 100%">
         Your Players

@@ -4,11 +4,17 @@
     <v-layout>
       <v-flex xs12 sm6 offset-sm3>
         <ApolloMutation
-          :mutation="false"
+          :mutation="joinExperimentMutation"
           :variables="{ playerCode, joinCode }"
           @done="handlePlayerJoin"
         >
-          <v-card dark flat height="600" elevation="4">
+          <v-card
+            slot-scope="{ mutate, loading, error }"
+            dark
+            flat
+            height="600"
+            elevation="4"
+          >
             <v-img
               :src="require('@/assets/mainStockStockimg.png')"
               aspect-ratio="2.75"
@@ -22,13 +28,19 @@
                   <v-text-field
                     v-model="joinCode"
                     label="Experiment Join Code"
-                    :rules="[textValidationRules.required]"
+                    :rules="[
+                      textValidationRules.required,
+                      textValidationRules.validLength(6)
+                    ]"
                     required
                   />
                   <v-text-field
                     v-model="playerCode"
                     label="Your Player Code"
-                    :rules="[textValidationRules.required]"
+                    :rules="[
+                      textValidationRules.required,
+                      textValidationRules.validLength(6)
+                    ]"
                     required
                   />
                 </v-flex>
@@ -38,13 +50,18 @@
               <v-flex xs12>
                 <v-btn
                   class="join-actions"
-                  :disabled="!validInput"
+                  :disabled="!validInput || loading"
+                  :loading="loading"
                   color="primary3"
+                  @click="mutate"
                 >
                   Join Experiment
                 </v-btn>
               </v-flex>
             </v-card-actions>
+            <v-card-text v-if="error">
+              <MutationErrorDisplay :error="error" />
+            </v-card-text>
           </v-card>
         </ApolloMutation>
       </v-flex>
@@ -54,31 +71,30 @@
 
 <script>
 import InputValidationMixin from "../../mixins/InputValidationMixin";
+import { joinExperiment } from "./joinExperiment.graphql";
+import MutationErrorDisplay from "../common/MutationErrorDisplay";
 
 export default {
   name: "JoinExperiment",
+  components: { MutationErrorDisplay },
   mixins: [InputValidationMixin],
   data() {
     return {
       joinCode: "",
+      joinExperimentMutation: joinExperiment,
       playerCode: "",
       validInput: false
     };
   },
   methods: {
-    handlePlayerJoin({ data, error }) {
-      if (data && data.joinExperiment) {
-        this.$credentials.authenticated = true;
-        this.$credentials.isPlayer = true;
-        this.$credentials.isUser = false;
-      }
+    handlePlayerJoin({ data }) {
+      this.$credentials.authenticated = true;
+      this.$credentials.isPlayer = true;
+      this.$credentials.isUser = false;
+      this.$credentials.experimentId = data.joinExperiment.experiment.id;
     }
   }
 };
 </script>
 
-<style scoped>
-.join-actions {
-  margin-top: 30px;
-}
-</style>
+<style scoped></style>
