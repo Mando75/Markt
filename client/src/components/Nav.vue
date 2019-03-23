@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer v-model="drawer" app dark class="link--text">
       <v-list class="hidden-sm-and-down"></v-list>
-      <v-list class="pt-5">
+      <v-list class="pt-5 pb-0">
         <v-list-tile avatar>
           <v-list-tile-avatar>
             <v-icon x-large>account_circle</v-icon>
@@ -111,7 +111,11 @@ export default {
           icon: "person_add",
           path: "/guide/players"
         },
-        { title: "Begin Simulation", icon: "monetization_on", path: "/play" }
+        {
+          title: "Begin Simulation",
+          icon: "monetization_on",
+          path: "/guide/start"
+        }
       ],
       conditionals: [
         { title: "Instructions", icon: "live_help", path: "" }

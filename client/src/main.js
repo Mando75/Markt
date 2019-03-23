@@ -9,15 +9,15 @@ import { credentialStore } from "./config/credentialStore";
 Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   theme: {
-    primary: "#7FCA40",
-    primary0: "#7FCA40" /* Main Primary color */,
-    primary1: "#BAE397",
-    primary2: "#8ABD5F",
+    primary0: "#7FCA40" /* Used for text on top of one of the modern themes*/,
+    primary1:
+      "#BAE397" /* Used with darken-1 for buttons and backround highlights*/,
+    primary2: "#8ABD5F" /*Used */,
     primary3: "#609732",
     primary4: "#3E7213",
     accent: "#224C00",
 
-    modernColor0: "#222222" /* Main Secondary color (2) */,
+    modernColor0: "#222222" /* Main Secondary color */,
     modernColor1: "#adadad",
     modernColor2: "#61706b",
     modernColor3: "#444444",
