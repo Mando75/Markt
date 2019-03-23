@@ -79,7 +79,8 @@ export class Experiment extends BaseEntity {
       option = generate({
         length: 6,
         charset: "alphanumeric",
-        readable: true
+        readable: true,
+        capitalization: "uppercase"
       });
       const existingCode = await Experiment.findOne({
         where: { joinCode: option, active: true },
