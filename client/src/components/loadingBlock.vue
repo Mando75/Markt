@@ -1,5 +1,4 @@
-<template>
-  <v-card flat color="#fafafa" class="pa-5 ma-5">
+<v-card flat color="#fafafa" class="pa-5 ma-5">
     <!--v-if="this.$apollo.loading"-->
     <v-img>
       <v-progress-circular
@@ -12,7 +11,6 @@
       </v-progress-circular>
     </v-img>
   </v-card>
-</template>
 
 <script>
 export default {

@@ -32,11 +32,6 @@ const router = new Router({
       component: () => import("../components/GuideFeatures/ExperimentSelect")
     },
     {
-      path: "/guide/invite",
-      name: "InvitePlayers",
-      component: () => import("../components/GuideFeatures/InvitePlayers")
-    },
-    {
       path: "/guide/experiment",
       name: "experimentControls",
       component: () => import("../components/GuideFeatures/ExperimentHub")

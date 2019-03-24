@@ -37,7 +37,7 @@
           dark
           active-class="primaryTheme"
           :class="conds.path === $route.path ? 'primaryTheme' : ''"
-          :to="conds.path"
+          @click="conds.action"
         >
           <v-list-tile-action>
             <v-icon>{{ conds.icon }}</v-icon>
@@ -68,7 +68,7 @@
           v-if="!this.$credentials.authenticated"
           depressed
           dark
-          class="font-weight-bold white--text hidden-sm-and-down"
+          class="font-weight-bold white--text hidden-xs-only"
           @click="$router.push('/login')"
         >
           Log In <span class="headline">/</span> Sign Up
@@ -94,15 +94,19 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
+    <Instructions />
     <!--208-496-1154 schmidt-->
   </div>
 </template>
 
 <script>
+import Instructions from "./GuideFeatures/Instructions";
 export default {
   name: "Nav",
+  components: { Instructions },
   data() {
     return {
+      dialog: false,
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
@@ -118,7 +122,7 @@ export default {
         }
       ],
       conditionals: [
-        { title: "Instructions", icon: "live_help", path: "" }
+        { title: "Instructions", icon: "live_help", action: "instructionView" }
         // { title: "NextRound", icon: "question_answer", path: "" }
       ],
       drawer: true
@@ -127,6 +131,11 @@ export default {
   computed: {
     displayName() {
       return this.$credentials.displayName;
+    }
+  },
+  methods: {
+    instructionView() {
+      this.dialog = !this.dialog;
     }
   }
 };

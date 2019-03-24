@@ -1,6 +1,11 @@
 <!-- Display the instructions. This component can be used as a popup if needed.-->
 <template>
-  <div>
+  <v-dialog
+    v-model="dialog"
+    fullscreen
+    hide-overlay
+    transition="dialog-bottom-transition"
+  >
     <LoadingBlock v-if="isLoading" />
     <v-container v-else fluid grid-list class="mt-7 pa-3">
       <!--title Card-->
@@ -83,7 +88,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </div>
+  </v-dialog>
 </template>
 
 <script>
@@ -92,11 +97,17 @@ import LoadingBlock from "../loadingBlock";
 export default {
   name: "Instructions",
   components: { LoadingBlock },
+  methods: {
+    toggleVisable() {
+      this.dialog = !this.dialog;
+    }
+  },
   data() {
     return {
       // instructs: {}
       appleSesh: 2,
-      isLoading: 0
+      isLoading: 0,
+      dialog: false
     };
   },
   mounted() {
