@@ -5,6 +5,7 @@ import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentSession } from "../../../entity/ExperimentSession";
 import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
+import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
 
 /**
  * Starts a new session in a given experiment. Validates that a new session
@@ -16,7 +17,7 @@ import { User } from "../../../entity/User";
 export const startNextSession = async (
   _: any,
   { experimentId }: GQL.IStartNextSessionOnMutationArguments,
-  { user }: GraphQLContext
+  { user, pubsub }: GraphQLContext
 ) => {
   const experiment = await findAndCheckExperiment(experimentId, user);
   const [sessions, scenarioSessions] = await Promise.all([
@@ -36,6 +37,9 @@ export const startNextSession = async (
   await deactivateSessions(sessions);
   newSession.experiment = Promise.resolve(experiment);
   newSession.scenarioSession = Promise.resolve(scenarioSession);
+  experiment.status = ExperimentStatusEnum.SESSION_START;
+  await experiment.save();
+  pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return await newSession.save();
 };
 

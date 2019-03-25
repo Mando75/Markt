@@ -101,6 +101,7 @@ declare namespace GQL {
     user: IUser;
     experiments: Array<IExperiment | null> | null;
     active: boolean;
+    players: Array<IPlayer | null> | null;
     createdDate: any;
     updatedDate: any;
   }
