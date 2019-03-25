@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  name: "ExperimentRunner"
+  name: "ExperimentRunner",
+  props: {
+    experimentId: {
+      type: String,
+      required: true
+    }
+  },
+  apollo: {}
 };
 </script>
 
