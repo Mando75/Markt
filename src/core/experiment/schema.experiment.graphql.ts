@@ -107,8 +107,14 @@ export const typeDefs = gql`
     closed
   }
 
+  type Subscription {
+    experimentStatusChanged(experimentId: ID!): Experiment
+    playerJoinedExperiment(experimentId: ID!): Experiment
+  }
+
   extend type Query {
     experiment(id: ID!): Experiment
+    experimentPlayer(id: ID!): ExperimentPlayer
   }
 
   extend type Mutation {

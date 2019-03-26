@@ -12,6 +12,8 @@
     "apollo-client": "^2.4.13",
     "apollo-link": "^1.2.8",
     "apollo-link-http": "^1.5.11",
+    "apollo-link-ws": "^1.0.17",
+    "apollo-utilities": "^1.2.1",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "stylus-loader": "^3.0.2",

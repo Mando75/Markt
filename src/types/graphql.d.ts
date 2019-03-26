@@ -3,7 +3,7 @@
 
 declare namespace GQL {
   interface IGraphQLResponseRoot {
-    data?: IQuery | IMutation;
+    data?: IQuery | IMutation | ISubscription;
     errors?: Array<IGraphQLResponseError>;
   }
 
@@ -24,6 +24,7 @@ declare namespace GQL {
     __typename: "Query";
     me: IUser | null;
     experiment: IExperiment | null;
+    experimentPlayer: IExperimentPlayer | null;
     group: IGroup | null;
     guide: IGuide | null;
     institution: IInstitution | null;
@@ -35,6 +36,10 @@ declare namespace GQL {
   }
 
   interface IExperimentOnQueryArguments {
+    id: string;
+  }
+
+  interface IExperimentPlayerOnQueryArguments {
     id: string;
   }
 
@@ -101,6 +106,7 @@ declare namespace GQL {
     user: IUser;
     experiments: Array<IExperiment | null> | null;
     active: boolean;
+    players: Array<IPlayer | null> | null;
     createdDate: any;
     updatedDate: any;
   }
@@ -462,6 +468,20 @@ declare namespace GQL {
     email: string;
     firstName?: string | null;
     lastName?: string | null;
+  }
+
+  interface ISubscription {
+    __typename: "Subscription";
+    experimentStatusChanged: IExperiment | null;
+    playerJoinedExperiment: IExperiment | null;
+  }
+
+  interface IExperimentStatusChangedOnSubscriptionArguments {
+    experimentId: string;
+  }
+
+  interface IPlayerJoinedExperimentOnSubscriptionArguments {
+    experimentId: string;
   }
 }
 

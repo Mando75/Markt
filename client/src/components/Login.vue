@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--<div v-if="$apollo.loading"><loading-block /></div>-->
     <v-container fluid>
       <template>
         <v-layout>
@@ -29,8 +30,8 @@
                     >
                       <template slot-scope="{ mutate }">
                         <v-text-field
-                          color="primary0"
                           v-model="userEmail"
+                          color="primary0"
                           label="User Email"
                           :rules="[
                             textValidationRules.required,
@@ -111,6 +112,7 @@ export default {
       if (!data.login) {
         this.$credentials.authenticated = true;
         this.$credentials.isUser = true;
+        this.$credentials.isPlayer = false;
         this.$router.push("/guide/home");
       } else {
         this.warningMsg = data.login.map(m => m);

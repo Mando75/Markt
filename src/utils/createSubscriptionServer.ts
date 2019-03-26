@@ -30,9 +30,11 @@ export const createSubscriptionServer = async (
           });
           // We have a good session. attach to context
           if (wsSession.userId || wsSession.playerId) {
+            console.log("connected, has session");
             return { session: wsSession };
           }
           // throwing error rejects the connection
+          console.log("connected, no session. rejected");
           throw new Error(ApolloErrors.UNAUTHORIZED);
         }
       },

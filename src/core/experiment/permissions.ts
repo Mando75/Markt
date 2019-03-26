@@ -4,7 +4,8 @@ import { isPlayer } from "../../rules/userRoles";
 
 export const permissions = {
   Query: {
-    experiment: isAuthenticated
+    experiment: isAuthenticated,
+    experimentPlayer: or(isPlayer, isAdmin)
   },
   Mutation: {
     startNewExperiment: or(isGuide, isAdmin),
