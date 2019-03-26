@@ -8,7 +8,11 @@
             <v-icon x-large>account_circle</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>{{ displayName }}</v-list-tile-title>
+            <v-list-tile-title>{{
+              this.$credentials.displayName
+                ? this.$credentials.displayName
+                : null
+            }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -37,7 +41,7 @@
           dark
           active-class="primaryTheme"
           :class="conds.path === $route.path ? 'primaryTheme' : ''"
-          @click="conds.action"
+          :to="conds.path"
         >
           <v-list-tile-action>
             <v-icon>{{ conds.icon }}</v-icon>
@@ -68,7 +72,7 @@
           v-if="!this.$credentials.authenticated"
           depressed
           dark
-          class="font-weight-bold white--text hidden-xs-only"
+          class="font-weight-bold white--text hidden-sm-and-down"
           @click="$router.push('/login')"
         >
           Log In <span class="headline">/</span> Sign Up
@@ -94,26 +98,22 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <Instructions />
     <!--208-496-1154 schmidt-->
   </div>
 </template>
 
 <script>
-import Instructions from "./GuideFeatures/Instructions";
 export default {
   name: "Nav",
-  components: { Instructions },
   data() {
     return {
-      dialog: false,
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
         {
-          title: "Invite Players",
+          title: "Invite Participants",
           icon: "person_add",
-          path: "/guide/players"
+          path: "/guide/joinCode"
         },
         {
           title: "Begin Simulation",
@@ -122,21 +122,11 @@ export default {
         }
       ],
       conditionals: [
-        { title: "Instructions", icon: "live_help", action: "instructionView" }
+        { title: "Instructions", icon: "live_help", path: "" }
         // { title: "NextRound", icon: "question_answer", path: "" }
       ],
       drawer: true
     };
-  },
-  computed: {
-    displayName() {
-      return this.$credentials.displayName;
-    }
-  },
-  methods: {
-    instructionView() {
-      this.dialog = !this.dialog;
-    }
   }
 };
 </script>
