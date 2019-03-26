@@ -30,6 +30,7 @@
                     >
                       <template slot-scope="{ mutate }">
                         <v-text-field
+                          color="primary0"
                           v-model="userEmail"
                           label="User Email"
                           :rules="[
@@ -41,6 +42,7 @@
                           v-model="userPassword"
                           label="Password"
                           type="password"
+                          color="primary0"
                         />
                         <v-btn color="primary3" @click="mutate">Login</v-btn>
                       </template>
@@ -59,7 +61,7 @@
                   <div>
                     <br />
                     <v-btn @click="$router.push('/register')">
-                      Sign Up here
+                        Sign Up Here
                     </v-btn>
                   </div>
                 </v-card-text>

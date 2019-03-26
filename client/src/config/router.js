@@ -32,6 +32,16 @@ const router = new Router({
       component: () => import("../components/GuideFeatures/ExperimentSelect")
     },
     {
+      path: "/guide/invite",
+      name: "InvitePlayers",
+      component: () => import("../components/GuideFeatures/InvitePlayers")
+    },
+    {
+      path: "/guide/experiment",
+      name: "experimentControls",
+      component: () => import("../components/GuideFeatures/ExperimentHub")
+    },
+    {
       path: "/player",
       name: "Player",
       component: () => import("../components/PlayerExperience/PlayerPage")
@@ -41,11 +51,6 @@ const router = new Router({
       path: "/join",
       name: "join",
       component: () => import("../components/PlayerExperience/JoinSession")
-    },
-    {
-      path: "/guide/setup",
-      name: "simulation_Setup",
-      component: () => import("../components/GuideFeatures/ExperimentSelect")
     },
     {
       path: "/guide/instructions",
@@ -59,14 +64,13 @@ const router = new Router({
         import("../components/GuideFeatures/PlayerManagement/PlayerManagement")
     },
     {
-      path: "/play",
-      name: "simulation_running",
-      component: () =>
-        import("../components/GuideFeatures/ExperimentInProgressPage")
+      path: "/guide/start",
+      name: "confirmBegin",
+      component: () => import("../components/GuideFeatures/BeginExperiment")
     },
     {
-      path: "/buy_sell",
-      name: "transaction",
+      path: "/player/transaction",
+      name: "Transaction",
       component: () => import("../components/PlayerExperience/Transaction")
     }
   ]

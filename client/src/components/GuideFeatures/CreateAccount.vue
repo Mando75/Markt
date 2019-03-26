@@ -28,10 +28,23 @@
                 @done="handleRegister"
               >
                 <template slot-scope="{ mutate }">
-                  <v-text-field v-model="firstName" label="First Name" />
-                  <v-text-field v-model="lastName" label="Last Name" />
-                  <v-text-field v-model="email" label="Email" />
                   <v-text-field
+                    color="primary0"
+                    v-model="firstName"
+                    label="First Name"
+                  />
+                  <v-text-field
+                    color="primary0"
+                    v-model="lastName"
+                    label="Last Name"
+                  />
+                  <v-text-field
+                    color="primary0"
+                    v-model="email"
+                    label="Email"
+                  />
+                  <v-text-field
+                    color="primary0"
                     v-model="password"
                     label="Password"
                     type="password"
