@@ -114,6 +114,7 @@ export const typeDefs = gql`
 
   extend type Query {
     experiment(id: ID!): Experiment
+    experimentPlayer(id: ID!): ExperimentPlayer
   }
 
   extend type Mutation {

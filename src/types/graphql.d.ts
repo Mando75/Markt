@@ -24,6 +24,7 @@ declare namespace GQL {
     __typename: "Query";
     me: IUser | null;
     experiment: IExperiment | null;
+    experimentPlayer: IExperimentPlayer | null;
     group: IGroup | null;
     guide: IGuide | null;
     institution: IInstitution | null;
@@ -35,6 +36,10 @@ declare namespace GQL {
   }
 
   interface IExperimentOnQueryArguments {
+    id: string;
+  }
+
+  interface IExperimentPlayerOnQueryArguments {
     id: string;
   }
 
@@ -468,9 +473,14 @@ declare namespace GQL {
   interface ISubscription {
     __typename: "Subscription";
     experimentStatusChanged: IExperiment | null;
+    playerJoinedExperiment: IExperiment | null;
   }
 
   interface IExperimentStatusChangedOnSubscriptionArguments {
+    experimentId: string;
+  }
+
+  interface IPlayerJoinedExperimentOnSubscriptionArguments {
     experimentId: string;
   }
 }

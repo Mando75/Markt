@@ -8,5 +8,6 @@ export const credentialStore = {
   scenarioId: "",
   sSelect: "",
   displayName: "",
-  experimentId: ""
+  experimentId: "",
+  experimentPlayerId: ""
 };

@@ -1,5 +1,5 @@
 import { ResolverMap } from "../../types/graphql-utils";
-import { getExperiment } from "./connectors/basicGets";
+import { getExperiment, getExperimentPlayer } from "./connectors/basicGets";
 import { startNewExperiment } from "./connectors/startNewExperiment";
 import { joinExperiment } from "./connectors/joinExperiment";
 import { startNextSession } from "./connectors/startNextSession";
@@ -26,7 +26,8 @@ export const resolvers: ResolverMap = {
     activeRound: async (obj: Experiment) => await obj.getActiveRound()
   },
   Query: {
-    experiment: getExperiment
+    experiment: getExperiment,
+    experimentPlayer: getExperimentPlayer
   },
   Mutation: {
     startNewExperiment,

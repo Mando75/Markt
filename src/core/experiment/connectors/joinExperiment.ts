@@ -24,8 +24,11 @@ import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
 export const joinExperiment = async (
   _: any,
   { params: { joinCode, playerCode } }: GQL.IJoinExperimentOnMutationArguments,
-  { redis, session, req, pubsub }: GraphQLContext
+  { redis, session, req, pubsub, player: sessionPlayer }: GraphQLContext
 ) => {
+  if (session.playerId && sessionPlayer) {
+    return await getExistingPlayer(joinCode, sessionPlayer);
+  }
   const { experiment, player } = await getExperimentAndPlayer(
     joinCode,
     playerCode
@@ -41,6 +44,19 @@ export const joinExperiment = async (
   await experiment.reload();
   pubsub.publish(SubscriptionKey.PLAYER_JOINED_EXPERIMENT, experiment);
   return ep;
+};
+
+/**
+ * Returns an experiment player for someone who already has an ExperimentPlayer session
+ * @param joinCode
+ * @param player
+ */
+const getExistingPlayer = async (joinCode: string, player: Player) => {
+  const experimentPlayers = await player.experimentPlayers;
+  const index = (await Promise.all(
+    experimentPlayers.map(ep => ep.experiment)
+  )).findIndex(e => e.joinCode === joinCode);
+  return experimentPlayers[index];
 };
 
 /**

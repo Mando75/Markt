@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" app dark class="link--text">
+    <v-navigation-drawer
+      v-if="isUser"
+      v-model="drawer"
+      app
+      dark
+      class="link--text"
+    >
       <v-list class="hidden-sm-and-down"></v-list>
       <v-list class="pt-5">
         <v-list-tile avatar>
@@ -50,22 +56,18 @@
     </v-navigation-drawer>
 
     <v-toolbar app color="modernColor3" fixed clipped-left>
-      <v-toolbar-side-icon
-        v-if="this.$credentials.authenticated"
-        @click="drawer = !drawer"
-      ></v-toolbar-side-icon>
+      <v-toolbar-side-icon v-if="isUser" @click="drawer = !drawer" />
       <router-link to="/">
-        <v-toolbar-title class="display-2 white--text font-weight-bold "
-          >Markt</v-toolbar-title
-        >
+        <v-toolbar-title class="display-2 white--text font-weight-bold ">
+          Markt
+        </v-toolbar-title>
       </router-link>
 
       <v-spacer />
       <!--The right side buttons-->
-      <v-toolbar-items>
+      <v-toolbar-items v-if="!isAuthenticated">
         <!--button 1-->
         <v-btn
-          v-if="!this.$credentials.authenticated"
           depressed
           dark
           class="font-weight-bold white--text hidden-sm-and-down"
@@ -75,16 +77,6 @@
         </v-btn>
         <!--button 2-->
         <v-btn
-          v-if="this.$credentials.isUser"
-          depressed
-          dark
-          class="font-weight-bold white--text"
-          @click="$router.push('/joinCode')"
-        >
-          Join Code
-        </v-btn>
-        <v-btn
-          v-else
           depressed
           dark
           class="font-weight-bold white--text"
@@ -120,9 +112,20 @@ export default {
       drawer: true
     };
   },
+  methods: {
+    isAuthenticated() {
+      return this.$credentials.authenticated;
+    }
+  },
   computed: {
+    credentials() {
+      return this.$credentials;
+    },
     displayName() {
-      return this.$credentials.displayName;
+      return this.credentials.displayName;
+    },
+    isUser() {
+      return this.isAuthenticated() && this.credentials.isUser;
     }
   }
 };
