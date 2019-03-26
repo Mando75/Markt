@@ -28,9 +28,10 @@ export const playerExists = (player: Player | undefined, session: Session) => {
  * Basic check if the user is logged in with an active user
  */
 export const isAuthenticated = rule({ cache: "contextual" })(
-  async (_: any, __: any, { user, session }: GraphQLContext) => {
+  async (_: any, __: any, { user, session, player }: GraphQLContext) => {
     return (
       userExists(user, session) ||
+      playerExists(player, session) ||
       new AuthenticationError(ApolloErrors.UNAUTHORIZED)
     );
   }
