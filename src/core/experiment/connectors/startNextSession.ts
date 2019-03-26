@@ -31,7 +31,7 @@ export const startNextSession = async (
   if (!scenarioSession) {
     throw new ApolloError(ExperimentErrorMessages.MALFORMED_SCENARIO, "500");
   }
-  const newSession = ExperimentSession.create({
+  let newSession = ExperimentSession.create({
     sessionNumber: newSessionNumber
   });
   await deactivateSessions(sessions);
@@ -39,8 +39,9 @@ export const startNextSession = async (
   newSession.scenarioSession = Promise.resolve(scenarioSession);
   experiment.status = ExperimentStatusEnum.SESSION_START;
   await experiment.save();
+  newSession = await newSession.save();
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
-  return await newSession.save();
+  return newSession;
 };
 
 /**

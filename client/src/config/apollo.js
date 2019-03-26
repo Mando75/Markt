@@ -23,6 +23,7 @@ const wsLink = new WebSocketLink({ uri: wsUri, options: { reconnect: true } });
 const link = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);
+    console.log(operation);
     return kind === "OperationDefinition" && operation === "subscription";
   },
   wsLink,

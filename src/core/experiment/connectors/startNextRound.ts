@@ -20,15 +20,16 @@ export const startNextRound = async (
   }
   const rounds = await checkSessionRounds(activeSession);
   const newRoundNumber = rounds.length + 1;
-  const newRound = Round.create({
+  let newRound = Round.create({
     roundNumber: newRoundNumber
   });
   await deactivateRounds(rounds);
   newRound.session = Promise.resolve(activeSession);
   experiment.status = ExperimentStatusEnum.IN_ROUND;
   await experiment.save();
+  newRound = await newRound.save();
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
-  return await newRound.save();
+  return newRound;
 };
 
 /**

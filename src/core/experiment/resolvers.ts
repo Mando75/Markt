@@ -40,6 +40,7 @@ export const resolvers: ResolverMap = {
   },
   Subscription: {
     experimentStatusChanged: {
+      resolve: (payload: Experiment) => payload,
       subscribe: withFilter(
         () => pubsub.asyncIterator(SubscriptionKey.EXPERIMENT_STATUS_UPDATE),
         (payload: Experiment, { experimentId }: { experimentId: string }) =>
@@ -47,7 +48,7 @@ export const resolvers: ResolverMap = {
       )
     },
     playerJoinedExperiment: {
-      resolve: (payload: Experiment) => payload.numPlayers,
+      resolve: (payload: Experiment) => payload,
       subscribe: withFilter(
         () => pubsub.asyncIterator(SubscriptionKey.PLAYER_JOINED_EXPERIMENT),
         (payload: Experiment, { experimentId }: { experimentId: string }) =>

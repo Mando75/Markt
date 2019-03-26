@@ -57,6 +57,9 @@ export default {
           return {
             experimentId: this.$credentials.experimentId
           };
+        },
+        updateQuery(prev, { subscriptionData }) {
+          this.experiment = subscriptionData.data.experimentStatusChange;
         }
       }
     },
@@ -66,10 +69,6 @@ export default {
         return {
           experimentPlayerId: this.$credentials.experimentPlayerId
         };
-      },
-      updateQuery(prev, { subscriptionData }) {
-        console.log(prev);
-        console.log(subscriptionData);
       }
     }
   }
