@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer
-      v-if="isUser"
+      v-if="$credentials.isUser"
       v-model="drawer"
       app
       dark
@@ -14,7 +14,9 @@
             <v-icon x-large>account_circle</v-icon>
           </v-list-tile-avatar>
           <v-list-tile-content>
-            <v-list-tile-title>{{ displayName }}</v-list-tile-title>
+            <v-list-tile-title>{{
+              $credentials.displayName
+            }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -56,7 +58,10 @@
     </v-navigation-drawer>
 
     <v-toolbar app color="modernColor3" fixed clipped-left>
-      <v-toolbar-side-icon v-if="isUser" @click="drawer = !drawer" />
+      <v-toolbar-side-icon
+        v-if="$credentials.isUser"
+        @click="drawer = !drawer"
+      />
       <router-link to="/">
         <v-toolbar-title class="display-2 white--text font-weight-bold ">
           Markt
@@ -65,7 +70,7 @@
 
       <v-spacer />
       <!--The right side buttons-->
-      <v-toolbar-items v-if="!isAuthenticated">
+      <v-toolbar-items v-if="!$credentials.authenticated">
         <!--button 1-->
         <v-btn
           depressed
@@ -115,22 +120,6 @@ export default {
       ],
       drawer: true
     };
-  },
-  computed: {
-    credentials() {
-      return this.$credentials;
-    },
-    displayName() {
-      return this.credentials.displayName;
-    },
-    isUser() {
-      return this.isAuthenticated() && this.credentials.isUser;
-    }
-  },
-  methods: {
-    isAuthenticated() {
-      return this.$credentials.authenticated;
-    }
   }
 };
 </script>
