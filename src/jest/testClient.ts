@@ -40,7 +40,8 @@ export class TestClient {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       accountType: AccountType.USER,
-      email: `${faker.random.alphaNumeric()}${faker.internet.email()}`,
+      email: `${faker.random.alphaNumeric() +
+        faker.random.alphaNumeric()}${faker.internet.email()}`,
       // email: faker.internet.exampleEmail().toLowerCase(),
       password: faker.internet.password(8, false) + "@Aa1",
       emailConfirmed: false

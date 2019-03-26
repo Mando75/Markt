@@ -1,5 +1,5 @@
 <template>
-  <v-card dark flat tile height="600">
+  <v-card elevation="4" dark tile height="600">
     <v-img
       :src="require('@/assets/lecture.151104.jpg')"
       aspect-ratio="2.75"
@@ -15,7 +15,7 @@
         :variables="{ email, firstName, lastName, guideId }"
         @done="handlePlayerCreated"
       >
-        <template slot-scope="{ mutate, loading }">
+        <template slot-scope="{ mutate, loading, error }">
           <v-form v-model="validInput">
             <v-text-field
               v-model="email"
@@ -53,6 +53,9 @@
               >
             </v-flex>
           </v-card-actions>
+          <v-card-text v-if="error">
+            <MutationErrorDisplay :error="error" />
+          </v-card-text>
         </template>
       </ApolloMutation>
     </v-card-text>
@@ -68,8 +71,10 @@
 <script>
 import InputValidationMixin from "../../../mixins/InputValidationMixin";
 import { createPlayerMutation } from "./playerManagementQueries.graphql";
+import MutationErrorDisplay from "../../common/MutationErrorDisplay";
 export default {
   name: "PlayerInvitationCard",
+  components: { MutationErrorDisplay },
   mixins: [InputValidationMixin],
   data() {
     return {

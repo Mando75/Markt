@@ -1,0 +1,47 @@
+fragment experimentFragment on Experiment {
+  id
+  status
+  activeSession {
+    id
+    sessionNumber
+    active
+  }
+  activeRound {
+    id
+    roundNumber
+    active
+  }
+}
+
+query er_experimentQuery($experimentId: ID!) {
+  experiment(id: $experimentId) {
+    ...experimentFragment
+  }
+}
+
+subscription er_experimentStatusUpdateSubscription($experimentId: ID!) {
+  experimentStatusChanged(experimentId: $experimentId) {
+    ...experimentFragment
+  }
+}
+
+query er_experimentPlayerQuery($experimentPlayerId: ID!) {
+  experimentPlayer(id: $experimentPlayerId) {
+    id
+    playerCode
+    currentSessionRole {
+      name
+      value
+      allowSell
+      profitEquation
+      instructions {
+        step
+        header
+        bullets {
+          format
+          text
+        }
+      }
+    }
+  }
+}

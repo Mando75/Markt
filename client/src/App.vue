@@ -2,7 +2,7 @@
   <div id="app">
     <v-app>
       <Nav />
-      <MobileNav />
+      <MobileNav v-if="$vuetify.breakpoint.mdAndDown" />
       <v-content v-if="!loading">
         <router-view />
       </v-content>
@@ -12,7 +12,7 @@
 
 <script>
 import Nav from "./components/Nav";
-import MobileNav from "./components/PlayerExperience/MobileNav";
+import MobileNav from "./components/MobileNav";
 import { me } from "./meQuery.graphql";
 export default {
   name: "App",
@@ -37,12 +37,14 @@ export default {
           this.$credentials.displayName = data.me.fullName;
           this.$credentials.authenticated = true;
           this.$credentials.isUser = true;
+          this.$credentials.isPlayer = false;
         }
       },
       loadingKey: "loading",
       skip: () => {
-        const authed = localStorage.getItem("authenticated");
-        return !authed || authed === "false";
+        const authed = JSON.parse(localStorage.getItem("authenticated"));
+        const isUser = JSON.parse(localStorage.getItem("isUser"));
+        return !(authed && isUser);
       }
     }
   }

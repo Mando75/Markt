@@ -2,6 +2,7 @@ import { GraphQLContext } from "../../../types/graphql-context";
 import { GraphQLResolveInfo } from "graphql";
 import * as graphqlFields from "graphql-fields";
 import { Experiment } from "../../../entity/Experiment";
+import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
 
 export const getExperiment = async (
   _: any,
@@ -36,3 +37,9 @@ export const getExperiment = async (
       })
     : await Experiment.findOne(id);
 };
+
+export const getExperimentPlayer = async (
+  _: any,
+  { id }: GQL.IExperimentPlayerOnQueryArguments,
+  { player }: GraphQLContext
+) => await ExperimentPlayer.findOne({ where: { id, player, active: true } });

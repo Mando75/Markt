@@ -8,6 +8,7 @@ import { RedisPrefix } from "../../../enums/redisPrefix.enum";
 import { RoleType } from "../../../entity/RoleType";
 import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { setPlayerSession } from "../../../utils/ContextSession/sessionControl";
+import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
 
 /**
  * Resolver function for joining an experiment
@@ -23,20 +24,39 @@ import { setPlayerSession } from "../../../utils/ContextSession/sessionControl";
 export const joinExperiment = async (
   _: any,
   { params: { joinCode, playerCode } }: GQL.IJoinExperimentOnMutationArguments,
-  { redis, session, req }: GraphQLContext
+  { redis, session, req, pubsub, player: sessionPlayer }: GraphQLContext
 ) => {
+  if (session.playerId && sessionPlayer) {
+    return await getExistingPlayer(joinCode, sessionPlayer);
+  }
   const { experiment, player } = await getExperimentAndPlayer(
     joinCode,
     playerCode
   );
   await checkExperimentBeforeJoin(experiment, player);
-  const ep = ExperimentPlayer.create();
+  let ep = ExperimentPlayer.create();
   ep.player = Promise.resolve(player);
   ep.experiment = Promise.resolve(experiment);
   const roleType = await assignPlayerRoleType(experiment.id, redis);
   ep.roleType = Promise.resolve(roleType);
   await setPlayerSession(player.id, experiment.id, session, req, redis);
-  return await ep.save();
+  ep = await ep.save();
+  await experiment.reload();
+  pubsub.publish(SubscriptionKey.PLAYER_JOINED_EXPERIMENT, experiment);
+  return ep;
+};
+
+/**
+ * Returns an experiment player for someone who already has an ExperimentPlayer session
+ * @param joinCode
+ * @param player
+ */
+const getExistingPlayer = async (joinCode: string, player: Player) => {
+  const experimentPlayers = await player.experimentPlayers;
+  const index = (await Promise.all(
+    experimentPlayers.map(ep => ep.experiment)
+  )).findIndex(e => e.joinCode === joinCode);
+  return experimentPlayers[index];
 };
 
 /**
