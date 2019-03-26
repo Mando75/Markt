@@ -63,3 +63,4 @@ export default {
 }
 </style>
 <style src="vuetify/dist/vuetify.min.css"></style>
+<style src="v-currency-field/dist/index.css"></style>

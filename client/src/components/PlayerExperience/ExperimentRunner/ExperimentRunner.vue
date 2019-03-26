@@ -58,6 +58,7 @@ export default {
           };
         },
         updateQuery(prev, { subscriptionData }) {
+          this.$apollo.queries.experimentPlayer.refetch();
           this.experiment = subscriptionData.data.experimentStatusChange;
         }
       }
