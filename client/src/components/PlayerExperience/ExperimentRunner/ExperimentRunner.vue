@@ -1,8 +1,9 @@
 <template>
   <div>
-    Welcome to experiment Runner
-    {{ experiment }}
-    {{ experimentPlayer }}
+    <SessionStart
+      v-if="sessionStart"
+      :session-role="experimentPlayer.currentSessionRole"
+    />
   </div>
 </template>
 
@@ -12,8 +13,10 @@ import {
   er_experimentPlayerQuery,
   er_experimentStatusUpdateSubscription
 } from "./experimentRunnerQueries.graphql";
+import SessionStart from "./SessionStart";
 export default {
   name: "ExperimentRunner",
+  components: { SessionStart },
   mounted() {
     window.onbeforeunload = function() {
       return "You will be logged out of the experiment. Continue?";
@@ -21,6 +24,20 @@ export default {
   },
   beforeDestroy() {
     window.onbeforeunload = function() {};
+  },
+  computed: {
+    currentStatus() {
+      return this.experiment ? this.experiment.status : "";
+    },
+    sessionStart() {
+      return ["joining", "session_start"].includes(this.currentStatus);
+    },
+    inRound() {
+      return this.currentStatus === "in_round";
+    },
+    roundSummary() {
+      return this.currentStatus === "round_summary";
+    }
   },
   apollo: {
     experiment: {
