@@ -61,7 +61,7 @@
                   <div>
                     <br />
                     <v-btn @click="$router.push('/register')">
-                        Sign Up Here
+                      Sign Up Here
                     </v-btn>
                   </div>
                 </v-card-text>
