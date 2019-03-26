@@ -35,7 +35,6 @@ export default {
     }
   },
   mounted() {
-    console.log(er_experimentStatusUpdateSubscription);
     window.onbeforeunload = function() {
       return "You will be logged out of the experiment. Continue?";
     };
