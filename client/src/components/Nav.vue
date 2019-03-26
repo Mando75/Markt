@@ -116,11 +116,6 @@ export default {
       drawer: true
     };
   },
-  methods: {
-    isAuthenticated() {
-      return this.$credentials.authenticated;
-    }
-  },
   computed: {
     credentials() {
       return this.$credentials;
@@ -130,6 +125,11 @@ export default {
     },
     isUser() {
       return this.isAuthenticated() && this.credentials.isUser;
+    }
+  },
+  methods: {
+    isAuthenticated() {
+      return this.$credentials.authenticated;
     }
   }
 };

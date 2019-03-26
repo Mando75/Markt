@@ -27,7 +27,7 @@
           <v-layout row wrap>
             <v-flex d-flex>
               <v-card color="primary1 darken-3" dark>
-                <v-card-title primary-title v-if="$credentials.sSelect === ''"
+                <v-card-title v-if="$credentials.sSelect === ''" primary-title
                   >No Experiment Selected</v-card-title
                 >
                 <v-card-title v-else primary class="headline font-weight-bold"
@@ -109,6 +109,13 @@ import LoadingBlock from "../loadingBlock";
 export default {
   name: "LandingPage",
   components: { LoadingBlock },
+  data() {
+    return {
+      guideId: "",
+      fullName: "",
+      isLoading: 0
+    };
+  },
   methods: {
     proceedToStart() {
       var peopleInvited = true;
@@ -118,13 +125,6 @@ export default {
         this.$router.push("/guide/invite");
       }
     }
-  },
-  data() {
-    return {
-      guideId: "",
-      fullName: "",
-      isLoading: 0
-    };
   },
   apollo: {
     // Simple query that gets the user id

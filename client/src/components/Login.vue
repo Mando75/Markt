@@ -30,8 +30,8 @@
                     >
                       <template slot-scope="{ mutate }">
                         <v-text-field
-                          color="primary0"
                           v-model="userEmail"
+                          color="primary0"
                           label="User Email"
                           :rules="[
                             textValidationRules.required,

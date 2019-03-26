@@ -29,23 +29,23 @@
               >
                 <template slot-scope="{ mutate }">
                   <v-text-field
-                    color="primary0"
                     v-model="firstName"
+                    color="primary0"
                     label="First Name"
                   />
                   <v-text-field
-                    color="primary0"
                     v-model="lastName"
+                    color="primary0"
                     label="Last Name"
                   />
                   <v-text-field
-                    color="primary0"
                     v-model="email"
+                    color="primary0"
                     label="Email"
                   />
                   <v-text-field
-                    color="primary0"
                     v-model="password"
+                    color="primary0"
                     label="Password"
                     type="password"
                   />

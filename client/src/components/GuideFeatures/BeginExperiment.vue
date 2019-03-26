@@ -15,7 +15,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout justify-center v-if="this.$credentials.sSelect === ''">
+    <v-layout v-if="this.$credentials.sSelect === ''" justify-center>
       <v-flex d-flex md12 sm12>
         <v-card dark>
           <v-card-title class="justify-center display-1"
