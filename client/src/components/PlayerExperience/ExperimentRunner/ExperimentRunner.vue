@@ -13,7 +13,9 @@ export default {
       required: true
     }
   },
-  apollo: {}
+  apollo: {
+    experiment
+  }
 };
 </script>
 

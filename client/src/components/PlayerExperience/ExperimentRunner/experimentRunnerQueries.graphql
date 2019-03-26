@@ -1,0 +1,16 @@
+query experiment($experimentId: ID!) {
+    experiment(experimentId: $experimentId) {
+        id
+        status
+        activeSession {
+            id
+            sessionNumber
+            active
+        }
+        activeRound {
+            id
+            roundNumber
+            active
+        }
+    }
+}
