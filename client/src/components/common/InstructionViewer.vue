@@ -20,7 +20,7 @@ export default {
   name: "InstructionViewer",
   props: {
     instructions: {
-      type: Object,
+      type: Array,
       required: true
     }
   }

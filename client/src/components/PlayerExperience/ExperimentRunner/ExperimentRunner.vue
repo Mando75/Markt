@@ -4,6 +4,9 @@
       v-if="sessionStart"
       :session-role="experimentPlayer.currentSessionRole"
     />
+    <span>In Round: {{ inRound }}</span>
+    <br />
+    <span>Round Summary {{ roundSummary }}</span>
   </div>
 </template>
 
@@ -17,14 +20,6 @@ import SessionStart from "./SessionStart";
 export default {
   name: "ExperimentRunner",
   components: { SessionStart },
-  mounted() {
-    window.onbeforeunload = function() {
-      return "You will be logged out of the experiment. Continue?";
-    };
-  },
-  beforeDestroy() {
-    window.onbeforeunload = function() {};
-  },
   computed: {
     currentStatus() {
       return this.experiment ? this.experiment.status : "";
@@ -38,6 +33,15 @@ export default {
     roundSummary() {
       return this.currentStatus === "round_summary";
     }
+  },
+  mounted() {
+    console.log(er_experimentStatusUpdateSubscription);
+    window.onbeforeunload = function() {
+      return "You will be logged out of the experiment. Continue?";
+    };
+  },
+  beforeDestroy() {
+    window.onbeforeunload = function() {};
   },
   apollo: {
     experiment: {
