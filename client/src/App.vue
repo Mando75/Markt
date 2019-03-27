@@ -2,7 +2,6 @@
   <div id="app">
     <v-app>
       <Nav />
-      <MobileNav v-if="$vuetify.breakpoint.mdAndDown" />
       <v-content v-if="!loading">
         <router-view />
       </v-content>
@@ -12,11 +11,10 @@
 
 <script>
 import Nav from "./components/Nav";
-import MobileNav from "./components/MobileNav";
 import { me } from "./meQuery.graphql";
 export default {
   name: "App",
-  components: { MobileNav, Nav },
+  components: { Nav },
   data() {
     return {
       loading: 0
