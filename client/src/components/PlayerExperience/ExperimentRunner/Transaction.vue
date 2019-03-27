@@ -76,8 +76,9 @@
       <v-flex v-else-if="madeTransaction" xs12 sm6 offset-sm3>
         <h3 class="display-2">Please wait for the round to end</h3>
       </v-flex>
-      <v-flex v-else xs12 sm6 offset-sm3>
-        <h3 class="display-2"><strong>Profit Equation</strong></h3>
+      <v-flex v-else xs12>
+        <h3 class="display-3 my-4">You cannot sell this round</h3>
+        <h3 class="display-2 mt-4"><strong>Profit Equation</strong></h3>
         <h3 class="display-2">
           {{ experimentPlayer.currentSessionRole.profitEquation }}
         </h3>
@@ -145,7 +146,6 @@ export default {
   },
   methods: {
     handlePlayerTransaction({ data }) {
-      console.log(data);
       this.madeTransaction = true;
     }
   }
