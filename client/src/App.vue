@@ -42,9 +42,9 @@ export default {
       },
       loadingKey: "loading",
       skip: () => {
+        if (window.location.pathname === "/login") return true;
         const authed = JSON.parse(localStorage.getItem("authenticated"));
         const isUser = JSON.parse(localStorage.getItem("isUser"));
-        console.log(!(authed && isUser));
         return !(authed && isUser);
       }
     }

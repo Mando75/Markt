@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="4" dark tile height="600">
+  <v-card elevation="4" dark tile :height="height">
     <v-img
       :src="require('@/assets/lecture.151104.jpg')"
       aspect-ratio="2.75"
@@ -76,6 +76,12 @@ export default {
   name: "PlayerInvitationCard",
   components: { MutationErrorDisplay },
   mixins: [InputValidationMixin],
+  props: {
+    height: {
+      type: String,
+      default: "600"
+    }
+  },
   data() {
     return {
       createPlayerMutation,
