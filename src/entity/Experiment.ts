@@ -46,7 +46,9 @@ export class Experiment extends BaseEntity {
   @OneToMany(() => ExperimentPlayer, ep => ep.experiment)
   players: Promise<ExperimentPlayer[]>;
 
-  @OneToMany(() => ExperimentSession, es => es.experiment)
+  @OneToMany(() => ExperimentSession, es => es.experiment, {
+    cascade: false
+  })
   sessions: Promise<ExperimentSession[]>;
 
   @Column({ type: "boolean", nullable: false, default: true })
@@ -102,6 +104,11 @@ export class Experiment extends BaseEntity {
     );
   }
 
+  async updateStatus(newStatus: ExperimentStatusEnum) {
+    this.status = newStatus;
+    return await this.save();
+  }
+
   /**
    * Returns back the current experiment session
    */
@@ -109,8 +116,11 @@ export class Experiment extends BaseEntity {
     const sessions = await this.sessions;
     if (sessions) {
       return sessions.find(s => s.active);
+    } else {
+      return await ExperimentSession.findOne({
+        where: { experiment: this, active: true }
+      });
     }
-    return null;
   }
 
   /**

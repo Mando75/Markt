@@ -12,6 +12,7 @@ import { endExperiment } from "./connectors/endExperiment";
 import { pubsub } from "../../utils/ContextSession/contextControl";
 import { withFilter } from "apollo-server-express";
 import { SubscriptionKey } from "../../enums/subscriptionKey.enum";
+import { ExperimentSession } from "../../entity/ExperimentSession";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
@@ -22,7 +23,11 @@ export const resolvers: ResolverMap = {
       await obj.getProfitEquation()
   },
   Experiment: {
-    activeSession: async (obj: Experiment) => await obj.getActiveSession(),
+    // TODO bandaid fix
+    activeSession: async (obj: Experiment) =>
+      await ExperimentSession.findOne({
+        where: { experiment: obj, active: true }
+      }),
     activeRound: async (obj: Experiment) => await obj.getActiveRound()
   },
   Query: {

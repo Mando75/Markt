@@ -1,12 +1,22 @@
 <template>
   <div>
-    <SessionStart
-      v-if="sessionStart"
-      :session-role="experimentPlayer.currentSessionRole"
-    />
-    <span>In Round: {{ inRound }}</span>
-    <br />
-    <span>Round Summary {{ roundSummary }}</span>
+    <div v-if="apolloLoading">
+      <LoadingBlock />
+    </div>
+    <div v-else>
+      <SessionStart
+        v-if="sessionStart"
+        :session-role="experimentPlayer.currentSessionRole"
+      />
+      <Transaction
+        v-if="inRound"
+        :experiment-id="experiment.id"
+        :experiment-player="experimentPlayer"
+      />
+      <span>In Round: {{ inRound }}</span>
+      <br />
+      <span>Round Summary {{ roundSummary }}</span>
+    </div>
   </div>
 </template>
 
@@ -17,9 +27,16 @@ import {
   er_experimentStatusUpdateSubscription
 } from "./experimentRunnerQueries.graphql";
 import SessionStart from "./SessionStart";
+import Transaction from "./Transaction";
+import LoadingBlock from "../../loadingBlock";
 export default {
   name: "ExperimentRunner",
-  components: { SessionStart },
+  components: { LoadingBlock, Transaction, SessionStart },
+  data() {
+    return {
+      apolloLoading: 0
+    };
+  },
   computed: {
     currentStatus() {
       return this.experiment ? this.experiment.status : "";
@@ -32,6 +49,11 @@ export default {
     },
     roundSummary() {
       return this.currentStatus === "round_summary";
+    }
+  },
+  created() {
+    if (!this.$credentials.experimentId) {
+      this.$router.push("/join");
     }
   },
   mounted() {
@@ -50,6 +72,7 @@ export default {
           experimentId: this.$credentials.experimentId
         };
       },
+      loadingKey: "apolloLoading",
       subscribeToMore: {
         document: er_experimentStatusUpdateSubscription,
         variables() {
@@ -59,12 +82,13 @@ export default {
         },
         updateQuery(prev, { subscriptionData }) {
           this.$apollo.queries.experimentPlayer.refetch();
-          this.experiment = subscriptionData.data.experimentStatusChange;
+          this.experiment = subscriptionData.data.experimentStatusChanged;
         }
       }
     },
     experimentPlayer: {
       query: er_experimentPlayerQuery,
+      loadingKey: "apolloLoading",
       variables() {
         return {
           experimentPlayerId: this.$credentials.experimentPlayerId

@@ -73,6 +73,15 @@
           </v-card>
         </ApolloMutation>
       </v-flex>
+      <v-flex v-else-if="madeTransaction" xs12 sm6 offset-sm3>
+        <h3 class="display-2">Please wait for the round to end</h3>
+      </v-flex>
+      <v-flex v-else xs12 sm6 offset-sm3>
+        <h3 class="display-2"><strong>Profit Equation</strong></h3>
+        <h3 class="display-2">
+          {{ experimentPlayer.currentSessionRole.profitEquation }}
+        </h3>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -85,13 +94,23 @@ export default {
   name: "Transaction",
   components: { MutationErrorDisplay },
   mixins: [InputValidationMixin],
+  props: {
+    experimentId: {
+      type: String,
+      required: true
+    },
+    experimentPlayer: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
-      canMakeTransaction: true,
       makeTransactionMutation,
-      sellerCode: "JDREX1",
+      sellerCode: this.experimentPlayer.playerCode,
       buyerCode: "",
       amount: "0",
+      madeTransaction: false,
       currencyConfig: {
         decimal: ".",
         thousands: ",",
@@ -106,11 +125,18 @@ export default {
     };
   },
   computed: {
+    canMakeTransaction() {
+      return (
+        this.experimentPlayer.currentSessionRole.allowSell &&
+        !this.madeTransaction
+      );
+    },
     parsedAmount() {
       return parseFloat(this.amount.replace(",", ""));
     },
     transactionVars() {
       return {
+        experimentId: this.experimentId,
         sellerCode: this.sellerCode,
         buyerCode: this.buyerCode,
         amount: this.parsedAmount
@@ -120,7 +146,7 @@ export default {
   methods: {
     handlePlayerTransaction({ data }) {
       console.log(data);
-      this.canMakeTransaction = false;
+      this.madeTransaction = true;
     }
   }
 };

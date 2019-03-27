@@ -49,8 +49,10 @@ router.beforeEach(async (to, from, next) => {
     // they are authenticated, proceed
     if ((playerPath() && isPlayer) || (userPath() && isUser)) {
       next();
-    } else {
+    } else if (playerPath()) {
       // they are not authenticated, redirect based on role
+      next("/join");
+    } else {
       const redirect = "/login?sessionExpired=1";
       next(redirect);
     }
