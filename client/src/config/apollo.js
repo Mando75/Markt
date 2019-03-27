@@ -15,7 +15,7 @@ const httpLink = new HttpLink({
 
 const env = process.env.NODE_ENV;
 const baseUri =
-  env !== "production" ? "ws://localhost:4000" : "ws://markt-dev.herokuapp.com";
+  env !== "production" ? "ws://localhost:4000" : "wss://markt-dev.herokuapp.com";
 
 const wsUri = baseUri + "/subscriptions";
 const wsLink = new WebSocketLink({ uri: wsUri, options: { reconnect: true } });
