@@ -12,6 +12,7 @@
 <script>
 import Nav from "./components/Nav";
 import { me } from "./meQuery.graphql";
+
 export default {
   name: "App",
   components: { Nav },
