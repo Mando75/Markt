@@ -36,12 +36,11 @@ export const startNextSession = async (
     sessionNumber: newSessionNumber
   });
   await deactivateSessions(sessions);
-  const [savedSession, updatedExperiment] = await Promise.all([
-    saveNewSession(newSession, experiment, scenarioSession),
-    experiment.updateStatus(ExperimentStatusEnum.SESSION_START)
+  const [savedSession] = await Promise.all([
+    saveNewSession(newSession, experiment, scenarioSession)
   ]);
-  await updatedExperiment.reload();
-  pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, updatedExperiment);
+  await experiment.reload();
+  pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return savedSession;
 };
 

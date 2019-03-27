@@ -23,6 +23,13 @@ describe("startNextSession", () => {
     mutation {
       startNextSession(experimentId: "${experimentId}") {
         id
+        experiment {
+          id
+          status
+          activeSession {
+            id
+          }
+        }
       }
     }
   `;
@@ -85,7 +92,8 @@ describe("startNextSession", () => {
     const tc = new TestClient(host);
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
-    const { data } = await tc.query(startNextSession(experiment.id));
+    const { data, errors } = await tc.query(startNextSession(experiment.id));
+    console.log(errors);
     expect(data.startNextSession).toBeTruthy();
     expect(data.startNextSession.id).toBeTruthy();
   });
@@ -125,9 +133,27 @@ describe("startNextSession", () => {
     const tc = new TestClient(host);
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
-    await tc.query(startNextSession(experiment.id));
+    const { data } = await tc.query(startNextSession(experiment.id));
     await experiment.reload();
     expect(experiment.status).toEqual(ExperimentStatusEnum.SESSION_START);
+    expect(data.startNextSession.experiment.status).toEqual(
+      ExperimentStatusEnum.SESSION_START
+    );
+  });
+
+  it("updates active session", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    await tc.login();
+    const { data } = await tc.query(startNextSession(experiment.id));
+    expect(data.startNextSession.id).toBeTruthy();
+    expect(data.startNextSession.experiment).toBeTruthy();
+    expect(data.startNextSession.experiment.id).toBeTruthy();
+    expect(data.startNextSession.experiment.activeSession).toBeTruthy();
+    expect(data.startNextSession.experiment.activeSession.id).toBeTruthy();
+    expect(data.startNextSession.experiment.activeSession.id).toEqual(
+      data.startNextSession.id
+    );
   });
 });
 

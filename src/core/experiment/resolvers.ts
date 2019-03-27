@@ -28,7 +28,9 @@ export const resolvers: ResolverMap = {
       await ExperimentSession.findOne({
         where: { experiment: obj, active: true }
       }),
-    activeRound: async (obj: Experiment) => await obj.getActiveRound()
+    activeRound: async (obj: Experiment) => {
+      return await obj.getActiveRound();
+    }
   },
   Query: {
     experiment: getExperiment,

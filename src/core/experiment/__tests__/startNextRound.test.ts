@@ -24,6 +24,19 @@ describe("startNextRound", () => {
   mutation {
     startNextRound(experimentId: "${experimentId}") {
       id
+      session {
+        id
+        experiment {
+          id
+          status
+          activeRound {
+            id
+          }
+          activeSession {
+            id
+          }
+        }
+      }
     }
   }`;
   const startNextSession = (experimentId: string) => `
@@ -118,6 +131,42 @@ describe("startNextRound", () => {
     await tc.query(startNextRound(experiment.id));
     await round.reload();
     expect(round.active).toBeFalsy();
+  });
+
+  it("updates experiment status", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    await tc.login();
+    await tc.query(startNextSession(experiment.id));
+    const { data } = await tc.query(startNextRound(experiment.id));
+    expect(data).toBeTruthy();
+    const round = data.startNextRound;
+    expect(round).toBeTruthy();
+    expect(round.id).toBeTruthy();
+    expect(round.session).toBeTruthy();
+    expect(round.session.experiment).toBeTruthy();
+    expect(round.session.experiment.status).toBeTruthy();
+    expect(round.session.experiment.status).toEqual(
+      ExperimentStatusEnum.IN_ROUND
+    );
+  });
+
+  it("updates the current round", async () => {
+    const tc = new TestClient(host);
+    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    await tc.login();
+    await tc.query(startNextSession(experiment.id));
+    const { data } = await tc.query(startNextRound(experiment.id));
+    expect(data).toBeTruthy();
+    const round = data.startNextRound;
+    expect(round).toBeTruthy();
+    expect(round.id).toBeTruthy();
+    expect(round.session).toBeTruthy();
+    expect(round.session.experiment).toBeTruthy();
+    expect(round.session.experiment.activeRound).toBeTruthy();
+    expect(round.session.experiment.activeRound.id).toBeTruthy();
+    expect(round.session.experiment.activeRound.id).toEqual(round.id);
+    expect(round.session.id).toEqual(round.session.experiment.activeSession.id);
   });
 });
 
