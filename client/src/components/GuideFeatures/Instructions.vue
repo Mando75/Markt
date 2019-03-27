@@ -99,9 +99,6 @@ export default {
       isLoading: 0
     };
   },
-  mounted() {
-    console.log(this.$apollo.queries);
-  },
   // Apollo-specific options
   apollo: {
     // Query with parameters

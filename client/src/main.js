@@ -8,6 +8,7 @@ import { apolloClient } from "./config/apollo";
 import { credentialStore } from "./config/credentialStore";
 
 Vue.config.productionTip = false;
+Vue.config.devtools = true;
 Vue.use(Vuetify, {
   theme: {
     primary: "#7FCA40",

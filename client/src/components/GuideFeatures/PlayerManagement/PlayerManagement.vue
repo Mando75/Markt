@@ -2,10 +2,10 @@
   <v-container fluid color="secondary0" grid-list-lg>
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <PlayerInvitationCard @playerAdded="addPlayer" />
+        <PlayerInvitationCard :height="cardHeights" @playerAdded="addPlayer" />
       </v-flex>
       <v-flex xs12 md6>
-        <PlayerList ref="playerList" />
+        <PlayerList ref="playerList" :height="cardHeights" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -20,6 +20,22 @@ export default {
   components: {
     PlayerInvitationCard,
     PlayerList
+  },
+  computed: {
+    cardHeights() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return "600";
+        case "sm":
+        case "md":
+        case "lg":
+          return "700";
+        case "xl":
+          return "750";
+        default:
+          return "600";
+      }
+    }
   },
   methods: {
     addPlayer(player) {

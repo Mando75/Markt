@@ -34,8 +34,8 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const playerPath = () => to.path.includes("/player");
   const userPath = () => to.path.includes("/guide");
+  const playerPath = () => to.path.includes("/player");
   const restrictedPath = playerPath() || userPath();
 
   // Check for authenticated route
@@ -51,7 +51,7 @@ router.beforeEach(async (to, from, next) => {
       next();
     } else {
       // they are not authenticated, redirect based on role
-      const redirect = isUser ? "/login?sessionExpired=1" : "/join";
+      const redirect = "/login?sessionExpired=1";
       next(redirect);
     }
   } else {
