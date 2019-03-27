@@ -39,9 +39,6 @@ export default {
   data: () => ({
     value: []
   }),
-  mounted() {
-    console.log(this.$apollo.queries);
-  },
   apollo: {
     chart: {
       query: gql`
