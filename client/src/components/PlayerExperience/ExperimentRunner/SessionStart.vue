@@ -26,7 +26,7 @@
       </v-flex>
       <v-flex xs12>
         <span class="animate-flicker"
-          >Waiting on your instructor to start the next round...</span
+          >Waiting on your guide to start the next round...</span
         >
       </v-flex>
     </v-layout>

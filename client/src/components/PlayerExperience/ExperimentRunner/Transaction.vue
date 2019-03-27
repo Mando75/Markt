@@ -74,14 +74,20 @@
         </ApolloMutation>
       </v-flex>
       <v-flex v-else-if="madeTransaction" xs12 sm6 offset-sm3>
-        <h3 class="display-2">Please wait for the round to end</h3>
+        <h3 class="display-3">Nice!</h3>
+        <h2 class="display-1">Please wait for the round to end</h2>
+        <div class="ma-5 pa-5">
+          <span class="animate-flicker"
+            >Waiting on your guide to end the round...</span
+          >
+        </div>
       </v-flex>
       <v-flex v-else xs12>
-        <h3 class="display-3 my-4">You cannot sell this round</h3>
+        <h1 class="display-3 my-4">You cannot sell this round</h1>
         <h3 class="display-2 mt-4"><strong>Profit Equation</strong></h3>
-        <h3 class="display-2">
+        <span class="display-2">
           {{ experimentPlayer.currentSessionRole.profitEquation }}
-        </h3>
+        </span>
       </v-flex>
     </v-layout>
   </v-container>
@@ -152,4 +158,55 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.animate-flicker {
+  -webkit-animation: flickerAnimation 3s infinite;
+  -moz-animation: flickerAnimation 3s infinite;
+  -o-animation: flickerAnimation 3s infinite;
+  animation: flickerAnimation 3s infinite;
+}
+</style>
