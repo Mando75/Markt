@@ -44,7 +44,9 @@
                           type="password"
                           color="primary lighten-1"
                         />
-                        <v-btn color="primary darken-3" @click="mutate">Login</v-btn>
+                        <v-btn color="primary darken-3" @click="mutate"
+                          >Login</v-btn
+                        >
                         <br />
                         or
                         <br />
