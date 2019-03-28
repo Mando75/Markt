@@ -1,5 +1,24 @@
 <template>
   <div>
+    <v-container v-if="!experimentStarted">
+      <v-layout row wrap justify-start column fill-height>
+        <v-flex md12 d-flex>
+          <v-alert color="success" :value="true">
+            Are you ready for players to join?
+            <v-btn @click="startExperimentMutation">
+              Go Live
+            </v-btn>
+          </v-alert>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <v-container v-if="experimentStarted && experiment">
+      <v-layout row wrap justify-start column fill-height>
+        <v-flex md12 d-flex>
+          <h3>Join Code: {{ experiment.joinCode }}</h3>
+        </v-flex>
+      </v-layout>
+    </v-container>
     <v-container v-if="this.$credentials.sSelect === ''">
       <v-layout row wrap justify-start column fill-height>
         <v-flex md12 d-flex>
@@ -15,7 +34,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <LoadingBlock v-else-if="isLoading" />
+    <LoadingBlock v-if="isLoading" />
     <v-container v-else fluid grid-list color="secondary0">
       <!--begin exp title or header thing.-->
       <v-layout justify-start column fill-height>
@@ -66,8 +85,11 @@
         <!--tile 3-->
         <v-flex xs12 order-md2>
           <v-card persistent dark tile flat color="primary darken-4 lighten-1">
-            <v-card-text class="title font-weight-black">
-              Students Joined Count: {{ playerCount }}
+            <v-card-text
+              v-if="experimentStarted && experiment"
+              class="title font-weight-black"
+            >
+              Students Joined Count: {{ experiment.numPlayers }}
             </v-card-text>
           </v-card>
         </v-flex>
@@ -93,19 +115,29 @@
       <!--Confirmation things-->
       <v-layout align-center justify-center fill-height>
         <v-flex d-flex xs4 sm5 align-bottom>
-          <v-card class="ma-3" dark elevation="4">
+          <v-card v-if="!experimentStarted" class="ma-3" dark elevation="4">
+            <h1
+              class=" my-4 xs1 text-md-center text-lg-center text-xs-center headline"
+            >
+              Are you ready to go live?
+            </h1>
+            <v-btn
+              class="justify-center my-4"
+              color="primary darken-2"
+              @click="startExperimentMutation"
+            >
+              Go Live
+            </v-btn>
+          </v-card>
+          <v-card v-else class="ma-3" dark elevation="4">
             <h1
               class=" mb-0 xs1 text-md-center text-lg-center text-xs-center headline"
             >
-              <div class="mt-4  ">Begin "{{ $credentials.sSelect }}"</div>
-              With "{{ playerCount }}" players?
+              <div class="mt-4">Begin "{{ $credentials.sSelect }}"</div>
+              With "{{ experiment.numPlayers }}" players?
             </h1>
 
-            <v-btn
-              class="justify-center mt-3 mb-0"
-              color="primary darken-4"
-              @click="mutateVars"
-            >
+            <v-btn class="justify-center mt-3 mb-0" color="primary darken-4">
               Begin
             </v-btn>
             <v-card-text>
@@ -118,50 +150,61 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <InstructionsFAB :scenario="scenario" />
+    <InstructionsFAB v-if="!isLoading" :scenario="scenario" />
   </div>
 </template>
 
 <script>
 import InstructionViewer from "../common/InstructionViewer";
 import InstructionsFAB from "../common/InstructionsFAB";
-import { startNewExperiment, scenario } from "./guideQueries.graphql";
+import {
+  startNewExperiment,
+  scenario,
+  experimentPlayerCount,
+  experimentPlayerCountChanged
+} from "./guideQueries.graphql";
+import LoadingBlock from "../common/loadingBlock";
 
 export default {
-  name: "ExperimentInProgressPage",
-  components: { InstructionsFAB, InstructionViewer },
+  name: "BeginExperiment",
+  components: { LoadingBlock, InstructionsFAB, InstructionViewer },
   data() {
     return {
-      startRes: {},
       guID: "",
       sceID: "",
       warnings: "",
       successes: "",
       exId: "",
-      playerCount: 0,
-      isLoading: 0
+      joinCode: "",
+      isLoading: 0,
+      experimentStarted: false
     };
   },
   methods: {
-    async mutateVars() {
+    async startExperimentMutation() {
       const guID = this.$credentials.guideId;
       const sceID = this.$credentials.scenarioId;
       try {
-        this.startRes = await this.$apollo.mutate({
+        this.isLoading++;
+        const { data } = await this.$apollo.mutate({
           mutation: startNewExperiment,
           variables: {
             guID,
             sceID
           }
         });
-        this.exId = this.startRes.data.startNewExperiment.id;
+        this.exId = data.startNewExperiment.id;
+        this.joinCode = data.startNewExperiment.joinCode;
+        this.$credentials.experimentId = data.startNewExperiment.id;
       } catch (e) {
         this.warnings = e;
       }
       if (this.warnings === "") {
         this.successes = "Yay!";
-        this.$router.push("/guide/experiment");
+        this.experimentStarted = true;
+        this.$apollo.queries.experiment.skip = false;
       }
+      this.isLoading--;
     }
   },
   // Apollo-specific options
@@ -175,6 +218,27 @@ export default {
         code: "APPLMRKT"
       },
       loadingKey: "isLoading"
+    },
+    experiment: {
+      query: experimentPlayerCount,
+      variables() {
+        return {
+          experimentId: this.exId
+        };
+      },
+      skip: true,
+      loadingKey: "isLoading",
+      subscribeToMore: {
+        document: experimentPlayerCountChanged,
+        variables() {
+          return {
+            experimentId: this.exId
+          };
+        }
+      },
+      updateQuery(prev, { subscriptionData }) {
+        this.experiment = subscriptionData.data.playerJoinedExperiment;
+      }
     }
   }
 };

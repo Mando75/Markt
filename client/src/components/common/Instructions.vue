@@ -64,7 +64,7 @@ export default {
   components: { InstructionViewer, LoadingBlock },
   props: {
     scenario: {
-      type: Array,
+      type: Object,
       required: true
     },
     isLoading: Number

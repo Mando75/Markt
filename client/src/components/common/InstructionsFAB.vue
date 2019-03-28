@@ -46,7 +46,7 @@ export default {
   components: { Instructions },
   props: {
     scenario: {
-      type: Array,
+      type: Object,
       required: true
     },
     isLoading: {

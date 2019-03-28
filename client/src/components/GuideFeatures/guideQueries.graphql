@@ -20,3 +20,20 @@ query scenario($code: ID!) {
         }
     }
 }
+
+query experimentPlayerCount($experimentId: ID!) {
+    experiment(id: $experimentId) {
+        id
+        joinCode
+        numPlayers
+    }
+}
+
+
+subscription experimentPlayerCountChanged($experimentId: ID!) {
+    playerJoinedExperiment(experimentId: $experimentId) {
+        id
+        numPlayers
+        joinCode
+    }
+}
