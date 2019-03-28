@@ -32,7 +32,7 @@
                                   <v-btn
                                     depressed
                                     small
-                                    color="primary4"
+                                    color="monochrome4"
                                     v-on="on"
                                   >
                                     Details
@@ -58,7 +58,7 @@
                                   <v-spacer></v-spacer>
                                   <v-btn
                                     dark
-                                    color="primary3"
+                                    color="monochrome3"
                                     depressed
                                     @click="dialog = false"
                                   >
@@ -73,7 +73,7 @@
                                 depressed
                                 small
                                 dark
-                                color="primary4"
+                                color="monochrome4"
                                 @click="handleSelect"
                               >
                                 Select

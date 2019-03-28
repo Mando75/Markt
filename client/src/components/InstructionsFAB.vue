@@ -4,6 +4,7 @@
       <v-btn
         v-model="fab"
         dark
+        color="monochrome4"
         fab
         fixed
         bottom
@@ -16,18 +17,19 @@
     <v-dialog
       v-model="dialog"
       fullscreen
+      content-class="modernClass"
       hide-overlay
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="primary darken-1">
+        <v-toolbar dark color="monochrome4 darken-1">
           <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Settings</v-toolbar-title>
+          <v-toolbar-title>Instructions Quick Look</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark flat @click="dialog = false">Save</v-btn>
+            <!--<v-btn dark flat @click="dialog = false">Save</v-btn>-->
           </v-toolbar-items>
         </v-toolbar>
         <Instructions :scenario="scenario" :isLoading="isLoading" />
@@ -66,4 +68,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.modernClass {
+  background-color: #adadad;
+}
+</style>

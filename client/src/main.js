@@ -10,20 +10,23 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   theme: {
     primary: "#7bb24c",
-    primary0: "#7FCA40" /* Used for text on top of one of the modern themes*/,
-    primary1:
-      "#BAE397" /* Used with darken-1 for buttons and backround highlights*/,
-    primary2: "#8ABD5F" /*Used */,
-    primary3: "#609732",
-    primary4: "#3E7213",
+    secondary: "#8ABD5F",
     accent: "#224C00",
+    info: "#adadad",
+    success: "#72a647",
+    warning: "#444444",
+    error: "#b71c1c",
+
+    monochrome0: "#7FCA40" /* lighter version of primary*/,
+    monochrome1: "#BAE397" /* button color*/,
+    monochrome2: "#8ABD5F" /* same as secondary */,
+    monochrome3: "#609732",
+    monochrome4: "#3E7213",
 
     modernColor0: "#222222" /* Main Secondary color */,
     modernColor1: "#adadad",
     modernColor2: "#61706b",
-    modernColor3: "#444444",
-
-    error: "#b71c1c"
+    modernColor3: "#444444"
   }
 });
 Vue.use(VueApollo);

@@ -31,7 +31,7 @@
       <!--tile 1-->
       <v-layout wrap row>
         <v-flex xs4 order-lg2 d-flex>
-          <v-card dark tile flat color="primary3">
+          <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               <span>
                 Items in <b>"BOLD"</b> text denote actions to perform.
@@ -41,7 +41,7 @@
         </v-flex>
         <!--tile 2-->
         <v-flex xs4 d-flex>
-          <v-card dark tile flat color="primary3">
+          <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               <span>
                 Items in <i>"ITALIC"</i> represent words to be said.
@@ -51,7 +51,7 @@
         </v-flex>
         <!--tile 3-->
         <v-flex xs4 order-lg2 d-flex>
-          <v-card dark tile flat color="primary3">
+          <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               Students Joined Count: {{ appleSesh }}
             </v-card-text>

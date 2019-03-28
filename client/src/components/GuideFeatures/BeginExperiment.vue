@@ -45,7 +45,7 @@
       <!--tile 1-->
       <v-layout wrap row>
         <v-flex xs4 order-lg2 d-flex>
-          <v-card dark tile flat color="primary3">
+          <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               <span>
                 Items in <b>"BOLD"</b> text denote actions to perform.
@@ -55,7 +55,7 @@
         </v-flex>
         <!--tile 2-->
         <v-flex xs4 d-flex>
-          <v-card dark tile flat color="primary3">
+          <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               <span>
                 Items in <i>"ITALIC"</i> represent words to be said.
@@ -65,7 +65,7 @@
         </v-flex>
         <!--tile 3-->
         <v-flex xs4 order-lg2 d-flex>
-          <v-card dark tile flat color="primary3">
+          <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               Students Joined Count: {{ appleSesh }}
             </v-card-text>
@@ -103,7 +103,7 @@
 
             <v-btn
               class="justify-center mt-3 mb-0"
-              color="primary3"
+              color="monochrome3"
               @click="mutateVars"
             >
               Begin
@@ -118,16 +118,18 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <InstructionsFAB :scenario="scenario" />
   </div>
 </template>
 
 <script>
 import gql from "graphql-tag";
 import InstructionViewer from "../common/InstructionViewer";
+import InstructionsFAB from "../InstructionsFAB";
 
 export default {
   name: "ExperimentInProgressPage",
-  components: { InstructionViewer },
+  components: { InstructionsFAB, InstructionViewer },
   data() {
     return {
       startRes: {},
