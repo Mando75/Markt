@@ -19,9 +19,14 @@ const router = new Router({
       component: () => import("../components/Login")
     },
     {
+      path: "/instructions",
+      name: "Instructs",
+      component: () => import("../components/GuideFeatures/Instructions.vue")
+    },
+    {
       path: "/register",
       name: "SignUp",
-      component: () => import("../components/GuideFeatures/CreateAccount.vue")
+      component: () => import("../components/GuideFeatures/CreateAccount")
     },
     {
       path: "/join",

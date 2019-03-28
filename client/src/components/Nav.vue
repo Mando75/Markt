@@ -39,21 +39,6 @@
           </v-list-tile-content>
         </v-list-tile>
         <!--TODO conditional drawer items-->
-        <v-list-tile
-          v-for="conds in conditionals"
-          :key="conds.title"
-          dark
-          active-class="primaryTheme"
-          :class="conds.path === $route.path ? 'primaryTheme' : ''"
-          :to="conds.path"
-        >
-          <v-list-tile-action>
-            <v-icon>{{ conds.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ conds.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -100,6 +85,7 @@ export default {
   name: "Nav",
   data() {
     return {
+      credentials: this.$credentials,
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
         { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
@@ -114,10 +100,10 @@ export default {
           path: "/guide/start"
         }
       ],
-      conditionals: [
-        { title: "Instructions", icon: "live_help", path: "" }
-        // { title: "NextRound", icon: "question_answer", path: "" }
-      ],
+      // conditionals: [
+      //   { title: "Instructions", icon: "live_help", path: "" }
+      //   // { title: "NextRound", icon: "question_answer", path: "" }
+      // ],
       drawer: true
     };
   }
