@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import Vuetify from "vuetify";
+import currency from "v-currency-field";
 import VueApollo from "vue-apollo";
 import router from "./config/router";
 import { apolloClient } from "./config/apollo";
@@ -27,6 +28,7 @@ Vue.use(Vuetify, {
     error: "#b71c1c"
   }
 });
+Vue.use(currency);
 Vue.use(VueApollo);
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient

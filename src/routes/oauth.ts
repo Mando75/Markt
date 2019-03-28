@@ -33,7 +33,7 @@ router.get(
       req,
       redis
     );
-    res.redirect("/graphql");
+    res.redirect("/redirect");
   }
 );
 

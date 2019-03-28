@@ -20,7 +20,9 @@
               aspect-ratio="2.75"
             />
             <v-card-title primary-title>
-              <h1>Enter the Join Code</h1>
+              <v-flex xs12>
+                <h1>Enter the Join Code</h1>
+              </v-flex>
             </v-card-title>
             <v-card-text>
               <v-form v-model="validInput">

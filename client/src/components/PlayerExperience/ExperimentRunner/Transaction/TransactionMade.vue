@@ -1,45 +1,39 @@
 <template>
-  <v-container>
-    <v-layout row wrap>
-      <v-flex xs12 my-4>
-        <h1 class="display-3">{{ sessionRole.name }}</h1>
-      </v-flex>
-      <v-flex xs12 md6 my-4>
-        <h3 class="display-1">
-          <strong>Role </strong>
-        </h3>
-        <h3 class="display-1">
-          {{ sessionRole.allowSell ? "Seller" : "Buyer" }}
-        </h3>
-      </v-flex>
-      <v-flex xs12 md6 my-4>
-        <h3 class="display-1">
-          <strong>Profit Equation</strong>
-        </h3>
-        <h3 class="display-1">{{ sessionRole.profitEquation }}</h3>
-      </v-flex>
-    </v-layout>
-    <v-layout row wrap>
-      <v-flex xs12><h2 class="display-2">Role Description</h2></v-flex>
-      <v-flex xs12 my-4>
-        <InstructionViewer :instructions="sessionRole.instructions" />
-      </v-flex>
+  <div>
+    <v-layout column>
       <v-flex xs12>
-        <span class="animate-flicker"
-          >Waiting on your guide to start the next round...</span
-        >
+        <h3 class="display-3">Nice!</h3>
+        <h2 class="display-1">Please wait for the round to end</h2>
+      </v-flex>
+      <v-flex xs12 row class="ma-3">
+        <h3 class="display-1">
+          <strong>Amount: </strong> ${{ transaction.amount }}
+        </h3>
+      </v-flex>
+      <v-flex xs12 row class="ma-3">
+        <h3 class="display-1">
+          <strong>Buyer Profit: </strong> ${{ transaction.buyerProfit }}
+        </h3>
+      </v-flex>
+      <v-flex xs12 row class="ma-3">
+        <h3 class="display-1">
+          <strong>Seller Profit: </strong> ${{ transaction.sellerProfit }}
+        </h3>
+      </v-flex>
+      <v-flex xs12 class="ma-3 pa-5">
+        <span class="animate-flicker">
+          Waiting on your guide to end the round...
+        </span>
       </v-flex>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import InstructionViewer from "../../common/InstructionViewer";
 export default {
-  name: "SessionStart",
-  components: { InstructionViewer },
+  name: "TransactionMade",
   props: {
-    sessionRole: {
+    transaction: {
       type: Object,
       required: true
     }

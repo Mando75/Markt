@@ -45,6 +45,12 @@
                           color="primary0"
                         />
                         <v-btn color="primary3" @click="mutate">Login</v-btn>
+                        <br />
+                        or
+                        <br />
+                        <v-btn color="red" href="/auth/google">
+                          Sign in with Google
+                        </v-btn>
                       </template>
                     </ApolloMutation>
                     <v-alert
@@ -58,13 +64,12 @@
                     </v-alert>
                   </v-flex>
                   <v-flex my-4>
-                    <v-btn @click="$router.push('/join')">
-                      Join Experiment
-                    </v-btn>
-                  </v-flex>
-                  <v-flex my-4>
                     <v-btn @click="$router.push('/register')">
                       Sign Up Here
+                    </v-btn>
+                    or
+                    <v-btn @click="$router.push('/join')">
+                      Join Experiment
                     </v-btn>
                   </v-flex>
                 </v-card-text>

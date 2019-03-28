@@ -17,6 +17,7 @@
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "stylus-loader": "^3.0.2",
+    "v-currency-field": "^1.0.6",
     "vue": "^2.6.6",
     "vue-apollo": "^3.0.0-beta.28",
     "vue-router": "^3.0.2",
