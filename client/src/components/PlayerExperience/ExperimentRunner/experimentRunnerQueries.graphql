@@ -45,17 +45,3 @@ query er_experimentPlayerQuery($experimentPlayerId: ID!) {
     }
   }
 }
-
-mutation makeTransactionMutation($experimentId: ID!, $sellerCode: ID!, $buyerCode: ID!, $amount: Float!) {
-  makeTransaction(params: {
-    experimentId: $experimentId,
-    sellerCode: $sellerCode,
-    buyerCode: $buyerCode,
-    amount: $amount
-  }) {
-    id
-    amount
-    buyerProfit
-    sellerProfit
-  }
-}

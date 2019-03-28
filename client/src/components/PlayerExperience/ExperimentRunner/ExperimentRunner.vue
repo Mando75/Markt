@@ -27,7 +27,7 @@ import {
   er_experimentStatusUpdateSubscription
 } from "./experimentRunnerQueries.graphql";
 import SessionStart from "./SessionStart";
-import Transaction from "./Transaction";
+import Transaction from "./Transaction/Transaction";
 import LoadingBlock from "../../loadingBlock";
 export default {
   name: "ExperimentRunner",

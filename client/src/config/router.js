@@ -47,7 +47,7 @@ router.beforeEach(async (to, from, next) => {
   // Check for authenticated route
   if (restrictedPath) {
     // Run a check against the server to verify authentication
-    const { authenticated, isPlayer, isUser } = await authCheck();
+    const { isPlayer, isUser } = await authCheck();
 
     // they are authenticated, proceed
     if ((playerPath() && isPlayer) || (userPath() && isUser)) {
