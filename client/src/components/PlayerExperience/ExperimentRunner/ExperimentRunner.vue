@@ -28,7 +28,7 @@ import {
 } from "./experimentRunnerQueries.graphql";
 import SessionStart from "./SessionStart";
 import Transaction from "./Transaction/Transaction";
-import LoadingBlock from "../../loadingBlock";
+import LoadingBlock from "../../common/loadingBlock";
 export default {
   name: "ExperimentRunner",
   components: { LoadingBlock, Transaction, SessionStart },
