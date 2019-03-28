@@ -1,5 +1,5 @@
 <template>
-  <v-card dark elevation="4" tile height="600">
+  <v-card dark elevation="4" tile :height="height">
     <v-card-title primary-title>
       <h1 class="headline text-xs-center" style="width: 100%">
         Your Players
@@ -55,6 +55,12 @@
 import { guidesPlayers } from "./playerManagementQueries.graphql";
 export default {
   name: "PlayerList",
+  props: {
+    height: {
+      type: String,
+      default: "600"
+    }
+  },
   data() {
     return {
       loadingPlayerList: 0

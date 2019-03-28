@@ -139,9 +139,6 @@ export default {
       ]
     };
   },
-  mounted() {
-    console.log(this.$apollo.queries);
-  },
   methods: {
     handleSelect() {
       this.$router.push("/guide/home");
@@ -166,7 +163,6 @@ export default {
       result({ data }) {
         this.$credentials.scenarioId = data.scenario.id;
         this.$credentials.sSelect = data.scenario.name;
-        console.log(this.$credentials);
       }
     }
   }

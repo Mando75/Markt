@@ -1,4 +1,5 @@
 import {
+  AfterInsert,
   BaseEntity,
   BeforeInsert,
   BeforeUpdate,
@@ -12,6 +13,7 @@ import {
 } from "typeorm";
 import { ExperimentSession } from "./ExperimentSession";
 import { Transaction } from "./Transaction";
+import { ExperimentStatusEnum } from "../enums/experimentStatus.enum";
 
 @Entity("rounds")
 export class Round extends BaseEntity {
@@ -109,5 +111,12 @@ export class Round extends BaseEntity {
     if (!this.active && !this.endDate) {
       this.endDate = new Date();
     }
+  }
+
+  @AfterInsert()
+  async _updateExperimentStatus() {
+    const session = await this.session;
+    const experiment = await session.experiment;
+    await experiment.updateStatus(ExperimentStatusEnum.IN_ROUND);
   }
 }

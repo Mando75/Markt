@@ -101,11 +101,8 @@ export default {
   },
   methods: {
     handleRegister({ data }) {
-      console.log(this.$credentials);
       //the structure has response 'data' or 'errors'
       //see here for later: Destructuring assignment on mozilla dev site
-      console.log(data);
-      console.log(data.registerUserMutation);
       if (!data.registerUser) {
         this.$router.push("/login");
       } else {

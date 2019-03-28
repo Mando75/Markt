@@ -6,6 +6,7 @@ import { ExperimentSession } from "../../../entity/ExperimentSession";
 import { GraphQLContext } from "../../../types/graphql-context";
 import { User } from "../../../entity/User";
 import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
+import { ScenarioSession } from "../../../entity/ScenarioSession";
 
 /**
  * Starts a new session in a given experiment. Validates that a new session
@@ -35,13 +36,12 @@ export const startNextSession = async (
     sessionNumber: newSessionNumber
   });
   await deactivateSessions(sessions);
-  newSession.experiment = Promise.resolve(experiment);
-  newSession.scenarioSession = Promise.resolve(scenarioSession);
-  experiment.status = ExperimentStatusEnum.SESSION_START;
-  await experiment.save();
-  newSession = await newSession.save();
+  const [savedSession] = await Promise.all([
+    saveNewSession(newSession, experiment, scenarioSession)
+  ]);
+  await experiment.reload();
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
-  return newSession;
+  return savedSession;
 };
 
 /**
@@ -112,4 +112,14 @@ const deactivateSessions = async (sessions: ExperimentSession[]) => {
         return s.save();
       })
   );
+};
+
+const saveNewSession = async (
+  session: ExperimentSession,
+  experiment: Experiment,
+  scenarioSession: ScenarioSession
+) => {
+  session.experiment = Promise.resolve(experiment);
+  session.scenarioSession = Promise.resolve(scenarioSession);
+  return await session.save();
 };

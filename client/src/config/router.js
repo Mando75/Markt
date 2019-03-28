@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import { playerRoutes } from "./routes/playerRoutes";
 import { guideRoutes } from "./routes/guideRoutes";
+import { credentialStore } from "./credentialStore";
 
 Vue.use(Router);
 
@@ -29,6 +30,11 @@ const router = new Router({
       component: () => import("../components/GuideFeatures/CreateAccount")
     },
     {
+      path: "/redirect",
+      name: "Authentication redirect",
+      component: () => import("../components/AuthRedirect")
+    },
+    {
       path: "/join",
       name: "join",
       component: () => import("../components/PlayerExperience/JoinExperiment")
@@ -39,24 +45,23 @@ const router = new Router({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const playerPath = () => to.path.includes("/player");
   const userPath = () => to.path.includes("/guide");
+  const playerPath = () => to.path.includes("/player");
   const restrictedPath = playerPath() || userPath();
 
   // Check for authenticated route
   if (restrictedPath) {
     // Run a check against the server to verify authentication
-    const { authenticated, isPlayer, isUser } = await authCheck();
-    localStorage.setItem("authenticated", JSON.stringify(authenticated));
-    localStorage.setItem("isPlayer", JSON.stringify(isPlayer));
-    localStorage.setItem("isUser", JSON.stringify(isUser));
+    const { isPlayer, isUser } = await authCheck();
 
     // they are authenticated, proceed
     if ((playerPath() && isPlayer) || (userPath() && isUser)) {
       next();
-    } else {
+    } else if (playerPath()) {
       // they are not authenticated, redirect based on role
-      const redirect = isUser ? "/login?sessionExpired=1" : "/join";
+      next("/join");
+    } else {
+      const redirect = "/login?sessionExpired=1";
       next(redirect);
     }
   } else {
@@ -65,7 +70,15 @@ router.beforeEach(async (to, from, next) => {
   }
 });
 
-const authCheck = async () =>
-  await fetch("/auth/check").then(res => res.json());
+export const authCheck = async () => {
+  const resp = await fetch("/auth/check").then(res => res.json());
+  localStorage.setItem("authenticated", JSON.stringify(resp.authenticated));
+  credentialStore.authenticated = resp.authenticated;
+  localStorage.setItem("isPlayer", JSON.stringify(resp.isPlayer));
+  credentialStore.isPlayer = resp.isPlayer;
+  localStorage.setItem("isUser", JSON.stringify(resp.isUser));
+  credentialStore.isUser = resp.isUser;
+  return resp;
+};
 
 export default router;

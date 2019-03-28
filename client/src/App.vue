@@ -2,7 +2,6 @@
   <div id="app">
     <v-app>
       <Nav />
-      <MobileNav v-if="$vuetify.breakpoint.mdAndDown" />
       <v-content v-if="!loading">
         <router-view />
       </v-content>
@@ -12,11 +11,11 @@
 
 <script>
 import Nav from "./components/common/Nav";
-import MobileNav from "./components/MobileNav";
 import { me } from "./meQuery.graphql";
+
 export default {
   name: "App",
-  components: { MobileNav, Nav },
+  components: { Nav },
   data() {
     return {
       loading: 0
@@ -42,9 +41,9 @@ export default {
       },
       loadingKey: "loading",
       skip: () => {
+        if (window.location.pathname === "/login") return true;
         const authed = JSON.parse(localStorage.getItem("authenticated"));
         const isUser = JSON.parse(localStorage.getItem("isUser"));
-        console.log(!(authed && isUser));
         return !(authed && isUser);
       }
     }
@@ -63,3 +62,4 @@ export default {
 }
 </style>
 <style src="vuetify/dist/vuetify.min.css"></style>
+<style src="v-currency-field/dist/index.css"></style>

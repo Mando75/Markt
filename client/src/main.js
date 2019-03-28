@@ -1,12 +1,14 @@
 import Vue from "vue";
 import App from "./App.vue";
 import Vuetify from "vuetify";
+import currency from "v-currency-field";
 import VueApollo from "vue-apollo";
 import router from "./config/router";
 import { apolloClient } from "./config/apollo";
 import { credentialStore } from "./config/credentialStore";
 
 Vue.config.productionTip = false;
+Vue.config.devtools = true;
 Vue.use(Vuetify, {
   theme: {
     primary: "#7bb24c",
@@ -31,6 +33,7 @@ Vue.use(Vuetify, {
     mDarkGray: "#444444"
   }
 });
+Vue.use(currency);
 Vue.use(VueApollo);
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient

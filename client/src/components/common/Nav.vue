@@ -5,41 +5,60 @@
       v-model="drawer"
       app
       dark
-      class="link--text"
+      class="link--text pa-0"
     >
-      <v-list class="hidden-sm-and-down"></v-list>
-      <v-list class="pt-5 pb-0">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <v-icon x-large>account_circle</v-icon>
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>{{
-              $credentials.displayName
-            }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-divider></v-divider>
+      <v-layout column fill-height>
+        <v-list class="hidden-sm-and-down"></v-list>
+        <v-list class="pt-5 pb-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <v-icon x-large>account_circle</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{
+                $credentials.displayName
+              }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-divider></v-divider>
 
-      <v-list dense class="pt-0">
-        <v-list-tile
-          v-for="item in items"
-          :key="item.title"
-          dark
-          active-class="primaryTheme"
-          :class="item.path === $route.path ? 'primaryTheme' : ''"
-          :to="item.path"
-        >
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <!--TODO conditional drawer items-->
-      </v-list>
+        <v-list dense class="pt-0">
+          <v-list-tile
+            v-for="item in items"
+            :key="item.title"
+            dark
+            active-class="primaryTheme"
+            :class="item.path === $route.path ? 'primaryTheme' : ''"
+            :to="item.path"
+          >
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-spacer></v-spacer>
+        <v-list>
+          <ApolloMutation :mutation="logoutMutation" @done="handleLogout">
+            <v-list-tile
+              slot-scope="{ mutate }"
+              dark
+              active-class="primaryTheme"
+              @click="mutate"
+            >
+              <v-list-tile-action>
+                <v-icon>exit_to_app</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>Logout</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </ApolloMutation>
+        </v-list>
+      </v-layout>
     </v-navigation-drawer>
 
     <v-toolbar app color="mDarkGrey " fixed clipped-left>
@@ -81,6 +100,7 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
 export default {
   name: "Nav",
   data() {
@@ -100,12 +120,23 @@ export default {
           path: "/guide/start"
         }
       ],
-      // conditionals: [
-      //   { title: "Instructions", icon: "live_help", path: "" }
-      //   // { title: "NextRound", icon: "question_answer", path: "" }
-      // ],
-      drawer: true
+      drawer: true,
+      logoutMutation: gql`
+        mutation {
+          logout
+        }
+      `
     };
+  },
+  methods: {
+    handleLogout() {
+      localStorage.clear();
+      this.$router.push("/login");
+      for (let key in this.$credentials) {
+        this.$credentials[key] = null;
+      }
+      this.drawer = false;
+    }
   }
 };
 </script>
@@ -122,5 +153,10 @@ a:link {
 
 a:visited {
   text-decoration: none;
+}
+
+.flex-drawer {
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -22,7 +22,7 @@
                   </v-flex>
                 </v-card-title>
                 <v-card-text>
-                  <div>
+                  <v-flex xs12>
                     <ApolloMutation
                       :mutation="loginMutation"
                       :variables="{ userEmail, userPassword }"
@@ -44,9 +44,13 @@
                           type="password"
                           color="primary lighten-1"
                         />
-                        <v-btn color="primary darken-4" @click="mutate"
-                          >Login</v-btn
-                        >
+                        <v-btn color="primary darken-3" @click="mutate">Login</v-btn>
+                        <br />
+                        or
+                        <br />
+                        <v-btn color="red" href="/auth/google">
+                          Sign in with Google
+                        </v-btn>
                       </template>
                     </ApolloMutation>
                     <v-alert
@@ -58,14 +62,16 @@
                     >
                       {{ msg.message }}
                     </v-alert>
-                  </div>
-                  <br />
-                  <div>
-                    <br />
+                  </v-flex>
+                  <v-flex my-4>
                     <v-btn @click="$router.push('/register')">
                       Sign Up Here
                     </v-btn>
-                  </div>
+                    or
+                    <v-btn @click="$router.push('/join')">
+                      Join Experiment
+                    </v-btn>
+                  </v-flex>
                 </v-card-text>
               </v-card>
             </v-card>
@@ -100,6 +106,11 @@ export default {
     };
   },
   mounted() {
+    if (this.$credentials.authenticated && this.$credentials.isUser) {
+      this.$router.push("/guide/home");
+    } else if (this.$credentials.authenticated && this.$credentials.isPlayer) {
+      this.$router.push("/player/play");
+    }
     if (this.$route.query.sessionExpired === "1") {
       this.warningMsg.push({
         path: "Session",
