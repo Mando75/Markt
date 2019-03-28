@@ -8,37 +8,51 @@
             Welcome Guide
           </h1>
           <v-card-text>
-            BLah BLahBLahBLahBLahBLahBLahBLahBLahBLahBLahBLahBLahBLahBLahBLah
+            This will have the controls for the guide. "Guide HUB"
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout align-center justify-center fill-height>
-      <v-flex d-flex xs4 sm4 align-bottom>
-        <v-card class="ma-3" dark>
-          <v-img></v-img>
-          <v-card-title class="subheading justify-center"
-            >Begin "{{ $credentials.sSelect }}"?
-          </v-card-title>
-
-          <v-btn class="justify-center" color="primary3" @click="mutateVars"
-            >Begin</v-btn
-          >
-          <v-card-text>
-            <span class="display-4 red">{{ warnings }}</span>
-            <span class="display-4 green">{{ successes }}</span>
-
-            <span class="display-4 green">{{ exId }}</span>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
+    <InstructionsFAB :scenario="scenario" />
   </v-container>
 </template>
 
 <script>
+import gql from "graphql-tag";
+import InstructionsFAB from "../InstructionsFAB";
+
 export default {
-  name: "ExperimentHub"
+  name: "ExperimentHub",
+  components: { InstructionsFAB },
+  // Apollo-specific options
+  apollo: {
+    // Query with parameters
+    scenario: {
+      // gql query
+      query: gql`
+        query scenario($code: ID!) {
+          scenario(code: $code) {
+            id
+            name
+            description
+            instructions {
+              step
+              header
+              bullets {
+                format
+                text
+              }
+            }
+          }
+        }
+      `,
+      // Static parameters
+      variables: {
+        code: "APPLMRKT"
+      },
+      loadingKey: "isLoading"
+    }
+  }
 };
 </script>
 

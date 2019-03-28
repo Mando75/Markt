@@ -7,7 +7,7 @@
     <v-container v-else fluid grid-list-lg>
       <v-layout row wrap justify-start>
         <v-flex d-flex xs12 sm6 md6>
-          <v-card color="primary3 lighten-1" dark>
+          <v-card color="monochrome3 lighten-1" dark>
             <v-card-title primary class="headline font-weight-bold"
               >$Credentials</v-card-title
             >
@@ -26,7 +26,7 @@
         <v-flex d-flex xs12 sm6 md6>
           <v-layout row wrap>
             <v-flex d-flex>
-              <v-card color="primary1 darken-3" dark>
+              <v-card color="monochrome1 darken-3" dark>
                 <v-card-title v-if="$credentials.sSelect === ''" primary-title
                   >No Experiment Selected</v-card-title
                 >
@@ -42,7 +42,7 @@
                     ><v-btn
                       dark
                       large
-                      color="primary1 darken-4"
+                      color="monochrome1 darken-4"
                       class="text-capitalize"
                       @click="proceedToStart"
                       >Begin Selected</v-btn
@@ -56,7 +56,7 @@
             <v-flex d-flex xs12 sm6 md6>
               <v-layout row wrap>
                 <v-flex d-flex>
-                  <v-card color="primary2" dark>
+                  <v-card color="monochrome2" dark>
                     <v-card-title class="headline font-weight-bold"
                       >Recent Scenarios
                     </v-card-title>
@@ -69,7 +69,7 @@
         <v-flex d-flex xs12 sm6 md3>
           <v-layout column wrap>
             <v-flex d-flex>
-              <v-card color="primary1 darken-3" dark>
+              <v-card color="monochrome1 darken-3" dark>
                 <v-card-text
                   >hajsdhlahsdfjasjf;dkfa;kjdkfj lkasjie aioeu;a
                 </v-card-text>
@@ -78,7 +78,7 @@
             <v-flex d-flex>
               <v-layout row wrap>
                 <v-flex d-flex xs12>
-                  <v-card color="primary3 lighten-1" dark>
+                  <v-card color="monochrome3 lighten-1" dark>
                     <v-card-text
                       >dksjflsdjfl salkuoep aieuo adskj kshdfauua dskfa lewh
                       fadsfy alewhfaj</v-card-text
@@ -90,7 +90,7 @@
           </v-layout>
         </v-flex>
         <v-flex d-flex xs12 sm6 md9>
-          <v-card color="primary4 lighten-2" dark>
+          <v-card color="monochrome4 lighten-2" dark>
             <v-card-text
               >jkjjjfsdjfladsjkfjl;dfsa;fj
               ;aiuak;ljdfajsdkfjaiojiewajkldsjfa;dskadgpaewij</v-card-text

@@ -44,7 +44,7 @@
             >
               <v-card :color="item.color" dark>
                 <v-card-title class="title">{{ item.title }}</v-card-title>
-                <v-card-text class="modernColor1 text--primary">
+                <v-card-text class="modernColor1 lighten-2 text--primary">
                   <p class="font-weight-regular">
                     {{ item.body }}
                   </p>
@@ -111,21 +111,21 @@ export default {
   data: () => ({
     timeline: [
       {
-        color: "primary0 darken-2",
+        color: "secondary",
         icon: "ballot",
         title: "Choose from a number of Simulations",
         body:
           "Teach supply and demand with an interactive example where the students are part of the experiment."
       },
       {
-        color: "primary4 ",
+        color: "success ",
         icon: "people",
         title: "Easily Invite Participants",
         body:
           "Students can participate with their smart phones, without downloading anything"
       },
       {
-        color: "primary3 ",
+        color: "monochrome1 darken-3",
         icon: "school",
         title: "Use Experiment Data to Teach",
         body:
