@@ -44,7 +44,7 @@
       <!--Important info Cards-->
       <!--tile 1-->
       <v-layout wrap row>
-        <v-flex xs4 order-lg2 d-flex>
+        <v-flex xs6 order-lg1 d-flex>
           <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               <span>
@@ -54,7 +54,7 @@
           </v-card>
         </v-flex>
         <!--tile 2-->
-        <v-flex xs4 d-flex>
+        <v-flex xs6 order-lg1 d-flex>
           <v-card dark tile flat color="monochrome3">
             <v-card-text class="font-weight-medium">
               <span>
@@ -64,10 +64,10 @@
           </v-card>
         </v-flex>
         <!--tile 3-->
-        <v-flex xs4 order-lg2 d-flex>
-          <v-card dark tile flat color="monochrome3">
-            <v-card-text class="font-weight-medium">
-              Students Joined Count: {{ appleSesh }}
+        <v-flex xs12 order-md2>
+          <v-card persistent dark tile flat color="monochrome3 lighten-1">
+            <v-card-text class="title font-weight-black">
+              Students Joined Count: {{ playerCount }}
             </v-card-text>
           </v-card>
         </v-flex>
