@@ -45,7 +45,7 @@
       <!--tile 1-->
       <v-layout wrap row>
         <v-flex xs6 order-lg1 d-flex>
-          <v-card dark tile flat color="monochrome3">
+          <v-card dark tile flat color="primary darken-4">
             <v-card-text class="font-weight-medium">
               <span>
                 Items in <b>"BOLD"</b> text denote actions to perform.
@@ -55,7 +55,7 @@
         </v-flex>
         <!--tile 2-->
         <v-flex xs6 order-lg1 d-flex>
-          <v-card dark tile flat color="monochrome3">
+          <v-card dark tile flat color="primary darken-4">
             <v-card-text class="font-weight-medium">
               <span>
                 Items in <i>"ITALIC"</i> represent words to be said.
@@ -65,7 +65,7 @@
         </v-flex>
         <!--tile 3-->
         <v-flex xs12 order-md2>
-          <v-card persistent dark tile flat color="monochrome3 lighten-1">
+          <v-card persistent dark tile flat color="primary darken-4 lighten-1">
             <v-card-text class="title font-weight-black">
               Students Joined Count: {{ playerCount }}
             </v-card-text>
@@ -103,7 +103,7 @@
 
             <v-btn
               class="justify-center mt-3 mb-0"
-              color="monochrome3"
+              color="primary darken-4"
               @click="mutateVars"
             >
               Begin
@@ -123,9 +123,9 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
 import InstructionViewer from "../common/InstructionViewer";
-import InstructionsFAB from "../InstructionsFAB";
+import InstructionsFAB from "../common/InstructionsFAB";
+import { startNewExperiment, scenario } from "./guideQueries.graphql";
 
 export default {
   name: "ExperimentInProgressPage",
@@ -135,13 +135,6 @@ export default {
       startRes: {},
       guID: "",
       sceID: "",
-      startEX: gql`
-        mutation startNewExperiment($sceID: ID!, $guID: ID!) {
-          startNewExperiment(params: { scenarioId: $sceID, guideId: $guID }) {
-            id
-          }
-        }
-      `,
       warnings: "",
       successes: "",
       exId: "",
@@ -155,7 +148,7 @@ export default {
       const sceID = this.$credentials.scenarioId;
       try {
         this.startRes = await this.$apollo.mutate({
-          mutation: this.startEX,
+          mutation: startNewExperiment,
           variables: {
             guID,
             sceID
@@ -176,23 +169,7 @@ export default {
     // Query with parameters
     scenario: {
       // gql query
-      query: gql`
-        query scenario($code: ID!) {
-          scenario(code: $code) {
-            id
-            name
-            description
-            instructions {
-              step
-              header
-              bullets {
-                format
-                text
-              }
-            }
-          }
-        }
-      `,
+      query: scenario,
       // Static parameters
       variables: {
         code: "APPLMRKT"

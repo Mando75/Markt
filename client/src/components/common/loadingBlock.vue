@@ -5,7 +5,7 @@
       <v-progress-circular
         :size="100"
         :width="8"
-        color="monochrome2"
+        color="secondary"
         indeterminate
       >
         Loading...

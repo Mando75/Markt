@@ -1,0 +1,22 @@
+mutation startNewExperiment($sceID: ID!, $guID: ID!) {
+    startNewExperiment(params: { scenarioId: $sceID, guideId: $guID }) {
+        id
+        joinCode
+    }
+}
+
+query scenario($code: ID!) {
+    scenario(code: $code) {
+        id
+        name
+        description
+        instructions {
+            step
+            header
+            bullets {
+                format
+                text
+            }
+        }
+    }
+}

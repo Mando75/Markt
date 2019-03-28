@@ -17,7 +17,7 @@ export const guideRoutes = [
   {
     path: "/guide/instructions",
     name: "Instructions",
-    component: () => import("../../components/GuideFeatures/Instructions")
+    component: () => import("../../components/common/Instructions")
   },
   {
     path: "/guide/players",

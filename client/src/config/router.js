@@ -21,7 +21,7 @@ const router = new Router({
     {
       path: "/instructions",
       name: "Instructs",
-      component: () => import("../components/GuideFeatures/Instructions.vue")
+      component: () => import("../components/common/Instructions.vue")
     },
     {
       path: "/register",

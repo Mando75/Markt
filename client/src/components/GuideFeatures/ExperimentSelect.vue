@@ -5,7 +5,7 @@
     <v-layout v-else justify-center>
       <v-flex xs12 sm10>
         <!--the scenario boxes-->
-        <v-card flat color="modernColor1">
+        <v-card flat color="mSilver">
           <v-container fluid grid-list-md>
             <v-layout row wrap>
               <v-flex
@@ -32,7 +32,7 @@
                                   <v-btn
                                     depressed
                                     small
-                                    color="monochrome4"
+                                    color="secondary darken-3"
                                     v-on="on"
                                   >
                                     Details
@@ -42,7 +42,7 @@
 
                               <v-card>
                                 <v-card-title
-                                  class="headline modernColor1"
+                                  class="headline mSilver"
                                   primary-title
                                 >
                                   {{ scenario.name }}
@@ -58,7 +58,7 @@
                                   <v-spacer></v-spacer>
                                   <v-btn
                                     dark
-                                    color="monochrome3"
+                                    color="primary darken-4"
                                     depressed
                                     @click="dialog = false"
                                   >
@@ -73,7 +73,7 @@
                                 depressed
                                 small
                                 dark
-                                color="monochrome4"
+                                color="secondary darken-3"
                                 @click="handleSelect"
                               >
                                 Select
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import LoadingBlock from "../loadingBlock.vue";
+import LoadingBlock from "../common/loadingBlock.vue";
 import gql from "graphql-tag";
 
 export default {

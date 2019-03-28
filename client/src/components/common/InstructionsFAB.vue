@@ -4,7 +4,7 @@
       <v-btn
         v-model="fab"
         dark
-        color="monochrome4"
+        color="secondary darken-3"
         fab
         fixed
         bottom
@@ -22,7 +22,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="monochrome4 darken-1">
+        <v-toolbar dark color="secondary darken-3 darken-1">
           <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Instructions from "./GuideFeatures/Instructions";
+import Instructions from "./Instructions";
 export default {
   name: "InstructionsFAB",
   components: { Instructions },

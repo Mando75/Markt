@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Nav from "./components/Nav";
+import Nav from "./components/common/Nav";
 import MobileNav from "./components/MobileNav";
 import { me } from "./meQuery.graphql";
 export default {

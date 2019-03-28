@@ -42,7 +42,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar app color="modernColor3" fixed clipped-left>
+    <v-toolbar app color="mDarkGrey " fixed clipped-left>
       <v-toolbar-side-icon
         v-if="$credentials.isUser"
         @click="drawer = !drawer"

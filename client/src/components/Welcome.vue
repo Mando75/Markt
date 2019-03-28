@@ -19,7 +19,7 @@
             <div class="subheading mb-3 text-xs-center ">
               " Classroom Market Simulations "
             </div>
-            <v-btn class=" modernColor3 darken-1 mt-2 mb-4" dark large>
+            <v-btn class=" mDarkGrey darken-1 mt-2 mb-4" dark large>
               Learn More
             </v-btn>
           </v-layout>
@@ -70,7 +70,7 @@
             </div>
             <em>Create an account to make your Markt</em>
             <v-btn
-              color="modernColor3 darken-1"
+              color="mDarkGrey darken-1"
               class=""
               dark
               large
@@ -96,7 +96,7 @@
         </v-container>
       </section>
 
-      <v-footer color="modernColor0">
+      <v-footer color="mBlack ">
         <v-layout row wrap align-center>
           <v-flex xs12> </v-flex>
         </v-layout>
@@ -125,7 +125,7 @@ export default {
           "Students can participate with their smart phones, without downloading anything"
       },
       {
-        color: "monochrome1 darken-3",
+        color: "primary darken-3 darken-3",
         icon: "school",
         title: "Use Experiment Data to Teach",
         body:
@@ -139,6 +139,6 @@ export default {
 
 <style scoped>
 h1 {
-  /*color: "modernColor0";*/
+  /*color: "mBlack ";*/
 }
 </style>

@@ -31,7 +31,7 @@
                       <template slot-scope="{ mutate }">
                         <v-text-field
                           v-model="userEmail"
-                          color="monochrome0"
+                          color="primary lighten-1"
                           label="User Email"
                           :rules="[
                             textValidationRules.required,
@@ -42,9 +42,11 @@
                           v-model="userPassword"
                           label="Password"
                           type="password"
-                          color="monochrome0"
+                          color="primary lighten-1"
                         />
-                        <v-btn color="monochrome3" @click="mutate">Login</v-btn>
+                        <v-btn color="primary darken-4" @click="mutate"
+                          >Login</v-btn
+                        >
                       </template>
                     </ApolloMutation>
                     <v-alert

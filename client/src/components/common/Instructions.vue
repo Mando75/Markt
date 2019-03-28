@@ -31,7 +31,7 @@
       <!--tile 1-->
       <v-layout wrap row>
         <v-flex xs6 order-lg2 d-flex>
-          <v-card dark tile flat color="monochrome3">
+          <v-card dark tile flat color="primary darken-4">
             <v-card-text class="headline font-weight-medium">
               <span>
                 Items in <b>"BOLD"</b> text denote actions to perform.
@@ -41,7 +41,7 @@
         </v-flex>
         <!--tile 2-->
         <v-flex xs6 d-flex>
-          <v-card dark tile flat color="monochrome3">
+          <v-card dark tile flat color="primary darken-4">
             <v-card-text class="headline font-weight-medium">
               <span>
                 Items in <i>"ITALIC"</i> represent words to be said.
@@ -49,14 +49,6 @@
             </v-card-text>
           </v-card>
         </v-flex>
-        <!--tile 3-->
-        <!--<v-flex xs4 order-lg2 d-flex>-->
-        <!--<v-card dark tile flat color="monochrome3">-->
-        <!--<v-card-text class="font-weight-medium">-->
-        <!--Students Joined Count: {{ appleSesh }}-->
-        <!--</v-card-text>-->
-        <!--</v-card>-->
-        <!--</v-flex>-->
       </v-layout>
       <!--the looped points.-->
       <InstructionViewer :instructions="scenario.instructions" />
@@ -65,8 +57,8 @@
 </template>
 
 <script>
-import LoadingBlock from "../loadingBlock";
-import InstructionViewer from "../common/InstructionViewer";
+import LoadingBlock from "./loadingBlock";
+import InstructionViewer from "./InstructionViewer";
 export default {
   name: "Instructions",
   components: { InstructionViewer, LoadingBlock },
@@ -76,11 +68,6 @@ export default {
       required: true
     },
     isLoading: Number
-  },
-  data() {
-    return {
-      appleSesh: 2
-    };
   }
 };
 </script>

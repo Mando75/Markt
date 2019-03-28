@@ -19,7 +19,7 @@
 
 <script>
 import gql from "graphql-tag";
-import InstructionsFAB from "../InstructionsFAB";
+import InstructionsFAB from "../common/InstructionsFAB";
 
 export default {
   name: "ExperimentHub",
