@@ -40,12 +40,11 @@ export const joinExperiment = async (
     joinCode,
     playerCode
   );
-  await checkExperimentBeforeJoin(experiment, player);
-  let ep = ExperimentPlayer.create();
-  ep.player = Promise.resolve(player);
-  ep.experiment = Promise.resolve(experiment);
-  const roleType = await assignPlayerRoleType(experiment.id, redis);
-  ep.roleType = Promise.resolve(roleType);
+  let ep = await checkExperimentBeforeJoin(experiment, player);
+  if (!ep) {
+    ep = await createNewPlayer(player, experiment, redis);
+  }
+
   await setPlayerSession(player.id, experiment.id, session, req, redis);
   ep = await ep.save();
   await experiment.reload();
@@ -107,12 +106,7 @@ const checkExperimentBeforeJoin = async (
     throw new ApolloError(ExperimentErrorMessages.EXPERIMENT_CLOSED, "403");
   }
   // Checks if the player has already joined
-  if (await ExperimentPlayer.findOne({ where: { experiment, player } })) {
-    throw new ApolloError(
-      ExperimentErrorMessages.PLAYER_ALREADY_IN_EXPERIMENT,
-      "403"
-    );
-  }
+  return await ExperimentPlayer.findOne({ where: { experiment, player } });
 };
 
 /**
@@ -143,4 +137,17 @@ const assignPlayerRoleType = async (eId: string, redis: Redis) => {
       "500"
     );
   }
+};
+
+const createNewPlayer = async (
+  player: Player,
+  experiment: Experiment,
+  redis: Redis
+) => {
+  let ep = ExperimentPlayer.create();
+  ep.player = Promise.resolve(player);
+  ep.experiment = Promise.resolve(experiment);
+  const roleType = await assignPlayerRoleType(experiment.id, redis);
+  ep.roleType = Promise.resolve(roleType);
+  return ep;
 };
