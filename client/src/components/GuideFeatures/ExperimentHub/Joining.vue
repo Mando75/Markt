@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-layout
+      v-if="apolloLoading || !experimentPlayerCount"
       align-center
       justify-start
       column
       fill-height
-      v-if="apolloLoading || !experimentPlayerCount"
     >
       <LoadingBlock />
     </v-layout>
@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import GuideScenarioInstructions from "../GuideScenarioInstructions";
 import {
   experimentPlayerCount,
   experimentPlayerCountChanged
@@ -60,7 +59,7 @@ import {
 import LoadingBlock from "../../common/loadingBlock";
 export default {
   name: "Joining",
-  components: { LoadingBlock, GuideScenarioInstructions },
+  components: { LoadingBlock },
   props: {
     experiment: {
       type: Object,
@@ -72,9 +71,6 @@ export default {
       apolloLoading: 0
     };
   },
-  mounted() {
-    this.$apollo.queries.experimentPlayerCount.skip = false;
-  },
   computed: {
     experimentFull() {
       return this.experimentPlayerCount
@@ -83,27 +79,32 @@ export default {
         : false;
     }
   },
+  mounted() {
+    this.$apollo.queries.experimentPlayerCount.skip = false;
+    this.$apollo.subscriptions.experimentPlayerCount.start();
+  },
   apollo: {
     experimentPlayerCount: {
       query: experimentPlayerCount,
+      skip: true,
+      loadingKey: "apolloLoading",
+      fetchPolicy: "network-only",
       variables() {
         return {
           experimentId: this.experiment.id
         };
       },
-      skip: true,
-      loadingKey: "apolloLoading",
       subscribeToMore: {
         document: experimentPlayerCountChanged,
         variables() {
           return {
-            experimentId: this.experimentId
+            experimentId: this.experiment.id
           };
+        },
+        updateQuery(prev, { subscriptionData }) {
+          this.experimentPlayerCount =
+            subscriptionData.data.playerJoinedExperiment;
         }
-      },
-      updateQuery(prev, { subscriptionData }) {
-        this.experimentPlayerCount =
-          subscriptionData.data.playerJoinedExperiment;
       }
     }
   }

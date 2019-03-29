@@ -56,7 +56,6 @@ export class ExperimentSession extends BaseEntity {
   @AfterInsert()
   async _updateExperimentStatus() {
     const experiment = await this.experiment;
-    console.log("updating status");
     await experiment.updateStatus(ExperimentStatusEnum.SESSION_START);
   }
 

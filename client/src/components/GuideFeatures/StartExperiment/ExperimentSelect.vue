@@ -36,25 +36,25 @@
           </v-container>
         </v-card>
       </v-flex>
-    </v-layout>
-    <v-dialog v-model="dialog" width="500">
-      <v-card dark>
-        <v-card-title class="headline" primary-title>
-          Details
-        </v-card-title>
+      <v-dialog v-model="dialog" width="500" lazy>
+        <v-card dark>
+          <v-card-title class="headline" primary-title>
+            Details
+          </v-card-title>
 
-        <v-card-text>
-          {{ scenario.description }}
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn dark color="primary" flat @click="dialog = false">
-            close
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <v-card-text>
+            {{ scenario.description }}
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn dark color="primary" flat @click="dialog = false">
+              close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </v-container>
 </template>
 
@@ -63,7 +63,7 @@ import LoadingBlock from "../../common/loadingBlock.vue";
 import gql from "graphql-tag";
 
 export default {
-  name: "SessionCreation",
+  name: "ExperimentSelect",
   components: { LoadingBlock },
   data() {
     return {
