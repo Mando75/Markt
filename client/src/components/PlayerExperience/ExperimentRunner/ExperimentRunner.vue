@@ -17,6 +17,11 @@
       <br />
       <span>Round Summary {{ roundSummary }}</span>
     </div>
+    <InstructionsFAB>
+      <PlayerSessionInstructions
+        :session-role="experimentPlayer.currentSessionRole"
+      />
+    </InstructionsFAB>
   </div>
 </template>
 
@@ -29,9 +34,17 @@ import {
 import SessionStart from "./SessionStart";
 import Transaction from "./Transaction/Transaction";
 import LoadingBlock from "../../common/loadingBlock";
+import InstructionsFAB from "../../common/InstructionsFAB";
+import PlayerSessionInstructions from "./PlayerSessionInstructions";
 export default {
   name: "ExperimentRunner",
-  components: { LoadingBlock, Transaction, SessionStart },
+  components: {
+    PlayerSessionInstructions,
+    InstructionsFAB,
+    LoadingBlock,
+    Transaction,
+    SessionStart
+  },
   data() {
     return {
       apolloLoading: 0
