@@ -21,6 +21,7 @@ fragment scenarioFragment on Scenario {
   instructions {
     ...instructionsFragment
   }
+  maxPlayerSize
 }
 
 query scenario($code: ID!) {
