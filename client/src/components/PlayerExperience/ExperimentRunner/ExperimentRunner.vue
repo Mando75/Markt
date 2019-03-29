@@ -13,9 +13,6 @@
         :experiment-id="experiment.id"
         :experiment-player="experimentPlayer"
       />
-      <span>In Round: {{ inRound }}</span>
-      <br />
-      <span>Round Summary {{ roundSummary }}</span>
     </div>
     <InstructionsFAB>
       <PlayerSessionInstructions
