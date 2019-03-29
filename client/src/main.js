@@ -39,6 +39,17 @@ const apolloProvider = new VueApollo({
   defaultClient: apolloClient
 });
 Vue.prototype.$credentials = credentialStore;
+
+Vue.filter("formatDate", function(value) {
+  if (value) {
+    const d = new Date(value);
+    return (
+      [d.getMonth() + 1, d.getDate(), d.getFullYear()].join("/") +
+      " " +
+      [d.getHours(), d.getMinutes()].join(":")
+    );
+  }
+});
 new Vue({
   render: h => h(App),
   router,

@@ -1,10 +1,11 @@
 <template>
   <v-container>
-    <LoadingBlock v-if="isLoading" />
+    <LoadingBlock v-if="isLoading || !scenario" />
     <v-layout v-else column justify-start fill-height>
       <!-- Header and instruction -->
       <v-flex xs12>
         <h2 class="display-2">{{ scenario.name }} Preview</h2>
+        <ActiveExperiments :scenario-id="scenario.id" class="my-4" />
         <v-card class="mt-4">
           <v-card-text>
             <GuideScenarioInstructions :scenario="scenario" class="mt-4" />
@@ -59,13 +60,18 @@
   </v-container>
 </template>
 <script>
-import { startNewExperiment, scenario } from "./guideQueries.graphql";
-import LoadingBlock from "../common/loadingBlock";
-import GuideScenarioInstructions from "./GuideScenarioInstructions";
+import {
+  startNewExperiment,
+  scenario
+} from "../guideExperimentQueries.graphql";
+import LoadingBlock from "../../common/loadingBlock";
+import GuideScenarioInstructions from "../GuideScenarioInstructions";
+import ActiveExperiments from "./ActiveExperiments";
 
 export default {
   name: "BeginExperiment",
   components: {
+    ActiveExperiments,
     GuideScenarioInstructions,
     LoadingBlock
   },
@@ -78,6 +84,7 @@ export default {
     };
   },
   mounted() {
+    this.$apollo.queries.scenario.skip = false;
     document.onscroll = () => {
       this.showFab =
         window.innerHeight + window.scrollY < document.body.clientHeight;
@@ -96,10 +103,13 @@ export default {
       // gql query
       query: scenario,
       // Static parameters
-      variables: {
-        code: "APPLMRKT"
+      variables() {
+        return {
+          code: this.$route.params.scenarioCode
+        };
       },
-      loadingKey: "isLoading"
+      loadingKey: "isLoading",
+      skip: true
     }
   }
 };

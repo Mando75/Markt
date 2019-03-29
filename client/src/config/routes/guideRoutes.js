@@ -7,12 +7,14 @@ export const guideRoutes = [
   {
     path: "/guide/scenarios",
     name: "scenarioSelect",
-    component: () => import("../../components/GuideFeatures/ExperimentSelect")
+    component: () =>
+      import("../../components/GuideFeatures/StartExperiment/ExperimentSelect")
   },
   {
     path: "/guide/experiment/:experimentId",
     name: "experimentControls",
-    component: () => import("../../components/GuideFeatures/ExperimentHub")
+    component: () =>
+      import("../../components/GuideFeatures/ExperimentHub/ExperimentHub")
   },
   {
     path: "/guide/instructions",
@@ -26,8 +28,9 @@ export const guideRoutes = [
       import("../../components/GuideFeatures/PlayerManagement/PlayerManagement")
   },
   {
-    path: "/guide/start",
+    path: "/guide/start/:scenarioCode",
     name: "confirmBegin",
-    component: () => import("../../components/GuideFeatures/BeginExperiment")
+    component: () =>
+      import("../../components/GuideFeatures/StartExperiment/BeginExperiment")
   }
 ];

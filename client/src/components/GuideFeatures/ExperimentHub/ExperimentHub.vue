@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import InstructionsFAB from "../common/InstructionsFAB";
-import { experimentHubController } from "./guideQueries.graphql";
-import LoadingBlock from "../common/loadingBlock";
+import InstructionsFAB from "../../common/InstructionsFAB";
+import { experimentHubController } from "../guideExperimentQueries.graphql";
+import LoadingBlock from "../../common/loadingBlock";
 import Joining from "./Joining";
 
 export default {

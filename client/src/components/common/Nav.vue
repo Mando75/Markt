@@ -113,11 +113,6 @@ export default {
           title: "Invite Players",
           icon: "person_add",
           path: "/guide/players"
-        },
-        {
-          title: "Begin Simulation",
-          icon: "monetization_on",
-          path: "/guide/start"
         }
       ],
       drawer: true,

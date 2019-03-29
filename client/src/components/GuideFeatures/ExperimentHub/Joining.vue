@@ -33,15 +33,18 @@
           Waiting for players to join...</span
         >
       </v-flex>
-      <v-flex xs4 offset-xs4 align-bottom>
+      <v-flex xs8 md4 offset-xs2 offset-md4 align-bottom>
         <v-card class="ma-3" elevation="4" dark>
           <v-card-title primary-title>
-            <span>Ready to start the first session?</span>
-            <v-spacer />
+            <v-flex>
+              <span>Ready to start the first session?</span>
+            </v-flex>
+          </v-card-title>
+          <v-card-text>
             <v-btn color="primary">
               Start Session
             </v-btn>
-          </v-card-title>
+          </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -49,12 +52,12 @@
 </template>
 
 <script>
-import GuideScenarioInstructions from "./GuideScenarioInstructions";
+import GuideScenarioInstructions from "../GuideScenarioInstructions";
 import {
   experimentPlayerCount,
   experimentPlayerCountChanged
-} from "./guideQueries.graphql";
-import LoadingBlock from "../common/loadingBlock";
+} from "../guideExperimentQueries.graphql";
+import LoadingBlock from "../../common/loadingBlock";
 export default {
   name: "Joining",
   components: { LoadingBlock, GuideScenarioInstructions },
