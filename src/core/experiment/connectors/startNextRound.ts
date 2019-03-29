@@ -26,10 +26,7 @@ export const startNextRound = async (
   await deactivateRounds(rounds);
   newRound.session = Promise.resolve(activeSession);
   newRound = await newRound.save();
-  console.log("updating experiment");
   await experiment.reload();
-  console.log(experiment.status);
-  console.log(await experiment.getActiveSession());
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return newRound;
 };

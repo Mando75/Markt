@@ -4,7 +4,7 @@
       <v-flex v-for="(step, i) in instructions" :key="`step=${i}`" d-flex>
         <div class="text-md-left text-sm-justify font-weight-regular">
           <v-list-tile class="mt-0 pt-0"
-            >{{ step.step }}) {{ step.header }}</v-list-tile
+            >{{ step.step }} {{ step.header }}</v-list-tile
           >
           <v-flex offset-xs1>
             <ul class="text-xs-left justify-space-between ">

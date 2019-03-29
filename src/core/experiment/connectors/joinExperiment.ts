@@ -26,8 +26,15 @@ export const joinExperiment = async (
   { params: { joinCode, playerCode } }: GQL.IJoinExperimentOnMutationArguments,
   { redis, session, req, pubsub, player: sessionPlayer }: GraphQLContext
 ) => {
-  if (session.playerId && sessionPlayer) {
-    return await getExistingPlayer(joinCode, sessionPlayer);
+  if (
+    session.playerId &&
+    sessionPlayer &&
+    sessionPlayer.playerCode === joinCode
+  ) {
+    const player = await getExistingPlayer(joinCode, sessionPlayer);
+    const experiment = await player.experiment;
+    pubsub.publish(SubscriptionKey.PLAYER_JOINED_EXPERIMENT, experiment);
+    return player;
   }
   const { experiment, player } = await getExperimentAndPlayer(
     joinCode,
