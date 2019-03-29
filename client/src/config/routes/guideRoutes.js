@@ -10,7 +10,7 @@ export const guideRoutes = [
     component: () => import("../../components/GuideFeatures/ExperimentSelect")
   },
   {
-    path: "/guide/experiment",
+    path: "/guide/experiment/:experimentId",
     name: "experimentControls",
     component: () => import("../../components/GuideFeatures/ExperimentHub")
   },

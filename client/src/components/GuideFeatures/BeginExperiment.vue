@@ -17,15 +17,23 @@
               <span>
                 Are you ready to go live?
               </span>
-              <v-btn
-                large
-                ref="goLive"
-                class="justify-center my-4"
-                color="primary darken-2"
-                @click="startExperimentMutation"
+              <ApolloMutation
+                :mutation="startNewExperiment"
+                :variables="{ guID: guideId, sceID: scenarioId }"
+                @done="handleExperimentStart"
               >
-                Go Live
-              </v-btn>
+                <v-btn
+                  slot-scope="{ mutate, loading }"
+                  ref="goLive"
+                  large
+                  class="justify-center my-4"
+                  color="primary darken-2"
+                  :disabled="loading"
+                  @click="mutate"
+                >
+                  Go Live
+                </v-btn>
+              </ApolloMutation>
             </v-card>
           </v-flex>
         </v-layout>
@@ -33,12 +41,11 @@
     </v-layout>
     <v-btn
       v-show="showFab"
-      dark
       color="secondary darken-3"
-      fixed
       large
-      bottom
       round
+      fixed
+      bottom
       right
       @click="$vuetify.goTo($refs.goLive)"
       ><v-icon>keyboard_arrow_down</v-icon> Go Live</v-btn
@@ -46,12 +53,7 @@
   </v-container>
 </template>
 <script>
-import {
-  startNewExperiment,
-  scenario,
-  experimentPlayerCount,
-  experimentPlayerCountChanged
-} from "./guideQueries.graphql";
+import { startNewExperiment, scenario } from "./guideQueries.graphql";
 import LoadingBlock from "../common/loadingBlock";
 import GuideScenarioInstructions from "./GuideScenarioInstructions";
 
@@ -63,15 +65,11 @@ export default {
   },
   data() {
     return {
-      guID: "",
-      sceID: "",
-      warnings: "",
-      successes: "",
-      exId: "",
-      joinCode: "",
+      guideId: this.$credentials.guideId,
+      scenarioId: this.$credentials.scenarioId,
       isLoading: 0,
-      experimentStarted: false,
-      showFab: true
+      showFab: true,
+      startNewExperiment
     };
   },
   mounted() {
@@ -81,30 +79,9 @@ export default {
     };
   },
   methods: {
-    async startExperimentMutation() {
-      const guID = this.$credentials.guideId;
-      const sceID = this.$credentials.scenarioId;
-      try {
-        this.isLoading++;
-        const { data } = await this.$apollo.mutate({
-          mutation: startNewExperiment,
-          variables: {
-            guID,
-            sceID
-          }
-        });
-        this.exId = data.startNewExperiment.id;
-        this.joinCode = data.startNewExperiment.joinCode;
-        this.$credentials.experimentId = data.startNewExperiment.id;
-      } catch (e) {
-        this.warnings = e;
-      }
-      if (this.warnings === "") {
-        this.successes = "Yay!";
-        this.experimentStarted = true;
-        this.$apollo.queries.experiment.skip = false;
-      }
-      this.isLoading--;
+    async handleExperimentStart({ data }) {
+      this.$credentials.experimentId = data.startNewExperiment.id;
+      this.$router.push(`/guide/experiment/${data.startNewExperiment.id}`);
     }
   },
   // Apollo-specific options
@@ -118,27 +95,6 @@ export default {
         code: "APPLMRKT"
       },
       loadingKey: "isLoading"
-    },
-    experiment: {
-      query: experimentPlayerCount,
-      variables() {
-        return {
-          experimentId: this.exId
-        };
-      },
-      skip: true,
-      loadingKey: "isLoading",
-      subscribeToMore: {
-        document: experimentPlayerCountChanged,
-        variables() {
-          return {
-            experimentId: this.exId
-          };
-        }
-      },
-      updateQuery(prev, { subscriptionData }) {
-        this.experiment = subscriptionData.data.playerJoinedExperiment;
-      }
     }
   }
 };

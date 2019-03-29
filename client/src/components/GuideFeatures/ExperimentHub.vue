@@ -1,16 +1,14 @@
 <template>
   <v-container fluid grid-list color="secondary0">
     <v-layout row wrap justify-start column fill-height>
-      <v-flex md12 d-flex>
-        <v-card flat>
-          <v-img></v-img>
-          <h1 class=" display-1">
-            Welcome Guide
-          </h1>
-          <v-card-text>
-            This will have the controls for the guide. "Guide HUB"
-          </v-card-text>
-        </v-card>
+      <v-flex v-if="apolloLoading" xs12>
+        <LoadingBlock />
+      </v-flex>
+      <v-flex v-else-if="experiment">
+        <Joining
+          v-if="experiment.status === 'joining'"
+          :experiment-id="experiment.id"
+        />
       </v-flex>
     </v-layout>
     <InstructionsFAB :scenario="scenario" />
@@ -18,39 +16,28 @@
 </template>
 
 <script>
-import gql from "graphql-tag";
 import InstructionsFAB from "../common/InstructionsFAB";
+import { experimentHubController } from "./guideQueries.graphql";
+import LoadingBlock from "../common/loadingBlock";
+import Joining from "./Joining";
 
 export default {
   name: "ExperimentHub",
-  components: { InstructionsFAB },
-  // Apollo-specific options
+  components: { Joining, LoadingBlock, InstructionsFAB },
+  data() {
+    return {
+      apolloLoading: 0
+    };
+  },
   apollo: {
-    // Query with parameters
-    scenario: {
-      // gql query
-      query: gql`
-        query scenario($code: ID!) {
-          scenario(code: $code) {
-            id
-            name
-            description
-            instructions {
-              step
-              header
-              bullets {
-                format
-                text
-              }
-            }
-          }
-        }
-      `,
-      // Static parameters
-      variables: {
-        code: "APPLMRKT"
+    experiment: {
+      query: experimentHubController,
+      variables() {
+        return {
+          experimentId: this.$route.params.experimentId
+        };
       },
-      loadingKey: "isLoading"
+      loadingKey: "apolloLoading"
     }
   }
 };
