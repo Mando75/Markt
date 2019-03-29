@@ -8,14 +8,14 @@
       {{ scenario.description }}
     </v-flex>
     <v-flex md6 my-3>
-      <v-card dark flat color="primary darken-2">
+      <v-card dark flat color="accent">
         <v-card-text class="font-weight-medium">
           <span> Items in <b>"BOLD"</b> text denote actions to perform. </span>
         </v-card-text>
       </v-card>
     </v-flex>
     <v-flex md6 my-3>
-      <v-card dark flat color="primary darken-2">
+      <v-card dark flat color="accent">
         <v-card-text class="font-weight-medium">
           <span> Items in <i>"ITALIC"</i> represent words to be said. </span>
         </v-card-text>

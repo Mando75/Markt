@@ -4,7 +4,7 @@
       <v-btn
         v-model="fab"
         dark
-        color="secondary darken-3"
+        color="secondary darken-1"
         fab
         fixed
         bottom
@@ -17,38 +17,25 @@
     <v-dialog
       v-model="dialog"
       fullscreen
-      content-class="modernClass"
       hide-overlay
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="secondary darken-3 darken-1">
+        <v-toolbar dark color="primary darken-1">
           <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>Instructions Quick Look</v-toolbar-title>
         </v-toolbar>
-        <Instructions :scenario="scenario" />
+        <slot></slot>
       </v-card>
     </v-dialog>
   </div>
 </template>
 
 <script>
-import Instructions from "./Instructions";
 export default {
   name: "InstructionsFAB",
-  components: { Instructions },
-  props: {
-    scenario: {
-      type: Object,
-      required: true
-    },
-    isLoading: {
-      type: Number,
-      default: 0
-    }
-  },
   data() {
     return {
       dialog: false,

@@ -9,7 +9,9 @@
           v-if="experiment.status === 'joining'"
           :experiment="experiment"
         />
-        <InstructionsFAB :scenario="experiment.scenario" />
+        <InstructionsFAB>
+          <GuideScenarioInstructions :scenario="experiment.scenario" />
+        </InstructionsFAB>
       </v-flex>
     </v-layout>
   </v-container>
@@ -20,10 +22,16 @@ import InstructionsFAB from "../../common/InstructionsFAB";
 import { experimentHubController } from "../guideExperimentQueries.graphql";
 import LoadingBlock from "../../common/loadingBlock";
 import Joining from "./Joining";
+import GuideScenarioInstructions from "../GuideScenarioInstructions";
 
 export default {
   name: "ExperimentHub",
-  components: { Joining, LoadingBlock, InstructionsFAB },
+  components: {
+    GuideScenarioInstructions,
+    Joining,
+    LoadingBlock,
+    InstructionsFAB
+  },
   data() {
     return {
       apolloLoading: 0
