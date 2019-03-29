@@ -19,7 +19,7 @@
           <v-form v-model="validInput">
             <v-text-field
               v-model="email"
-              color="primary lighten-1"
+              color="primary"
               :disabled="loading"
               label="Player Email"
               :rules="[
@@ -29,14 +29,14 @@
             />
             <v-text-field
               v-model="firstName"
-              color="primary lighten-1"
+              color="primary"
               :disabled="loading"
               :rules="[textValidationRules.required]"
               label="Player First Name"
             />
             <v-text-field
               v-model="lastName"
-              color="primary lighten-1"
+              color="primary"
               :disabled="loading"
               label="Player Last Name"
               :rules="[textValidationRules.required]"
@@ -47,7 +47,7 @@
               <v-btn
                 :disabled="!validInput || loading"
                 :loading="loading"
-                color="primary darken-4"
+                color="primary"
                 @click="mutate"
                 >Invite</v-btn
               >
@@ -61,7 +61,7 @@
     </v-card-text>
     <v-snackbar v-model="playerAdded" bottom>
       {{ playerAddedMessage }}
-      <v-btn color="primary darken-4" flat @click="playerAdded = false">
+      <v-btn color="primary" flat @click="playerAdded = false">
         Close
       </v-btn>
     </v-snackbar>

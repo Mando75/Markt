@@ -6,7 +6,7 @@
     <v-layout v-else justify-center>
       <v-flex xs12 sm10>
         <!--the scenario boxes-->
-        <v-card flat color="mSilver">
+        <v-card flat color="accent">
           <v-container fluid grid-list-md>
             <v-layout row wrap>
               <v-flex v-for="card in cards" :key="card.title" xs6>
@@ -21,13 +21,14 @@
                   <v-card-actions>
                     <v-btn
                       flat
-                      color="primary"
+                      color="primary lighten-1"
                       @click="handleSelect(card.scenarioCode)"
-                      >Select</v-btn
                     >
-                    <v-btn flat color="secondary" @click="dialog = true"
-                      >Details</v-btn
-                    >
+                      Select
+                    </v-btn>
+                    <v-btn flat @click="dialog = true">
+                      Details
+                    </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-flex>

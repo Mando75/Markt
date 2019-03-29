@@ -4,7 +4,7 @@
       <v-btn
         v-model="fab"
         dark
-        color="secondary darken-1"
+        color="primary"
         fab
         fixed
         bottom
@@ -21,7 +21,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
-        <v-toolbar dark color="primary darken-1">
+        <v-toolbar dark color="primary">
           <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>

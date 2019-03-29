@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid grid-list color="secondary0">
+  <v-container fluid grid-list color="primary">
     <v-layout row wrap justify-start column fill-height>
       <v-flex v-if="apolloLoading" xs12>
         <LoadingBlock />

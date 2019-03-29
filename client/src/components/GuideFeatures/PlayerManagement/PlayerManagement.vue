@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid color="secondary0" grid-list-lg>
+  <v-container fluid color="primary" grid-list-lg>
     <v-layout row wrap>
       <v-flex xs12 md6>
         <PlayerInvitationCard :height="cardHeights" @playerAdded="addPlayer" />

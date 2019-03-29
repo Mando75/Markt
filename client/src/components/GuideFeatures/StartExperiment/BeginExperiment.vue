@@ -33,7 +33,7 @@
                   ref="goLive"
                   large
                   class="justify-center my-4"
-                  color="primary darken-2"
+                  color="primary"
                   :disabled="loading"
                   :loading="loading"
                   @click="mutate"
@@ -48,7 +48,7 @@
     </v-layout>
     <v-btn
       v-show="showFab"
-      color="secondary darken-3"
+      color="primary"
       large
       round
       fixed

@@ -29,7 +29,7 @@
     <!--tile 1-->
     <v-layout wrap row>
       <v-flex xs6 order-lg2 d-flex>
-        <v-card dark tile flat color="primary darken-4">
+        <v-card dark tile flat color="primary">
           <v-card-text class="headline font-weight-medium">
             <span>
               Items in <b>"BOLD"</b> text denote actions to perform.
@@ -39,7 +39,7 @@
       </v-flex>
       <!--tile 2-->
       <v-flex xs6 d-flex>
-        <v-card dark tile flat color="primary darken-4">
+        <v-card dark tile flat color="primary">
           <v-card-text class="headline font-weight-medium">
             <span> Items in <i>"ITALIC"</i> represent words to be said. </span>
           </v-card-text>

@@ -6,26 +6,27 @@ import VueApollo from "vue-apollo";
 import router from "./config/router";
 import { apolloClient } from "./config/apollo";
 import { credentialStore } from "./config/credentialStore";
+import colors from "vuetify/es5/util/colors";
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 Vue.use(Vuetify, {
   theme: {
-    primary: "#8BC34A",
-    secondary: "#8ABD5F",
-    accent: "#224C00",
+    primary: colors.lightGreen.darken2,
+    secondary: colors.lightGreen.lighten2,
+    accent: colors.grey.darken2,
     info: "#adadad",
     success: "#72a647",
     warning: "#444444",
     error: "#b71c1c",
 
     // monochrome0: "#7FCA40" /* lighter version of primary*/,
-    // primary darken-3: "#BAE397" /* button color*/,
-    // monochrome2: "#8ABD5F" /* same as secondary */,
+    // primary: "#BAE397" /* button color*/,
+    // monochrome2: "#8ABD5F" /* same as primary */,
     // primary darken-4: "#609732",
-    // secondary darken-3: "#3E7213",
+    // primary: "#3E7213",
 
-    mBlack: "#222222" /* Main Secondary color */,
+    mBlack: "#222222" /* Main primary color */,
     mSilver: "#adadad",
     mGrey: "#61706b",
     mGray: "#61706b",
