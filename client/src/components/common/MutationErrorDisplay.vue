@@ -6,14 +6,14 @@
       :value="error"
       dismissible
       transition="fade-transition"
-      color="warning"
+      color="error"
     >
       {{ err.message }}
     </v-alert>
     <v-alert
       v-if="error.graphQLErrors.length === 0"
       transition="fade-transition"
-      color="warning"
+      color="error"
       dismissible
       :value="true"
     >
@@ -27,7 +27,7 @@ export default {
   name: "MutationErrorDisplay",
   props: {
     error: {
-      type: Object,
+      type: Error,
       required: true
     }
   }

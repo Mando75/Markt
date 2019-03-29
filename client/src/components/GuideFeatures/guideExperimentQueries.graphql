@@ -86,7 +86,9 @@ query activeExperimentList($scenarioId: ID) {
       experiments(active: true, scenarioId: $scenarioId) {
         id
         updatedDate
-          numPlayers
+        numPlayers
+        joinCode
+        status
       }
     }
   }

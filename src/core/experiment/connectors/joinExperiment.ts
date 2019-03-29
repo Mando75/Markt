@@ -29,7 +29,7 @@ export const joinExperiment = async (
   if (
     session.playerId &&
     sessionPlayer &&
-    sessionPlayer.playerCode === joinCode
+    sessionPlayer.playerCode === playerCode
   ) {
     const player = await getExistingPlayer(joinCode, sessionPlayer);
     const experiment = await player.experiment;

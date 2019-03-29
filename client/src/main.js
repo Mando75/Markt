@@ -51,6 +51,19 @@ Vue.filter("formatDate", function(value) {
     );
   }
 });
+
+Vue.filter("formatStatus", function(value) {
+  const statusMap = {
+    joining: "Joining",
+    session_start: "Session Start",
+    in_round: "In Round",
+    round_summary: "Round Summary",
+    closed: "Closed"
+  };
+  if (value) {
+    return statusMap[value] || value;
+  }
+});
 new Vue({
   render: h => h(App),
   router,
