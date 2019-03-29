@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="apolloLoading">
+    <div v-if="apolloLoading || !experimentPlayer">
       <LoadingBlock />
     </div>
     <div v-else>
@@ -13,12 +13,12 @@
         :experiment-id="experiment.id"
         :experiment-player="experimentPlayer"
       />
+      <InstructionsFAB>
+        <PlayerSessionInstructions
+          :session-role="experimentPlayer.currentSessionRole"
+        />
+      </InstructionsFAB>
     </div>
-    <InstructionsFAB>
-      <PlayerSessionInstructions
-        :session-role="experimentPlayer.currentSessionRole"
-      />
-    </InstructionsFAB>
   </div>
 </template>
 
@@ -59,35 +59,34 @@ export default {
     },
     roundSummary() {
       return this.currentStatus === "round_summary";
+    },
+    experimentId() {
+      return this.experimentPlayer ? this.experimentPlayer.experiment.id : null;
     }
   },
-  created() {
-    if (!this.$credentials.experimentId) {
-      this.$router.push("/join");
+  watch: {
+    experimentPlayer(newVal, oldVal) {
+      if (oldVal === undefined) {
+        this.$apollo.queries.experiment.skip = false;
+        this.$apollo.subscriptions.experiment.start();
+      }
     }
-  },
-  mounted() {
-    window.onbeforeunload = function() {
-      return "You will be logged out of the experiment. Continue?";
-    };
-  },
-  beforeDestroy() {
-    window.onbeforeunload = function() {};
   },
   apollo: {
     experiment: {
       query: er_experimentQuery,
       variables() {
         return {
-          experimentId: this.$credentials.experimentId
+          experimentId: this.experimentId
         };
       },
+      skip: true,
       loadingKey: "apolloLoading",
       subscribeToMore: {
         document: er_experimentStatusUpdateSubscription,
         variables() {
           return {
-            experimentId: this.$credentials.experimentId
+            experimentId: this.experimentId
           };
         },
         updateQuery(prev, { subscriptionData }) {
@@ -101,8 +100,13 @@ export default {
       loadingKey: "apolloLoading",
       variables() {
         return {
-          experimentPlayerId: this.$credentials.experimentPlayerId
+          experimentPlayerId:
+            this.$route.params.experimentPlayerId ||
+            this.$credentials.experimentPlayerId
         };
+      },
+      error() {
+        this.$route.push("/join");
       }
     }
   }

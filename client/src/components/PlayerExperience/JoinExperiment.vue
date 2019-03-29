@@ -95,7 +95,7 @@ export default {
       this.$credentials.isUser = false;
       this.$credentials.experimentId = data.joinExperiment.experiment.id;
       this.$credentials.experimentPlayerId = data.joinExperiment.id;
-      this.$router.push("/player/play");
+      this.$router.push(`/player/play/${data.joinExperiment.id}`);
     }
   }
 };
