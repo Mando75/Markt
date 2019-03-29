@@ -1,0 +1,93 @@
+mutation startNewExperiment($sceID: ID!, $guID: ID!) {
+  startNewExperiment(params: { scenarioId: $sceID, guideId: $guID }) {
+    id
+    joinCode
+  }
+}
+
+fragment instructionsFragment on Instructions {
+  step
+  header
+  bullets {
+    format
+    text
+  }
+}
+
+fragment scenarioFragment on Scenario {
+  id
+  name
+  description
+  instructions {
+    ...instructionsFragment
+  }
+  maxPlayerSize
+}
+
+query scenario($code: ID!) {
+  scenario(code: $code) {
+    ...scenarioFragment
+  }
+}
+
+query experimentPlayerCount($experimentId: ID!) {
+  experimentPlayerCount: experiment(id: $experimentId) {
+    id
+    joinCode
+    numPlayers
+  }
+}
+
+subscription experimentPlayerCountChanged($experimentId: ID!) {
+  playerJoinedExperiment(experimentId: $experimentId) {
+    id
+    numPlayers
+    joinCode
+  }
+}
+
+query experimentHubController($experimentId: ID!) {
+  experiment(id: $experimentId) {
+    id
+    joinCode
+    scenario {
+      ...scenarioFragment
+    }
+    status
+    numPlayers
+    activeSession {
+      id
+      sessionNumber
+      scenarioSession {
+        id
+        instructions {
+          ...instructionsFragment
+        }
+        roundDiscussionPoints {
+          ...instructionsFragment
+        }
+        numberOfRounds
+      }
+    }
+    activeRound {
+      id
+      roundNumber
+      averagePrice
+      numTransactions
+    }
+  }
+}
+
+query activeExperimentList($scenarioId: ID) {
+  me {
+    id
+    guide {
+      id
+      experiments(active: true, scenarioId: $scenarioId) {
+        id
+        updatedDate
+          numPlayers
+      }
+    }
+  }
+}

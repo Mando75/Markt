@@ -60,7 +60,8 @@
         </v-list>
       </v-layout>
     </v-navigation-drawer>
-    <v-toolbar app color="modernColor3" fixed clipped-left>
+
+    <v-toolbar app color="mDarkGrey " fixed clipped-left>
       <v-toolbar-side-icon
         v-if="$credentials.isUser"
         @click="drawer = !drawer"
@@ -112,11 +113,6 @@ export default {
           title: "Invite Players",
           icon: "person_add",
           path: "/guide/players"
-        },
-        {
-          title: "Begin Simulation",
-          icon: "monetization_on",
-          path: "/guide/start"
         }
       ],
       drawer: true,

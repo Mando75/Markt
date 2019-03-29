@@ -1,23 +1,23 @@
 <template>
   <v-bottom-nav
-    color="modernColor0"
+    color="mBlack "
     :active.sync="bottomNav"
     :value="true"
     fixed
     app
     class="hidden-md-and-up"
   >
-    <v-btn color="monochrome0" flat value="recent">
+    <v-btn color="primary" flat value="recent">
       <span>Join</span>
       <v-icon>add_circle</v-icon>
     </v-btn>
 
-    <v-btn color="monochrome0" flat value="favorites">
+    <v-btn color="primary" flat value="favorites">
       <span>Buy/Sell</span>
       <v-icon>euro_symbol</v-icon>
     </v-btn>
 
-    <v-btn color="monochrome0" flat value="nearby">
+    <v-btn color="primary" flat value="nearby">
       <span>Instructions</span>
       <v-icon>live_help</v-icon>
     </v-btn>

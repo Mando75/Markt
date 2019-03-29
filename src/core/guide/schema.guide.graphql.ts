@@ -4,7 +4,7 @@ export const typeDefs = gql`
   type Guide {
     id: ID!
     user: User!
-    experiments: [Experiment]
+    experiments(active: Boolean, scenarioId: ID): [Experiment]
     active: Boolean!
     players: [Player]
     createdDate: Date!

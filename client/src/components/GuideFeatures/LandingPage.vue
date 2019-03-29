@@ -7,7 +7,7 @@
     <v-container v-else fluid grid-list-lg>
       <v-layout row wrap justify-start>
         <v-flex d-flex xs12 sm6 md6>
-          <v-card color="monochrome3 lighten-1" dark>
+          <v-card color="primary darken-1" dark>
             <v-card-title primary class="headline font-weight-bold"
               >$Credentials</v-card-title
             >
@@ -26,7 +26,7 @@
         <v-flex d-flex xs12 sm6 md6>
           <v-layout row wrap>
             <v-flex d-flex>
-              <v-card color="monochrome1 darken-3" dark>
+              <v-card color="primary darken-3" dark>
                 <v-card-title v-if="$credentials.sSelect === ''" primary-title
                   >No Experiment Selected</v-card-title
                 >
@@ -37,19 +37,17 @@
                   $credentials.sSelect
                 }}</v-card-text>
 
-                <div v-if="$credentials.sSelect != ''">
-                  <span class="subheading"
-                    ><v-btn
-                      dark
-                      large
-                      color="monochrome1 darken-4"
-                      class="text-capitalize"
-                      @click="proceedToStart"
-                      >Begin Selected</v-btn
-                    ></span
-                  >
-                  <br />
-                </div>
+                <span class="subheading"
+                  ><v-btn
+                    dark
+                    large
+                    color="primary"
+                    class="text-capitalize"
+                    @click="proceedToStart"
+                    >Begin Selected</v-btn
+                  ></span
+                >
+                <br />
               </v-card>
             </v-flex>
 
@@ -69,7 +67,7 @@
         <v-flex d-flex xs12 sm6 md3>
           <v-layout column wrap>
             <v-flex d-flex>
-              <v-card color="monochrome1 darken-3" dark>
+              <v-card color="primary" dark>
                 <v-card-text
                   >hajsdhlahsdfjasjf;dkfa;kjdkfj lkasjie aioeu;a
                 </v-card-text>
@@ -78,7 +76,7 @@
             <v-flex d-flex>
               <v-layout row wrap>
                 <v-flex d-flex xs12>
-                  <v-card color="monochrome3 lighten-1" dark>
+                  <v-card color="primary" dark>
                     <v-card-text
                       >dksjflsdjfl salkuoep aieuo adskj kshdfauua dskfa lewh
                       fadsfy alewhfaj</v-card-text
@@ -90,7 +88,7 @@
           </v-layout>
         </v-flex>
         <v-flex d-flex xs12 sm6 md9>
-          <v-card color="monochrome4 lighten-2" dark>
+          <v-card color="secondary darken-3 lighten-2" dark>
             <v-card-text
               >jkjjjfsdjfladsjkfjl;dfsa;fj
               ;aiuak;ljdfajsdkfjaiojiewajkldsjfa;dskadgpaewij</v-card-text
@@ -104,7 +102,7 @@
 
 <script>
 import gql from "graphql-tag";
-import LoadingBlock from "../loadingBlock";
+import LoadingBlock from "../common/loadingBlock";
 
 export default {
   name: "LandingPage",
