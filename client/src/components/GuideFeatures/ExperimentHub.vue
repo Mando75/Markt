@@ -7,11 +7,11 @@
       <v-flex v-else-if="experiment">
         <Joining
           v-if="experiment.status === 'joining'"
-          :experiment-id="experiment.id"
+          :experiment="experiment"
         />
+        <InstructionsFAB :scenario="experiment.scenario" />
       </v-flex>
     </v-layout>
-    <InstructionsFAB :scenario="scenario" />
   </v-container>
 </template>
 

@@ -13,28 +13,34 @@
         <!--Confirmation things-->
         <v-layout align-center justify-center fill-height>
           <v-flex d-flex xs4 sm5 align-bottom>
-            <v-card v-if="!experimentStarted" class="ma-3" dark elevation="4">
-              <span>
-                Are you ready to go live?
-              </span>
-              <ApolloMutation
-                :mutation="startNewExperiment"
-                :variables="{ guID: guideId, sceID: scenarioId }"
-                @done="handleExperimentStart"
+            <ApolloMutation
+              :mutation="startNewExperiment"
+              :variables="{ guID: guideId, sceID: scenario.id }"
+              @done="handleExperimentStart"
+            >
+              <v-card
+                slot-scope="{ mutate, loading }"
+                class="ma-3"
+                dark
+                elevation="4"
               >
+                <span>
+                  Are you ready to go live?
+                </span>
+
                 <v-btn
-                  slot-scope="{ mutate, loading }"
                   ref="goLive"
                   large
                   class="justify-center my-4"
                   color="primary darken-2"
                   :disabled="loading"
+                  :loading="loading"
                   @click="mutate"
                 >
                   Go Live
                 </v-btn>
-              </ApolloMutation>
-            </v-card>
+              </v-card>
+            </ApolloMutation>
           </v-flex>
         </v-layout>
       </v-flex>
@@ -66,7 +72,6 @@ export default {
   data() {
     return {
       guideId: this.$credentials.guideId,
-      scenarioId: this.$credentials.scenarioId,
       isLoading: 0,
       showFab: true,
       startNewExperiment

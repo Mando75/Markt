@@ -1,17 +1,22 @@
 <template>
-  <v-layout justify-start column fill-height>
-    <v-flex xs12 d-flex>
-      <h1 class="display-1">
-        You are now live. Waiting for players to join...
-      </h1>
-      <h3 class="display-3">
-        Join Code: <strong>{{ experiment.joinCode }}</strong>
-      </h3>
-    </v-flex>
-    <v-flex xs12 d-flex>
-      <GuideScenarioInstructions :scenario="experiment.scenario" />
-    </v-flex>
-  </v-layout>
+  <div>
+    <v-layout justify-start column fill-height v-if="apolloLoading">
+      <LoadingBlock />
+    </v-layout>
+    <v-layout v-else justify-start column fill-height>
+      <v-flex xs12 d-flex>
+        <h1 class="display-1">
+          You are now live. Waiting for players to join...
+        </h1>
+        <h3 class="display-3">
+          Join Code: <strong>{{ experiment.joinCode }}</strong>
+        </h3>
+      </v-flex>
+      <v-flex xs12 d-flex>
+        <GuideScenarioInstructions :scenario="experiment.scenario" />
+      </v-flex>
+    </v-layout>
+  </div>
 </template>
 
 <script>
@@ -20,24 +25,30 @@ import {
   experimentPlayerCount,
   experimentPlayerCountChanged
 } from "./guideQueries.graphql";
+import LoadingBlock from "../common/loadingBlock";
 export default {
   name: "Joining",
-  components: { GuideScenarioInstructions },
+  components: { LoadingBlock, GuideScenarioInstructions },
   props: {
-    experimentId: {
+    experiment: {
       type: Object,
       required: true
     }
   },
+  data() {
+    return {
+      apolloLoading: 0
+    };
+  },
   apollo: {
-    experiment: {
+    experimentPlayerCount: {
       query: experimentPlayerCount,
       variables() {
         return {
-          experimentId: this.experimentId
+          experimentId: this.experiment.id
         };
       },
-      loadingKey: "isLoading",
+      loadingKey: "apolloLoading",
       subscribeToMore: {
         document: experimentPlayerCountChanged,
         variables() {
@@ -47,7 +58,8 @@ export default {
         }
       },
       updateQuery(prev, { subscriptionData }) {
-        this.experiment = subscriptionData.data.playerJoinedExperiment;
+        this.experimentPlayerCount =
+          subscriptionData.data.playerJoinedExperiment;
       }
     }
   }
