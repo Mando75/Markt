@@ -60,6 +60,56 @@ export default {
   color: #2c3e50;
   margin-top: 0px;
 }
+@keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes flickerAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.animate-flicker {
+  -webkit-animation: flickerAnimation 3s infinite;
+  -moz-animation: flickerAnimation 3s infinite;
+  -o-animation: flickerAnimation 3s infinite;
+  animation: flickerAnimation 3s infinite;
+}
 </style>
 <style src="vuetify/dist/vuetify.min.css"></style>
 <style src="v-currency-field/dist/index.css"></style>

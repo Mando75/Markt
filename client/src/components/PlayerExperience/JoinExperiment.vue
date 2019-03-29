@@ -54,7 +54,7 @@
                   class="join-actions"
                   :disabled="!validInput || loading"
                   :loading="loading"
-                  color="primary darken-4"
+                  color="primary"
                   @click="mutate"
                 >
                   Join Experiment

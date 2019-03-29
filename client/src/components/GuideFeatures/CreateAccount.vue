@@ -28,26 +28,22 @@
               <template slot-scope="{ mutate }">
                 <v-text-field
                   v-model="firstName"
-                  color="primary lighten-1"
+                  color="primary"
                   label="First Name"
                 />
                 <v-text-field
                   v-model="lastName"
-                  color="primary lighten-1"
+                  color="primary"
                   label="Last Name"
                 />
-                <v-text-field
-                  v-model="email"
-                  color="primary lighten-1"
-                  label="Email"
-                />
+                <v-text-field v-model="email" color="primary" label="Email" />
                 <v-text-field
                   v-model="password"
-                  color="primary lighten-1"
+                  color="primary"
                   label="Password"
                   type="password"
                 />
-                <v-btn color="primary darken-4" @click="mutate">Register</v-btn>
+                <v-btn color="primary" @click="mutate">Register</v-btn>
                 <v-alert
                   v-for="(msg, i) in warningMsg"
                   :key="`warningMsg${i}`"

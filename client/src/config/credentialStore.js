@@ -5,8 +5,6 @@ export const credentialStore = {
   userId: "",
   playerId: "",
   guideId: "",
-  scenarioId: "",
-  sSelect: "",
   displayName: "",
   experimentId: "",
   experimentPlayerId: ""

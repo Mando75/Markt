@@ -37,19 +37,17 @@
                   $credentials.sSelect
                 }}</v-card-text>
 
-                <div v-if="$credentials.sSelect != ''">
-                  <span class="subheading"
-                    ><v-btn
-                      dark
-                      large
-                      color="primary darken-3"
-                      class="text-capitalize"
-                      @click="proceedToStart"
-                      >Begin Selected</v-btn
-                    ></span
-                  >
-                  <br />
-                </div>
+                <span class="subheading"
+                  ><v-btn
+                    dark
+                    large
+                    color="primary"
+                    class="text-capitalize"
+                    @click="proceedToStart"
+                    >Begin Selected</v-btn
+                  ></span
+                >
+                <br />
               </v-card>
             </v-flex>
 
@@ -69,7 +67,7 @@
         <v-flex d-flex xs12 sm6 md3>
           <v-layout column wrap>
             <v-flex d-flex>
-              <v-card color="primary darken-3 darken-3" dark>
+              <v-card color="primary" dark>
                 <v-card-text
                   >hajsdhlahsdfjasjf;dkfa;kjdkfj lkasjie aioeu;a
                 </v-card-text>
@@ -78,7 +76,7 @@
             <v-flex d-flex>
               <v-layout row wrap>
                 <v-flex d-flex xs12>
-                  <v-card color="primary darken-4 lighten-1" dark>
+                  <v-card color="primary" dark>
                     <v-card-text
                       >dksjflsdjfl salkuoep aieuo adskj kshdfauua dskfa lewh
                       fadsfy alewhfaj</v-card-text

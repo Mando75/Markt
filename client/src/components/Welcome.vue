@@ -111,7 +111,7 @@ export default {
   data: () => ({
     timeline: [
       {
-        color: "secondary",
+        color: "primary",
         icon: "ballot",
         title: "Choose from a number of Simulations",
         body:
@@ -125,7 +125,7 @@ export default {
           "Students can participate with their smart phones, without downloading anything"
       },
       {
-        color: "primary darken-3 darken-3",
+        color: "primary darken-3",
         icon: "school",
         title: "Use Experiment Data to Teach",
         body:
