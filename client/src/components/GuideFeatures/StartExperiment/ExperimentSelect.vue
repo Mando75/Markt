@@ -26,7 +26,11 @@
                     >
                       Select
                     </v-btn>
-                    <v-btn flat @click="dialog = true">
+                    <v-btn
+                      color="primary lighten-1"
+                      flat
+                      @click="dialog = true"
+                    >
                       Details
                     </v-btn>
                   </v-card-actions>

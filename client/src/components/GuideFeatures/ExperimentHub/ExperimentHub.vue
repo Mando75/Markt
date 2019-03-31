@@ -9,6 +9,11 @@
           v-if="experiment.status === 'joining'"
           :experiment="experiment"
         />
+        <GuideSessionManager
+          v-else-if="experiment.status === 'session_start'"
+          :experiment="experiment"
+        />
+
         <InstructionsFAB>
           <GuideScenarioInstructions :scenario="experiment.scenario" />
         </InstructionsFAB>
@@ -23,10 +28,12 @@ import { experimentHubController } from "../guideExperimentQueries.graphql";
 import LoadingBlock from "../../common/loadingBlock";
 import Joining from "./Joining";
 import GuideScenarioInstructions from "../GuideScenarioInstructions";
+import GuideSessionManager from "./GuideSessionManager";
 
 export default {
   name: "ExperimentHub",
   components: {
+    GuideSessionManager,
     GuideScenarioInstructions,
     Joining,
     LoadingBlock,

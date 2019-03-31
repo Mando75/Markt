@@ -5,6 +5,27 @@ mutation startNewExperiment($sceID: ID!, $guID: ID!) {
   }
 }
 
+mutation startNextSession($expId: ID!) {
+  startNextSession(experimentId: $expId) {
+    id
+    experiment{
+      ...experimentFragment
+    }
+    sessionNumber
+    scenarioSession {
+      instructions {
+        step
+        header
+        bullets {
+          format
+          text
+        }
+      }
+    }
+  }
+}
+
+
 fragment instructionsFragment on Instructions {
   step
   header
@@ -87,6 +108,26 @@ query activeExperimentList($scenarioId: ID) {
         id
         updatedDate
           numPlayers
+      }
+    }
+  }
+}
+
+query myself {
+  me {
+    id
+    fullName
+    emailConfirmed
+    acceptedTos
+    guide {
+      id
+      experiments {
+        id
+        closed
+        updatedDate
+        scenario {
+          name
+        }
       }
     }
   }

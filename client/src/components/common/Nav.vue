@@ -108,12 +108,12 @@ export default {
       credentials: this.$credentials,
       items: [
         { title: "Home", icon: "dashboard", path: "/guide/home" },
-        { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" },
         {
           title: "Invite Players",
           icon: "person_add",
           path: "/guide/players"
-        }
+        },
+        { title: "Select Experiment", icon: "poll", path: "/guide/scenarios" }
       ],
       drawer: true,
       logoutMutation: gql`

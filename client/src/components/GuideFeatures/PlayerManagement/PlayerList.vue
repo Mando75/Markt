@@ -1,6 +1,6 @@
 <template>
   <v-card dark elevation="4" tile :height="height">
-    <v-card-title primary-title>
+    <v-card-title v-if="!miniVersion" primary-title>
       <h1 class="headline text-xs-center" style="width: 100%">
         Your Players
       </h1>
@@ -59,6 +59,11 @@ export default {
     height: {
       type: String,
       default: "600"
+    },
+    miniVersion: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   data() {
