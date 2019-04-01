@@ -45,7 +45,7 @@
             <ApolloMutation
               :mutation="startNextSession"
               :variables="{ expId: experiment.id }"
-              @done="beginSesh"
+              @done="beginSesh(code)"
             >
               <v-card slot-scope="{ mutate, loading }" flat>
                 <v-btn
@@ -84,6 +84,7 @@ export default {
   data() {
     return {
       apolloLoading: 0,
+      code: this.experiment.id,
       startNextSession
     };
   },
@@ -98,7 +99,6 @@ export default {
   mounted() {
     this.$apollo.queries.experimentPlayerCount.skip = false;
     this.$apollo.subscriptions.experimentPlayerCount.start();
-    this.$apollo.mutations.startNextSession.skip = false;
   },
   apollo: {
     experimentPlayerCount: {
@@ -126,17 +126,18 @@ export default {
     },
     startNextSession: {
       mutation: startNextSession,
+      loadingKey: "apolloLoading",
       variables() {
         return {
-          experimentId: this.experiment.id
+          expId: this.experiment.id
         };
       },
       warningMsg: []
     }
   },
   methods: {
-    beginSesh() {
-      this.$router.push("/guide/experiments");
+    beginSesh(code) {
+      this.$router.push(`/guide/experiments/${code}`);
     }
   }
 };

@@ -4,29 +4,21 @@
       <v-flex v-if="apolloLoading" xs12>
         <LoadingBlock />
       </v-flex>
-      <v-flex v-else-if="experiment">
-        <RoundSummary
-          v-if="experiment.status === 'round_summary'"
-          :experiment="experiment"
-        />
+      <v-flex v-else>
         <Joining
-          v-else-if="experiment.status === 'joining'"
+          v-if="experiment.status === 'joining'"
           :experiment="experiment"
         />
-        <GuideSessionManager
-          v-else-if="
-            this.$credentials.exStatus === 'newRound' ||
-              this.$credentials.exStatus === 'newSession' ||
-              experiment.status === 'in_round'
-          "
-          :experiment="experiment"
-        />
+        <GuideSessionManager v-else :experiment="experiment" />
 
         <InstructionsFAB>
           <GuideScenarioInstructions :scenario="experiment.scenario" />
         </InstructionsFAB>
       </v-flex>
-      <div v-else>1</div>
+      <RoundSummary
+        v-if="experiment.status === 'round_summary'"
+        :experiment="experiment"
+      />
     </v-layout>
   </v-container>
 </template>

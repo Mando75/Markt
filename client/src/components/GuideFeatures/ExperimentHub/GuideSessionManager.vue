@@ -24,19 +24,22 @@
         <!--Card with ACTION-->
         <v-flex xs8 md4 offset-xs2 offset-md4 align-bottom>
           <v-card class="ma-3" elevation="4" dark>
-            <v-card-title v-if="!roundIsRunning" primary-title>
-              <v-flex>
-                <span
-                  >Ready to start round {{ roundNumberCheck }} of
-                  {{ experiment.activeSession.scenarioSession.numberOfRounds }}
-                  ?</span
-                >
-              </v-flex>
-            </v-card-title>
-            <v-card-title v-else class="subheading mBlack">
+            <v-card-title
+              v-if="roundIsRunning === 'in_round'"
+              class="subheading mBlack"
+            >
               Round In Progress
               <v-progress-linear :width="3" color="green" indeterminate>
               </v-progress-linear>
+            </v-card-title>
+            <v-card-title v-else primary-title>
+              <v-flex>
+                <span>
+                  Ready to start round {{ roundNumberCheck }} of
+                  {{ experiment.activeSession.scenarioSession.numberOfRounds }}
+                  ?
+                </span>
+              </v-flex>
             </v-card-title>
             <v-card-text>
               <ApolloMutation
@@ -46,7 +49,10 @@
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
                   <v-btn
-                    v-if="!roundIsRunning"
+                    v-if="
+                      roundIsRunning === 'session_start' ||
+                        roundIsRunning === 'round_summary'
+                    "
                     :disabled="loading"
                     :loading="loading"
                     color="primary"
@@ -68,7 +74,7 @@
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
                   <v-btn
-                    v-if="roundIsRunning"
+                    v-if="roundIsRunning === 'in_round'"
                     :disabled="loading"
                     :loading="loading"
                     color="red"
@@ -113,7 +119,7 @@ export default {
     return {
       apolloLoading: 0,
       theNextRoundNum: 0,
-      roundIsRunning: false,
+      roundIsRunning: this.experiment.status,
       startNextRound,
       endCurrentRound
     };
@@ -129,15 +135,16 @@ export default {
   },
   methods: {
     beginRound() {
-      this.roundIsRunning = !this.roundIsRunning;
+      return 0;
     },
     endRound() {
-      this.roundIsRunning = !this.roundIsRunning;
+      return 0;
     }
   },
   apollo: {
     stopRound: {
       mutation: endCurrentRound,
+      loadingKey: "apolloLoading",
       variables() {
         return {
           experimentId: this.experiment.id
@@ -147,6 +154,7 @@ export default {
     },
     startRound: {
       mutation: startNextRound,
+      loadingKey: "apolloLoading",
       variables() {
         return {
           experimentId: this.experiment.id

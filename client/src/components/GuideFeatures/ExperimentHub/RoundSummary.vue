@@ -1,18 +1,40 @@
 <template>
   <div>
     here is the ROUND summary:
-    <v-container>
+    <v-layout
+      v-if="apolloLoading"
+      align-center
+      justify-start
+      column
+      fill-height
+    >
+      <LoadingBlock />
+    </v-layout>
+    <v-container v-else>
       <v-layout>
         <v-flex>
           <v-card>
-            <v-btn @click="changeStatus('newSession')"
-              >Start a new session</v-btn
+            <ApolloMutation
+              :mutation="startNextSession"
+              :variables="{ expId: experiment.id }"
+              @done="beginSesh(code)"
             >
+              <v-card slot-scope="{ mutate, loading }" flat>
+                <v-btn
+                  :disabled="loading"
+                  :loading="loading"
+                  color="primary"
+                  @click="mutate"
+                >
+                  Start Next Session
+                </v-btn>
+              </v-card>
+            </ApolloMutation>
           </v-card>
         </v-flex>
         <v-flex>
           <v-card>
-            <v-btn @click="changeStatus('newRound')">Start New Round</v-btn>
+            <v-btn>Start New Round</v-btn>
           </v-card>
         </v-flex>
       </v-layout>
@@ -21,25 +43,46 @@
 </template>
 
 <script>
+import {
+  startNextRound,
+  startNextSession
+} from "../guideExperimentQueries.graphql";
+import LoadingBlock from "../../common/loadingBlock";
+
 export default {
   name: "RoundSummary",
+  components: { LoadingBlock },
+  props: {
+    experiment: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    }
+  },
   data() {
     return {
-      status: "value"
+      status: "value",
+      code: this.experiment.id,
+      apolloLoading: 0,
+      theNextRoundNum: 0,
+      startNextRound,
+      startNextSession
     };
   },
   methods: {
-    changeStatus(name) {
-      switch (name) {
-        case "newSession":
-          this.$credentials.exStatus = "seshStart";
-          break;
-        case "newRound":
-          this.$credentials.exStatus = "roundStart";
-          break;
-        default:
-          break;
-      }
+    beginSesh(code) {
+      this.$router.push(`/guide/experiments/${code}`);
+    }
+  },
+  apollo: {
+    startNextSession: {
+      mutation: startNextSession,
+      variables() {
+        return {
+          experimentId: this.experiment.id
+        };
+      },
+      warningMsg: []
     }
   }
 };
