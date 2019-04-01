@@ -9,7 +9,7 @@ mutation startNextSession($expId: ID!) {
   startNextSession(experimentId: $expId) {
     id
     experiment{
-      ...experimentFragment
+    ...experimentFragment
     }
     sessionNumber
     scenarioSession {
@@ -99,6 +99,21 @@ query experimentHubController($experimentId: ID!) {
   }
 }
 
+fragment experimentFragment on Experiment {
+  id
+  status
+  activeSession {
+    id
+    sessionNumber
+    active
+  }
+  activeRound {
+    id
+    roundNumber
+    active
+  }
+}
+
 query activeExperimentList($scenarioId: ID) {
   me {
     id
@@ -132,3 +147,21 @@ query myself {
     }
   }
 }
+
+mutation startNextRound($expId: ID!) {
+  startNextRound(experimentId: $expId) {
+    id
+    numTransactions
+    averagePrice
+  }
+}
+
+mutation endCurrentRound($expId: ID!) {
+  endCurrentRound(experimentId: $expId) {
+    numTransactions
+    averagePrice
+    maxPrice
+    minPrice
+  }
+}
+

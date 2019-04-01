@@ -5,12 +5,20 @@
         <LoadingBlock />
       </v-flex>
       <v-flex v-else-if="experiment">
+        <RoundSummary
+          v-if="experiment.status === 'round_summary'"
+          :experiment="experiment"
+        />
         <Joining
-          v-if="experiment.status === 'joining'"
+          v-else-if="experiment.status === 'joining'"
           :experiment="experiment"
         />
         <GuideSessionManager
-          v-else-if="experiment.status === 'session_start'"
+          v-else-if="
+            this.$credentials.exStatus === 'newRound' ||
+              this.$credentials.exStatus === 'newSession' ||
+              experiment.status === 'in_round'
+          "
           :experiment="experiment"
         />
 
@@ -18,6 +26,7 @@
           <GuideScenarioInstructions :scenario="experiment.scenario" />
         </InstructionsFAB>
       </v-flex>
+      <div v-else>1</div>
     </v-layout>
   </v-container>
 </template>
@@ -29,10 +38,12 @@ import LoadingBlock from "../../common/loadingBlock";
 import Joining from "./Joining";
 import GuideScenarioInstructions from "../GuideScenarioInstructions";
 import GuideSessionManager from "./GuideSessionManager";
+import RoundSummary from "./RoundSummary";
 
 export default {
   name: "ExperimentHub",
   components: {
+    RoundSummary,
     GuideSessionManager,
     GuideScenarioInstructions,
     Joining,
@@ -41,7 +52,8 @@ export default {
   },
   data() {
     return {
-      apolloLoading: 0
+      apolloLoading: 0,
+      goBack: false
     };
   },
   apollo: {

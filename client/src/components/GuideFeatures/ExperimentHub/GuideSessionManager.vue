@@ -39,16 +39,48 @@
               </v-progress-linear>
             </v-card-title>
             <v-card-text>
-              <v-btn v-if="!roundIsRunning" @click="beginRound" color="primary">
-                Start Round
-              </v-btn>
-              <v-btn v-else disabled>
-                Start Round
-              </v-btn>
-              <v-btn v-if="roundIsRunning" @click="endRound" color="red">
-                End Round
-              </v-btn>
-              <v-btn v-else disabled>End Round</v-btn>
+              <ApolloMutation
+                :mutation="startNextRound"
+                :variables="{ expId: experiment.id }"
+                @done="beginRound"
+              >
+                <v-card slot-scope="{ mutate, loading }" flat>
+                  <v-btn
+                    v-if="!roundIsRunning"
+                    :disabled="loading"
+                    :loading="loading"
+                    color="primary"
+                    @click="mutate"
+                  >
+                    Start Round
+                  </v-btn>
+                  <v-btn v-else disabled>
+                    Start Round
+                  </v-btn>
+                </v-card>
+              </ApolloMutation>
+
+              <!--endRound-->
+              <ApolloMutation
+                :mutation="endCurrentRound"
+                :variables="{ expId: experiment.id }"
+                @done="endRound"
+              >
+                <v-card slot-scope="{ mutate, loading }" flat>
+                  <v-btn
+                    v-if="roundIsRunning"
+                    :disabled="loading"
+                    :loading="loading"
+                    color="red"
+                    @click="mutate"
+                  >
+                    End Round
+                  </v-btn>
+                  <v-btn v-else disabled>
+                    End Round
+                  </v-btn>
+                </v-card>
+              </ApolloMutation>
 
               <!--TODO go until end round on this branch-->
             </v-card-text>
@@ -62,7 +94,10 @@
 <script>
 import LoadingBlock from "../../common/loadingBlock";
 import InstructionViewer from "../../common/InstructionViewer";
-// import { startNextSession } from "../guideExperimentQueries.graphql";
+import {
+  startNextRound,
+  endCurrentRound
+} from "../guideExperimentQueries.graphql";
 
 export default {
   name: "GuideSessionManager",
@@ -78,7 +113,9 @@ export default {
     return {
       apolloLoading: 0,
       theNextRoundNum: 0,
-      roundIsRunning: false
+      roundIsRunning: false,
+      startNextRound,
+      endCurrentRound
     };
   },
   computed: {
@@ -97,12 +134,27 @@ export default {
     endRound() {
       this.roundIsRunning = !this.roundIsRunning;
     }
+  },
+  apollo: {
+    stopRound: {
+      mutation: endCurrentRound,
+      variables() {
+        return {
+          experimentId: this.experiment.id
+        };
+      },
+      warningMsg: []
+    },
+    startRound: {
+      mutation: startNextRound,
+      variables() {
+        return {
+          experimentId: this.experiment.id
+        };
+      },
+      warningMsg: []
+    }
   }
-  // apollo: {
-  //   session:{
-  //     mutation:
-  //   }
-  // }
 };
 </script>
 

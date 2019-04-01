@@ -45,8 +45,8 @@
           <v-card-title class="headline" primary-title>
             Details
           </v-card-title>
-
-          <v-card-text>
+          <v-card-text v-if="isLoading"><loading-block /></v-card-text>
+          <v-card-text v-else>
             {{ scenario.description }}
           </v-card-text>
           <v-divider />
@@ -119,11 +119,12 @@ export default {
       loadingKey: "isLoading",
       variables: {
         code: "APPLMRKT"
-      },
-      result({ data }) {
-        this.$credentials.scenarioId = data.scenario.id;
-        this.$credentials.sSelect = data.scenario.name;
       }
+      //,
+      // result({ data }) {
+      //   this.$credentials.scenarioId = data.scenario.id;
+      //   this.$credentials.sSelect = data.scenario.name;
+      // }
     }
   }
 };

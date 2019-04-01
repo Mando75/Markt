@@ -44,14 +44,19 @@
             <!--TODO wrap with start session -->
             <ApolloMutation
               :mutation="startNextSession"
-              :variables="{ $expId: experiment.id }"
+              :variables="{ expId: experiment.id }"
               @done="beginSesh"
             >
-              <template slot-scope="{ mutate }">
-                <v-btn color="primary" @click="mutate">
+              <v-card slot-scope="{ mutate, loading }" flat>
+                <v-btn
+                  :disabled="loading"
+                  :loading="loading"
+                  color="primary"
+                  @click="mutate"
+                >
                   Start Session
                 </v-btn>
-              </template>
+              </v-card>
             </ApolloMutation>
           </v-card-text>
         </v-card>
@@ -79,7 +84,6 @@ export default {
   data() {
     return {
       apolloLoading: 0,
-      thingy: 0,
       startNextSession
     };
   },
@@ -94,6 +98,7 @@ export default {
   mounted() {
     this.$apollo.queries.experimentPlayerCount.skip = false;
     this.$apollo.subscriptions.experimentPlayerCount.start();
+    this.$apollo.mutations.startNextSession.skip = false;
   },
   apollo: {
     experimentPlayerCount: {
@@ -121,12 +126,17 @@ export default {
     },
     startNextSession: {
       mutation: startNextSession,
+      variables() {
+        return {
+          experimentId: this.experiment.id
+        };
+      },
       warningMsg: []
     }
   },
   methods: {
     beginSesh() {
-      this.thingy = 1;
+      this.$router.push("/guide/experiments");
     }
   }
 };

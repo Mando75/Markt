@@ -156,7 +156,7 @@ export default {
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;
         this.$credentials.displayName = data.me.fullName;
-        this.recentExps = data.me.guide.experiments;
+        // this.recentExps = data.me.guide.experiments;
       }
     }
   }

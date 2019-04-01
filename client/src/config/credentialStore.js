@@ -7,5 +7,6 @@ export const credentialStore = {
   guideId: "",
   displayName: "",
   experimentId: "",
-  experimentPlayerId: ""
+  experimentPlayerId: "",
+  exStatus: ""
 };
