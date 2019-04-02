@@ -192,3 +192,14 @@ mutation endCurrentRound($expId: ID!) {
   }
 }
 
+query lastRun($guideId: ID!){
+    guide(id: $guideId){
+        experiments(active:false){
+            endDate
+            scenario{
+                name
+            }
+        }
+    }
+}
+

@@ -10,15 +10,6 @@
           <v-card-title primary class="headline font-weight-bold"
             >$Credentials</v-card-title
           >
-          <v-card-text class="mt-0 pt-0"
-            >authenticated: {{ $credentials.authenticated }}<br />
-            isUser: {{ $credentials.isUser }}<br />
-            isPlayer: {{ $credentials.isPlayer }}<br />
-            <strong>userId: "{{ $credentials.userId }}"</strong><br />
-            <i>playerId: "{{ $credentials.playerId }}"</i><br />
-            <strong>guideId: "{{ $credentials.guideId }}"</strong><br />
-            experimentId: "{{ $credentials.experimentId }}"<br />
-          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex d-flex xs12 sm6 md6>
@@ -79,9 +70,14 @@
               <v-card-title class="headline font-weight-bold"
                 >Round Summary Report
               </v-card-title>
-              <v-card-text>
-                Once the facilitator chooses to end a round, the participants
-                are taken to a round summary report.
+              <v-card-text class="mt-0 pt-0"
+                >authenticated: {{ $credentials.authenticated }}<br />
+                isUser: {{ $credentials.isUser }}<br />
+                isPlayer: {{ $credentials.isPlayer }}<br />
+                <strong>userId: "{{ $credentials.userId }}"</strong><br />
+                <i>playerId: "{{ $credentials.playerId }}"</i><br />
+                <strong>guideId: "{{ $credentials.guideId }}"</strong><br />
+                experimentId: "{{ $credentials.experimentId }}"<br />
               </v-card-text>
             </v-card>
           </v-flex>
@@ -122,7 +118,7 @@
 <script>
 import LoadingBlock from "../common/loadingBlock";
 import PlayerList from "./PlayerManagement/PlayerList";
-import { mySelf } from "./guideExperimentQueries.graphql";
+import { mySelf, lastRun } from "./guideExperimentQueries.graphql";
 
 export default {
   name: "LandingPage",
@@ -132,7 +128,7 @@ export default {
       guideId: "",
       fullName: "",
       isLoading: 0,
-      recentExps: []
+      recentExps: [{}]
     };
   },
   methods: {
@@ -149,6 +145,13 @@ export default {
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;
         this.$credentials.displayName = data.me.fullName;
+      }
+    },
+    lastRun: {
+      query: lastRun,
+      loadingKey: "isLoading",
+      result({ data }) {
+        this.recentExps = data.guide.experiments;
       }
     }
   }

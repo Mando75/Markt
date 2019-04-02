@@ -25,7 +25,7 @@
         <v-flex xs8 md4 offset-xs2 offset-md4 align-bottom>
           <v-card class="ma-3" elevation="4" dark>
             <v-card-title
-              v-if="experimentStatus.status === 'in_round'"
+              v-if="experimentStatus === 'in_round'"
               class="subheading mBlack"
             >
               Round In Progress
@@ -119,7 +119,7 @@ export default {
       apolloLoading: 0,
       theNextRoundNum: 0,
       roundIsRunning: false,
-      // theExperiment: this.experiment,
+      theExperiment: this.experiment,
       startNextRound,
       endCurrentRound
     };
@@ -130,13 +130,6 @@ export default {
         return 1;
       } else {
         return this.experiment.activeRound.roundNumber;
-      }
-    },
-    getInstructionSnippit() {
-      if (this.experiment.activeRound === null) {
-        return 0;
-      } else {
-        return this.experiment.activeRound - 1;
       }
     }
   },

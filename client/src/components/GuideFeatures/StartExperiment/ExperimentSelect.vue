@@ -97,12 +97,6 @@ export default {
       ]
     };
   },
-  // computed: {
-  //   getDetails() {
-  //     console.log(this.scenario);
-  //     return this.scenario.description;
-  //   }
-  // },
   methods: {
     handleSelect(code) {
       this.$router.push(`/guide/start/${code}`);
@@ -124,12 +118,10 @@ export default {
       fetchPolicy: "network-only",
       variables: {
         code: "APPLMRKT"
+      },
+      result({ data }) {
+        this.$credentials.sSelect = data.scenario.name;
       }
-      //,
-      // result({ data }) {
-      //   this.$credentials.scenarioId = data.scenario.id;
-      //   this.$credentials.sSelect = data.scenario.name;
-      // }
     }
   }
 };
