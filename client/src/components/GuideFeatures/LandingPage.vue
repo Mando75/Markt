@@ -8,8 +8,13 @@
       <v-flex d-flex xs12 sm6 md6>
         <v-card color="primary darken-1" dark>
           <v-card-title primary class="headline font-weight-bold"
-            >$Credentials</v-card-title
+            >Welcome</v-card-title
           >
+          <v-card-text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation
+          </v-card-text>
         </v-card>
       </v-flex>
       <v-flex d-flex xs12 sm6 md6>
@@ -151,7 +156,7 @@ export default {
       query: lastRun,
       loadingKey: "isLoading",
       result({ data }) {
-        this.recentExps = data.guide.experiments;
+        this.recentExps = data.lastRun.experiments;
       }
     }
   }
