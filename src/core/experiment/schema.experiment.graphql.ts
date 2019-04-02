@@ -14,6 +14,7 @@ export const typeDefs = gql`
     activeRound: Round
     active: Boolean!
     closed: Boolean!
+    experimentSummaryReport: ExperimentSummary
     endDate: Date
     createdDate: Date
     updatedDate: Date
@@ -79,6 +80,12 @@ export const typeDefs = gql`
     maxPrice: Float
     minPrice: Float
     transactions: [Transaction]
+  }
+
+  type ExperimentSummary {
+    players: [ExperimentPlayer]
+    transactions: [Transaction]
+    numTransactions: Int
   }
 
   input ExperimentStartType {

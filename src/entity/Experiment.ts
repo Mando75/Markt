@@ -18,6 +18,7 @@ import { generate } from "randomstring";
 import { ExperimentPlayer } from "./ExperimentPlayer";
 import { ExperimentSession } from "./ExperimentSession";
 import { ExperimentStatusEnum } from "../enums/experimentStatus.enum";
+import { Round } from "./Round";
 
 @Entity("experiments")
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
@@ -132,6 +133,32 @@ export class Experiment extends BaseEntity {
       return await activeSession.getActiveRound();
     }
     return null;
+  }
+
+  async experimentSummaryReport() {
+    const players = await this.players;
+    const rounds = await Round.createQueryBuilder("r")
+      .leftJoin("r.session", "es")
+      .where("es.experiment_id IN (:experimentId)", { experimentId: this.id })
+      .getMany();
+    const transactions = (await Promise.all(
+      rounds.map(r => r.transactions)
+    )).flat();
+    players.sort((a, b) => {
+      const ap = a.totalProfit;
+      const bp = b.totalProfit;
+      if (ap < bp) {
+        return -1;
+      } else if (ap > bp) {
+        return 1;
+      }
+      return 0;
+    });
+    return {
+      players,
+      transactions,
+      numTransactions: transactions.length
+    };
   }
 
   @BeforeUpdate()
