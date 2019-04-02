@@ -15,9 +15,7 @@
       <v-layout v-else justify-start row wrap fill-height>
         <v-flex>
           <InstructionViewer
-            :instructions="
-              experiment.activeSession.scenarioSession.instructions
-            "
+            :instructions="activeRoundInstructions"
             :show-step="false"
           />
         </v-flex>
@@ -125,18 +123,18 @@ export default {
     };
   },
   computed: {
+    activeRoundInstructions() {
+      const activeRound = this.experiment.activeRound;
+      const index = activeRound ? activeRound.roundNumber - 1 : 0;
+      return [
+        this.experiment.activeSession.scenarioSession.instructions[index]
+      ];
+    },
     roundNumberCheck() {
       if (this.experiment.activeRound === null) {
         return 1;
       } else {
         return this.experiment.activeRound.roundNumber;
-      }
-    },
-    getInstructionSnippit() {
-      if (this.experiment.activeRound === null) {
-        return 0;
-      } else {
-        return this.experiment.activeRound - 1;
       }
     }
   },

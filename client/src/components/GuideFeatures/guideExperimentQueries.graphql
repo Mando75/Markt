@@ -19,6 +19,7 @@ fragment scenarioFragment on Scenario {
   }
   maxPlayerSize
 }
+
 fragment experimentHubFragment on Experiment {
   id
   joinCode
@@ -48,6 +49,7 @@ fragment experimentHubFragment on Experiment {
     numTransactions
   }
 }
+
 fragment experimentFragment on Experiment {
   id
   status
