@@ -135,6 +135,17 @@ export class Experiment extends BaseEntity {
     return null;
   }
 
+  async getLastRoundSummaryReport() {
+    const round = await Round.createQueryBuilder("r")
+      .leftJoin("r.session", "es")
+      .where("es.experiment_id IN (:experimentId)", { experimentId: this.id })
+      .andWhere("r.active IS FALSE")
+      .orderBy("r.end_date", "DESC")
+      .getOne();
+
+    return round ? round.generateRoundSummaryReport() : {};
+  }
+
   async experimentSummaryReport() {
     const players = await this.players;
     const rounds = await Round.createQueryBuilder("r")

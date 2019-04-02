@@ -69,4 +69,10 @@ export class ExperimentSession extends BaseEntity {
     }
     return null;
   }
+
+  async ranRounds() {
+    return await Round.createQueryBuilder("r")
+      .where("r.session_id IN (:esId)", { esId: this.id })
+      .getCount();
+  }
 }

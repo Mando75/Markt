@@ -97,9 +97,7 @@ import LoadingBlock from "../../common/loadingBlock";
 import InstructionViewer from "../../common/InstructionViewer";
 import {
   startNextRound,
-  endCurrentRound,
-  experimentStatus,
-  experimentStatusChanged
+  endCurrentRound
 } from "../guideExperimentQueries.graphql";
 
 export default {
@@ -138,10 +136,10 @@ export default {
       }
     }
   },
-  mounted() {
-    this.$apollo.queries.experimentStatus.skip = false;
-    this.$apollo.subscriptions.experimentStatus.start();
-  },
+  // mounted() {
+  //   this.$apollo.queries.experimentStatus.skip = false;
+  //   this.$apollo.subscriptions.experimentStatus.start();
+  // },
   methods: {
     endRound() {
       this.roundIsRunning = false;
@@ -149,31 +147,30 @@ export default {
     beginRound() {
       this.roundIsRunning = true;
     }
-  },
-
-  apollo: {
-    experimentStatus: {
-      query: experimentStatus,
-      loadingKey: "apolloLoading",
-      fetchPolicy: "network-only",
-      variables() {
-        return {
-          experimentId: this.$route.params.experimentId
-        };
-      },
-      subscribeToMore: {
-        document: experimentStatusChanged,
-        variables() {
-          return {
-            experimentId: this.$route.params.experimentId
-          };
-        },
-        updateQuery(prev, { subscriptionData }) {
-          this.experiment = subscriptionData.data.experimentStatusChanged;
-        }
-      }
-    }
   }
+  // apollo: {
+  //   experimentStatus: {
+  //     query: experimentStatus,
+  //     loadingKey: "apolloLoading",
+  //     fetchPolicy: "network-only",
+  //     variables() {
+  //       return {
+  //         experimentId: this.$route.params.experimentId
+  //       };
+  //     },
+  //     subscribeToMore: {
+  //       document: experimentStatusChanged,
+  //       variables() {
+  //         return {
+  //           experimentId: this.$route.params.experimentId
+  //         };
+  //       },
+  //       updateQuery(prev, { subscriptionData }) {
+  //         this.experiment = subscriptionData.data.experimentStatusChanged;
+  //       }
+  //     }
+  //   }
+  // }
 };
 </script>
 

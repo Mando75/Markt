@@ -20,7 +20,7 @@ export const endCurrentRound = async (
   experiment.status = ExperimentStatusEnum.ROUND_SUMMARY;
   await Promise.all([round.save(), experiment.save()]);
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
-  return await round.generateRoundSummaryReport();
+  return round;
 };
 
 const findAndCheckExperiment = async (

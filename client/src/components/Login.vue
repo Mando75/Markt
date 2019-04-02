@@ -57,7 +57,7 @@
                       v-for="(msg, i) in warningMsg"
                       :key="`warningMsg${i}`"
                       :value="true"
-                      color="warning"
+                      color="error"
                       dismissible
                     >
                       {{ msg.message }}

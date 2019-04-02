@@ -14,6 +14,7 @@ export const typeDefs = gql`
     activeRound: Round
     active: Boolean!
     closed: Boolean!
+    lastRoundSummaryReport: RoundSummary
     experimentSummaryReport: ExperimentSummary
     endDate: Date
     createdDate: Date
@@ -43,6 +44,7 @@ export const typeDefs = gql`
     sessionNumber: Int!
     scenarioSession: ScenarioSession!
     rounds: [Round]
+    ranRounds: Int
     active: Boolean!
     endDate: Date
     createdDate: Date
@@ -131,7 +133,7 @@ export const typeDefs = gql`
     startNextSession(experimentId: ID!): ExperimentSession
     startNextRound(experimentId: ID!): Round
     makeTransaction(params: MakeTransactionType!): Transaction
-    endCurrentRound(experimentId: ID!): RoundSummary
+    endCurrentRound(experimentId: ID!): Round
     endExperiment(experimentId: ID!): Experiment
   }
 `;

@@ -31,7 +31,13 @@ export const resolvers: ResolverMap = {
       }),
     activeRound: async (obj: Experiment) => {
       return await obj.getActiveRound();
-    }
+    },
+    scenario: async (obj: Experiment) => {
+      const e = (await Experiment.findOne(obj.id)) as Experiment;
+      return e.scenario;
+    },
+    lastRoundSummaryReport: async (obj: Experiment) =>
+      await obj.getLastRoundSummaryReport()
   },
   Round: {
     roundSummary: async (obj: Round) => await obj.generateRoundSummaryReport()
