@@ -148,9 +148,9 @@ export class Experiment extends BaseEntity {
       const ap = a.totalProfit;
       const bp = b.totalProfit;
       if (ap < bp) {
-        return -1;
-      } else if (ap > bp) {
         return 1;
+      } else if (ap > bp) {
+        return -1;
       }
       return 0;
     });
