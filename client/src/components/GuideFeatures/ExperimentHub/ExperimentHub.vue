@@ -37,7 +37,7 @@ import LoadingBlock from "../../common/loadingBlock";
 import Joining from "./Joining";
 import GuideScenarioInstructions from "../GuideScenarioInstructions";
 import GuideSessionManager from "./GuideSessionManager";
-import RoundSummary from "./RoundSummary";
+import RoundSummary from "./RoundSummaryController";
 
 export default {
   name: "ExperimentHub",
