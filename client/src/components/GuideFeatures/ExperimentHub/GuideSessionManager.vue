@@ -3,7 +3,7 @@
     <div>
       <!--loading block-->
       <v-layout
-        v-if="apolloLoading"
+        v-if="apolloLoading || !experimentStatus"
         align-center
         justify-start
         column
@@ -25,7 +25,7 @@
         <v-flex xs8 md4 offset-xs2 offset-md4 align-bottom>
           <v-card class="ma-3" elevation="4" dark>
             <v-card-title
-              v-if="experiment.status === 'in_round'"
+              v-if="experimentStatus.status === 'in_round'"
               class="subheading mBlack"
             >
               Round In Progress
@@ -50,7 +50,7 @@
                 @done="beginRound"
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
-                  <v-btn v-if="experiment.status === 'in_round'" disabled>
+                  <v-btn v-if="experimentStatus.status === 'in_round'" disabled>
                     Start Round
                   </v-btn>
                   <v-btn
@@ -73,7 +73,7 @@
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
                   <v-btn
-                    v-if="experiment.status === 'in_round'"
+                    v-if="experimentStatus.status === 'in_round'"
                     :disabled="loading"
                     :loading="loading"
                     color="red"
@@ -119,7 +119,7 @@ export default {
       apolloLoading: 0,
       theNextRoundNum: 0,
       roundIsRunning: false,
-      theExperiment: this.experiment,
+      // theExperiment: this.experiment,
       startNextRound,
       endCurrentRound
     };
@@ -171,7 +171,7 @@ export default {
           };
         },
         updateQuery(prev, { subscriptionData }) {
-          this.experiment = subscriptionData.data.experimentStatusChanged;
+          this.experimentStatus = subscriptionData.data.experimentStatusChanged;
         }
       }
     }
