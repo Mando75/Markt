@@ -111,6 +111,11 @@ declare namespace GQL {
     updatedDate: any;
   }
 
+  interface IExperimentsOnGuideArguments {
+    active?: boolean | null;
+    scenarioId?: string | null;
+  }
+
   interface IExperiment {
     __typename: "Experiment";
     id: string;
@@ -126,6 +131,7 @@ declare namespace GQL {
     activeRound: IRound | null;
     active: boolean;
     closed: boolean;
+    experimentSummaryReport: IExperimentSummary | null;
     endDate: any | null;
     createdDate: any | null;
     updatedDate: any | null;
@@ -298,6 +304,7 @@ declare namespace GQL {
     averagePrice: number | null;
     transactions: Array<ITransaction | null>;
     numTransactions: number | null;
+    roundSummary: IRoundSummary | null;
     endDate: any | null;
     createdDate: any | null;
     updatedDate: any | null;
@@ -314,6 +321,22 @@ declare namespace GQL {
     endDate: any | null;
     createdDate: any | null;
     updatedDate: any | null;
+  }
+
+  interface IRoundSummary {
+    __typename: "RoundSummary";
+    numTransactions: number | null;
+    averagePrice: number | null;
+    maxPrice: number | null;
+    minPrice: number | null;
+    transactions: Array<ITransaction | null> | null;
+  }
+
+  interface IExperimentSummary {
+    __typename: "ExperimentSummary";
+    players: Array<IExperimentPlayer | null> | null;
+    transactions: Array<ITransaction | null> | null;
+    numTransactions: number | null;
   }
 
   interface IInstitution {
@@ -446,15 +469,6 @@ declare namespace GQL {
     buyerCode: string;
     sellerCode: string;
     amount: number;
-  }
-
-  interface IRoundSummary {
-    __typename: "RoundSummary";
-    numTransactions: number | null;
-    averagePrice: number | null;
-    maxPrice: number | null;
-    minPrice: number | null;
-    transactions: Array<ITransaction | null> | null;
   }
 
   interface IGroupCreationType {
