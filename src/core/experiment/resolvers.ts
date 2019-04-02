@@ -13,6 +13,7 @@ import { pubsub } from "../../utils/ContextSession/contextControl";
 import { withFilter } from "apollo-server-express";
 import { SubscriptionKey } from "../../enums/subscriptionKey.enum";
 import { ExperimentSession } from "../../entity/ExperimentSession";
+import { Round } from "../../entity/Round";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
@@ -31,6 +32,9 @@ export const resolvers: ResolverMap = {
     activeRound: async (obj: Experiment) => {
       return await obj.getActiveRound();
     }
+  },
+  Round: {
+    roundSummary: async (obj: Round) => await obj.generateRoundSummaryReport()
   },
   Query: {
     experiment: getExperiment,

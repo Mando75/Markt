@@ -8,15 +8,15 @@
         <h3 class="display-1">
           <strong>Role </strong>
         </h3>
-        <h3 class="display-1">
+        <span class="display-1">
           {{ sessionRole.allowSell ? "Seller" : "Buyer" }}
-        </h3>
+        </span>
       </v-flex>
       <v-flex xs12 md6 my-4>
         <h3 class="display-1">
           <strong>Profit Equation</strong>
         </h3>
-        <h3 class="display-1">{{ sessionRole.profitEquation }}</h3>
+        <span class="display-1">{{ sessionRole.profitEquation }}</span>
       </v-flex>
     </v-layout>
     <v-layout row wrap>

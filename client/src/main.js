@@ -64,6 +64,15 @@ Vue.filter("formatStatus", function(value) {
     return statusMap[value] || value;
   }
 });
+
+Vue.filter("formatCurrency", function(value) {
+  if (value) {
+    return value.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD"
+    });
+  }
+});
 new Vue({
   render: h => h(App),
   router,

@@ -57,6 +57,7 @@ export const typeDefs = gql`
     averagePrice: Float
     transactions: [Transaction]!
     numTransactions: Int
+    roundSummary: RoundSummary
     endDate: Date
     createdDate: Date
     updatedDate: Date

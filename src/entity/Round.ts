@@ -57,8 +57,17 @@ export class Round extends BaseEntity {
   }
 
   async generateRoundSummaryReport() {
+    const transactions = await this._loadTransactions();
+    transactions.sort((a, b) => {
+      if (a.amount < b.amount) {
+        return 1;
+      } else if (a.amount > b.amount) {
+        return -1;
+      }
+      return 0;
+    });
     return {
-      transactions: await this._loadTransactions(),
+      transactions,
       numTransactions: this.numTransactions,
       averagePrice: this.averagePrice,
       minPrice: await this.minPrice(),

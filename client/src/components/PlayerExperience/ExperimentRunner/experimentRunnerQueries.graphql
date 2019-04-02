@@ -10,6 +10,36 @@ fragment experimentFragment on Experiment {
     id
     roundNumber
     active
+    roundSummary {
+      numTransactions
+      averagePrice
+      maxPrice
+      minPrice
+      transactions {
+        id
+        amount
+        buyerProfit
+        sellerProfit
+        buyer {
+          id
+          player {
+            id
+            playerCode
+            firstName
+            lastName
+          }
+        }
+        seller {
+          id
+          player {
+            id
+            playerCode
+            firstName
+            lastName
+          }
+        }
+      }
+    }
   }
 }
 

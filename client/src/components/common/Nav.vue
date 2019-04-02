@@ -100,6 +100,7 @@
 </template>
 
 <script>
+import { apolloClient } from "../../config/apollo";
 import gql from "graphql-tag";
 export default {
   name: "Nav",
@@ -126,6 +127,7 @@ export default {
   methods: {
     handleLogout() {
       localStorage.clear();
+      apolloClient.resetStore();
       this.$router.push("/login");
       for (let key in this.$credentials) {
         this.$credentials[key] = null;
