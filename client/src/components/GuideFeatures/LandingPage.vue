@@ -140,9 +140,11 @@ export default {
       `,
       loadingKey: "isLoading",
       result({ data }) {
+        console.log("setting crap");
         this.$credentials.userId = data.me.id;
         this.$credentials.guideId = data.me.guide ? data.me.guide.id : null;
         this.$credentials.displayName = data.me.fullName;
+        console.log(this.$credentials);
         // this.$apollo.queries.tags.skip = true;
       }
     }
