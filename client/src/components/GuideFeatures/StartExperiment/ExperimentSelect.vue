@@ -45,9 +45,7 @@
             Details
           </v-card-title>
           <v-card-text>
-            The Apple Market is a basic experiment where students take turns
-            buying and selling apples. It is meant for a class size of 48
-            students. Focuses on teaching about equilibrium price.
+            {{ getDetails }}
           </v-card-text>
           <v-divider />
           <v-card-actions>
@@ -101,6 +99,7 @@ export default {
   },
   computed: {
     getDetails() {
+      console.log(this.scenario);
       return this.scenario.description;
     }
   },
@@ -122,6 +121,7 @@ export default {
         }
       `,
       loadingKey: "isLoading",
+      fetchPolicy: "network-only",
       variables: {
         code: "APPLMRKT"
       }

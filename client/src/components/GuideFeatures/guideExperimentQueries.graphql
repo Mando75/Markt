@@ -155,7 +155,7 @@ query activeExperimentList($scenarioId: ID) {
   }
 }
 
-query myself {
+query mySelf {
   me {
     id
     fullName
