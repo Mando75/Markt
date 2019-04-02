@@ -10,33 +10,33 @@ fragment playerExperimentFragment on Experiment {
     id
     roundNumber
     active
-    roundSummary {
-      numTransactions
-      averagePrice
-      maxPrice
-      minPrice
-      transactions {
+  }
+  lastRoundSummaryReport {
+    numTransactions
+    averagePrice
+    maxPrice
+    minPrice
+    transactions {
+      id
+      amount
+      buyerProfit
+      sellerProfit
+      buyer {
         id
-        amount
-        buyerProfit
-        sellerProfit
-        buyer {
+        player {
           id
-          player {
-            id
-            playerCode
-            firstName
-            lastName
-          }
+          firstName
+          lastName
+          playerCode
         }
-        seller {
+      }
+      seller {
+        id
+        player {
           id
-          player {
-            id
-            playerCode
-            firstName
-            lastName
-          }
+          firstName
+          lastName
+          playerCode
         }
       }
     }
@@ -74,7 +74,7 @@ query er_experimentPlayerQuery($experimentPlayerId: ID!) {
       }
     }
     experiment {
-      ...plaerExperimentFragment
+      ...playerExperimentFragment
     }
   }
 }

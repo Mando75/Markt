@@ -3,7 +3,7 @@
     <h1 class="display-3 my-4">You cannot sell this round</h1>
     <h3 class="display-2 mt-4"><strong>Profit Equation</strong></h3>
     <span class="display-2">
-      {{ experimentPlayer.profitEquation }}
+      {{ experimentPlayer.currentSessionRole.profitEquation }}
     </span>
   </div>
 </template>

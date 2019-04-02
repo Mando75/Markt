@@ -13,6 +13,10 @@
         :experiment-id="experiment.id"
         :experiment-player="experimentPlayer"
       />
+      <RoundSummary
+        v-if="roundSummary"
+        :summary="experiment.lastRoundSummaryReport"
+      />
       <InstructionsFAB>
         <PlayerSessionInstructions
           :session-role="experimentPlayer.currentSessionRole"
@@ -33,9 +37,11 @@ import Transaction from "./Transaction/Transaction";
 import LoadingBlock from "../../common/loadingBlock";
 import InstructionsFAB from "../../common/InstructionsFAB";
 import PlayerSessionInstructions from "./PlayerSessionInstructions";
+import RoundSummary from "../../common/RoundSummary";
 export default {
   name: "ExperimentRunner",
   components: {
+    RoundSummary,
     PlayerSessionInstructions,
     InstructionsFAB,
     LoadingBlock,
@@ -69,6 +75,11 @@ export default {
       if (oldVal === undefined) {
         this.$apollo.queries.experiment.skip = false;
         this.$apollo.subscriptions.experiment.start();
+      }
+    },
+    "experiment.status"(newVal) {
+      if (newVal === "closed") {
+        this.$router.push("/join");
       }
     }
   },
@@ -106,7 +117,7 @@ export default {
         };
       },
       error() {
-        this.$route.push("/join");
+        this.$router.push("/join");
       }
     }
   }
