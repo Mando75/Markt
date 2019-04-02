@@ -15,9 +15,9 @@
       <v-layout v-else justify-start row wrap fill-height>
         <v-flex>
           <InstructionViewer
-            :instructions="[
-              experiment.activeSession.scenarioSession.instructions[0]
-            ]"
+            :instructions="
+              experiment.activeSession.scenarioSession.instructions
+            "
             :show-step="false"
           />
         </v-flex>
@@ -25,7 +25,7 @@
         <v-flex xs8 md4 offset-xs2 offset-md4 align-bottom>
           <v-card class="ma-3" elevation="4" dark>
             <v-card-title
-              v-if="roundIsRunning === 'in_round'"
+              v-if="experiment.status === 'in_round'"
               class="subheading mBlack"
             >
               Round In Progress
@@ -35,7 +35,9 @@
             <v-card-title v-else primary-title>
               <v-flex>
                 <span>
-                  Ready to start round {{ roundNumberCheck }} of
+                  Ready to start round
+                  {{ roundNumberCheck }}
+                  of
                   {{ experiment.activeSession.scenarioSession.numberOfRounds }}
                   ?
                 </span>
@@ -48,19 +50,16 @@
                 @done="beginRound"
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
+                  <v-btn v-if="experiment.status === 'in_round'" disabled>
+                    Start Round
+                  </v-btn>
                   <v-btn
-                    v-if="
-                      roundIsRunning === 'session_start' ||
-                        roundIsRunning === 'round_summary'
-                    "
+                    v-else
                     :disabled="loading"
                     :loading="loading"
                     color="primary"
                     @click="mutate"
                   >
-                    Start Round
-                  </v-btn>
-                  <v-btn v-else disabled>
                     Start Round
                   </v-btn>
                 </v-card>
@@ -74,7 +73,7 @@
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
                   <v-btn
-                    v-if="roundIsRunning === 'in_round'"
+                    v-if="experiment.status === 'in_round'"
                     :disabled="loading"
                     :loading="loading"
                     color="red"
@@ -87,8 +86,6 @@
                   </v-btn>
                 </v-card>
               </ApolloMutation>
-
-              <!--TODO go until end round on this branch-->
             </v-card-text>
           </v-card>
         </v-flex>
@@ -102,7 +99,9 @@ import LoadingBlock from "../../common/loadingBlock";
 import InstructionViewer from "../../common/InstructionViewer";
 import {
   startNextRound,
-  endCurrentRound
+  endCurrentRound,
+  experimentStatus,
+  experimentStatusChanged
 } from "../guideExperimentQueries.graphql";
 
 export default {
@@ -119,7 +118,8 @@ export default {
     return {
       apolloLoading: 0,
       theNextRoundNum: 0,
-      roundIsRunning: this.experiment.status,
+      roundIsRunning: false,
+      theExperiment: this.experiment,
       startNextRound,
       endCurrentRound
     };
@@ -129,45 +129,54 @@ export default {
       if (this.experiment.activeRound === null) {
         return 1;
       } else {
-        return this.experiment.activeRound.roundNumber + 1;
+        return this.experiment.activeRound.roundNumber;
+      }
+    },
+    getInstructionSnippit() {
+      if (this.experiment.activeRound === null) {
+        return 0;
+      } else {
+        return this.experiment.activeRound - 1;
       }
     }
   },
+  mounted() {
+    this.$apollo.queries.experimentStatus.skip = false;
+    this.$apollo.subscriptions.experimentStatus.start();
+  },
   methods: {
-    beginRound() {
-      return 0;
-    },
     endRound() {
-      return 0;
+      this.roundIsRunning = false;
+    },
+    beginRound() {
+      this.roundIsRunning = true;
     }
   },
+
   apollo: {
-    stopRound: {
-      mutation: endCurrentRound,
+    experimentStatus: {
+      query: experimentStatus,
       loadingKey: "apolloLoading",
+      fetchPolicy: "network-only",
       variables() {
         return {
-          experimentId: this.experiment.id
+          experimentId: this.$route.params.experimentId
         };
       },
-      warningMsg: []
-    },
-    startRound: {
-      mutation: startNextRound,
-      loadingKey: "apolloLoading",
-      variables() {
-        return {
-          experimentId: this.experiment.id
-        };
-      },
-      warningMsg: []
+      subscribeToMore: {
+        document: experimentStatusChanged,
+        variables() {
+          return {
+            experimentId: this.$route.params.experimentId
+          };
+        },
+        updateQuery(prev, { subscriptionData }) {
+          this.experiment = subscriptionData.data.experimentStatusChanged;
+        }
+      }
     }
   }
 };
 </script>
 
-<style scoped>
-/*.should {*/
-/*disabled: true;*/
-/*}*/
-</style>
+<style scoped></style>

@@ -1,5 +1,4 @@
 <template>
-  <!--do we want instructions and setup on the same screen or different?-->
   <!-- TODO: Clean this up-->
   <v-container>
     <LoadingBlock v-if="isLoading" />
@@ -45,9 +44,10 @@
           <v-card-title class="headline" primary-title>
             Details
           </v-card-title>
-          <v-card-text v-if="isLoading"><loading-block /></v-card-text>
-          <v-card-text v-else>
-            {{ scenario.description }}
+          <v-card-text>
+            The Apple Market is a basic experiment where students take turns
+            buying and selling apples. It is meant for a class size of 48
+            students. Focuses on teaching about equilibrium price.
           </v-card-text>
           <v-divider />
           <v-card-actions>
@@ -99,6 +99,11 @@ export default {
       ]
     };
   },
+  computed: {
+    getDetails() {
+      return this.scenario.description;
+    }
+  },
   methods: {
     handleSelect(code) {
       this.$router.push(`/guide/start/${code}`);
@@ -108,7 +113,7 @@ export default {
     // Simple query that gets the user id
     scenario: {
       query: gql`
-        query scenario($code: ID!) {
+        query scenario($code: ID) {
           scenario(code: $code) {
             id
             description

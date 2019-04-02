@@ -45,7 +45,6 @@
             <ApolloMutation
               :mutation="startNextSession"
               :variables="{ expId: experiment.id }"
-              @done="beginSesh(code)"
             >
               <v-card slot-scope="{ mutate, loading }" flat>
                 <v-btn
@@ -123,23 +122,14 @@ export default {
             subscriptionData.data.playerJoinedExperiment;
         }
       }
-    },
-    startNextSession: {
-      mutation: startNextSession,
-      loadingKey: "apolloLoading",
-      variables() {
-        return {
-          expId: this.experiment.id
-        };
-      },
-      warningMsg: []
-    }
-  },
-  methods: {
-    beginSesh(code) {
-      this.$router.push(`/guide/experiments/${code}`);
     }
   }
+  // ,
+  // methods: {
+  //   beginSesh(code) {
+  //     this.$router.push(`/guide/experiment/${code}`);
+  //   }
+  // }
 };
 </script>
 

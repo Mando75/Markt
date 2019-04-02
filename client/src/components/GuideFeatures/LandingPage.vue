@@ -88,12 +88,12 @@
             </v-flex>
             <v-flex d-flex>
               <v-layout row wrap>
-                <v-flex d-flex xs12>
+                <v-flex child-flex xs12>
                   <v-card color="primary" dark>
                     <v-card-title class="headline font-weight-bold">
                       Recent Players Invited
                     </v-card-title>
-                    <PlayerList :height="'150'" :mini-version="true" />
+                    <PlayerList :height="'120'" :mini-version="true" />
                   </v-card>
                 </v-flex>
               </v-layout>
@@ -112,12 +112,7 @@
                   <th>Last Run</th>
                 </tr>
               </thead>
-              <tbody style="text-align: right">
-                <tr v-for="exp in recentExps" :key="exp.id">
-                  <td>{{ exp.scenario.name }}</td>
-                  <td>{{ exp.updatedDate | formatDate }}</td>
-                </tr>
-              </tbody>
+              <!--blank for now-->
             </table>
           </v-card>
         </v-flex>
