@@ -1,7 +1,7 @@
 <template>
   <!-- TODO: Clean this up-->
   <v-container>
-    <LoadingBlock v-if="isLoading" />
+    <LoadingBlock v-if="isLoading && !scenario" />
     <v-layout v-else justify-center>
       <v-flex xs12 sm10>
         <!--the scenario boxes-->
@@ -39,13 +39,13 @@
           </v-container>
         </v-card>
       </v-flex>
-      <v-dialog v-model="dialog" width="500" lazy>
+      <v-dialog v-if="scenario" v-model="dialog" width="500" lazy>
         <v-card dark>
           <v-card-title class="headline" primary-title>
             Details
           </v-card-title>
           <v-card-text>
-            {{ getDetails }}
+            {{ scenario.description }}
           </v-card-text>
           <v-divider />
           <v-card-actions>
@@ -97,12 +97,12 @@ export default {
       ]
     };
   },
-  computed: {
-    getDetails() {
-      console.log(this.scenario);
-      return this.scenario.description;
-    }
-  },
+  // computed: {
+  //   getDetails() {
+  //     console.log(this.scenario);
+  //     return this.scenario.description;
+  //   }
+  // },
   methods: {
     handleSelect(code) {
       this.$router.push(`/guide/start/${code}`);
