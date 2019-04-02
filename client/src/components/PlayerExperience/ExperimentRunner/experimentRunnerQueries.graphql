@@ -43,5 +43,8 @@ query er_experimentPlayerQuery($experimentPlayerId: ID!) {
         }
       }
     }
+    experiment {
+      ...experimentFragment
+    }
   }
 }

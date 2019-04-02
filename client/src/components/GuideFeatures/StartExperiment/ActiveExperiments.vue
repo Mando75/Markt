@@ -13,32 +13,36 @@
           Select one to continue where you left off.
         </v-card-text>
         <v-card-text>
-          <table width="100%">
-            <thead>
-              <tr>
-                <th>Number of Players</th>
-                <th>Last Updated</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
+          <v-data-table
+            :headers="tableHeaders"
+            :items="activeExperimentList"
+            hide-actions
+            item-key="id"
+          >
+            <template slot="items" slot-scope="props">
               <tr
-                v-for="experiment in activeExperimentList"
-                :key="experiment.id"
+                :active="props.selected"
+                @click="props.selected = !props.selected"
               >
-                <td>{{ experiment.numPlayers }}</td>
-                <td>{{ experiment.updatedDate | formatDate }}</td>
-                <td style="text-align: right">
+                <td>{{ props.item.joinCode }}</td>
+                <td class="text-xs-left">
+                  {{ props.item.status | formatStatus }}
+                </td>
+                <td class="text-xs-left">{{ props.item.numPlayers }}</td>
+                <td class="text-xs-left">
+                  {{ props.item.updatedDate | formatDate }}
+                </td>
+                <td class="text-xs-right">
                   <v-btn
                     color="primary"
-                    @click="$router.push(`/guide/experiment/${experiment.id}`)"
+                    @click="$router.push(`/guide/experiment/${props.item.id}`)"
                   >
                     Continue
                   </v-btn>
                 </td>
               </tr>
-            </tbody>
-          </table>
+            </template>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </v-expansion-panel-content>
@@ -54,6 +58,42 @@ export default {
       type: String,
       required: true
     }
+  },
+  data() {
+    return {
+      tableHeaders: [
+        {
+          text: "Join Code",
+          align: "left",
+          sortable: false,
+          value: "join_code"
+        },
+        {
+          text: "Status",
+          align: "left",
+          sortable: false,
+          value: "status"
+        },
+        {
+          text: "Number of Players",
+          align: "left",
+          sortable: false,
+          value: "num_players"
+        },
+        {
+          text: "Last Updated",
+          align: "left",
+          sortable: false,
+          value: "last_updated"
+        },
+        {
+          text: "",
+          align: "left",
+          sortable: false,
+          value: "action"
+        }
+      ]
+    };
   },
   apollo: {
     activeExperimentList: {

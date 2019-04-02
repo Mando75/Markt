@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="apolloLoading">
+    <div v-if="apolloLoading || !experimentPlayer">
       <LoadingBlock />
     </div>
     <div v-else>
@@ -13,9 +13,11 @@
         :experiment-id="experiment.id"
         :experiment-player="experimentPlayer"
       />
-      <span>In Round: {{ inRound }}</span>
-      <br />
-      <span>Round Summary {{ roundSummary }}</span>
+      <InstructionsFAB>
+        <PlayerSessionInstructions
+          :session-role="experimentPlayer.currentSessionRole"
+        />
+      </InstructionsFAB>
     </div>
   </div>
 </template>
@@ -29,9 +31,17 @@ import {
 import SessionStart from "./SessionStart";
 import Transaction from "./Transaction/Transaction";
 import LoadingBlock from "../../common/loadingBlock";
+import InstructionsFAB from "../../common/InstructionsFAB";
+import PlayerSessionInstructions from "./PlayerSessionInstructions";
 export default {
   name: "ExperimentRunner",
-  components: { LoadingBlock, Transaction, SessionStart },
+  components: {
+    PlayerSessionInstructions,
+    InstructionsFAB,
+    LoadingBlock,
+    Transaction,
+    SessionStart
+  },
   data() {
     return {
       apolloLoading: 0
@@ -49,35 +59,34 @@ export default {
     },
     roundSummary() {
       return this.currentStatus === "round_summary";
+    },
+    experimentId() {
+      return this.experimentPlayer ? this.experimentPlayer.experiment.id : null;
     }
   },
-  created() {
-    if (!this.$credentials.experimentId) {
-      this.$router.push("/join");
+  watch: {
+    experimentPlayer(newVal, oldVal) {
+      if (oldVal === undefined) {
+        this.$apollo.queries.experiment.skip = false;
+        this.$apollo.subscriptions.experiment.start();
+      }
     }
-  },
-  mounted() {
-    window.onbeforeunload = function() {
-      return "You will be logged out of the experiment. Continue?";
-    };
-  },
-  beforeDestroy() {
-    window.onbeforeunload = function() {};
   },
   apollo: {
     experiment: {
       query: er_experimentQuery,
       variables() {
         return {
-          experimentId: this.$credentials.experimentId
+          experimentId: this.experimentId
         };
       },
+      skip: true,
       loadingKey: "apolloLoading",
       subscribeToMore: {
         document: er_experimentStatusUpdateSubscription,
         variables() {
           return {
-            experimentId: this.$credentials.experimentId
+            experimentId: this.experimentId
           };
         },
         updateQuery(prev, { subscriptionData }) {
@@ -91,8 +100,13 @@ export default {
       loadingKey: "apolloLoading",
       variables() {
         return {
-          experimentPlayerId: this.$credentials.experimentPlayerId
+          experimentPlayerId:
+            this.$route.params.experimentPlayerId ||
+            this.$credentials.experimentPlayerId
         };
+      },
+      error() {
+        this.$route.push("/join");
       }
     }
   }
