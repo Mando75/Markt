@@ -5,6 +5,33 @@ mutation startNewExperiment($sceID: ID!, $guID: ID!) {
   }
 }
 
+mutation startNextSession($expId: ID!) {
+  startNextSession(experimentId: $expId) {
+    id
+    experiment{
+    ...experimentFragment
+    }
+    sessionNumber
+    scenarioSession {
+      instructions {
+        step
+        header
+        bullets {
+          format
+          text
+        }
+      }
+    }
+  }
+}
+
+mutation endExperiment($expId: ID!) {
+  endExperiment(experimentId: $expId) {
+    ...experimentFragment
+  }
+}
+
+
 fragment instructionsFragment on Instructions {
   step
   header
@@ -29,7 +56,7 @@ query scenario($code: ID!) {
     ...scenarioFragment
   }
 }
-
+#Here are the subscriptions
 query experimentPlayerCount($experimentId: ID!) {
   experimentPlayerCount: experiment(id: $experimentId) {
     id
@@ -42,6 +69,25 @@ subscription experimentPlayerCountChanged($experimentId: ID!) {
   playerJoinedExperiment(experimentId: $experimentId) {
     id
     numPlayers
+    joinCode
+  }
+}
+
+query experimentStatus($experimentId: ID!) {
+  experimentStatus: experiment(id: $experimentId) {
+    id
+    joinCode
+    active
+    status
+  }
+}
+
+subscription experimentStatusChanged($experimentId: ID!) {
+  experimentStatusChanged(experimentId: $experimentId) {
+    id
+    numPlayers
+    status
+    active
     joinCode
   }
 }
@@ -78,6 +124,21 @@ query experimentHubController($experimentId: ID!) {
   }
 }
 
+fragment experimentFragment on Experiment {
+  id
+  status
+  activeSession {
+    id
+    sessionNumber
+    active
+  }
+  activeRound {
+    id
+    roundNumber
+    active
+  }
+}
+
 query activeExperimentList($scenarioId: ID) {
   me {
     id
@@ -93,3 +154,41 @@ query activeExperimentList($scenarioId: ID) {
     }
   }
 }
+
+query mySelf {
+  me {
+    id
+    fullName
+    emailConfirmed
+    acceptedTos
+    guide {
+      id
+      experiments {
+        id
+        closed
+        updatedDate
+        scenario {
+          name
+        }
+      }
+    }
+  }
+}
+
+mutation startNextRound($expId: ID!) {
+  startNextRound(experimentId: $expId) {
+    id
+    numTransactions
+    averagePrice
+  }
+}
+
+mutation endCurrentRound($expId: ID!) {
+  endCurrentRound(experimentId: $expId) {
+    numTransactions
+    averagePrice
+    maxPrice
+    minPrice
+  }
+}
+

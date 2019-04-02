@@ -17,7 +17,7 @@ Vue.use(Vuetify, {
     accent: colors.grey.darken2,
     info: "#adadad",
     success: "#72a647",
-    warning: "#444444",
+    warning: "#cbbc38",
     error: "#b71c1c",
 
     // monochrome0: "#7FCA40" /* lighter version of primary*/,

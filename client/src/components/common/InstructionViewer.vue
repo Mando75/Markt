@@ -3,8 +3,8 @@
     <v-card flat class="px-4">
       <v-flex v-for="(step, i) in instructions" :key="`step=${i}`" d-flex my-4>
         <div class="text-md-left text-sm-justify font-weight-regular">
-          <v-list-tile v-if="step.step && step.header" class="mt-0 pt-0"
-            >{{ step.step }} {{ step.header }}</v-list-tile
+          <v-list-tile class="mt-0 pt-0"
+            >{{ showStep ? step.step : "" }} {{ step.header }}</v-list-tile
           >
           <v-flex v-if="step.bullets.length > 1" offset-xs1>
             <ul class="text-xs-left justify-space-between ">
@@ -39,6 +39,11 @@ export default {
     instructions: {
       type: Array,
       required: true
+    },
+    showStep: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   }
 };

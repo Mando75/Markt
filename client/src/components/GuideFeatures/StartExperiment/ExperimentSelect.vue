@@ -1,8 +1,7 @@
 <template>
-  <!--do we want instructions and setup on the same screen or different?-->
   <!-- TODO: Clean this up-->
   <v-container>
-    <LoadingBlock v-if="isLoading" />
+    <LoadingBlock v-if="isLoading && !scenario" />
     <v-layout v-else justify-center>
       <v-flex xs12 sm10>
         <!--the scenario boxes-->
@@ -26,7 +25,11 @@
                     >
                       Select
                     </v-btn>
-                    <v-btn flat @click="dialog = true">
+                    <v-btn
+                      color="primary lighten-1"
+                      flat
+                      @click="dialog = true"
+                    >
                       Details
                     </v-btn>
                   </v-card-actions>
@@ -36,12 +39,11 @@
           </v-container>
         </v-card>
       </v-flex>
-      <v-dialog v-model="dialog" width="500" lazy>
+      <v-dialog v-if="scenario" v-model="dialog" width="500" lazy>
         <v-card dark>
           <v-card-title class="headline" primary-title>
             Details
           </v-card-title>
-
           <v-card-text>
             {{ scenario.description }}
           </v-card-text>
@@ -95,6 +97,12 @@ export default {
       ]
     };
   },
+  // computed: {
+  //   getDetails() {
+  //     console.log(this.scenario);
+  //     return this.scenario.description;
+  //   }
+  // },
   methods: {
     handleSelect(code) {
       this.$router.push(`/guide/start/${code}`);
@@ -104,7 +112,7 @@ export default {
     // Simple query that gets the user id
     scenario: {
       query: gql`
-        query scenario($code: ID!) {
+        query scenario($code: ID) {
           scenario(code: $code) {
             id
             description
@@ -113,13 +121,15 @@ export default {
         }
       `,
       loadingKey: "isLoading",
+      fetchPolicy: "network-only",
       variables: {
         code: "APPLMRKT"
-      },
-      result({ data }) {
-        this.$credentials.scenarioId = data.scenario.id;
-        this.$credentials.sSelect = data.scenario.name;
       }
+      //,
+      // result({ data }) {
+      //   this.$credentials.scenarioId = data.scenario.id;
+      //   this.$credentials.sSelect = data.scenario.name;
+      // }
     }
   }
 };
