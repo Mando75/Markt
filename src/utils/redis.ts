@@ -12,6 +12,8 @@ export const splitRedisUrl = () => {
   return {
     host: redisUrl.hostname,
     port: redisUrl.port,
+    username: redisUrl.username,
+    password: redisUrl.password,
     db: 2
   };
 };
