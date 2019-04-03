@@ -14,6 +14,14 @@ fragment scenarioFragment on Scenario {
   id
   name
   description
+  overview {
+    sessionNumber
+    roleDescription {
+        description
+        count
+    }
+    expectations
+  }
   instructions {
     ...instructionsFragment
   }

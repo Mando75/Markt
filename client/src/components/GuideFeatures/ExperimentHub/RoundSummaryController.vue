@@ -5,6 +5,7 @@
     </div>
     <div v-else>
       <RoundSummary :summary="experiment.lastRoundSummaryReport" />
+      <ScenarioOverview :overview="currentOverview" />
       <v-layout
         v-if="apolloLoading"
         align-center
@@ -85,10 +86,11 @@ import {
 } from "../guideExperimentQueries.graphql";
 import LoadingBlock from "../../common/loadingBlock";
 import RoundSummary from "../../common/RoundSummary";
+import ScenarioOverview from "../ScenarioOverview";
 
 export default {
   name: "RoundSummaryController",
-  components: { RoundSummary, LoadingBlock },
+  components: { ScenarioOverview, RoundSummary, LoadingBlock },
   props: {
     experiment: {
       type: Object,
@@ -114,7 +116,12 @@ export default {
   computed: {
     canStartRound() {
       const as = this.experiment.activeSession;
-      return as.ranRounds !== as.scenarioSession.numberOfRounds;
+      return as ? as.ranRounds !== as.scenarioSession.numberOfRounds : true;
+    },
+    currentOverview() {
+      const scenario = this.experiment.scenario;
+      const index = this.experiment.activeSession.sessionNumber - 1;
+      return scenario.overview[index];
     }
   },
   methods: {

@@ -166,7 +166,7 @@ export class TheAppleMarketScenarioSessions1549605165043
       JSON.stringify([
         {
           step: 1,
-          header: "Session 1, Round 1",
+          header: "Session 2, Round 1",
           bullets: [
             {
               format: ScenarioSchema.BulletFormat.ITALIC,

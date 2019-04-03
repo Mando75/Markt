@@ -14,9 +14,12 @@
       <!--Main content-->
       <v-layout v-else justify-start row wrap fill-height>
         <v-flex>
+          <ScenarioOverview :overview="currentOverview" expanded />
           <InstructionViewer
             :instructions="activeRoundInstructions"
             :show-step="false"
+            title="Round Instructions"
+            :flat="false"
           />
         </v-flex>
         <!--Card with ACTION-->
@@ -99,10 +102,11 @@ import {
   startNextRound,
   endCurrentRound
 } from "../guideExperimentQueries.graphql";
+import ScenarioOverview from "../ScenarioOverview";
 
 export default {
   name: "GuideSessionManager",
-  components: { InstructionViewer, LoadingBlock },
+  components: { ScenarioOverview, InstructionViewer, LoadingBlock },
   props: {
     experiment: {
       type: Object,
@@ -128,6 +132,11 @@ export default {
         this.experiment.activeSession.scenarioSession.instructions[index]
       ];
     },
+    currentOverview() {
+      const scenario = this.experiment.scenario;
+      const index = this.experiment.activeSession.sessionNumber - 1;
+      return scenario.overview[index];
+    },
     roundNumberCheck() {
       if (this.experiment.activeRound === null) {
         return 1;
@@ -136,10 +145,6 @@ export default {
       }
     }
   },
-  // mounted() {
-  //   this.$apollo.queries.experimentStatus.skip = false;
-  //   this.$apollo.subscriptions.experimentStatus.start();
-  // },
   methods: {
     endRound() {
       this.roundIsRunning = false;
@@ -148,29 +153,6 @@ export default {
       this.roundIsRunning = true;
     }
   }
-  // apollo: {
-  //   experimentStatus: {
-  //     query: experimentStatus,
-  //     loadingKey: "apolloLoading",
-  //     fetchPolicy: "network-only",
-  //     variables() {
-  //       return {
-  //         experimentId: this.$route.params.experimentId
-  //       };
-  //     },
-  //     subscribeToMore: {
-  //       document: experimentStatusChanged,
-  //       variables() {
-  //         return {
-  //           experimentId: this.$route.params.experimentId
-  //         };
-  //       },
-  //       updateQuery(prev, { subscriptionData }) {
-  //         this.experiment = subscriptionData.data.experimentStatusChanged;
-  //       }
-  //     }
-  //   }
-  // }
 };
 </script>
 
