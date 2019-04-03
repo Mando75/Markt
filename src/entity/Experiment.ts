@@ -130,7 +130,7 @@ export class Experiment extends BaseEntity {
       .where("es.experiment_id IN (:experimentId)", { experimentId: this.id })
       .andWhere("r.active IS FALSE")
       .orderBy("r.end_date", "DESC")
-      .cache(60000)
+      .cache(true)
       .getOne();
   }
 
@@ -140,7 +140,7 @@ export class Experiment extends BaseEntity {
       .where("es.experiment_id IN (:experimentId)", { experimentId: this.id })
       .andWhere("r.active IS FALSE")
       .orderBy("r.end_date", "DESC")
-      .cache(60000)
+      .cache(true)
       .getOne();
 
     return round ? round.generateRoundSummaryReport() : {};
@@ -151,14 +151,14 @@ export class Experiment extends BaseEntity {
     const rounds = await Round.createQueryBuilder("r")
       .leftJoin("r.session", "es")
       .where("es.experiment_id IN (:experimentId)", { experimentId: this.id })
-      .cache(60000)
+      .cache(true)
       .getMany();
     const transactions = await Transaction.createQueryBuilder("t")
       .leftJoin("t.round", "r")
       .where("t.round_id IN (:...roundIds)", {
         roundIds: rounds.map(r => r.id)
       })
-      .cache(60000)
+      .cache(true)
       .getMany();
     players.sort((a, b) => {
       const ap = a.totalProfit;

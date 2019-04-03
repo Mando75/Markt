@@ -44,15 +44,15 @@ export const getScenario = async (
   ) as (keyof Scenario)[];
   if (id)
     return fields.length
-      ? await Scenario.findOne(id, { select: fields, cache: 360000 })
+      ? await Scenario.findOne(id, { select: fields, cache: true })
       : await Scenario.findOne(id);
   else if (code)
     return fields.length
       ? await Scenario.findOne(
           { scenarioCode: code },
-          { select: fields, cache: 60000 }
+          { select: fields, cache: true }
         )
-      : await Scenario.findOne({ scenarioCode: code }, { cache: 60000 });
+      : await Scenario.findOne({ scenarioCode: code }, { cache: true });
 };
 
 /**

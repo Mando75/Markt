@@ -67,14 +67,14 @@ export class ExperimentSession extends BaseEntity {
       .where("r.session_id IN (:sessionId)", { sessionId: this.id })
       .andWhere("r.active IS TRUE")
       .orderBy("r.end_date", "DESC")
-      .cache(6000)
+      .cache(true)
       .getOne();
   }
 
   async ranRounds() {
     return await Round.createQueryBuilder("r")
       .where("r.session_id IN (:esId)", { esId: this.id })
-      .cache(60000)
+      .cache(true)
       .getCount();
   }
 }

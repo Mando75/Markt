@@ -110,7 +110,7 @@ const checkExperimentBeforeJoin = async (
   // Checks if the player has already joined
   return await ExperimentPlayer.findOne({
     where: { experiment, player },
-    cache: 60000
+    cache: true
   });
 };
 
