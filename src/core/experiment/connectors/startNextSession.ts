@@ -27,7 +27,8 @@ export const startNextSession = async (
   ]);
   const newSessionNumber = sessions.length + 1;
   const scenarioSession = scenarioSessions.find(
-    ss => ss.sessionNumber === newSessionNumber
+    ss => ss.sessionNumber === newSessionNumber,
+    { cache: true }
   );
   if (!scenarioSession) {
     throw new ApolloError(ExperimentErrorMessages.MALFORMED_SCENARIO, "500");
@@ -54,7 +55,8 @@ export const startNextSession = async (
 const findAndCheckExperiment = async (id: string, user: User | undefined) => {
   const guide = user ? await user.guide : null;
   const experiment = await Experiment.findOne({
-    where: { id, active: true, guide }
+    where: { id, active: true, guide },
+    cache: true
   });
   // Check if a valid experiment id
   if (!experiment) {

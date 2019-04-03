@@ -6,5 +6,5 @@ export const getPlayer = async (
   { id }: GQL.IPlayerOnQueryArguments,
   __: GraphQLContext
 ) => {
-  return await Player.findOne(id);
+  return await Player.findOne(id, { cache: true });
 };

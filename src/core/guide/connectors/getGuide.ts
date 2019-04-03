@@ -6,5 +6,5 @@ export const getGuide = async (
   { id }: { id: string },
   __: GraphQLContext
 ) => {
-  return await Guide.findOne(id);
+  return await Guide.findOne(id, { cache: true });
 };

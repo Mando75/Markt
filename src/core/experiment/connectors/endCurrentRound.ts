@@ -29,7 +29,8 @@ const findAndCheckExperiment = async (
 ) => {
   const guide = user ? await user.guide : null;
   const experiment = await Experiment.findOne({
-    where: { id: experimentId, active: true, guide }
+    where: { id: experimentId, active: true, guide },
+    cache: true
   });
   if (!experiment) {
     throw new ApolloError(

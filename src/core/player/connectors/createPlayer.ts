@@ -15,11 +15,13 @@ export const createPlayer = async (
   try {
     // Fetch fields
     const guideP = Guide.findOne({
-      where: { id: guideId }
+      where: { id: guideId },
+      cache: true
     });
     const groupP = Group.findOne({
       where: { id: groupId },
-      select: ["id"]
+      select: ["id"],
+      cache: true
     });
     const player = Player.create({
       firstName,
@@ -37,7 +39,8 @@ export const createPlayer = async (
       await player.save();
       // Manually reload because of bug
       const p2 = await Player.findOne({
-        where: { playerCode: player.playerCode, guide, active: true }
+        where: { playerCode: player.playerCode, guide, active: true },
+        cache: true
       });
       if (!p2) {
         await player.remove();

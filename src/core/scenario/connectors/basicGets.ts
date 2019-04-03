@@ -44,12 +44,15 @@ export const getScenario = async (
   ) as (keyof Scenario)[];
   if (id)
     return fields.length
-      ? await Scenario.findOne(id, { select: fields })
+      ? await Scenario.findOne(id, { select: fields, cache: 360000 })
       : await Scenario.findOne(id);
   else if (code)
     return fields.length
-      ? await Scenario.findOne({ scenarioCode: code }, { select: fields })
-      : await Scenario.findOne({ scenarioCode: code });
+      ? await Scenario.findOne(
+          { scenarioCode: code },
+          { select: fields, cache: 60000 }
+        )
+      : await Scenario.findOne({ scenarioCode: code }, { cache: 60000 });
 };
 
 /**
@@ -73,8 +76,8 @@ export const getRoleType = async (
     )
   ) as (keyof RoleType)[];
   return fields.length
-    ? await RoleType.findOne(id, { select: fields })
-    : await RoleType.findOne(id);
+    ? await RoleType.findOne(id, { select: fields, cache: true })
+    : await RoleType.findOne(id, { cache: true });
 };
 
 export const getScenarioSession = async (
@@ -91,8 +94,8 @@ export const getScenarioSession = async (
     )
   ) as (keyof ScenarioSession)[];
   return fields.length
-    ? await ScenarioSession.findOne(id, { select: fields })
-    : await ScenarioSession.findOne(id);
+    ? await ScenarioSession.findOne(id, { select: fields, cache: true })
+    : await ScenarioSession.findOne(id, { cache: true });
 };
 
 export const getSessionRole = async (
@@ -109,6 +112,6 @@ export const getSessionRole = async (
     )
   ) as (keyof SessionRole)[];
   return fields.length
-    ? await SessionRole.findOne(id, { select: fields })
-    : await SessionRole.findOne(id);
+    ? await SessionRole.findOne(id, { select: fields, cache: true })
+    : await SessionRole.findOne(id, { cache: true });
 };

@@ -15,7 +15,8 @@ export const resolvers: ResolverMap = {
       };
 
       return await Experiment.find({
-        where
+        where,
+        cache: true
       });
     }
   },

@@ -1,5 +1,6 @@
 process.env.TS_NODE_FILES = "true";
 require("ts-node/register");
+require('dotenv').config();
 const createConnection = require("../utils/CreateTypeORMConnection")
   .CreateTypeORMConnection;
 module.exports = async () => {

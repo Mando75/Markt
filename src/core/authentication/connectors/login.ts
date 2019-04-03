@@ -26,7 +26,10 @@ export const login = async (
   } catch (err) {
     return formatYupError(err);
   }
-  const loginAttempt = await User.findOne({ email: user.email });
+  const loginAttempt = await User.findOne(
+    { email: user.email },
+    { cache: true }
+  );
   // ensures that a user exists, otherwise returns
   const errors = await verifyLogin(loginAttempt, user.password);
   if (errors.length) {
