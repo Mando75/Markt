@@ -128,7 +128,7 @@ export class Experiment extends BaseEntity {
     return await Round.createQueryBuilder("r")
       .leftJoin("r.session", "es")
       .where("es.experiment_id IN (:experimentId)", { experimentId: this.id })
-      .andWhere("r.active IS FALSE")
+      .andWhere("r.active IS TRUE")
       .orderBy("r.end_date", "DESC")
       .cache(true)
       .getOne();
