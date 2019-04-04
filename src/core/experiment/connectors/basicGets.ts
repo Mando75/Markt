@@ -33,13 +33,18 @@ export const getExperiment = async (
   ) as (keyof Experiment)[];
   return fields.length
     ? await Experiment.findOne(id, {
-        relations: fields.includes("scenario") ? ["scenario"] : undefined
+        relations: fields.includes("scenario") ? ["scenario"] : undefined,
+        cache: true
       })
-    : await Experiment.findOne(id);
+    : await Experiment.findOne(id, { cache: true });
 };
 
 export const getExperimentPlayer = async (
   _: any,
   { id }: GQL.IExperimentPlayerOnQueryArguments,
   { player }: GraphQLContext
-) => await ExperimentPlayer.findOne({ where: { id, player, active: true } });
+) =>
+  await ExperimentPlayer.findOne({
+    where: { id, player, active: true },
+    cache: true
+  });

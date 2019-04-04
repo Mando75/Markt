@@ -1,5 +1,6 @@
 import { createConnection, getConnectionOptions } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
+import { splitRedisUrl } from "./redis";
 
 /**
  * Create a custom Connection type to TypeORM
@@ -31,6 +32,11 @@ const getDefaultOptions = () => ({
   migrationsRun: true,
   migrations: ["dist/migration/**/*.js"],
   subscribers: ["dist/subscriber/**/*.js"],
+  cache: {
+    type: "ioredis",
+    duration: 2000,
+    options: { ...splitRedisUrl() }
+  },
   cli: {
     entitiesDir: "src/entity",
     migrationsDir: "src/migration",

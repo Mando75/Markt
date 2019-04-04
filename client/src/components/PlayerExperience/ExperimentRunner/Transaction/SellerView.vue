@@ -124,8 +124,6 @@ export default {
   },
   methods: {
     handlePlayerTransaction({ data }) {
-      alert("handled");
-      console.log(data);
       this.$emit("transactionMade", data.makeTransaction);
     }
   }

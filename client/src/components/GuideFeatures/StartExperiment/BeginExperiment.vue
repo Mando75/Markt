@@ -91,7 +91,7 @@ export default {
     };
   },
   methods: {
-    async handleExperimentStart({ data }) {
+    handleExperimentStart({ data }) {
       this.$credentials.experimentId = data.startNewExperiment.id;
       this.$router.push(`/guide/experiment/${data.startNewExperiment.id}`);
     }

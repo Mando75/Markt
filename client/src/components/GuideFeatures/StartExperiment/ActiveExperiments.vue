@@ -103,6 +103,7 @@ export default {
           scenarioId: this.scenarioId
         };
       },
+      fetchPolicy: "network-only",
       update(data) {
         return data.me.guide.experiments;
       }

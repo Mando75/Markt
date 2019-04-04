@@ -20,7 +20,7 @@ export const endCurrentRound = async (
   experiment.status = ExperimentStatusEnum.ROUND_SUMMARY;
   await Promise.all([round.save(), experiment.save()]);
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
-  return await round.generateRoundSummaryReport();
+  return round;
 };
 
 const findAndCheckExperiment = async (
@@ -29,7 +29,8 @@ const findAndCheckExperiment = async (
 ) => {
   const guide = user ? await user.guide : null;
   const experiment = await Experiment.findOne({
-    where: { id: experimentId, active: true, guide }
+    where: { id: experimentId, active: true, guide },
+    cache: true
   });
   if (!experiment) {
     throw new ApolloError(

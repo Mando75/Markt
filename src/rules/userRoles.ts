@@ -61,7 +61,8 @@ export const isGuide = rule({ cache: "contextual" })(
     }
     const guide = await Guide.findOne({
       where: { user },
-      select: ["id"]
+      select: ["id"],
+      cache: true
     });
     return !!guide ? true : new AuthenticationError(ApolloErrors.FORBIDDEN);
   }

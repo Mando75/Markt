@@ -33,7 +33,7 @@ export const forgotPasswordChange = async (
     return formatYupError(err);
   }
 
-  const user = (await User.findOne(userId)) as User;
+  const user = (await User.findOne(userId, { cache: true })) as User;
   user.accountLocked = false;
   user.password = await hash(newPassword, 10);
   await Promise.all([

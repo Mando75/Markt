@@ -5,5 +5,5 @@ export const getInstitution = async (
   { id }: GQL.IInstitutionOnQueryArguments,
   __: any
 ) => {
-  return await Institution.findOne(id);
+  return await Institution.findOne(id, { cache: true });
 };

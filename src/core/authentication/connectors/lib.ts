@@ -13,7 +13,8 @@ import { Guide } from "../../../entity/Guide";
 export const userExists = async (email: string) => {
   const user = await User.findOne({
     where: { email },
-    select: ["id"]
+    select: ["id"],
+    cache: true
   });
   return !!user;
 };

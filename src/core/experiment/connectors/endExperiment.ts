@@ -28,7 +28,10 @@ export const endExperiment = async (
 
 const findAndCheckExperiment = async (id: string, user: User | undefined) => {
   const guide = user ? await user.guide : null;
-  const exp = await Experiment.findOne({ where: { id, active: true, guide } });
+  const exp = await Experiment.findOne({
+    where: { id, active: true, guide },
+    cache: true
+  });
   if (!exp) {
     throw new ApolloError(
       ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST,

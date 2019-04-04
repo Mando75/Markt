@@ -1,37 +1,6 @@
-mutation startNewExperiment($sceID: ID!, $guID: ID!) {
-  startNewExperiment(params: { scenarioId: $sceID, guideId: $guID }) {
-    id
-    joinCode
-  }
-}
-
-mutation startNextSession($expId: ID!) {
-  startNextSession(experimentId: $expId) {
-    id
-    experiment{
-    ...experimentFragment
-    }
-    sessionNumber
-    scenarioSession {
-      instructions {
-        step
-        header
-        bullets {
-          format
-          text
-        }
-      }
-    }
-  }
-}
-
-mutation endExperiment($expId: ID!) {
-  endExperiment(experimentId: $expId) {
-    ...experimentFragment
-  }
-}
-
-
+###################################
+# FRAGMENTS
+###################################
 fragment instructionsFragment on Instructions {
   step
   header
@@ -45,81 +14,77 @@ fragment scenarioFragment on Scenario {
   id
   name
   description
+  overview {
+    sessionNumber
+    roleDescription {
+        description
+        count
+    }
+    expectations
+  }
   instructions {
     ...instructionsFragment
   }
   maxPlayerSize
 }
 
-query scenario($code: ID!) {
-  scenario(code: $code) {
+fragment experimentHubFragment on Experiment {
+  id
+  joinCode
+  scenario {
     ...scenarioFragment
   }
-}
-#Here are the subscriptions
-query experimentPlayerCount($experimentId: ID!) {
-  experimentPlayerCount: experiment(id: $experimentId) {
+  status
+  numPlayers
+  activeSession {
     id
-    joinCode
-    numPlayers
-  }
-}
-
-subscription experimentPlayerCountChanged($experimentId: ID!) {
-  playerJoinedExperiment(experimentId: $experimentId) {
-    id
-    numPlayers
-    joinCode
-  }
-}
-
-query experimentStatus($experimentId: ID!) {
-  experimentStatus: experiment(id: $experimentId) {
-    id
-    joinCode
-    active
-    status
-  }
-}
-
-subscription experimentStatusChanged($experimentId: ID!) {
-  experimentStatusChanged(experimentId: $experimentId) {
-    id
-    numPlayers
-    status
-    active
-    joinCode
-  }
-}
-
-query experimentHubController($experimentId: ID!) {
-  experiment(id: $experimentId) {
-    id
-    joinCode
-    scenario {
-      ...scenarioFragment
-    }
-    status
-    numPlayers
-    activeSession {
+    sessionNumber
+    ranRounds
+    scenarioSession {
       id
-      sessionNumber
-      scenarioSession {
-        id
-        instructions {
-          ...instructionsFragment
-        }
-        roundDiscussionPoints {
-          ...instructionsFragment
-        }
-        numberOfRounds
+      instructions {
+        ...instructionsFragment
       }
+      roundDiscussionPoints {
+        ...instructionsFragment
+      }
+      numberOfRounds
     }
-    activeRound {
+  }
+  activeRound {
+    id
+    roundNumber
+    averagePrice
+    numTransactions
+  }
+  lastRoundSummaryReport {
+    numTransactions
+    averagePrice
+    maxPrice
+    minPrice
+    transactions {
       id
-      roundNumber
-      averagePrice
-      numTransactions
+      amount
+      buyerProfit
+      sellerProfit
+      buyer {
+        id
+        player {
+          id
+          firstName
+          lastName
+          playerCode
+        }
+      }
+      seller {
+        id
+        player {
+          id
+          firstName
+          lastName
+          playerCode
+        }
+      }
     }
   }
 }
@@ -136,6 +101,36 @@ fragment experimentFragment on Experiment {
     id
     roundNumber
     active
+  }
+}
+###################################
+# QUERIES
+###################################
+query scenario($code: ID!) {
+  scenario(code: $code) {
+    ...scenarioFragment
+  }
+}
+
+query experimentPlayerCount($experimentId: ID!) {
+  experimentPlayerCount: experiment(id: $experimentId) {
+    id
+    joinCode
+    numPlayers
+  }
+}
+
+query experimentStatus($experimentId: ID!) {
+  experimentStatus: experiment(id: $experimentId) {
+    id
+    joinCode
+    active
+    status
+  }
+}
+query experimentHubController($experimentId: ID!) {
+  experiment(id: $experimentId) {
+    ...experimentHubFragment
   }
 }
 
@@ -174,21 +169,70 @@ query mySelf {
     }
   }
 }
+###################################
+# MUTATIONS
+###################################
+mutation startNewExperiment($sceID: ID!, $guID: ID!) {
+  startNewExperiment(params: { scenarioId: $sceID, guideId: $guID }) {
+    id
+    joinCode
+  }
+}
+
+mutation startNextSession($expId: ID!) {
+  startNextSession(experimentId: $expId) {
+    id
+    experiment {
+      ...experimentHubFragment
+    }
+  }
+}
+
+mutation endExperiment($expId: ID!) {
+  endExperiment(experimentId: $expId) {
+    ...experimentFragment
+  }
+}
 
 mutation startNextRound($expId: ID!) {
   startNextRound(experimentId: $expId) {
     id
-    numTransactions
-    averagePrice
+    session {
+      id
+      experiment {
+        ...experimentHubFragment
+      }
+    }
   }
 }
 
 mutation endCurrentRound($expId: ID!) {
   endCurrentRound(experimentId: $expId) {
-    numTransactions
-    averagePrice
-    maxPrice
-    minPrice
+      id
+    session {
+      id
+      experiment {
+        ...experimentHubFragment
+      }
+    }
   }
 }
-
+##################################
+# SUBSCRIPTIONS
+##################################
+subscription experimentPlayerCountChanged($experimentId: ID!) {
+  playerJoinedExperiment(experimentId: $experimentId) {
+    id
+    numPlayers
+    joinCode
+  }
+}
+subscription experimentStatusChanged($experimentId: ID!) {
+  experimentStatusChanged(experimentId: $experimentId) {
+    id
+    numPlayers
+    status
+    active
+    joinCode
+  }
+}

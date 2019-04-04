@@ -1,4 +1,4 @@
-fragment experimentFragment on Experiment {
+fragment playerExperimentFragment on Experiment {
   id
   status
   activeSession {
@@ -10,33 +10,33 @@ fragment experimentFragment on Experiment {
     id
     roundNumber
     active
-    roundSummary {
-      numTransactions
-      averagePrice
-      maxPrice
-      minPrice
-      transactions {
+  }
+  lastRoundSummaryReport {
+    numTransactions
+    averagePrice
+    maxPrice
+    minPrice
+    transactions {
+      id
+      amount
+      buyerProfit
+      sellerProfit
+      buyer {
         id
-        amount
-        buyerProfit
-        sellerProfit
-        buyer {
+        player {
           id
-          player {
-            id
-            playerCode
-            firstName
-            lastName
-          }
+          firstName
+          lastName
+          playerCode
         }
-        seller {
+      }
+      seller {
+        id
+        player {
           id
-          player {
-            id
-            playerCode
-            firstName
-            lastName
-          }
+          firstName
+          lastName
+          playerCode
         }
       }
     }
@@ -45,13 +45,13 @@ fragment experimentFragment on Experiment {
 
 query er_experimentQuery($experimentId: ID!) {
   experiment(id: $experimentId) {
-    ...experimentFragment
+    ...playerExperimentFragment
   }
 }
 
 subscription er_experimentStatusUpdateSubscription($experimentId: ID!) {
   experimentStatusChanged(experimentId: $experimentId) {
-    ...experimentFragment
+    ...playerExperimentFragment
   }
 }
 
@@ -74,7 +74,7 @@ query er_experimentPlayerQuery($experimentPlayerId: ID!) {
       }
     }
     experiment {
-      ...experimentFragment
+      ...playerExperimentFragment
     }
   }
 }

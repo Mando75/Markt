@@ -3,7 +3,7 @@
     <div>
       <!--loading block-->
       <v-layout
-        v-if="apolloLoading || !experimentStatus"
+        v-if="apolloLoading"
         align-center
         justify-start
         column
@@ -14,18 +14,19 @@
       <!--Main content-->
       <v-layout v-else justify-start row wrap fill-height>
         <v-flex>
+          <ScenarioOverview :overview="currentOverview" expanded />
           <InstructionViewer
-            :instructions="
-              experiment.activeSession.scenarioSession.instructions
-            "
+            :instructions="activeRoundInstructions"
             :show-step="false"
+            title="Round Instructions"
+            :flat="false"
           />
         </v-flex>
         <!--Card with ACTION-->
         <v-flex xs8 md4 offset-xs2 offset-md4 align-bottom>
           <v-card class="ma-3" elevation="4" dark>
             <v-card-title
-              v-if="experimentStatus.status === 'in_round'"
+              v-if="experiment.status === 'in_round'"
               class="subheading mBlack"
             >
               Round In Progress
@@ -50,7 +51,7 @@
                 @done="beginRound"
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
-                  <v-btn v-if="experimentStatus.status === 'in_round'" disabled>
+                  <v-btn v-if="experiment.status === 'in_round'" disabled>
                     Start Round
                   </v-btn>
                   <v-btn
@@ -73,7 +74,7 @@
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
                   <v-btn
-                    v-if="experimentStatus.status === 'in_round'"
+                    v-if="experiment.status === 'in_round'"
                     :disabled="loading"
                     :loading="loading"
                     color="red"
@@ -99,14 +100,13 @@ import LoadingBlock from "../../common/loadingBlock";
 import InstructionViewer from "../../common/InstructionViewer";
 import {
   startNextRound,
-  endCurrentRound,
-  experimentStatus,
-  experimentStatusChanged
+  endCurrentRound
 } from "../guideExperimentQueries.graphql";
+import ScenarioOverview from "../ScenarioOverview";
 
 export default {
   name: "GuideSessionManager",
-  components: { InstructionViewer, LoadingBlock },
+  components: { ScenarioOverview, InstructionViewer, LoadingBlock },
   props: {
     experiment: {
       type: Object,
@@ -119,30 +119,30 @@ export default {
       apolloLoading: 0,
       theNextRoundNum: 0,
       roundIsRunning: false,
-      // theExperiment: this.experiment,
       startNextRound,
       endCurrentRound
     };
   },
   computed: {
+    activeRoundInstructions() {
+      const activeRound = this.experiment.activeRound;
+      const index = activeRound ? activeRound.roundNumber - 1 : 0;
+      return [
+        this.experiment.activeSession.scenarioSession.instructions[index]
+      ];
+    },
+    currentOverview() {
+      const scenario = this.experiment.scenario;
+      const index = this.experiment.activeSession.sessionNumber - 1;
+      return scenario.overview[index];
+    },
     roundNumberCheck() {
       if (this.experiment.activeRound === null) {
         return 1;
       } else {
         return this.experiment.activeRound.roundNumber;
       }
-    },
-    getInstructionSnippit() {
-      if (this.experiment.activeRound === null) {
-        return 0;
-      } else {
-        return this.experiment.activeRound - 1;
-      }
     }
-  },
-  mounted() {
-    this.$apollo.queries.experimentStatus.skip = false;
-    this.$apollo.subscriptions.experimentStatus.start();
   },
   methods: {
     endRound() {
@@ -150,30 +150,6 @@ export default {
     },
     beginRound() {
       this.roundIsRunning = true;
-    }
-  },
-
-  apollo: {
-    experimentStatus: {
-      query: experimentStatus,
-      loadingKey: "apolloLoading",
-      fetchPolicy: "network-only",
-      variables() {
-        return {
-          experimentId: this.$route.params.experimentId
-        };
-      },
-      subscribeToMore: {
-        document: experimentStatusChanged,
-        variables() {
-          return {
-            experimentId: this.$route.params.experimentId
-          };
-        },
-        updateQuery(prev, { subscriptionData }) {
-          this.experimentStatus = subscriptionData.data.experimentStatusChanged;
-        }
-      }
     }
   }
 };

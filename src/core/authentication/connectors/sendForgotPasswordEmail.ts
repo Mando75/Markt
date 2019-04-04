@@ -13,7 +13,7 @@ export const sendForgotPasswordEmail = async (
   { email }: GQL.ISendForgotPasswordEmailOnMutationArguments,
   { redis }: GraphQLContext
 ) => {
-  const user = (await User.findOne({ email })) as User;
+  const user = (await User.findOne({ email }, { cache: true })) as User;
   if (!user) {
     return [
       {
@@ -37,7 +37,7 @@ export const sendForgotPasswordEmail = async (
 };
 
 export const lockAccount = async (userId: string) => {
-  const user = await User.findOne(userId);
+  const user = await User.findOne(userId, { cache: true });
   if (user) {
     user.accountLocked = true;
     await user.save();

@@ -4,7 +4,8 @@
       <span>BUTTS</span>
     </div>
     <div v-else>
-      Here is the ROUND summary:
+      <RoundSummary :summary="experiment.lastRoundSummaryReport" />
+      <ScenarioOverview :overview="currentOverview" />
       <v-layout
         v-if="apolloLoading"
         align-center
@@ -21,7 +22,6 @@
               <ApolloMutation
                 :mutation="startNextSession"
                 :variables="{ expId: experiment.id }"
-                @done="beginSesh"
               >
                 <v-card slot-scope="{ mutate, loading }" flat>
                   <v-btn
@@ -36,16 +36,29 @@
               </ApolloMutation>
             </v-card>
           </v-flex>
-          <v-flex>
-            <v-card flat>
-              <v-btn @click="dissmissSummary">Dismiss Round Summary</v-btn>
-            </v-card>
+          <v-flex v-if="canStartRound">
+            <ApolloMutation
+              :mutation="startNextRound"
+              :variables="{ expId: experiment.id }"
+            >
+              <v-card slot-scope="{ mutate, loading }" flat>
+                <v-btn
+                  :disabled="loading"
+                  :loading="loading"
+                  color="primary"
+                  @click="mutate"
+                >
+                  Start Next Round
+                </v-btn>
+              </v-card>
+            </ApolloMutation>
           </v-flex>
           <v-flex>
             <ApolloMutation
               :mutation="endExperiment"
               :variables="{ expId: experiment.id }"
-              @done="endExperimentFunc"
+              @done="print"
+              @error="print"
             >
               <v-card slot-scope="{ mutate, loading }" flat>
                 <v-btn
@@ -72,10 +85,12 @@ import {
   endExperiment
 } from "../guideExperimentQueries.graphql";
 import LoadingBlock from "../../common/loadingBlock";
+import RoundSummary from "../../common/RoundSummary";
+import ScenarioOverview from "../ScenarioOverview";
 
 export default {
-  name: "RoundSummary",
-  components: { LoadingBlock },
+  name: "RoundSummaryController",
+  components: { ScenarioOverview, RoundSummary, LoadingBlock },
   props: {
     experiment: {
       type: Object,
@@ -90,7 +105,6 @@ export default {
   },
   data() {
     return {
-      status: "value",
       code: this.experiment.id,
       apolloLoading: 0,
       theNextRoundNum: 0,
@@ -99,15 +113,21 @@ export default {
       endExperiment
     };
   },
+  computed: {
+    canStartRound() {
+      const as = this.experiment.activeSession;
+      return as ? as.ranRounds !== as.scenarioSession.numberOfRounds : true;
+    },
+    currentOverview() {
+      const scenario = this.experiment.scenario;
+      const index = this.experiment.activeSession.sessionNumber - 1;
+      return scenario.overview[index];
+    }
+  },
   methods: {
-    beginSesh() {
-      this.status = "session_start";
-    },
-    dissmissSummary() {
-      this.hideRoundSummary = !this.hideRoundSummary;
-    },
-    endExperimentFunc() {
-      this.$router.push("/guide/home");
+    print(val) {
+      console.log(val);
+      // this.$router.push("/guide/home");
     }
   }
 };

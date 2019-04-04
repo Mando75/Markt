@@ -131,6 +131,7 @@ declare namespace GQL {
     activeRound: IRound | null;
     active: boolean;
     closed: boolean;
+    lastRoundSummaryReport: IRoundSummary | null;
     experimentSummaryReport: IExperimentSummary | null;
     endDate: any | null;
     createdDate: any | null;
@@ -317,6 +318,7 @@ declare namespace GQL {
     sessionNumber: number;
     scenarioSession: IScenarioSession;
     rounds: Array<IRound | null> | null;
+    ranRounds: number | null;
     active: boolean;
     endDate: any | null;
     createdDate: any | null;
@@ -366,7 +368,7 @@ declare namespace GQL {
     startNextSession: IExperimentSession | null;
     startNextRound: IRound | null;
     makeTransaction: ITransaction | null;
-    endCurrentRound: IRoundSummary | null;
+    endCurrentRound: IRound | null;
     endExperiment: IExperiment | null;
     createGroup: IGroup | null;
     createGuideFromUser: IGuide | null;
