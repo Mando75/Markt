@@ -35,6 +35,11 @@ const router = new Router({
       component: () => import("../components/AuthRedirect")
     },
     {
+      path: "/test",
+      name: "testPage",
+      component: () => import("../components/Test_Page")
+    },
+    {
       path: "/join",
       name: "join",
       component: () => import("../components/PlayerExperience/JoinExperiment")
