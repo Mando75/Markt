@@ -63,10 +63,18 @@ export class ExperimentSession extends BaseEntity {
    * Returns the current round
    */
   async getActiveRound() {
-    const rounds = await this.rounds;
-    if (rounds) {
-      return rounds.find(r => r.active);
-    }
-    return null;
+    return await Round.createQueryBuilder("r")
+      .where("r.session_id IN (:sessionId)", { sessionId: this.id })
+      .andWhere("r.active IS TRUE")
+      .orderBy("r.end_date", "DESC")
+      .cache(true)
+      .getOne();
+  }
+
+  async ranRounds() {
+    return await Round.createQueryBuilder("r")
+      .where("r.session_id IN (:esId)", { esId: this.id })
+      .cache(true)
+      .getCount();
   }
 }

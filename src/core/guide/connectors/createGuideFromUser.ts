@@ -7,7 +7,7 @@ export const createGuideFromUser = async (
   { userId }: GQL.ICreateGuideFromUserOnMutationArguments,
   __: GraphQLContext
 ) => {
-  const user = await User.findOne(userId);
+  const user = await User.findOne(userId, { cache: true });
   if (user) {
     const guide = new Guide();
     guide.user = user;

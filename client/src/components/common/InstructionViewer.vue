@@ -1,6 +1,9 @@
 <template>
   <v-layout align-space-between justify-start column>
-    <v-card flat class="px-4">
+    <v-card class="px-2" :flat="flat">
+      <v-card-title v-if="title" primary-title>
+        <h2 class="headline">{{ title }}</h2>
+      </v-card-title>
       <v-flex v-for="(step, i) in instructions" :key="`step=${i}`" d-flex my-4>
         <div class="text-md-left text-sm-justify font-weight-regular">
           <v-list-tile class="mt-0 pt-0"
@@ -36,6 +39,11 @@
 export default {
   name: "InstructionViewer",
   props: {
+    flat: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
     instructions: {
       type: Array,
       required: true
@@ -44,6 +52,11 @@ export default {
       type: Boolean,
       required: false,
       default: true
+    },
+    title: {
+      type: String,
+      required: false,
+      default: ""
     }
   }
 };

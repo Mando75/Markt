@@ -141,7 +141,7 @@ export class TheAppleMarketScenarioDefinition1549593077264
               {
                 format: ScenarioSchema.BulletFormat.ITALIC,
                 text:
-                  "If you are a buyer, you will notice that we have assigned you a buyer value. This is the most you are willing to pay for a bushel of apples. your profit from buying a bushel is this buyer value minus the price you pay."
+                  "If you are a buyer, you will notice that we have assigned you a buyer value. This is the most you are willing to pay for a bushel of apples. Your profit from buying a bushel is this buyer value minus the price you pay."
               },
               {
                 format: ScenarioSchema.BulletFormat.ITALIC,
@@ -151,7 +151,7 @@ export class TheAppleMarketScenarioDefinition1549593077264
               {
                 format: ScenarioSchema.BulletFormat.ITALIC,
                 text:
-                  "Your goal is to make as much profit as y ou can. I will post the profit that each of you made on the section web site, and I will award prizes next time for the traders with the highest profit. Think of this experiment as a game. Compete and have fun. If you do, you will be acting like individuals in the real world, who are trying tod the best they can for themselves. Our experiment will mimic real life, and we can study the results of this experiment as a good test of how markets work in the real world."
+                  "Your goal is to make as much profit as you can. I will post the profit that each of you made on the section web site, and I will award prizes next time for the traders with the highest profit. Think of this experiment as a game. Compete and have fun. If you do, you will be acting like individuals in the real world, who are trying to do the best they can for themselves. Our experiment will mimic real life, and we can study the results of this experiment as a good test of how markets work in the real world."
               },
               {
                 format: ScenarioSchema.BulletFormat.ITALIC,
@@ -161,7 +161,7 @@ export class TheAppleMarketScenarioDefinition1549593077264
               {
                 format: ScenarioSchema.BulletFormat.ITALIC,
                 text:
-                  "We have a name for repetitions of our experiment with the same buyer values and seller costs. We call them <strong><em>rounds</em></strong>of the same <strong><em>session</em></strong>. When the buyer values and seller costs change, we call that a different session. Today we will have two rounds of Session 1 and two rounds of Session 2. Look at your role assignment. Note that your role changes as we move from Session 1 to Session 2."
+                  "We have a name for repetitions of our experiment with the same buyer values and seller costs. We call them <strong><em>rounds&nbsp;</em></strong>of the same <strong><em>session</em></strong>. When the buyer values and seller costs change, we call that a different session. Today we will have two rounds of Session 1 and two rounds of Session 2. Look at your role assignment. Note that your role changes as we move from Session 1 to Session 2."
               },
               {
                 format: ScenarioSchema.BulletFormat.ITALIC,

@@ -73,7 +73,8 @@ const getExistingPlayer = async (joinCode: string, player: Player) => {
  */
 const getExperimentAndPlayer = async (joinCode: string, playerCode: string) => {
   const experiment = await Experiment.findOne({
-    where: { joinCode, active: true }
+    where: { joinCode, active: true },
+    cache: true
   });
   if (!experiment) {
     throw new ApolloError(
@@ -84,7 +85,8 @@ const getExperimentAndPlayer = async (joinCode: string, playerCode: string) => {
   const guide = await experiment.guide;
   // Player code is unique across playerCode, guide, and active
   const player = await Player.findOne({
-    where: { playerCode, guide, active: true }
+    where: { playerCode, guide, active: true },
+    cache: true
   });
   if (!player) {
     throw new ApolloError(ExperimentErrorMessages.PLAYER_DOES_NOT_EXIST, "404");
@@ -106,7 +108,10 @@ const checkExperimentBeforeJoin = async (
     throw new ApolloError(ExperimentErrorMessages.EXPERIMENT_CLOSED, "403");
   }
   // Checks if the player has already joined
-  return await ExperimentPlayer.findOne({ where: { experiment, player } });
+  return await ExperimentPlayer.findOne({
+    where: { experiment, player },
+    cache: true
+  });
 };
 
 /**
@@ -121,14 +126,14 @@ const assignPlayerRoleType = async (eId: string, redis: Redis) => {
   try {
     roleCode = await redis.lpop(RedisPrefix.ROLE_DIST + eId);
     const roleType = await RoleType.findOne({
-      where: { roleTypeId: roleCode }
+      where: { roleTypeId: roleCode },
+      cache: true
     });
     if (!roleType) {
       throw new Error(`Role Type does not exist: ${roleCode}`);
     }
     return roleType;
   } catch (e) {
-    console.log(e);
     if (roleCode) {
       await redis.lpush(RedisPrefix.ROLE_DIST + eId, roleCode);
     }

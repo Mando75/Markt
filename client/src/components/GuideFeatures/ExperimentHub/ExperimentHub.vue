@@ -5,20 +5,10 @@
         <LoadingBlock />
       </v-flex>
       <v-flex v-else>
-        <Joining
-          v-if="experiment.status === 'joining'"
-          :experiment="experiment"
-        />
-        <GuideSessionManager
-          v-if="
-            experiment.status === 'session_start' ||
-              experiment.status === 'in_round' ||
-              experiment.status === 'round_summary'
-          "
-          :experiment="experiment"
-        />
+        <Joining v-if="joining" :experiment="experiment" />
+        <GuideSessionManager v-if="sessionManager" :experiment="experiment" />
         <RoundSummary
-          v-if="experiment.status === 'round_summary'"
+          v-if="roundSummary"
           :experiment="experiment"
           :hide-round-summary="showRoundSummary"
         />
@@ -54,6 +44,20 @@ export default {
       apolloLoading: 0,
       showRoundSummary: false
     };
+  },
+  computed: {
+    joining() {
+      return this.experiment.status === "joining";
+    },
+    sessionManager() {
+      return (
+        this.experiment.status === "session_start" ||
+        this.experiment.status === "in_round"
+      );
+    },
+    roundSummary() {
+      return this.experiment.status === "round_summary";
+    }
   },
   apollo: {
     experiment: {

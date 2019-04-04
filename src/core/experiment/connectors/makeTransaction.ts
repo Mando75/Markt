@@ -32,7 +32,8 @@ export const makeTransaction = async (
  */
 const findAndCheckExperimentInfo = async (id: string) => {
   const experiment = await Experiment.findOne({
-    where: { id, active: true }
+    where: { id, active: true },
+    cache: true
   });
   if (!experiment) {
     throw new ApolloError(
@@ -66,6 +67,7 @@ const findAndCheckPlayers = async (
     .andWhere("p.player_code IN (:...playerCodes)", {
       playerCodes: [buyerCode, sellerCode]
     })
+    .cache(true)
     .getManyAndCount();
   if (count !== 2) {
     throw new ApolloError(ExperimentErrorMessages.PLAYER_DOES_NOT_EXIST, "404");

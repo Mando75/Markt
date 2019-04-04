@@ -13,10 +13,16 @@ export const setContext = (redis: Redis) => {
     let user: User | undefined = undefined;
     let player: Player | undefined = undefined;
     if (req.session.userId) {
-      user = await User.findOne({ id: req.session.userId, active: true });
+      user = await User.findOne(
+        { id: req.session.userId, active: true },
+        { cache: true }
+      );
     }
     if (req.session.playerId) {
-      player = await Player.findOne({ id: req.session.playerId, active: true });
+      player = await Player.findOne(
+        { id: req.session.playerId, active: true },
+        { cache: true }
+      );
     }
     return {
       redis,
