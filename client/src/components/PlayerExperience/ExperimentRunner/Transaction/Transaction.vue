@@ -1,19 +1,24 @@
 <template>
   <v-container class="ma-auto pt-5">
-    <v-layout>
-      <v-flex xs12 sm6 offset-sm3>
-        <h3 class="display-3"><strong>Your Player Code: </strong></h3>
-        <br />
-        <span class="display-3">{{ experimentPlayer.playerCode }}</span>
+    <v-layout row wrap justify-start>
+      <v-flex xs12>
+        <v-card flat color="mBackground">
+          <v-card-title class="headline font-weight-bold">
+            Your Player Code: {{ experimentPlayer.playerCode }}
+          </v-card-title>
+          <v-divider color="primary" />
+        </v-card>
       </v-flex>
-      <v-flex xs12 sm6 offset-sm3>
-        <component
-          :is="loadTransactionComponent"
-          :experiment-player="experimentPlayer"
-          :experiment-id="experimentId"
-          :transaction="transaction"
-          @transactionMade="updateComponent"
-        />
+      <v-flex xs12 sm6 d-flex offset-sm3>
+        <v-card flat color="mBackground">
+          <component
+            :is="loadTransactionComponent"
+            :experiment-player="experimentPlayer"
+            :experiment-id="experimentId"
+            :transaction="transaction"
+            @transactionMade="updateComponent"
+          />
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>

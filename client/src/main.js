@@ -31,7 +31,8 @@ Vue.use(Vuetify, {
     mGrey: "#61706b",
     mGray: "#61706b",
     mDarkGrey: "#444444",
-    mDarkGray: "#444444"
+    mDarkGray: "#444444",
+    mBackground: "#fafafa"
   }
 });
 Vue.use(currency);

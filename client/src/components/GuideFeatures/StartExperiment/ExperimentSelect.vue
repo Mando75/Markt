@@ -118,6 +118,9 @@ export default {
       fetchPolicy: "network-only",
       variables: {
         code: "APPLMRKT"
+      },
+      result({ data }) {
+        this.$credentials.sSelect = data.scenario.name;
       }
     }
   }

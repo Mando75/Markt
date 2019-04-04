@@ -119,7 +119,6 @@ export default {
       apolloLoading: 0,
       theNextRoundNum: 0,
       roundIsRunning: false,
-      theExperiment: this.experiment,
       startNextRound,
       endCurrentRound
     };

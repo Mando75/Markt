@@ -2,21 +2,21 @@
   <div>
     <v-layout column>
       <v-flex xs12>
-        <h3 class="display-3">Nice!</h3>
-        <h2 class="display-1">Please wait for the round to end</h2>
+        <h3 class="display-2">Nice!</h3>
+        <h2 class="headline">Please wait for the round to end</h2>
       </v-flex>
       <v-flex xs12 row class="ma-3">
-        <h3 class="display-1">
+        <h3 class="headline">
           <strong>Amount: </strong> ${{ transaction.amount }}
         </h3>
       </v-flex>
       <v-flex xs12 row class="ma-3">
-        <h3 class="display-1">
+        <h3 class="headline">
           <strong>Buyer Profit: </strong> ${{ transaction.buyerProfit }}
         </h3>
       </v-flex>
       <v-flex xs12 row class="ma-3">
-        <h3 class="display-1">
+        <h3 class="headline">
           <strong>Seller Profit: </strong> ${{ transaction.sellerProfit }}
         </h3>
       </v-flex>

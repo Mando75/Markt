@@ -8,5 +8,5 @@ export const credentialStore = {
   displayName: "",
   experimentId: "",
   experimentPlayerId: "",
-  exStatus: ""
+  sSelect: ""
 };
