@@ -2,9 +2,12 @@ import { Router } from "express";
 import * as multer from "multer";
 import { createReadStream } from "fs";
 import { parse, NODE_STREAM_INPUT } from "papaparse";
+import { createQueue } from "kue";
 
 const router: Router = Router();
 const upload = multer({ dest: "/tmp/playerInvites" });
+const kue = createQueue();
+
 router.post("/players/invite", upload.single("file"), (req, res) => {
   if (!req.file) {
     res.status(404).json({ msg: "must attach file" });
@@ -37,7 +40,7 @@ router.post("/players/invite", upload.single("file"), (req, res) => {
     })
   )
     .on("data", data => {
-      output.push(data);
+      const
     })
     .on("end", () => {
       res.json(output);

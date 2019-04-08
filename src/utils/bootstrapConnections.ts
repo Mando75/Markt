@@ -11,6 +11,7 @@ import * as session from "express-session";
 import { routes } from "../routes";
 import { redis } from "./redis";
 import { applyMiddleware } from "graphql-middleware";
+import * as bodyParser from "body-parser";
 import { createShield } from "./createShield";
 import * as RateLimit from "express-rate-limit";
 import * as RateLimitStore from "rate-limit-redis";
@@ -49,6 +50,7 @@ export const bootstrapConnections = async (port: number) => {
   server.use(limiter);
   const sessionParser = session(createSession(session, redis));
   server.use(sessionParser);
+  server.use(bodyParser());
   server.use(passport.initialize());
   server.use(routes);
   try {
