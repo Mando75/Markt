@@ -5,13 +5,16 @@ import { parse, NODE_STREAM_INPUT } from "papaparse";
 import { Player } from "../entity/Player";
 import { Guide } from "../entity/Guide";
 import { generate } from "randomstring";
+import { emailKue } from "../utils/email/emailKue";
+import { ObjectLiteral } from "typeorm";
 
 const router: Router = Router();
 const upload = multer({ dest: "/tmp/playerInvites" });
 
-router.post("/players/invite", upload.single("file"), (req, res) => {
+router.post("/players/invite", upload.single("file"), async (req, res) => {
   const { guideId, groupId } = req.body;
-  if (!guideId) {
+  const guide = await Guide.findOne(guideId);
+  if (!guideId || !guide) {
     return res.status(404).json({ msg: "must provide guide id" });
   }
   if (!req.file) {
@@ -19,6 +22,7 @@ router.post("/players/invite", upload.single("file"), (req, res) => {
     return;
   }
 
+  const user = guide.user;
   const players: Array<{
     firstname: string;
     lastname: string;
@@ -53,7 +57,6 @@ router.post("/players/invite", upload.single("file"), (req, res) => {
       players.push(player);
     })
     .on("end", async () => {
-      const guide = await Guide.findOne(guideId);
       const playerCodes = (await Player.find({
         where: { guide, active: true },
         select: ["playerCode"]
@@ -73,6 +76,18 @@ router.post("/players/invite", upload.single("file"), (req, res) => {
         )
         .returning(["firstName", "lastName", "playerCode", "email"])
         .execute();
+      savedPlayers.forEach((player: ObjectLiteral) => {
+        emailKue
+          .create("invitePlayer", {
+            email: player.email,
+            playerName: player.firstName,
+            guideName: user.fullName,
+            playerCode: player.playerCode
+          })
+          .priority("medium")
+          .attempts(2)
+          .save();
+      });
       res.json({ savedPlayers, guideId });
     });
 });

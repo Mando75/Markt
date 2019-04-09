@@ -22,6 +22,7 @@ import * as history from "connect-history-api-fallback";
 import { setContext } from "./ContextSession/contextControl";
 import { createSession } from "./ContextSession/sessionControl";
 import { createSubscriptionServer } from "./createSubscriptionServer";
+import { startWorkerKues } from "./kue/startWorkerKues";
 
 const testEnv = process.env.NODE_ENV === "test";
 
@@ -29,6 +30,7 @@ redis.on("error", () => {
   console.log("Error connecting");
   if (process.env.NODE_ENV != "production") redis.disconnect();
 });
+startWorkerKues();
 
 /**
  * Try to bootstrap a database and server connection. If successful,
