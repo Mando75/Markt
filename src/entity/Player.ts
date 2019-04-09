@@ -17,6 +17,7 @@ import { ExperimentPlayer } from "./ExperimentPlayer";
 
 @Entity("players")
 @Unique("UNIQ_PLAYER_CODE", ["playerCode", "active", "guide"])
+@Unique("UNIQ_PLAYER_IN_GROUP", ["active", "group", "guide", "email"])
 export class Player extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;

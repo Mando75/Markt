@@ -50,7 +50,7 @@ export const bootstrapConnections = async (port: number) => {
   server.use(limiter);
   const sessionParser = session(createSession(session, redis));
   server.use(sessionParser);
-  server.use(bodyParser());
+  server.use(bodyParser.json());
   server.use(passport.initialize());
   server.use(routes);
   try {
