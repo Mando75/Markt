@@ -12,7 +12,7 @@
             slot-scope="{ mutate, loading, error }"
             dark
             flat
-            height="600"
+            class="pb-3"
             elevation="4"
           >
             <v-img

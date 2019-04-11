@@ -8,8 +8,8 @@
       slot-scope="{ mutate, loading, error }"
       dark
       flat
-      height="600"
       elevation="4"
+      class="pb-3"
     >
       <v-card-title primary-title class="text-xs-center">
         <v-flex xs12>
