@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel expand v-model="panel" class="my-2">
+  <v-expansion-panel v-model="panel" expand class="my-2">
     <v-expansion-panel-content>
       <h2 slot="header" class="headline">
         Session {{ overview.sessionNumber }} Overview

@@ -5,8 +5,11 @@
         Your Players
       </h1>
     </v-card-title>
+    <v-card-text v-if="!miniVersion">
+      <h3>Total Player Count: {{ players.length }}</h3>
+    </v-card-text>
     <v-card-text class="scroll-list">
-      <v-list class="scroll-list with-overflow">
+      <v-list class="scroll-list with-overflow" id="scrollArea" ref="scrollBox">
         <v-progress-circular
           v-if="loadingPlayerList"
           indeterminate
@@ -73,7 +76,6 @@ export default {
   },
   methods: {
     refetchPlayers() {
-      console.log(this.$apollo.queries.players);
       this.$apollo.queries.players.refetch();
     }
   },

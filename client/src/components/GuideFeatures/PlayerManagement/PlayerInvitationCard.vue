@@ -68,13 +68,13 @@
         v-if="!selectedFile"
         accept=".csv"
         title="CHOOSE FILE"
-        :fileChangedCallback="fileChanged"
+        :file-changed-callback="fileChanged"
       >
         <v-icon slot="icon-left">
           add
         </v-icon>
       </UploadButton>
-      <v-layout row v-else>
+      <v-layout v-else row>
         <v-text-field v-model="selectedFile.name" disabled class="pr-0" />
         <v-btn icon flat :disabled="csvLoading" @click="clearFile">
           <v-icon>clear</v-icon>
@@ -88,7 +88,7 @@
         >
       </v-layout>
     </v-card-text>
-    <v-snackbar :color="snackBarColor" v-model="playerAdded" bottom>
+    <v-snackbar v-model="playerAdded" :color="snackBarColor" bottom>
       {{ playerAddedMessage }}
       <v-btn color="white" flat @click="playerAdded = false">
         Close
@@ -145,7 +145,7 @@ export default {
       formData.append("file", this.selectedFile);
       formData.set("guideId", this.$credentials.guideId);
       try {
-        const resp = await this.$axios.post("/players/invite", formData, {
+        await this.$axios.post("/players/invite", formData, {
           "Content-Type": "multipart/form-data"
         });
         this.playerAddedMessage = "Upload Successful. Players invited";

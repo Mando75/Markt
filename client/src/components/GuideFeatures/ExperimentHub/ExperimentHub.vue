@@ -14,7 +14,7 @@
         />
         <ExperimentSummary
           v-if="experimentSummary"
-          :experimentId="experiment.id"
+          :experiment-id="experiment.id"
         />
         <InstructionsFAB>
           <GuideScenarioInstructions :scenario="experiment.scenario" />
