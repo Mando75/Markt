@@ -7,11 +7,15 @@ import { Guide } from "../entity/Guide";
 import { generate } from "randomstring";
 import { emailKue } from "../utils/email/emailKue";
 import { ObjectLiteral } from "typeorm";
+import { ApolloErrors } from "../enums/ApolloErrors";
 
 const router: Router = Router();
 const upload = multer({ dest: "/tmp/playerInvites" });
 
 router.post("/players/invite", upload.single("file"), async (req, res) => {
+  if (!req.session || !req.session.userId) {
+    return res.status(401).json({ msg: ApolloErrors.UNAUTHORIZED });
+  }
   const { guideId, groupId } = req.body;
   const guide = await Guide.findOne(guideId);
   if (!guideId || !guide) {
