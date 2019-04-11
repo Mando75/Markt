@@ -72,8 +72,9 @@ export default {
     };
   },
   methods: {
-    addPlayer(player) {
-      this.players.push({ ...player, open: false });
+    refetchPlayers() {
+      console.log(this.$apollo.queries.players);
+      this.$apollo.queries.players.refetch();
     }
   },
   apollo: {

@@ -2,7 +2,7 @@
   <v-container fluid color="primary" grid-list-lg>
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <PlayerInvitationCard :height="cardHeights" @playerAdded="addPlayer" />
+        <PlayerInvitationCard :height="cardHeights" @playersAdded="addPlayer" />
       </v-flex>
       <v-flex xs12 md6>
         <PlayerList ref="playerList" :height="cardHeights" />
@@ -38,8 +38,8 @@ export default {
     }
   },
   methods: {
-    addPlayer(player) {
-      this.$refs.playerList.addPlayer(player);
+    addPlayer() {
+      this.$refs.playerList.refetchPlayers();
     }
   }
 };

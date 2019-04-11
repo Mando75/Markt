@@ -7,7 +7,9 @@ import router from "./config/router";
 import { apolloClient } from "./config/apollo";
 import { credentialStore } from "./config/credentialStore";
 import colors from "vuetify/es5/util/colors";
+import axios from 'axios'
 
+Vue.prototype.$axios = axios
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 Vue.use(Vuetify, {
