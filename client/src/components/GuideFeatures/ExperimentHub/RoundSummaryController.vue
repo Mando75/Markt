@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="hideRoundSummary">
-      <span>BUTTS</span>
+      <span>Round Summary Hidden</span>
     </div>
     <div v-else>
       <RoundSummary :summary="experiment.lastRoundSummaryReport" />
@@ -15,16 +15,17 @@
       >
         <LoadingBlock />
       </v-layout>
-      <v-container v-else>
-        <v-layout>
-          <v-flex>
-            <v-card flat>
-              <ApolloMutation
-                :mutation="startNextSession"
-                :variables="{ expId: experiment.id }"
-              >
-                <v-card slot-scope="{ mutate, loading }" flat>
+      <v-layout v-else row>
+        <v-flex xs6 offset-xs3>
+          <v-card dark>
+            <v-card-text>
+              <v-layout align-center justify-center>
+                <ApolloMutation
+                  :mutation="startNextSession"
+                  :variables="{ expId: experiment.id }"
+                >
                   <v-btn
+                    slot-scope="{ mutate, loading }"
                     :disabled="loading"
                     :loading="loading"
                     color="primary"
@@ -32,48 +33,43 @@
                   >
                     Start Next Session
                   </v-btn>
-                </v-card>
-              </ApolloMutation>
-            </v-card>
-          </v-flex>
-          <v-flex v-if="canStartRound">
-            <ApolloMutation
-              :mutation="startNextRound"
-              :variables="{ expId: experiment.id }"
-            >
-              <v-card slot-scope="{ mutate, loading }" flat>
-                <v-btn
-                  :disabled="loading"
-                  :loading="loading"
-                  color="primary"
-                  @click="mutate"
+                </ApolloMutation>
+                <ApolloMutation
+                  v-if="canStartRound"
+                  :mutation="startNextRound"
+                  :variables="{ expId: experiment.id }"
                 >
-                  Start Next Round
-                </v-btn>
-              </v-card>
-            </ApolloMutation>
-          </v-flex>
-          <v-flex>
-            <ApolloMutation
-              :mutation="endExperiment"
-              :variables="{ expId: experiment.id }"
-              @done="print"
-              @error="print"
-            >
-              <v-card slot-scope="{ mutate, loading }" flat>
-                <v-btn
-                  :disabled="loading"
-                  :loading="loading"
-                  color="primary"
-                  @click="mutate"
+                  <v-btn
+                    slot-scope="{ mutate, loading }"
+                    :disabled="loading"
+                    :loading="loading"
+                    color="primary"
+                    @click="mutate"
+                  >
+                    Start Next Round
+                  </v-btn>
+                </ApolloMutation>
+                <ApolloMutation
+                  :mutation="endExperiment"
+                  :variables="{ expId: experiment.id }"
+                  @done="print"
+                  @error="print"
                 >
-                  End the Experiment
-                </v-btn>
-              </v-card>
-            </ApolloMutation>
-          </v-flex>
-        </v-layout>
-      </v-container>
+                  <v-btn
+                    slot-scope="{ mutate, loading }"
+                    :disabled="loading"
+                    :loading="loading"
+                    color="primary"
+                    @click="mutate"
+                  >
+                    End Experiment
+                  </v-btn>
+                </ApolloMutation>
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </div>
   </div>
 </template>
