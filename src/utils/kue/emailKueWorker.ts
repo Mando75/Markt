@@ -10,6 +10,10 @@ const kue = createQueue({
   db: process.env.NODE_ENV === "production" ? 0 : 3
 });
 
+kue.on("error", err => {
+  console.log("ERROR: In Kue", err);
+});
+
 kue.process("invitePlayer", 20, async (job: Job, done: Function) => {
   process.send = process.send || console.log;
   process.send(`starting email job for ${job.data.email}`);
