@@ -2,19 +2,18 @@ import { createQueue, Job } from "kue";
 import { splitRedisUrl } from "../redis";
 import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
 
-console.log(splitRedisUrl());
 const kue = createQueue({
   ...splitRedisUrl(),
   auth: "password",
-  // TODO fix redis stuff
-  db: process.env.NODE_ENV === "production" ? 0 : 3
+  db: 3
 });
 
 kue.on("error", err => {
   console.log("ERROR: In Kue", err);
 });
 
-kue.process("invitePlayer", 20, async (job: Job, done: Function) => {
+// TODO: Increase pool count
+kue.process("invitePlayer", 2, async (job: Job, done: Function) => {
   process.send = process.send || console.log;
   process.send(`starting email job for ${job.data.email}`);
   await sendGridPlayerWelcomeEmail(
