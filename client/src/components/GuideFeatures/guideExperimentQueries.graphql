@@ -115,8 +115,7 @@ query scenario($code: ID!) {
 query experimentPlayerCount($experimentId: ID!) {
   experimentPlayerCount: experiment(id: $experimentId) {
     id
-    joinCode
-    numPlayers
+      ...experimentHubFragment
   }
 }
 

@@ -35,7 +35,7 @@ export const resolvers: ResolverMap = {
     },
     scenario: async (obj: Experiment) => {
       const e = (await Experiment.findOne(obj.id, {
-        cache: 3600000
+        cache: true
       })) as Experiment;
       return e.scenario;
     },

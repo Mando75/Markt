@@ -5,7 +5,8 @@ import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
 const kue = createQueue({
   ...splitRedisUrl(),
   auth: "password",
-  db: 3
+  // TODO fix redis stuff
+  db: process.env.NODE_ENV === "production" ? 0 : 3
 });
 
 kue.process("invitePlayer", 20, async (job: Job, done: Function) => {
