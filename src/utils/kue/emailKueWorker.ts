@@ -3,9 +3,11 @@ import { splitRedisUrl } from "../redis";
 import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
 
 const kue = createQueue({
-  ...splitRedisUrl(),
-  auth: "password",
-  db: 3
+  redis: {
+    ...splitRedisUrl(),
+    auth: "password",
+    db: 3
+  }
 });
 
 kue.on("error", err => {
