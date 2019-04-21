@@ -8,9 +8,7 @@ const url =
 export const redis = new Redis(url as string);
 
 export const splitRedisUrl = () => {
-  console.log(process.env.REDIS_URL);
   const redisUrl = new URL(process.env.REDIS_URL as string);
-  console.log(redisUrl);
   return {
     host: redisUrl.hostname,
     port: redisUrl.port,

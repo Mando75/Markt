@@ -4,7 +4,8 @@ import { splitRedisUrl } from "../redis";
 export const emailKue = createQueue({
   redis: {
     ...splitRedisUrl(),
-    auth: "password",
-    db: 3
+    db: 3,
+    username: null,
+    auth: "password"
   }
 });

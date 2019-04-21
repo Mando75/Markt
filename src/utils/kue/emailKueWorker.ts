@@ -5,6 +5,7 @@ import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
 const kue = createQueue({
   redis: {
     ...splitRedisUrl(),
+    username: null,
     auth: "password",
     db: 3
   }
