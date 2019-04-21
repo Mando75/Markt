@@ -2,6 +2,7 @@ import { createQueue, Job } from "kue";
 import { splitRedisUrl } from "../redis";
 import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
 
+console.log(splitRedisUrl());
 const kue = createQueue({
   ...splitRedisUrl(),
   auth: "password",
