@@ -37,12 +37,14 @@ mutation {
 const endCurrentRound = (experimentId: string) => `
 mutation {
   endCurrentRound(experimentId: "${experimentId}") {
-    numTransactions
-    averagePrice
-    maxPrice
-    minPrice
-    transactions {
-      id
+    roundSummary {
+      numTransactions
+      averagePrice
+      maxPrice
+      minPrice
+      transactions {
+        id
+      }
     }
   }
 }`;
@@ -143,12 +145,17 @@ describe("endCurrentRound", () => {
     const { data } = await tc.query(endCurrentRound(experimentId));
     expect(data).toBeTruthy();
     expect(data.endCurrentRound).toBeTruthy();
-    expect(data.endCurrentRound.minPrice).toEqual(transactionAmount);
-    expect(data.endCurrentRound.maxPrice).toEqual(transactionAmount2);
-    expect(data.endCurrentRound.averagePrice).toEqual(
+    expect(data.endCurrentRound.roundSummary).toBeTruthy();
+    expect(data.endCurrentRound.roundSummary.minPrice).toEqual(
+      transactionAmount
+    );
+    expect(data.endCurrentRound.roundSummary.maxPrice).toEqual(
+      transactionAmount2
+    );
+    expect(data.endCurrentRound.roundSummary.averagePrice).toEqual(
       (transactionAmount + transactionAmount2) / 2
     );
-    expect(data.endCurrentRound.numTransactions).toEqual(2);
+    expect(data.endCurrentRound.roundSummary.numTransactions).toEqual(2);
   }, 60000);
 });
 

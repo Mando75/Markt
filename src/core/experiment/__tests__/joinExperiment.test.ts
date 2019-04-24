@@ -60,22 +60,6 @@ describe("joinExperiment", () => {
     );
   });
 
-  it("Does not allow a player to join twice", async () => {
-    const tc = new TestClient(host);
-    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
-    const group = await tc.createMockGroup();
-    const playerCode = (await group.players)[0].playerCode;
-    await tc.query(joinExperiment(playerCode, experiment.joinCode));
-    const { data, errors } = await tc.query(
-      joinExperiment(playerCode, experiment.joinCode)
-    );
-    expect(data.joinExperiment).toBeNull();
-    expect(errors).toHaveLength(1);
-    expect(errors[0].message).toEqual(
-      ExperimentErrorMessages.PLAYER_ALREADY_IN_EXPERIMENT
-    );
-  });
-
   it("Does not allow a player to join once experiment is full", async () => {
     const tc = new TestClient(host);
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
