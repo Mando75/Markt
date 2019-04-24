@@ -36,6 +36,15 @@ export class ExperimentPlayer extends BaseEntity {
   @Column({ type: "integer", nullable: false, default: 0 })
   numTransactions: number;
 
+  @Column({ type: "varchar", length: 6, nullable: false })
+  playerCode: string;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  firstName: string | null | undefined;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  lastName: string | null | undefined;
+
   @OneToMany(() => PlayerTransaction, pt => pt.player, {
     lazy: true
   })
@@ -109,6 +118,13 @@ export class ExperimentPlayer extends BaseEntity {
     const ex = await this.experiment;
     ex.numPlayers += 1;
     await ex.save();
+  }
+
+  @BeforeInsert()
+  async inheritPlayerData() {
+    this.playerCode = this.player.playerCode;
+    this.firstName = this.player.firstName;
+    this.lastName = this.player.lastName;
   }
 
   async getPlayerCode() {
