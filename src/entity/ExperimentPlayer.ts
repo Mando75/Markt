@@ -52,17 +52,17 @@ export class ExperimentPlayer extends BaseEntity {
 
   _playerTransactions: PlayerTransaction[] | undefined;
   async buyerTransactions() {
-    if (!this._playerTransactions) {
-      this._playerTransactions = await this.playerTransactions;
-    }
-    return this._playerTransactions.filter(pt => !pt.isSeller);
+    return await PlayerTransaction.find({
+      where: { player: this, isSeller: false },
+      relations: ["transaction"]
+    });
   }
 
   async sellerTransactions() {
-    if (!this._playerTransactions) {
-      this._playerTransactions = await this.playerTransactions;
-    }
-    return this._playerTransactions.filter(pt => pt.isSeller);
+    return await PlayerTransaction.find({
+      where: { player: this, isSeller: true },
+      relations: ["transaction"]
+    });
   }
 
   @Column({ type: "float", nullable: false, default: 0.0 })
@@ -91,8 +91,8 @@ export class ExperimentPlayer extends BaseEntity {
       this.sellerTransactions(),
       this.buyerTransactions()
     ]);
-    const sellerTransactions = await Promise.all(sts.map(st => st.transaction));
-    const buyerTransactions = await Promise.all(bts.map(bt => bt.transaction));
+    const sellerTransactions = sts.map(st => st.transaction);
+    const buyerTransactions = bts.map(bt => bt.transaction);
     const sellerProfit = sellerTransactions.reduce(
       (accum: number, curr: Transaction) => accum + curr.sellerProfit,
       0

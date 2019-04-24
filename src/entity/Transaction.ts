@@ -43,26 +43,42 @@ export class Transaction extends BaseEntity {
   updatedDate: Date;
 
   async buyer() {
-    if (!this.playerTransactions) {
-      await this._loadPlayerTransactions();
-    }
-    return (this.playerTransactions.find(
-      pt => !pt.isSeller
-    ) as PlayerTransaction).player;
+    const pt = (await PlayerTransaction.findOne({
+      where: { transaction: this, isSeller: false },
+      relations: ["player"],
+      cache: true
+    })) as PlayerTransaction;
+    return pt.player;
+    // if (!this.playerTransactions) {
+    //   await this._loadPlayerTransactions();
+    // }
+    // return (this.playerTransactions.find(
+    //   pt => !pt.isSeller
+    // ) as PlayerTransaction).player;
   }
 
   async seller() {
-    if (!this.playerTransactions) {
-      await this._loadPlayerTransactions();
-    }
-    return (this.playerTransactions.find(
-      pt => pt.isSeller
-    ) as PlayerTransaction).player;
+    const pt = (await PlayerTransaction.findOne({
+      where: { transaction: this, isSeller: true },
+      relations: ["player"],
+      cache: true
+    })) as PlayerTransaction;
+    return pt.player;
+    // if (!this.playerTransactions) {
+    //   await this._loadPlayerTransactions();
+    // }
+    // return (this.playerTransactions.find(
+    //   pt => pt.isSeller
+    // ) as PlayerTransaction).player;
   }
 
   async updatePlayers() {
     const buyer = await this.buyer();
     const seller = await this.seller();
+    console.log("Buyer");
+    console.log(buyer);
+    console.log("seller");
+    console.log(seller);
     await Promise.all([
       buyer.setTotalProfit(),
       buyer.setNumTransactions(),

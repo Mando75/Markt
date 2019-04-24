@@ -21,7 +21,7 @@ export const makeTransaction = async (
   );
   let transaction = await createTransaction(round, amount, buyer, seller);
   transaction = await createPlayerTransactions(buyer, seller, transaction);
-  // await Promise.all([transaction.updatePlayers(), transaction._updateRound()]);
+  await Promise.all([transaction.updatePlayers(), transaction._updateRound()]);
   return transaction;
 };
 
