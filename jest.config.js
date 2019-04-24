@@ -7,7 +7,7 @@ module.exports = {
     "!**/dist/**",
     "!**/jest/**"
   ],
-  verbose: true,
+  verbose: false,
   transform: {
     "^^.+\\.tsx?$": "ts-jest"
   },
