@@ -49,12 +49,6 @@ export class Transaction extends BaseEntity {
       cache: true
     })) as PlayerTransaction;
     return pt.player;
-    // if (!this.playerTransactions) {
-    //   await this._loadPlayerTransactions();
-    // }
-    // return (this.playerTransactions.find(
-    //   pt => !pt.isSeller
-    // ) as PlayerTransaction).player;
   }
 
   async seller() {
@@ -64,12 +58,6 @@ export class Transaction extends BaseEntity {
       cache: true
     })) as PlayerTransaction;
     return pt.player;
-    // if (!this.playerTransactions) {
-    //   await this._loadPlayerTransactions();
-    // }
-    // return (this.playerTransactions.find(
-    //   pt => pt.isSeller
-    // ) as PlayerTransaction).player;
   }
 
   async updatePlayers() {
