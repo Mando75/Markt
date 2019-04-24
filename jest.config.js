@@ -7,7 +7,7 @@ module.exports = {
     "!**/dist/**",
     "!**/jest/**"
   ],
-  verbose: false,
+  verbose: true,
   transform: {
     "^^.+\\.tsx?$": "ts-jest"
   },
@@ -15,7 +15,7 @@ module.exports = {
   testRegex: "/__tests__/.*.test.(js|ts|tsx)?$",
   moduleFileExtensions: ["ts", "tsx", "js", "json", "node"],
   globals: {
-    'ts-jest': {
+    "ts-jest": {
       tsConfig: "./tsconfig.json"
     }
   },

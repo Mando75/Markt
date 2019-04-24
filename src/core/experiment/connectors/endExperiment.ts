@@ -1,8 +1,5 @@
 import { GraphQLContext } from "../../../types/graphql-context";
-import { User } from "../../../entity/User";
 import { Experiment } from "../../../entity/Experiment";
-import { ApolloError } from "apollo-server-express";
-import { ExperimentErrorMessages } from "../experimentErrorMessages";
 import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import {
   deletePlayerSessions,
@@ -16,7 +13,7 @@ export const endExperiment = async (
   { experimentId }: GQL.IEndExperimentOnMutationArguments,
   { user, redis, pubsub }: GraphQLContext
 ) => {
-  let experiment = await findAndCheckExperiment(experimentId, user);
+  let experiment = await Experiment.findAndCheckExperiment(experimentId, user);
   await deactivateSessionsAndRounds(experiment);
   await killPlayerSessions(experiment.id, redis);
   experiment.status = ExperimentStatusEnum.CLOSED;
@@ -24,21 +21,6 @@ export const endExperiment = async (
   experiment = await experiment.save();
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return experiment;
-};
-
-const findAndCheckExperiment = async (id: string, user: User | undefined) => {
-  const guide = user ? await user.guide : null;
-  const exp = await Experiment.findOne({
-    where: { id, active: true, guide },
-    cache: true
-  });
-  if (!exp) {
-    throw new ApolloError(
-      ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST,
-      "404"
-    );
-  }
-  return exp;
 };
 
 const deactivateSessionsAndRounds = async (experiment: Experiment) => {

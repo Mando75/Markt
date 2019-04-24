@@ -15,7 +15,7 @@ export const setContext = (redis: Redis) => {
     if (req.session.userId) {
       user = await User.findOne(
         { id: req.session.userId, active: true },
-        { cache: true }
+        { cache: true, relations: ["guide"] }
       );
     }
     if (req.session.playerId) {

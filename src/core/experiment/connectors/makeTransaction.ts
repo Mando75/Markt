@@ -21,8 +21,7 @@ export const makeTransaction = async (
   );
   let transaction = await createTransaction(round, amount, buyer, seller);
   transaction = await createPlayerTransactions(buyer, seller, transaction);
-  await transaction.save();
-  await Promise.all([transaction.updatePlayers(), transaction._updateRound()]);
+  // await Promise.all([transaction.updatePlayers(), transaction._updateRound()]);
   return transaction;
 };
 
@@ -72,7 +71,7 @@ const findAndCheckPlayers = async (
   if (count !== 2) {
     throw new ApolloError(ExperimentErrorMessages.PLAYER_DOES_NOT_EXIST, "404");
   }
-  const players = await Promise.all(ePlayers.map(p => p.player));
+  const players = ePlayers.map(p => p.player);
   const buyerIndex = players.findIndex(p => p.playerCode === buyerCode);
   const sellerIndex = players.findIndex(p => p.playerCode === sellerCode);
   const buyer = ePlayers[buyerIndex];
@@ -132,11 +131,11 @@ const createPlayerTransactions = async (
   const sellerPt = PlayerTransaction.create({
     isSeller: true
   });
-  sellerPt.player = Promise.resolve(seller);
+  sellerPt.player = seller;
   const buyerPt = PlayerTransaction.create({
     isSeller: false
   });
-  buyerPt.player = Promise.resolve(buyer);
-  transaction.playerTransactions = Promise.resolve([buyerPt, sellerPt]);
-  return transaction;
+  buyerPt.player = buyer;
+  transaction.playerTransactions = [buyerPt, sellerPt];
+  return await transaction.save();
 };

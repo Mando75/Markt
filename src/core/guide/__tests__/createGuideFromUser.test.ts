@@ -4,6 +4,8 @@ import { Server } from "http";
 import { Connection } from "typeorm";
 import { AccountType } from "../../../enums/accountType.enum";
 import { ApolloErrors } from "../../../enums/ApolloErrors";
+import { User } from "../../../entity/User";
+import { Guide } from "../../../entity/Guide";
 
 let app: Server, db: Connection, host: string;
 
@@ -32,12 +34,13 @@ describe("createGuideFromUser", () => {
     const adminClient = new TestClient(host);
     await adminClient.createUser(true, AccountType.ADMIN);
     await adminClient.login();
-    const mockUser = (await TestClient.createMockUsers(1))[0];
+    const mockUser: User = (await TestClient.createMockUsers(1))[0];
     const { data } = await adminClient.query(query(mockUser.id));
     expect(data.createGuideFromUser.id).toBeTruthy();
     expect(data.createGuideFromUser.user.id).toEqual(mockUser.id);
-    const mockGuide = await mockUser.guide;
-    expect(mockGuide.id).toEqual(data.createGuideFromUser.id);
+    const mockGuide = await Guide.findOne({ where: { user: mockUser } });
+    expect(mockGuide).toBeTruthy();
+    if (mockGuide) expect(mockGuide.id).toEqual(data.createGuideFromUser.id);
   });
 
   it("Prevents non admins from creating guides", async () => {

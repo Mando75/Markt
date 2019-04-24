@@ -28,7 +28,7 @@ export class ExperimentPlayer extends BaseEntity {
   @ManyToOne(() => Player, p => p.experimentPlayers, {
     nullable: false
   })
-  player: Promise<Player>;
+  player: Player;
 
   @ManyToOne(() => RoleType, rt => rt.players, { nullable: false })
   roleType: Promise<RoleType>;
@@ -37,7 +37,6 @@ export class ExperimentPlayer extends BaseEntity {
   numTransactions: number;
 
   @OneToMany(() => PlayerTransaction, pt => pt.player, {
-    cascade: true,
     lazy: true
   })
   playerTransactions: Promise<PlayerTransaction[]>;

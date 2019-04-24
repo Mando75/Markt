@@ -54,7 +54,8 @@ describe("startNextSession", () => {
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     experiment.status = ExperimentStatusEnum.IN_ROUND;
     await Promise.all([tc.login(), experiment.save()]);
-    const { errors } = await tc.query(startNextSession(experiment.id));
+    const { errors, data } = await tc.query(startNextSession(experiment.id));
+    console.log(data);
     expect(errors).toHaveLength(1);
     expect(errors[0].message).toEqual(ExperimentErrorMessages.STATUS_NOT_READY);
   });

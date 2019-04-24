@@ -5,7 +5,6 @@ import { ExperimentStatusEnum } from "../../../enums/experimentStatus.enum";
 import { ExperimentSession } from "../../../entity/ExperimentSession";
 import { Round } from "../../../entity/Round";
 import { GraphQLContext } from "../../../types/graphql-context";
-import { User } from "../../../entity/User";
 import { SubscriptionKey } from "../../../enums/subscriptionKey.enum";
 
 export const startNextRound = async (
@@ -13,7 +12,11 @@ export const startNextRound = async (
   { experimentId }: GQL.IStartNextRoundOnMutationArguments,
   { user, pubsub }: GraphQLContext
 ) => {
-  const experiment = await findAndCheckExperiment(experimentId, user);
+  const experiment = await Experiment.findAndCheckExperiment(
+    experimentId,
+    user,
+    [ExperimentStatusEnum.SESSION_START, ExperimentStatusEnum.ROUND_SUMMARY]
+  );
   const activeSession = await experiment.getActiveSession();
   if (!activeSession) {
     throw new ApolloError(ExperimentErrorMessages.NO_ACTIVE_SESSION, "403");
@@ -29,33 +32,6 @@ export const startNextRound = async (
   await experiment.reload();
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
   return newRound;
-};
-
-/**
- * Finds the experiment, scoping the possible results to those owned
- * by the guide.
- * @param id
- * @param user
- */
-const findAndCheckExperiment = async (id: string, user: User | undefined) => {
-  const guide = user ? await user.guide : null;
-  const experiment = await Experiment.findOne({
-    where: { id, active: true, guide }
-  });
-  if (!experiment) {
-    throw new ApolloError(
-      ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST,
-      "404"
-    );
-  } else if (
-    ![
-      ExperimentStatusEnum.SESSION_START,
-      ExperimentStatusEnum.ROUND_SUMMARY
-    ].includes(experiment.status)
-  ) {
-    throw new ApolloError(ExperimentErrorMessages.STATUS_NOT_READY, "403");
-  }
-  return experiment;
 };
 
 /**

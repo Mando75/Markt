@@ -172,6 +172,7 @@ describe("makeTransaction", () => {
         transactionAmount
       )
     );
+    console.log(errors);
     expect(data.id).toBeTruthy();
     expect(data.amount).toEqual(transactionAmount);
     expect(errors).toBeUndefined();

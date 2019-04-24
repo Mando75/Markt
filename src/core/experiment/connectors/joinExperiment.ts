@@ -150,7 +150,7 @@ const createNewPlayer = async (
   redis: Redis
 ) => {
   let ep = ExperimentPlayer.create();
-  ep.player = Promise.resolve(player);
+  ep.player = player;
   ep.experiment = Promise.resolve(experiment);
   const roleType = await assignPlayerRoleType(experiment.id, redis);
   ep.roleType = Promise.resolve(roleType);

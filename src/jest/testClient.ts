@@ -156,7 +156,9 @@ export class TestClient {
     guide.user = user;
     await guide.save();
     if (this.testUser) {
-      await this.testUser.reload();
+      this.testUser = await User.findOne(this.testUser.id, {
+        relations: ["guide"]
+      });
     }
     return { user, guide };
   }
@@ -177,14 +179,14 @@ export class TestClient {
       };
       users.push(await User.create(fakeUser).save());
     }
-    return users;
+    return await User.findByIds(users.map(u => u.id), { relations: ["guide"] });
   }
 
   async createMockGroup(playerCount: number = 1) {
     if (!this.testUser) {
       throw new Error("Must first create a test user");
     }
-    const guide = await this.testUser.guide;
+    const guide = this.testUser.guide;
     const group = Group.create();
     group.name = faker.company.companyName();
     group.guide = Promise.resolve(guide);

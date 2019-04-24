@@ -20,6 +20,9 @@ import { ExperimentSession } from "./ExperimentSession";
 import { ExperimentStatusEnum } from "../enums/experimentStatus.enum";
 import { Round } from "./Round";
 import { Transaction } from "./Transaction";
+import { User } from "./User";
+import { ApolloError } from "apollo-server-express";
+import { ExperimentErrorMessages } from "../core/experiment/experimentErrorMessages";
 
 @Entity("experiments")
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
@@ -182,5 +185,27 @@ export class Experiment extends BaseEntity {
     if (!this.active && !this.endDate) {
       this.endDate = new Date();
     }
+  }
+
+  static async findAndCheckExperiment(
+    id: string,
+    user: User | undefined,
+    statuses?: Array<ExperimentStatusEnum>
+  ) {
+    const guide = user ? user.guide : null;
+    const exp = await Experiment.findOne({
+      where: { id, active: true, guide },
+      cache: true
+    });
+    if (!exp) {
+      throw new ApolloError(
+        ExperimentErrorMessages.EXPERIMENT_DOES_NOT_EXIST,
+        "404"
+      );
+    }
+    if (statuses && !statuses.includes(exp.status)) {
+      throw new ApolloError(ExperimentErrorMessages.STATUS_NOT_READY, "403");
+    }
+    return exp;
   }
 }
