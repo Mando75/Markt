@@ -127,11 +127,9 @@ export class Experiment extends BaseEntity {
    * Returns back the current experiment session
    */
   async getActiveSession() {
-    if (this.sessions) {
-      return this.sessions.find(session => session.active);
-    }
     return await ExperimentSession.findOne({
       where: { experiment: this, active: true },
+      relations: ["rounds"],
       cache: true
     });
   }

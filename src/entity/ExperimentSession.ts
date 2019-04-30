@@ -29,7 +29,7 @@ export class ExperimentSession extends BaseEntity {
   scenarioSession: Promise<ScenarioSession>;
 
   @OneToMany(() => Round, r => r.session)
-  rounds: Promise<Round[]>;
+  rounds: Round[];
 
   @Column({ type: "integer", nullable: false })
   sessionNumber: number;

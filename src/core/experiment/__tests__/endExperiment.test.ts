@@ -65,14 +65,14 @@ describe("endExperiment", () => {
     } = await tc.query(endExperiment(experimentId));
     expect(ee).toBeTruthy();
     const experiment = await Experiment.findOne(experimentId, {
-      relations: ["sessions"]
+      relations: ["sessions", "sessions.rounds"]
     });
     expect(experiment).toBeTruthy();
     if (experiment) {
       const sessions = experiment.sessions;
       expect(sessions).toHaveLength(1);
       sessions.forEach(async s => {
-        const rounds = await s.rounds;
+        const rounds = s.rounds;
         expect(rounds).toHaveLength(1);
         rounds.forEach(r => expect(r.active).toBeFalsy());
         expect(s.active).toBeFalsy();

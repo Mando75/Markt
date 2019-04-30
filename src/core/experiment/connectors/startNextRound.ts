@@ -45,10 +45,8 @@ export const startNextRound = async (
  * @param session
  */
 const checkSessionRounds = async (session: ExperimentSession) => {
-  const [rounds, scenarioSession] = await Promise.all([
-    session.rounds,
-    session.scenarioSession
-  ]);
+  const rounds = session.rounds;
+  const scenarioSession = await session.scenarioSession;
   if (rounds.length === scenarioSession.numberOfRounds) {
     throw new ApolloError(ExperimentErrorMessages.MAX_ROUNDS_REACHED, "403");
   }

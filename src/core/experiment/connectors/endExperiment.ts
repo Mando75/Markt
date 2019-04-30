@@ -14,7 +14,7 @@ export const endExperiment = async (
   { user, redis, pubsub }: GraphQLContext
 ) => {
   let experiment = await Experiment.findAndCheckExperiment(experimentId, user, {
-    relations: ["sessions"]
+    relations: ["sessions", "sessions.rounds"]
   });
   await deactivateSessionsAndRounds(experiment);
   await killPlayerSessions(experiment.id, redis);
@@ -31,7 +31,7 @@ const deactivateSessionsAndRounds = async (experiment: Experiment) => {
   const promises: Promise<any>[] = sessions
     .filter(s => s.active)
     .map(async s => {
-      const rounds = (await s.rounds).filter(r => r.active);
+      const rounds = s.rounds.filter(r => r.active);
       s.active = false;
       return [
         s.save(),
