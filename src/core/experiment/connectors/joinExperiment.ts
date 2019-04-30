@@ -47,7 +47,6 @@ export const joinExperiment = async (
 
   await setPlayerSession(player.id, experiment.id, session, req, redis);
   ep = await ep.save();
-  await experiment.reload();
   pubsub.publish(SubscriptionKey.PLAYER_JOINED_EXPERIMENT, experiment);
   return ep;
 };
@@ -74,6 +73,7 @@ const getExistingPlayer = async (joinCode: string, player: Player) => {
 const getExperimentAndPlayer = async (joinCode: string, playerCode: string) => {
   const experiment = await Experiment.findOne({
     where: { joinCode, active: true },
+    relations: ["guide"],
     cache: true
   });
   if (!experiment) {
@@ -82,7 +82,7 @@ const getExperimentAndPlayer = async (joinCode: string, playerCode: string) => {
       "404"
     );
   }
-  const guide = await experiment.guide;
+  const guide = experiment.guide;
   // Player code is unique across playerCode, guide, and active
   const player = await Player.findOne({
     where: { playerCode, guide, active: true },

@@ -233,8 +233,8 @@ export class TestClient {
 
     const experiment = new Experiment();
     experiment.scenario = scenario;
-    experiment.guide = Promise.resolve(guide);
-    experiment.group = Promise.resolve(group);
+    experiment.guide = guide;
+    experiment.group = group;
     await experiment.save();
     await loadRoleDist(experiment, TestClient.createRedisConnection());
     return experiment;
@@ -402,8 +402,10 @@ export class TestClient {
     for (const p of experimentGroupPlayers) {
       const pTc = new TestClient(host);
       const {
-        data: { joinExperiment }
+        data: { joinExperiment },
+        errors
       } = await pTc.query(TestClient.joinExperiment(joinCode, p.playerCode));
+      console.log({ joinExperiment, errors });
       playerCodes.push({
         id: joinExperiment.id,
         playerCode: p.playerCode,

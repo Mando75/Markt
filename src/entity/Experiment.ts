@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -26,21 +27,21 @@ import { ExperimentErrorMessages } from "../core/experiment/experimentErrorMessa
 
 @Entity("experiments")
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
+@Index(["active", "id", "guide"])
 export class Experiment extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @ManyToOne(() => Guide, guide => guide.experiments, { nullable: false })
-  guide: Promise<Guide>;
+  guide: Guide;
 
   @ManyToOne(() => Scenario, scenario => scenario.experiments, {
-    nullable: false,
-    eager: true
+    nullable: false
   })
   scenario: Scenario;
 
   @ManyToOne(() => Group, group => group.experiments, { nullable: true })
-  group: Promise<Group | null | undefined>;
+  group: Group | null | undefined;
 
   @Column({ type: "varchar", length: 8, nullable: false })
   joinCode: string;
@@ -49,12 +50,15 @@ export class Experiment extends BaseEntity {
   numPlayers: number;
 
   @OneToMany(() => ExperimentPlayer, ep => ep.experiment)
-  players: Promise<ExperimentPlayer[]>;
+  players: ExperimentPlayer[];
 
   @OneToMany(() => ExperimentSession, es => es.experiment, {
     cascade: false
   })
-  sessions: Promise<ExperimentSession[]>;
+  sessions: ExperimentSession[];
+
+  @Column({ type: "integer", nullable: false, default: 48 })
+  maxPlayerSize: number;
 
   @Column({ type: "boolean", nullable: false, default: true })
   active: boolean;
@@ -98,6 +102,11 @@ export class Experiment extends BaseEntity {
     this.joinCode = option;
   }
 
+  @BeforeInsert()
+  setMaxPlayerSize() {
+    this.maxPlayerSize = this.scenario.maxPlayerSize;
+  }
+
   /**
    * Returns whether or not the experiment is closed
    * based on if the number of players matches the max player size
@@ -105,7 +114,7 @@ export class Experiment extends BaseEntity {
   closed() {
     return (
       this.status !== ExperimentStatusEnum.JOINING ||
-      this.numPlayers === this.scenario.maxPlayerSize
+      this.numPlayers === this.maxPlayerSize
     );
   }
 

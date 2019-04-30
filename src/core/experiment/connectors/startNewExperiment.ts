@@ -33,8 +33,8 @@ export const startNewExperiment = async (
   checkPaths(scenario, guide);
   const experiment = new Experiment();
   experiment.scenario = scenario;
-  experiment.guide = Promise.resolve(guide);
-  experiment.group = Promise.resolve(group);
+  experiment.guide = guide;
+  experiment.group = group;
   await experiment.save();
   await loadRoleDist(experiment, redis);
   session.experimentId = experiment.id;

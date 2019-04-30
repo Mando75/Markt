@@ -36,6 +36,7 @@ describe("forgotPassword", () => {
     }  
     `;
   it("locks the account", async () => {
+    console.log(user);
     await lockAccount(user.id);
     url = await createForgotPasswordLink("", user.id, redis);
     const parts = url.split("/");
