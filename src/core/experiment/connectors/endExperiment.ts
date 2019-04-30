@@ -13,7 +13,9 @@ export const endExperiment = async (
   { experimentId }: GQL.IEndExperimentOnMutationArguments,
   { user, redis, pubsub }: GraphQLContext
 ) => {
-  let experiment = await Experiment.findAndCheckExperiment(experimentId, user);
+  let experiment = await Experiment.findAndCheckExperiment(experimentId, user, {
+    relations: ["sessions"]
+  });
   await deactivateSessionsAndRounds(experiment);
   await killPlayerSessions(experiment.id, redis);
   experiment.status = ExperimentStatusEnum.CLOSED;
@@ -24,7 +26,8 @@ export const endExperiment = async (
 };
 
 const deactivateSessionsAndRounds = async (experiment: Experiment) => {
-  const sessions = await experiment.sessions;
+  // TODO Rounds
+  const sessions = experiment.sessions;
   const promises: Promise<any>[] = sessions
     .filter(s => s.active)
     .map(async s => {

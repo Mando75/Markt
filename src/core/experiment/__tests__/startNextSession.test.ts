@@ -93,8 +93,7 @@ describe("startNextSession", () => {
     const tc = new TestClient(host);
     const experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
-    const { data, errors } = await tc.query(startNextSession(experiment.id));
-    console.log(errors);
+    const { data } = await tc.query(startNextSession(experiment.id));
     expect(data.startNextSession).toBeTruthy();
     expect(data.startNextSession.id).toBeTruthy();
   });
@@ -116,13 +115,16 @@ describe("startNextSession", () => {
 
   it("sets previous sessions to inactive", async () => {
     const tc = new TestClient(host);
-    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    let experiment = await tc.createMockScenarioWithExperimentAndGuide();
     await tc.login();
     await tc.query(startNextSession(experiment.id));
     await resetExperiment(experiment);
     await tc.query(startNextSession(experiment.id));
-    await experiment.reload();
-    const sessions = await experiment.sessions;
+    experiment = (await Experiment.findOne(experiment.id, {
+      relations: ["sessions"]
+    })) as Experiment;
+    expect(experiment).toBeTruthy();
+    const sessions = experiment.sessions;
     expect(sessions).toHaveLength(2);
     expect(sessions[0].active).toBeFalsy();
     expect(sessions[0].endDate).toBeTruthy();

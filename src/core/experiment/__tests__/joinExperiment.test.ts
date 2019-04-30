@@ -82,18 +82,17 @@ describe("joinExperiment", () => {
 
   it("creates a new experiment player attached to the experiment record", async () => {
     const tc = new TestClient(host);
-    const experiment = await tc.createMockScenarioWithExperimentAndGuide();
+    let experiment = await tc.createMockScenarioWithExperimentAndGuide();
     const group = await tc.createMockGroup();
     const playerCode = (await group.players)[0].playerCode;
     const { data } = await tc.query(
       joinExperiment(playerCode, experiment.joinCode)
     );
+    await experiment.reload(["players"]);
     expect(data.joinExperiment).toBeTruthy();
     expect(data.joinExperiment.experiment.id).toEqual(experiment.id);
     expect(data.joinExperiment.player.id).toEqual((await group.players)[0].id);
-    expect((await experiment.players).map(p => p.id)).toContain(
-      data.joinExperiment.id
-    );
+    expect(experiment.players.map(p => p.id)).toContain(data.joinExperiment.id);
   });
 
   it("creates a new session for the player in redis", async () => {
@@ -110,12 +109,11 @@ describe("joinExperiment", () => {
       0,
       -1
     );
+    await experiment.reload(["players"]);
     expect(data.joinExperiment).toBeTruthy();
     expect(data.joinExperiment.experiment.id).toEqual(experiment.id);
     expect(data.joinExperiment.player.id).toEqual((await group.players)[0].id);
-    expect((await experiment.players).map(p => p.id)).toContain(
-      data.joinExperiment.id
-    );
+    expect(experiment.players.map(p => p.id)).toContain(data.joinExperiment.id);
     expect(sessions).toHaveLength(1);
   });
 });

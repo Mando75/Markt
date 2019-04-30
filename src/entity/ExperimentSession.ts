@@ -1,5 +1,5 @@
 import {
-  AfterInsert,
+  BeforeInsert,
   BaseEntity,
   BeforeUpdate,
   Column,
@@ -53,7 +53,7 @@ export class ExperimentSession extends BaseEntity {
     }
   }
 
-  @AfterInsert()
+  @BeforeInsert()
   async _updateExperimentStatus() {
     const experiment = await this.experiment;
     await experiment.updateStatus(ExperimentStatusEnum.SESSION_START);

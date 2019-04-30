@@ -22,7 +22,13 @@ export const startNextSession = async (
   const experiment = await Experiment.findAndCheckExperiment(
     experimentId,
     user,
-    [ExperimentStatusEnum.JOINING, ExperimentStatusEnum.ROUND_SUMMARY]
+    {
+      statuses: [
+        ExperimentStatusEnum.JOINING,
+        ExperimentStatusEnum.ROUND_SUMMARY
+      ],
+      relations: ["sessions", "scenario"]
+    }
   );
   const [sessions, scenarioSessions] = await Promise.all([
     checkExperimentSessions(experiment),
@@ -53,7 +59,7 @@ export const startNextSession = async (
  * @param experiment
  */
 const checkExperimentSessions = async (experiment: Experiment) => {
-  const sessions = await experiment.sessions;
+  const sessions = experiment.sessions;
   if (sessions.length === experiment.scenario.sessionCount) {
     throw new ApolloError(ExperimentErrorMessages.MAX_SESSIONS_REACHED, "403");
   }

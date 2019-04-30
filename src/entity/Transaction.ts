@@ -63,10 +63,6 @@ export class Transaction extends BaseEntity {
   async updatePlayers() {
     const buyer = await this.buyer();
     const seller = await this.seller();
-    console.log("Buyer");
-    console.log(buyer);
-    console.log("seller");
-    console.log(seller);
     await Promise.all([
       buyer.setTotalProfit(),
       buyer.setNumTransactions(),

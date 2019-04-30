@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -12,6 +11,7 @@ import {
   Unique,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Guide } from "./Guide";
 import { Scenario } from "./Scenario";
 import { Group } from "./Group";
@@ -127,6 +127,9 @@ export class Experiment extends BaseEntity {
    * Returns back the current experiment session
    */
   async getActiveSession() {
+    if (this.sessions) {
+      return this.sessions.find(session => session.active);
+    }
     return await ExperimentSession.findOne({
       where: { experiment: this, active: true },
       cache: true
@@ -199,11 +202,18 @@ export class Experiment extends BaseEntity {
   static async findAndCheckExperiment(
     id: string,
     user: User | undefined,
-    statuses?: Array<ExperimentStatusEnum>
+    {
+      statuses,
+      relations
+    }: {
+      statuses?: Array<ExperimentStatusEnum>;
+      relations?: Array<string>;
+    } = {}
   ) {
     const guide = user ? user.guide : null;
     const exp = await Experiment.findOne({
       where: { id, active: true, guide },
+      relations,
       cache: true
     });
     if (!exp) {

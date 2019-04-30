@@ -15,7 +15,12 @@ export const startNextRound = async (
   const experiment = await Experiment.findAndCheckExperiment(
     experimentId,
     user,
-    [ExperimentStatusEnum.SESSION_START, ExperimentStatusEnum.ROUND_SUMMARY]
+    {
+      statuses: [
+        ExperimentStatusEnum.SESSION_START,
+        ExperimentStatusEnum.ROUND_SUMMARY
+      ]
+    }
   );
   const activeSession = await experiment.getActiveSession();
   if (!activeSession) {

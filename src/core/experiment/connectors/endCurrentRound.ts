@@ -13,7 +13,9 @@ export const endCurrentRound = async (
   const experiment = await Experiment.findAndCheckExperiment(
     experimentId,
     user,
-    [ExperimentStatusEnum.IN_ROUND]
+    {
+      statuses: [ExperimentStatusEnum.IN_ROUND]
+    }
   );
   const round = await experiment.getActiveRound();
   if (!round) {

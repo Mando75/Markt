@@ -45,7 +45,7 @@ export const bootstrapConnections = async (port: number) => {
       client: redis
     }),
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 1000 // limit each IP to 1000 requests per windowMs
+    max: testEnv ? 100000000 : 1000 // limit each IP to 1000 requests per windowMs
   });
   server.enable("trust proxy");
   server.use(corsConfig());

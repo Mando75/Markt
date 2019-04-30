@@ -402,10 +402,8 @@ export class TestClient {
     for (const p of experimentGroupPlayers) {
       const pTc = new TestClient(host);
       const {
-        data: { joinExperiment },
-        errors
+        data: { joinExperiment }
       } = await pTc.query(TestClient.joinExperiment(joinCode, p.playerCode));
-      console.log({ joinExperiment, errors });
       playerCodes.push({
         id: joinExperiment.id,
         playerCode: p.playerCode,

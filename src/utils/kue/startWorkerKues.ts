@@ -3,7 +3,6 @@ import { fork } from "child_process";
 export const startWorkerKues = () => {
   console.log("starting worker kue");
   const ext = process.env.NODE_ENV === "production" ? "js" : "ts";
-  console.log(ext);
   startEmailWorkerKue(ext);
 };
 

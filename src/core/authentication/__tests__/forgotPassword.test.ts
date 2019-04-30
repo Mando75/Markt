@@ -36,7 +36,6 @@ describe("forgotPassword", () => {
     }  
     `;
   it("locks the account", async () => {
-    console.log(user);
     await lockAccount(user.id);
     url = await createForgotPasswordLink("", user.id, redis);
     const parts = url.split("/");
@@ -51,7 +50,7 @@ describe("forgotPassword", () => {
         ]
       }
     });
-  });
+  }, 10000);
 
   it("rejects invalid passwords", async () => {
     const response = await tc.query(query("badpassword", key));
@@ -63,14 +62,14 @@ describe("forgotPassword", () => {
         }
       ]
     });
-  });
+  }, 10000);
 
   it("resets the account", async () => {
     const response = await tc.query(query(newPassword, key));
     expect(response.data).toEqual({
       forgotPasswordChange: null
     });
-  });
+  }, 10000);
 
   it("expires the redis key", async () => {
     const response = await tc.query(query(newPassword, key));
@@ -82,12 +81,12 @@ describe("forgotPassword", () => {
         }
       ]
     });
-  });
+  }, 10000);
 
   it("allows us to log in with new password", async () => {
     const response = await tc.login("", newPassword);
     expect(response.data).toEqual({ login: null });
-  });
+  }, 10000);
 });
 
 afterAll(async () => {
