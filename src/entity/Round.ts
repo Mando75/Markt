@@ -1,6 +1,5 @@
 import {
   AfterInsert,
-  BaseEntity,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -11,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { ExperimentSession } from "./ExperimentSession";
 import { Transaction } from "./Transaction";
 import { ExperimentStatusEnum } from "../enums/experimentStatus.enum";

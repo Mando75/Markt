@@ -1,6 +1,5 @@
 import {
   AfterLoad,
-  BaseEntity,
   BeforeInsert,
   Column,
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Experiment } from "./Experiment";
 import { Player } from "./Player";
 import { RoleType } from "./RoleType";

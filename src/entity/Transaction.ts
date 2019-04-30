@@ -1,6 +1,5 @@
 import {
   Entity,
-  BaseEntity,
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
@@ -8,6 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { PlayerTransaction } from "./PlayerTransaction";
 import { Round } from "./Round";
 

@@ -1,6 +1,5 @@
 import {
   BeforeInsert,
-  BaseEntity,
   BeforeUpdate,
   Column,
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Experiment } from "./Experiment";
 import { ScenarioSession } from "./ScenarioSession";
 import { Round } from "./Round";

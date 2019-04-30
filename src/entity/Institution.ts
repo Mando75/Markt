@@ -3,10 +3,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BaseEntity,
   PrimaryGeneratedColumn,
   OneToMany
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { User } from "./User";
 
 @Entity("institutions")
