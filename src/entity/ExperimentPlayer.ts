@@ -19,6 +19,12 @@ import { SessionRole } from "./SessionRole";
 
 @Entity("experiment_players")
 export class ExperimentPlayer extends BaseEntity {
+  constructor() {
+    super();
+  }
+
+  static joinableRelations = ["player"];
+
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -125,11 +131,6 @@ export class ExperimentPlayer extends BaseEntity {
     this.playerCode = this.player.playerCode;
     this.firstName = this.player.firstName;
     this.lastName = this.player.lastName;
-  }
-
-  async getPlayerCode() {
-    const player = await this.player;
-    return player.playerCode;
   }
 
   async getCurrentSessionRole() {

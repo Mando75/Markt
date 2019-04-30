@@ -19,21 +19,13 @@ export const getExperiment = async (
       info,
       {},
       {
-        excludedFields: [
-          "__typename",
-          "group",
-          "guide",
-          "closed",
-          "players",
-          "activeRound",
-          "activeSession"
-        ]
+        excludedFields: ["__typename", "closed", "activeRound", "activeSession"]
       }
     )
   ) as (keyof Experiment)[];
   return fields.length
     ? await Experiment.findOne(id, {
-        relations: fields.includes("scenario") ? ["scenario"] : undefined,
+        relations: Experiment.filterRelationsFromQueryFields(fields),
         cache: true
       })
     : await Experiment.findOne(id, { cache: true });
@@ -42,9 +34,21 @@ export const getExperiment = async (
 export const getExperimentPlayer = async (
   _: any,
   { id }: GQL.IExperimentPlayerOnQueryArguments,
-  { player }: GraphQLContext
-) =>
-  await ExperimentPlayer.findOne({
-    where: { id, player, active: true },
-    cache: true
-  });
+  { player }: GraphQLContext,
+  info: GraphQLResolveInfo
+) => {
+  const fields = Object.keys(
+    graphqlFields(
+      info,
+      {},
+      { excludedFields: ["__typename", "currentSessionRole", "profitEquation"] }
+    )
+  ) as (keyof ExperimentPlayer)[];
+  return fields.length
+    ? await ExperimentPlayer.findOne({
+        where: { id, player, active: true },
+        relations: ExperimentPlayer.filterRelationsFromQueryFields(fields),
+        cache: true
+      })
+    : await ExperimentPlayer.findOne(id, { cache: true });
+};

@@ -6,6 +6,8 @@ export class BaseEntity extends typeOrmEntity {
     super();
   }
 
+  static joinableRelations: Array<string> = [];
+
   async reload(relations?: Array<string>): Promise<void> {
     const base: any = this.constructor;
     const newestEntity: BaseEntity = await base
@@ -13,5 +15,9 @@ export class BaseEntity extends typeOrmEntity {
       .findOneOrFail(base.getId(this), { relations });
 
     ObjectUtils.assign(this, newestEntity);
+  }
+
+  static filterRelationsFromQueryFields(fields: Array<string>) {
+    return this.joinableRelations.filter(relation => fields.includes(relation));
   }
 }

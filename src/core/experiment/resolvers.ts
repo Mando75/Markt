@@ -17,7 +17,6 @@ import { Round } from "../../entity/Round";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
-    playerCode: async (obj: ExperimentPlayer) => await obj.getPlayerCode(),
     currentSessionRole: async (obj: ExperimentPlayer) =>
       await obj.getCurrentSessionRole(),
     profitEquation: async (obj: ExperimentPlayer) =>
@@ -32,27 +31,6 @@ export const resolvers: ResolverMap = {
       }),
     activeRound: async (obj: Experiment) => {
       return await obj.getActiveRound();
-    },
-    scenario: async (obj: Experiment) => {
-      const e = (await Experiment.findOne(obj.id, {
-        relations: ["scenario"],
-        cache: true
-      })) as Experiment;
-      return e.scenario;
-    },
-    guide: async (obj: Experiment) => {
-      const e = (await Experiment.findOne(obj.id, {
-        relations: ["guide"],
-        cache: true
-      })) as Experiment;
-      return e.guide;
-    },
-    group: async (obj: Experiment) => {
-      const e = (await Experiment.findOne(obj.id, {
-        relations: ["group"],
-        cache: true
-      })) as Experiment;
-      return e.group;
     },
     lastRoundSummaryReport: async (obj: Experiment) =>
       await obj.getLastRoundSummaryReport()

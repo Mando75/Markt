@@ -29,6 +29,17 @@ import { ExperimentErrorMessages } from "../core/experiment/experimentErrorMessa
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
 @Index(["active", "id", "guide"])
 export class Experiment extends BaseEntity {
+  static joinableRelations = [
+    "guide",
+    "scenario",
+    "group",
+    "players",
+    "sessions"
+  ];
+
+  constructor() {
+    super();
+  }
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
