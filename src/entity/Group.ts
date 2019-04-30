@@ -24,7 +24,7 @@ export class Group extends BaseEntity {
   active: boolean;
 
   @ManyToOne(() => Guide, guide => guide.groups, { nullable: false })
-  guide: Promise<Guide>;
+  guide: Guide;
 
   @OneToMany(() => Player, player => player.group, { nullable: true })
   players: Promise<Player[]>;

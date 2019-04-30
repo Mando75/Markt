@@ -4,6 +4,15 @@ import { Group } from "../../entity/Group";
 import { Guide } from "../../entity/Guide";
 
 export const resolvers: ResolverMap = {
+  Group: {
+    guide: async (obj: Group) => {
+      const g = (await Group.findOne(obj.id, {
+        relations: ["guide"],
+        cache: true
+      })) as Group;
+      return g.guide;
+    }
+  },
   Query: {
     async group(
       _: any,
@@ -23,7 +32,7 @@ export const resolvers: ResolverMap = {
       const group = new Group();
       group.name = name;
       if (guide) {
-        group.guide = Promise.resolve(guide);
+        group.guide = guide;
       }
       return await group.save();
     }

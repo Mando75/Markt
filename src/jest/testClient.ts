@@ -189,7 +189,7 @@ export class TestClient {
     const guide = this.testUser.guide;
     const group = Group.create();
     group.name = faker.company.companyName();
-    group.guide = Promise.resolve(guide);
+    group.guide = guide;
     await group.save();
     for (let i = 0; i < playerCount; i++) {
       const fakePlayer = {
