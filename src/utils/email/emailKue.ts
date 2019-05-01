@@ -1,11 +1,6 @@
 import { createQueue } from "kue";
-import { splitRedisUrl } from "../redis";
+import "dotenv/config";
 
 export const emailKue = createQueue({
-  redis: {
-    ...splitRedisUrl(),
-    db: 3,
-    username: null,
-    auth: "password"
-  }
+  redis: process.env.REDIS_2_URL
 });

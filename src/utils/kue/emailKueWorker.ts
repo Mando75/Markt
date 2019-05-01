@@ -1,14 +1,9 @@
 import { createQueue, Job } from "kue";
-import { splitRedisUrl } from "../redis";
 import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
+import "dotenv/config";
 
 const kue = createQueue({
-  redis: {
-    ...splitRedisUrl(),
-    username: null,
-    auth: "password",
-    db: 3
-  }
+  redis: process.env.REDIS_2_URL
 });
 
 kue.on("error", err => {
