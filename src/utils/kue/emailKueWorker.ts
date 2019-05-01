@@ -3,7 +3,7 @@ import { sendGridPlayerWelcomeEmail } from "../email/sendEmail";
 import "dotenv/config";
 
 const kue = createQueue({
-  redis: process.env.REDIS_2_URL
+  redis: process.env.REDIS_2_URL + "/1"
 });
 
 kue.on("error", err => {

@@ -9,7 +9,7 @@ import { Server } from "http";
 import * as express from "express";
 import * as session from "express-session";
 import { routes } from "../routes";
-import { redis } from "./redis";
+import { redis, redis2 } from "./redis";
 import { applyMiddleware } from "graphql-middleware";
 import * as bodyParser from "body-parser";
 import { createShield } from "./createShield";
@@ -26,10 +26,6 @@ import { startWorkerKues } from "./kue/startWorkerKues";
 
 const testEnv = process.env.NODE_ENV === "test";
 
-redis.on("error", () => {
-  console.log("Error connecting");
-  if (process.env.NODE_ENV != "production") redis.disconnect();
-});
 startWorkerKues();
 
 /**
@@ -42,7 +38,7 @@ export const bootstrapConnections = async (port: number) => {
   const server = express();
   const limiter = new RateLimit({
     store: new RateLimitStore({
-      client: redis
+      client: redis2
     }),
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 1000 // limit each IP to 1000 requests per windowMs
