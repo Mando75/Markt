@@ -35,7 +35,7 @@ const getDefaultOptions = () => ({
   cache: {
     type: "ioredis",
     duration: 2000,
-    options: { ...splitRedisUrl(process.env.REDIS_2_URL, 1), username: null }
+    options: { ...splitRedisUrl(process.env.REDIS_2_URL, 0), username: null }
   },
   cli: {
     entitiesDir: "src/entity",
