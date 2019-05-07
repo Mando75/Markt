@@ -138,10 +138,10 @@ export function select(
         const name = typeof target == "string" ? target : target.name;
         const childAlias = alias + "_" + name;
         if (relation.inverseRelation) {
-          // qb = qb.addFrom(
-          //   relation.inverseRelation.entityMetadata.targetName,
-          //   relation.inverseRelation.entityMetadata.targetName
-          // );
+          qb = qb.addFrom(
+            relation.inverseRelation.entityMetadata.targetName,
+            relation.inverseRelation.entityMetadata.targetName
+          );
           qb = qb.leftJoin(alias + "." + relation.propertyName, childAlias);
           qb = select(
             relation.inverseEntityMetadata.target,
