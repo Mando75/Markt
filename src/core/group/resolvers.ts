@@ -8,9 +8,9 @@ export const resolvers: ResolverMap = {
     async group(
       _: any,
       { id }: GQL.IGroupOnQueryArguments,
-      __: GraphQLContext
+      { loaders: { groupLoader } }: GraphQLContext
     ) {
-      return await Group.getDataloader().load(id);
+      return groupLoader.load(id);
     }
   },
   Mutation: {

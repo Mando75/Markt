@@ -3,6 +3,7 @@ import { ObjectUtils } from "typeorm/util/ObjectUtils";
 import * as DataLoader from "dataloader";
 
 export class BaseEntity extends typeOrmEntity {
+  id: string;
   constructor() {
     super();
   }
@@ -20,7 +21,10 @@ export class BaseEntity extends typeOrmEntity {
     options?: DataLoader.Options<string, T>
   ): DataLoader<string, T> {
     const batch = async (entityIds: string[]) => {
-      return (this as any).getRepository().findByIds(entityIds);
+      const records = await (this as any).getRepository().findByIds(entityIds);
+      const recordMap: { [key: string]: T } = {};
+      records.forEach((record: T) => (recordMap[record.id] = record));
+      return entityIds.map(id => recordMap[id]);
     };
     return new DataLoader(batch, options);
   }

@@ -2,6 +2,7 @@ import { Redis } from "ioredis";
 import { User } from "../entity/User";
 import { Player } from "../entity/Player";
 import { PubSub } from "apollo-server-express";
+import { BaseEntity } from "../entity/BaseEntity";
 
 export interface GraphQLContext {
   redis: Redis;
@@ -11,6 +12,9 @@ export interface GraphQLContext {
   player?: Player;
   req: Express.Request;
   pubsub: PubSub;
+  loaders: {
+    [key: string]: ReturnType<typeof BaseEntity.getDataloader>;
+  };
 }
 
 export interface Session extends Express.Session {
