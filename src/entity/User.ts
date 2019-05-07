@@ -5,13 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
-  BaseEntity,
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToOne,
   AfterLoad,
   AfterUpdate
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { hash } from "bcryptjs";
 import { AccountType } from "../enums/accountType.enum";
 import { Institution } from "./Institution";

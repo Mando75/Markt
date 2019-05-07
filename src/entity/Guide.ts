@@ -1,6 +1,5 @@
 import {
   Entity,
-  BaseEntity,
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
@@ -9,6 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { User } from "./User";
 import { Group } from "./Group";
 import { Player } from "./Player";
