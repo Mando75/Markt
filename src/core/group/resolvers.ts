@@ -10,7 +10,7 @@ export const resolvers: ResolverMap = {
       { id }: GQL.IGroupOnQueryArguments,
       __: GraphQLContext
     ) {
-      return await Group.findOne(id);
+      return await Group.getDataloader().load(id);
     }
   },
   Mutation: {
