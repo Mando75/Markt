@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,6 +7,7 @@ import {
   Unique,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { ExperimentPlayer } from "./ExperimentPlayer";
 import { Transaction } from "./Transaction";
 

@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   BeforeInsert,
   Column,
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
   Unique,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Guide } from "./Guide";
 import { Group } from "./Group";
 import { generate } from "randomstring";

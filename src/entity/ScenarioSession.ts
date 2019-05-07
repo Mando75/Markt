@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -11,6 +10,7 @@ import {
 import { Scenario } from "./Scenario";
 import { SessionRole } from "./SessionRole";
 import { ExperimentSession } from "./ExperimentSession";
+import { BaseEntity } from "./BaseEntity";
 
 @Entity("scenario_sessions")
 export class ScenarioSession extends BaseEntity {

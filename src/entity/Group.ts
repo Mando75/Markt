@@ -1,5 +1,4 @@
 import {
-  BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+import { BaseEntity } from "./BaseEntity";
 import { Guide } from "./Guide";
 import { Player } from "./Player";
 import { Experiment } from "./Experiment";

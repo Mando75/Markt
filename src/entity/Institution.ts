@@ -3,11 +3,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  BaseEntity,
   PrimaryGeneratedColumn,
   OneToMany
 } from "typeorm";
 import { User } from "./User";
+import { BaseEntity } from "./BaseEntity";
 
 @Entity("institutions")
 export class Institution extends BaseEntity {
