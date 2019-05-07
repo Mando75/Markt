@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -23,6 +24,7 @@ export class Group extends BaseEntity {
   @Column({ type: "boolean", default: true, nullable: false })
   active: boolean;
 
+  @JoinColumn()
   @ManyToOne(() => Guide, guide => guide.groups, { nullable: false })
   guide: Guide;
 

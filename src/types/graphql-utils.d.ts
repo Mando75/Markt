@@ -6,7 +6,7 @@ export type Resolver = (
   parent: any,
   args: any,
   context: GraphQLContext,
-  info: any
+  info?: any
 ) => any;
 
 export interface ResolverMap {

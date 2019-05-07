@@ -72,7 +72,7 @@ export const bootstrapConnections = async (port: number) => {
       schema,
       formatError,
       formatResponse,
-      context: setContext(redis),
+      context: setContext(redis, db),
       introspection: true,
       playground,
       debug: process.env.NODE_ENV !== "production",

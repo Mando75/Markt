@@ -20,9 +20,7 @@ export const resolvers: ResolverMap = {
     }
   }),
   Query: {
-    me: (_: any, __: any, { user }: GraphQLContext) => {
-      return user;
-    }
+    me: (_, __, { user }: GraphQLContext) => user
   },
   Mutation: {}
 };

@@ -11,6 +11,26 @@ export class transactionsAndRounds1550902757743 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "rounds" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "round_number" integer NOT NULL, "active" boolean NOT NULL DEFAULT true, "average_price" double precision NOT NULL DEFAULT 0, "num_transactions" integer NOT NULL DEFAULT 0, "end_date" TIMESTAMP, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "session_id" uuid, CONSTRAINT "PK_9d254884a20817016e2f877c7e7" PRIMARY KEY ("id"))`
     );
+    await queryRunner.query(`ALTER TABLE "transactions" DROP COLUMN "amount"`);
+    await queryRunner.query(
+      `ALTER TABLE "transactions" ADD "amount" float NOT NULL DEFAULT 0`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "transactions" DROP COLUMN "buyer_profit"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "transactions" ADD "buyer_profit" float NOT NULL DEFAULT 0`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "transactions" DROP COLUMN "seller_profit"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "transactions" ADD "seller_profit" float NOT NULL DEFAULT 0`
+    );
+    await queryRunner.query(`ALTER TABLE "rounds" DROP COLUMN "average_price"`);
+    await queryRunner.query(
+      `ALTER TABLE "rounds" ADD "average_price" float NOT NULL DEFAULT 0`
+    );
     await queryRunner.query(
       `CREATE TABLE "experiment_sessions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "session_number" integer NOT NULL, "active" boolean NOT NULL DEFAULT true, "end_date" TIMESTAMP, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "experiment_id" uuid NOT NULL, "scenario_session_id" uuid NOT NULL, CONSTRAINT "PK_f844d600cf1131466a103779cb4" PRIMARY KEY ("id"))`
     );

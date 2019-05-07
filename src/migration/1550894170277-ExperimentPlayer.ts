@@ -5,6 +5,13 @@ export class ExperimentPlayer1550894170277 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "experiment_players" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "num_transactions" integer NOT NULL DEFAULT 0, "total_profit" double precision NOT NULL DEFAULT 0, "created_date" TIMESTAMP NOT NULL DEFAULT now(), "updated_date" TIMESTAMP NOT NULL DEFAULT now(), "experiment_id" uuid NOT NULL, "player_id" uuid NOT NULL, "role_type_id" uuid NOT NULL, CONSTRAINT "PK_2288c3ed91f577497b8fede2b67" PRIMARY KEY ("id"))`
     );
+
+    await queryRunner.query(
+      `ALTER TABLE "experiment_players" DROP COLUMN "total_profit"`
+    );
+    await queryRunner.query(
+      `ALTER TABLE "experiment_players" ADD "total_profit" float NOT NULL DEFAULT 0`
+    );
     await queryRunner.query(
       `ALTER TABLE "experiment_players" ADD CONSTRAINT "FK_856d7baac90f6d1af25c37d1685" FOREIGN KEY ("experiment_id") REFERENCES "experiments"("id")`
     );

@@ -1,5 +1,4 @@
 import { BaseEntity as typeOrmEntity } from "typeorm";
-import { ObjectUtils } from "typeorm/util/ObjectUtils";
 
 export class BaseEntity extends typeOrmEntity {
   constructor() {
@@ -14,7 +13,7 @@ export class BaseEntity extends typeOrmEntity {
       .getRepository()
       .findOneOrFail(base.getId(this), { relations });
 
-    ObjectUtils.assign(this, newestEntity);
+    Object.assign(this, newestEntity);
   }
 
   static filterRelationsFromQueryFields(fields: Array<string>) {
