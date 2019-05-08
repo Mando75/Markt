@@ -24,7 +24,7 @@ export class BaseEntity extends typeOrmEntity {
       const records = await (this as any).getRepository().findByIds(entityIds);
       const recordMap: { [key: string]: T } = {};
       records.forEach((record: T) => (recordMap[record.id] = record));
-      return entityIds.map(id => recordMap[id]);
+      return entityIds.map(id => recordMap[id] || {});
     };
     return new DataLoader(batch, options);
   }

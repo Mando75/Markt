@@ -32,7 +32,7 @@ export class Experiment extends BaseEntity {
 
   @ManyToOne(() => Scenario, scenario => scenario.experiments, {
     nullable: false,
-    eager: true
+    eager: false
   })
   scenario: Scenario;
 
@@ -62,6 +62,9 @@ export class Experiment extends BaseEntity {
     default: ExperimentStatusEnum.JOINING
   })
   status: ExperimentStatusEnum;
+
+  @Column({ type: "integer", nullable: false, default: 0 })
+  maxPlayerSize: number;
 
   @Column({ type: "timestamp", nullable: true })
   endDate: Date | undefined;
@@ -102,7 +105,7 @@ export class Experiment extends BaseEntity {
   closed() {
     return (
       this.status !== ExperimentStatusEnum.JOINING ||
-      this.numPlayers === this.scenario.maxPlayerSize
+      this.numPlayers === this.maxPlayerSize
     );
   }
 

@@ -56,6 +56,7 @@ const findAndCheckExperiment = async (id: string, user: User | undefined) => {
   const guide = user ? await user.guide : null;
   const experiment = await Experiment.findOne({
     where: { id, active: true, guide },
+    relations: ["scenario"],
     cache: true
   });
   // Check if a valid experiment id

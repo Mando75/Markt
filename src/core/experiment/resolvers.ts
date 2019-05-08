@@ -33,14 +33,20 @@ export const resolvers: ResolverMap = {
     activeRound: async (obj: Experiment) => {
       return await obj.getActiveRound();
     },
-    scenario: async (obj: Experiment) => {
-      const e = (await Experiment.findOne(obj.id, {
-        cache: true
-      })) as Experiment;
-      return e.scenario;
+    guide: async ({ id }: Experiment, _, { loaders: { exGuide } }) => {
+      return exGuide.load(id);
     },
     lastRoundSummaryReport: async (obj: Experiment) =>
-      await obj.getLastRoundSummaryReport()
+      await obj.getLastRoundSummaryReport(),
+    players: async ({ id }: Experiment, _, { loaders: { exPlayers } }) => {
+      return exPlayers.load(id);
+    },
+    scenario: async ({ id }: Experiment, _, { loaders: { exScenario } }) => {
+      return exScenario.load(id);
+    },
+    sessions: async ({ id }: Experiment, _, { loaders: { exSessions } }) => {
+      return exSessions.load(id);
+    }
   },
   Round: {
     roundSummary: async (obj: Round) => await obj.generateRoundSummaryReport()
