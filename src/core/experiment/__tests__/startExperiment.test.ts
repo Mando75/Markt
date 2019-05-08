@@ -118,8 +118,10 @@ describe("startExperiment", () => {
     ]);
     const [group] = await Promise.all([tc.createMockGroup(), tc.login()]);
     const {
-      data: { startNewExperiment }
+      data: { startNewExperiment },
+      errors
     } = await tc.query(startExperiment(guide.id, group.id, scenario.id));
+    console.log(errors);
     expect(startNewExperiment.id).toBeTruthy();
     expect(startNewExperiment.guide.id).toEqual(guide.id);
     expect(startNewExperiment.group.id).toEqual(group.id);

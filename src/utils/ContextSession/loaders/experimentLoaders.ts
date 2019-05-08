@@ -13,8 +13,9 @@ export const experimentLoaders = {
       relations: ["scenario"],
       cache: true
     });
-    const scenarios = experiments.map(e => e.scenario);
-    return oneToOneMapper(scenarios, ids);
+    return oneToOneMapper(experiments, ids).map(
+      experiment => experiment.scenario
+    );
   }),
   // GUIDE
   exGuide: new DataLoader(async (ids: string[]) => {
@@ -23,13 +24,11 @@ export const experimentLoaders = {
       relations: ["guide"],
       cache: true
     });
-    console.log("Getting guide yo");
-    const guides = await Promise.all(experiments.map(e => e.guide));
-    console.log("got guides yo");
-    return oneToOneMapper(guides, ids);
+    return oneToOneMapper(experiments, ids).map(experiment => experiment.guide);
   }),
   // Experiment Players
   exPlayers: new DataLoader(async (ids: string[]) => {
+    console.log("getting players");
     const experimentPlayers = await ExperimentPlayer.find({
       where: { experiment: ids },
       cache: true

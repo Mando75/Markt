@@ -29,6 +29,9 @@ describe("startNextRound", () => {
         experiment {
           id
           status
+          players {
+            id
+          }
           activeRound {
             id
           }

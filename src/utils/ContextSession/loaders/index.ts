@@ -34,13 +34,19 @@ export const createLoaders = () => ({
   ...experimentLoaders
 });
 
-export const oneToOneMapper = (records: Array<BaseEntity>, ids: string[]) => {
-  const recordMap: { [key: string]: BaseEntity } = {};
+export function oneToOneMapper<T extends BaseEntity>(
+  records: Array<T>,
+  ids: string[]
+): Array<T> {
+  const recordMap: { [key: string]: T } = {};
   records.forEach(record => (recordMap[record.id] = record));
   return ids.map(id => recordMap[id]);
-};
+}
 
-export const oneToManyMapper = (records: Array<BaseEntity>, ids: string[]) => {
+export function oneToManyMapper<T extends BaseEntity>(
+  records: Array<T>,
+  ids: string[]
+): Array<Array<T>> {
   const recordMap = groupBy(records, "id");
   return ids.map(id => recordMap[id]);
-};
+}
