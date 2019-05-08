@@ -22,6 +22,15 @@ export class ExperimentPlayer extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Column({ type: "varchar", length: 6, nullable: false })
+  playerCode: string;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  firstName?: string;
+
+  @Column({ type: "varchar", length: 255, nullable: true })
+  lastName?: string;
+
   @ManyToOne(() => Experiment, ex => ex.players, { nullable: false })
   experiment: Promise<Experiment>;
 
@@ -112,9 +121,12 @@ export class ExperimentPlayer extends BaseEntity {
     await ex.save();
   }
 
-  async getPlayerCode() {
+  @BeforeInsert()
+  async mirrorFields() {
     const player = await this.player;
-    return player.playerCode;
+    this.lastName = player.lastName;
+    this.firstName = player.firstName;
+    this.playerCode = player.playerCode;
   }
 
   async getCurrentSessionRole() {

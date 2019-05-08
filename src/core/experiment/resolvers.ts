@@ -17,7 +17,6 @@ import { Round } from "../../entity/Round";
 
 export const resolvers: ResolverMap = {
   ExperimentPlayer: {
-    playerCode: async (obj: ExperimentPlayer) => await obj.getPlayerCode(),
     currentSessionRole: async (obj: ExperimentPlayer) =>
       await obj.getCurrentSessionRole(),
     profitEquation: async (obj: ExperimentPlayer) =>

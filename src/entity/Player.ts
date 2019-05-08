@@ -38,10 +38,10 @@ export class Player extends BaseEntity {
   email: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  firstName: string | null | undefined;
+  firstName?: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  lastName: string | null | undefined;
+  lastName?: string;
 
   @Column({ type: "boolean", default: true, nullable: false })
   active: boolean;

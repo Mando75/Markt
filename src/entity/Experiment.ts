@@ -63,7 +63,7 @@ export class Experiment extends BaseEntity {
   })
   status: ExperimentStatusEnum;
 
-  @Column({ type: "integer", nullable: false, default: 0 })
+  @Column({ type: "integer", nullable: false, default: 48 })
   maxPlayerSize: number;
 
   @Column({ type: "timestamp", nullable: true })
@@ -96,6 +96,11 @@ export class Experiment extends BaseEntity {
       if (!existingCode) goodOption = true;
     }
     this.joinCode = option;
+  }
+
+  @BeforeInsert()
+  setMaxPlayerSize() {
+    this.maxPlayerSize = this.scenario.maxPlayerSize;
   }
 
   /**
