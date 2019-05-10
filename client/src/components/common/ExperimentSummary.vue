@@ -63,7 +63,6 @@ export default {
     experimentSummary: {
       query: experimentSummary,
       update(data) {
-        console.log(data);
         return data.experiment.experimentSummaryReport;
       },
       loadingKey: "apolloLoading",

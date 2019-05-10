@@ -1,5 +1,4 @@
 import {
-  AfterLoad,
   BeforeInsert,
   Column,
   CreateDateColumn,
@@ -26,10 +25,10 @@ export class ExperimentPlayer extends BaseEntity {
   playerCode: string;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  firstName?: string;
+  firstName: string | null | undefined;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  lastName?: string;
+  lastName: string | null | undefined;
 
   @ManyToOne(() => Experiment, ex => ex.players, { nullable: false })
   experiment: Promise<Experiment>;
@@ -84,7 +83,6 @@ export class ExperimentPlayer extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  @AfterLoad()
   async _loadTransactions() {
     const pts = await this.playerTransactions;
     const trans = pts ? pts.map(pt => pt.transaction) : [];

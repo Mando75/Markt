@@ -31,6 +31,8 @@ export class TestClient {
 
   constructor(url: string) {
     this.url = url;
+    console.log(url);
+    console.log(this.url);
     this.options = {
       jar: rp.jar(),
       withCredentials: true,
@@ -137,6 +139,7 @@ export class TestClient {
   }
 
   async query(query: string) {
+    console.log(this.url);
     return rp.post(this.url, { ...this.options, body: { query } });
   }
 

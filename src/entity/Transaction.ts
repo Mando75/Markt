@@ -18,11 +18,10 @@ export class Transaction extends BaseEntity {
   id: string;
 
   @OneToMany(() => PlayerTransaction, pt => pt.transaction, {
-    eager: true,
     nullable: false,
     cascade: true
   })
-  playerTransactions: Promise<PlayerTransaction[]>;
+  playerTransactions: PlayerTransaction[];
 
   @ManyToOne(() => Round, r => r.transactions, {
     nullable: false
@@ -84,11 +83,9 @@ export class Transaction extends BaseEntity {
   async _loadPlayerTransactions() {
     const pt = await this.playerTransactions;
     if (pt.length === 0) {
-      this.playerTransactions = Promise.resolve(
-        await PlayerTransaction.find({
-          where: { transaction: this }
-        })
-      );
+      this.playerTransactions = await PlayerTransaction.find({
+        where: { transaction: this }
+      });
     }
   }
 

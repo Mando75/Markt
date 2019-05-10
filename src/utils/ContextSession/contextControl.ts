@@ -2,7 +2,7 @@ import { Redis } from "ioredis";
 import { User } from "../../entity/User";
 import { Player } from "../../entity/Player";
 import { PubSub } from "apollo-server-express";
-import { createLoaders } from "./loaders";
+import { createLoaders } from "../../loaders";
 
 export const pubsub = new PubSub();
 /**

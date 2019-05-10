@@ -20,7 +20,9 @@ export const resolvers: ResolverMap = {
     currentSessionRole: async (obj: ExperimentPlayer) =>
       await obj.getCurrentSessionRole(),
     profitEquation: async (obj: ExperimentPlayer) =>
-      await obj.getProfitEquation()
+      await obj.getProfitEquation(),
+    transactions: (obj: ExperimentPlayer, _, { loaders: { epTransactions } }) =>
+      epTransactions.load(obj.id)
   },
   Experiment: {
     // TODO bandaid fix

@@ -1,10 +1,10 @@
-import { Experiment } from "../../../entity/Experiment";
+import { Experiment } from "../entity/Experiment";
 import * as DataLoader from "dataloader";
 import { oneToManyMapper, oneToOneMapper } from "./index";
-import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
-import { ExperimentSession } from "../../../entity/ExperimentSession";
+import { ExperimentPlayer } from "../entity/ExperimentPlayer";
+import { ExperimentSession } from "../entity/ExperimentSession";
 
-export const experimentLoaders = {
+export const experimentLoaders = () => ({
   ex: Experiment.getDataloader(),
   // SCENARIO
   exScenario: new DataLoader(async (ids: string[]) => {
@@ -28,7 +28,6 @@ export const experimentLoaders = {
   }),
   // Experiment Players
   exPlayers: new DataLoader(async (ids: string[]) => {
-    console.log("getting players");
     const experimentPlayers = await ExperimentPlayer.find({
       where: { experiment: ids },
       cache: true
@@ -43,4 +42,4 @@ export const experimentLoaders = {
     });
     return oneToManyMapper(experimentSessions, ids);
   })
-};
+});

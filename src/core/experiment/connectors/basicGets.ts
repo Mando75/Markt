@@ -45,6 +45,6 @@ export const getExperimentPlayer = async (
   { player }: GraphQLContext
 ) =>
   await ExperimentPlayer.findOne({
-    where: { id, player, active: true },
+    where: { id, player },
     cache: true
   });

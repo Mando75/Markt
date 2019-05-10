@@ -52,7 +52,7 @@ export const verifyLogin = async (user: User | undefined, password: string) => {
   };
   // Verify user exists and password matches
   const errors =
-    user && (await compare(password, user.password as string))
+    user && user.password && (await compare(password, user.password as string))
       ? []
       : [errorResponse];
 

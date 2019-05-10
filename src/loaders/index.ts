@@ -1,23 +1,22 @@
-import { PlayerTransaction } from "../../../entity/PlayerTransaction";
-import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
-import { ExperimentSession } from "../../../entity/ExperimentSession";
-import { Group } from "../../../entity/Group";
-import { Guide } from "../../../entity/Guide";
-import { Institution } from "../../../entity/Institution";
-import { Player } from "../../../entity/Player";
-import { RoleType } from "../../../entity/RoleType";
-import { Round } from "../../../entity/Round";
-import { Scenario } from "../../../entity/Scenario";
-import { ScenarioSession } from "../../../entity/ScenarioSession";
-import { SessionRole } from "../../../entity/SessionRole";
-import { Transaction } from "../../../entity/Transaction";
-import { User } from "../../../entity/User";
+import { PlayerTransaction } from "../entity/PlayerTransaction";
+import { ExperimentSession } from "../entity/ExperimentSession";
+import { Group } from "../entity/Group";
+import { Guide } from "../entity/Guide";
+import { Institution } from "../entity/Institution";
+import { Player } from "../entity/Player";
+import { RoleType } from "../entity/RoleType";
+import { Round } from "../entity/Round";
+import { Scenario } from "../entity/Scenario";
+import { ScenarioSession } from "../entity/ScenarioSession";
+import { SessionRole } from "../entity/SessionRole";
+import { Transaction } from "../entity/Transaction";
+import { User } from "../entity/User";
 import { experimentLoaders } from "./experimentLoaders";
-import { BaseEntity } from "../../../entity/BaseEntity";
+import { BaseEntity } from "../entity/BaseEntity";
 import groupBy from "lodash.groupby";
+import { experimentPlayerLoaders } from "./experimentPlayerLoaders";
 
 export const createLoaders = () => ({
-  experimentPlayerLoader: ExperimentPlayer.getDataloader(),
   experimentSessionLoader: ExperimentSession.getDataloader(),
   groupLoader: Group.getDataloader(),
   guideLoader: Guide.getDataloader(),
@@ -31,7 +30,8 @@ export const createLoaders = () => ({
   sessionRoleLoader: SessionRole.getDataloader(),
   transactionLoader: Transaction.getDataloader(),
   userLoader: User.getDataloader(),
-  ...experimentLoaders
+  ...experimentLoaders(),
+  ...experimentPlayerLoaders()
 });
 
 export function oneToOneMapper<T extends BaseEntity>(
