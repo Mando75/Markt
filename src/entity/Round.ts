@@ -21,7 +21,7 @@ export class Round extends BaseEntity {
   id: string;
 
   @ManyToOne(() => ExperimentSession, es => es.rounds)
-  session: Promise<ExperimentSession>;
+  session: ExperimentSession;
 
   @Column({ type: "integer", nullable: false })
   roundNumber: number;
@@ -123,9 +123,8 @@ export class Round extends BaseEntity {
   }
 
   @AfterInsert()
+  // TODO: Move to Kue
   async _updateExperimentStatus() {
-    const session = await this.session;
-    const experiment = await session.experiment;
-    await experiment.updateStatus(ExperimentStatusEnum.IN_ROUND);
+    await this.session.experiment.updateStatus(ExperimentStatusEnum.IN_ROUND);
   }
 }

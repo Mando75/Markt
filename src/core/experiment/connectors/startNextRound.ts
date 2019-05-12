@@ -32,7 +32,7 @@ export const startNextRound = async (
     roundNumber: newRoundNumber
   });
   await deactivateRounds(rounds);
-  newRound.session = Promise.resolve(activeSession);
+  newRound.session = activeSession;
   newRound = await newRound.save();
   await experiment.reload();
   pubsub.publish(SubscriptionKey.EXPERIMENT_STATUS_UPDATE, experiment);
@@ -45,14 +45,13 @@ export const startNextRound = async (
  * @param session
  */
 const checkSessionRounds = async (session: ExperimentSession) => {
-  const rounds = session.rounds;
-  const scenarioSession = await session.scenarioSession;
-  if (rounds.length === scenarioSession.numberOfRounds) {
+  if (session.rounds.length === session.scenarioSession.numberOfRounds) {
     throw new ApolloError(ExperimentErrorMessages.MAX_ROUNDS_REACHED, "403");
   }
-  return rounds;
+  return session.rounds;
 };
 
+// TODO MOVE TO KUE
 /**
  * Deactivates previous rounds which were still listed
  * as active

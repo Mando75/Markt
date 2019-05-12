@@ -21,12 +21,12 @@ export class ExperimentSession extends BaseEntity {
   id: string;
 
   @ManyToOne(() => Experiment, e => e.sessions, { nullable: false })
-  experiment: Promise<Experiment>;
+  experiment: Experiment;
 
   @ManyToOne(() => ScenarioSession, ss => ss.experimentSessions, {
     nullable: false
   })
-  scenarioSession: Promise<ScenarioSession>;
+  scenarioSession: ScenarioSession;
 
   @OneToMany(() => Round, r => r.session)
   rounds: Round[];
@@ -55,8 +55,7 @@ export class ExperimentSession extends BaseEntity {
 
   @BeforeInsert()
   async _updateExperimentStatus() {
-    const experiment = await this.experiment;
-    await experiment.updateStatus(ExperimentStatusEnum.SESSION_START);
+    await this.experiment.updateStatus(ExperimentStatusEnum.SESSION_START);
   }
 
   /**

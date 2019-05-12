@@ -29,14 +29,6 @@ import { ExperimentErrorMessages } from "../core/experiment/experimentErrorMessa
 @Unique("UNIQ_JOIN_CODE", ["active", "joinCode"])
 @Index(["active", "id", "guide"])
 export class Experiment extends BaseEntity {
-  static joinableRelations = [
-    "guide",
-    "scenario",
-    "group",
-    "players",
-    "sessions"
-  ];
-
   constructor() {
     super();
   }
@@ -140,7 +132,7 @@ export class Experiment extends BaseEntity {
   async getActiveSession() {
     return await ExperimentSession.findOne({
       where: { experiment: this, active: true },
-      relations: ["rounds"],
+      relations: ["rounds", "scenarioSession", "experiment"],
       cache: true
     });
   }

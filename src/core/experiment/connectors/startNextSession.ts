@@ -13,6 +13,8 @@ import { ScenarioSession } from "../../../entity/ScenarioSession";
  * TODO: Add subscription update
  * @param _
  * @param experimentId
+ * @param user
+ * @param pubsub
  */
 export const startNextSession = async (
   _: any,
@@ -99,7 +101,7 @@ const saveNewSession = async (
   experiment: Experiment,
   scenarioSession: ScenarioSession
 ) => {
-  session.experiment = Promise.resolve(experiment);
-  session.scenarioSession = Promise.resolve(scenarioSession);
+  session.experiment = experiment;
+  session.scenarioSession = scenarioSession;
   return await session.save();
 };
