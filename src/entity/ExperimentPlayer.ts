@@ -1,5 +1,4 @@
 import {
-  AfterLoad,
   BeforeInsert,
   Column,
   CreateDateColumn,
@@ -22,8 +21,6 @@ export class ExperimentPlayer extends BaseEntity {
   constructor() {
     super();
   }
-
-  static joinableRelations = ["player"];
 
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -58,6 +55,7 @@ export class ExperimentPlayer extends BaseEntity {
 
   // Set by _loadTransactions
   _transactions: Transaction[] | undefined;
+
   async transactions() {
     if (!this._transactions) {
       await this._loadTransactions();
@@ -89,11 +87,13 @@ export class ExperimentPlayer extends BaseEntity {
   @UpdateDateColumn()
   updatedDate: Date;
 
-  @AfterLoad()
   async _loadTransactions() {
-    const pts = await this.playerTransactions;
-    const trans = pts ? pts.map(pt => pt.transaction) : [];
-    this._transactions = await Promise.all(trans);
+    if (this._transactions) {
+      return this._transactions;
+    }
+    return await Transaction.createQueryBuilder("t")
+      .leftJoin("t.playerTransactions", "pt")
+      .where("pt.player_id = ");
   }
 
   async setNumTransactions() {

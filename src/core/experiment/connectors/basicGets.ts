@@ -3,32 +3,15 @@ import { GraphQLResolveInfo } from "graphql";
 import * as graphqlFields from "graphql-fields";
 import { Experiment } from "../../../entity/Experiment";
 import { ExperimentPlayer } from "../../../entity/ExperimentPlayer";
+import { Resolver } from "../../../types/graphql-utils";
 
-export const getExperiment = async (
+export const getExperiment: Resolver = async (
   _: any,
   { id }: GQL.IExperimentOnQueryArguments,
-  __: GraphQLContext,
-  info: GraphQLResolveInfo
+  { loader },
+  info
 ) => {
-  /**
-   * Grab only the top level fields being called.
-   * Exclude any relation columns, as they do not exist on the table
-   */
-  const fields = Object.keys(
-    graphqlFields(
-      info,
-      {},
-      {
-        excludedFields: ["__typename", "closed", "activeRound", "activeSession"]
-      }
-    )
-  ) as (keyof Experiment)[];
-  return fields.length
-    ? await Experiment.findOne(id, {
-        relations: Experiment.filterRelationsFromQueryFields(fields),
-        cache: true
-      })
-    : await Experiment.findOne(id, { cache: true });
+  return loader.loadOne(Experiment, { id }, info);
 };
 
 export const getExperimentPlayer = async (
